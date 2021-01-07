@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
-import '../Pages/secondPage.dart';
+
+import '../Pages/profilePages.dart';
+import '../Pages/assessmentPages.dart';
+import '../Pages/medicalConsultPages.dart';
+import '../Pages/nearbyHospitalPages.dart';
+import '../Pages/settingPages.dart';
 
 class SideDrawer extends StatelessWidget {
   SideDrawer();
@@ -43,24 +48,35 @@ class SideDrawer extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
             menuDrawerFlatButton(Icons.account_circle_outlined, 'Profile', (() {
-              print('Go to Profile Page!');
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ProfilePages()),
+              );
             })),
             menuDrawerFlatButton(Icons.analytics_outlined, 'Assessment', (() {
-              print('Go to Assessment Page!');
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => AssessmentPages()),
+              );
             })),
             menuDrawerFlatButton(Icons.chat_bubble_outline, 'Medical consult',
                 (() {
-              print('Go to Medical Consult Page!');
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => MedicalConsultPages()),
+              );
             })),
             menuDrawerFlatButton(Icons.location_on_outlined, 'Nearby hospital',
                 (() {
-              print('Go to Nearby Hospital Page!');
-            })),
-            menuDrawerFlatButton(Icons.settings_outlined, 'Setting', (() {
-              print('Go to Setting Page!');
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => SecondPages()),
+                MaterialPageRoute(builder: (context) => NearbyHospitalPages()),
+              );
+            })),
+            menuDrawerFlatButton(Icons.settings_outlined, 'Setting', (() {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SettingPages()),
               );
             })),
             Container(
