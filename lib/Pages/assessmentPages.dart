@@ -2,11 +2,19 @@ import 'package:flutter/material.dart';
 
 import '../Widget/sideDrawer.dart';
 
-class AssessmentPages extends StatelessWidget {
+class AssessmentPages extends StatefulWidget {
+  @override
+  _AssessmentPagesState createState() => _AssessmentPagesState();
+}
+
+class _AssessmentPagesState extends State<AssessmentPages> {
   GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
+
+  final _symptomController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Scaffold(
       key: _scaffoldState,
       endDrawer: SideDrawer(),
@@ -33,21 +41,41 @@ class AssessmentPages extends StatelessWidget {
           )
         ],
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'Setting Page',
-              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-            ),
-            RaisedButton(
-              child: Text('Back'),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-          ],
+      body: SingleChildScrollView(
+        child: Container(
+          alignment: Alignment.center,
+          padding: EdgeInsets.all(10),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                // alignment: Alignment.centerRight,
+                height: size.height * 0.04,
+                child: FittedBox(
+                  child: Text(
+                    'First, what is your main symptom',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+              Container(
+                  height: size.height * 0.03,
+                  child: FittedBox(
+                      child: Text(
+                    'touch the body to choose symptom',
+                    style: TextStyle(color: Colors.grey),
+                  ))),
+              Container(
+                  height: size.height * 0.6,
+                  child:
+                      Image.asset('assets/images/body.png', fit: BoxFit.cover)),
+              TextField(
+                decoration: InputDecoration(labelText: 'Symptom'),
+                controller: _symptomController,
+                onSubmitted: (_) => print(_symptomController.text),
+              ),
+            ],
+          ),
         ),
       ),
     );
