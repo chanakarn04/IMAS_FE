@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import './assessmentPages.dart';
 import '../Widget/AdaptiveRaisedButton.dart';
 import '../Widget/Logo.dart';
 import '../Widget/sideDrawer.dart';
@@ -19,52 +18,44 @@ class _HomePageState extends State<HomePage> {
     final scndColor = Color.fromARGB(255, 75, 75, 75);
     return Scaffold(
       key: _scaffoldState,
-      // appBar: AppBar(
-      //   title: Text('Test'),
-      // ),
       endDrawer: SideDrawer(),
       body: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: mdqr.size.width * 0.05,
-          vertical: mdqr.size.width * 0.1,
+          vertical: mdqr.size.width * 0.05,
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
+            // Drawer(),
             Container(
-                height: mdqr.size.height * 0.25,
+                height: mdqr.size.height * 0.2,
                 child: FittedBox(child: Logo())),
             SizedBox(
               height: mdqr.size.height * 0.05,
             ),
             Padding(
-                padding: EdgeInsets.only(left: mdqr.size.width * 0.05),
-                child: Container(
-                  // color: Colors.amber,
-                  // width: mdqr.size.width * 0.55,
-                  height: mdqr.size.height * 0.13,
-                  child: FittedBox(
-                      child: Text(
-                    'Hi. I can help you find\nwhat’s going on.\nJust start a symptom\nassessment.',
-                    style: TextStyle(
-                      color: scndColor,
-                    ),
-                  )),
+              padding: EdgeInsets.only(left: mdqr.size.width * 0.05),
+              child: Container(
+                height: mdqr.size.height * 0.12,
+                child: FittedBox(
+                    child: Text(
+                  'Hi. I can help you find\nwhat’s going on.\nJust start a symptom\nassessment.',
+                  style: TextStyle(
+                    color: scndColor,
+                  ),
                 )),
+              ),
+            ),
             SizedBox(
-              height: mdqr.size.height * 0.04,
+              height: mdqr.size.height * 0.05,
             ),
             Align(
               alignment: Alignment.centerRight,
-              // mainAxisSize: MainAxisSize.min,
-              child: AdaptiveRaisedButton('Start symptom assessment', 0.6, 0.07,
+              child: AdaptiveRaisedButton('Start symptom assessment', 0.6, 0.05,
                   (() {
-                // print('Go to SA!');
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => AssessmentPages()),
-                );
+                print('Go to SA!');
               })),
             ),
             SizedBox(
@@ -79,7 +70,7 @@ class _HomePageState extends State<HomePage> {
                   size: mdqr.size.width * 0.1,
                 ),
                 onPressed: () {
-                  // print('Open drawer!');
+                  print('Open drawer!');
                   _scaffoldState.currentState.openEndDrawer();
                 },
               ),
