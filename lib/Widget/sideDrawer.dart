@@ -26,13 +26,13 @@ class SideDrawer extends StatelessWidget {
               Icon(
                 icon,
                 color: Theme.of(context).primaryColor,
-                size: constraints.maxHeight * 0.06,
+                size: constraints.maxHeight * 0.04,
               ),
               SizedBox(
                 width: 10,
               ),
               Container(
-                height: constraints.maxHeight * 0.04,
+                height: constraints.maxHeight * 0.03,
                 child: FittedBox(
                   child: Text(text),
                 ),
@@ -80,11 +80,13 @@ class SideDrawer extends StatelessWidget {
               );
             })),
             Container(
+              padding: EdgeInsets.all(12),
               alignment: Alignment.centerRight,
               child: IconButton(
                   icon: Icon(
-                    Icons.close,
+                    Icons.close_rounded,
                     size: constraints.maxHeight * 0.05,
+                    color: Color.fromARGB(255, 75, 75, 75),
                   ),
                   onPressed: () => Navigator.of(context).pop()),
             )
