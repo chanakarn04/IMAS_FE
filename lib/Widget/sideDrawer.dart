@@ -11,8 +11,6 @@ class SideDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final screenHeight = MediaQuery.of(context).size.height;
-    // final screenWidth = MediaQuery.of(context).size.width;
     return Drawer(child: LayoutBuilder(builder: (ctx, constraints) {
       Widget menuDrawerFlatButton(
         IconData icon,
@@ -80,46 +78,17 @@ class SideDrawer extends StatelessWidget {
               );
             })),
             Container(
-              padding: EdgeInsets.all(12),
+              padding: EdgeInsets.all(10),
               alignment: Alignment.centerRight,
               child: IconButton(
                   icon: Icon(
                     Icons.close_rounded,
                     size: constraints.maxHeight * 0.05,
-                    color: Color.fromARGB(255, 75, 75, 75),
+                    color: Colors.grey,
                   ),
                   onPressed: () => Navigator.of(context).pop()),
             )
           ]);
-    })
-
-        // Container(
-        //   // color: Colors.amber,
-        //   padding: EdgeInsets.symmetric(
-        //     vertical: 15,
-        //     horizontal: 10,
-        //   ),
-        //   alignment: Alignment(-0.9, 0.9),
-        //   child: Container(
-        //     color: Colors.redAccent,
-        //     child: Column(
-        //       mainAxisSize: MainAxisSize.min,
-        //       crossAxisAlignment: CrossAxisAlignment.start,
-        //       mainAxisAlignment: MainAxisAlignment.end,
-        //       children: <Widget>[
-        //         Text('item 2'),
-        //         Text('item 3'),
-        //         Text('item 4'),
-        //         Container(
-        //           color: Colors.blueAccent,
-        //           child: IconButton(
-        //               icon: Icon(Icons.close),
-        //               onPressed: () => Navigator.of(context).pop()),
-        //         )
-        //       ],
-        //     ),
-        //   ),
-        // ),
-        );
+    }));
   }
 }
