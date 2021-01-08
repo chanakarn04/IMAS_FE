@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'assessmentPages.dart';
 import '../Widget/AdaptiveRaisedButton.dart';
 import '../Widget/Logo.dart';
 import '../Widget/sideDrawer.dart';
@@ -55,7 +56,11 @@ class _HomePageState extends State<HomePage> {
               alignment: Alignment.centerRight,
               child: AdaptiveRaisedButton('Start symptom assessment', 0.6, 0.05,
                   (() {
-                print('Go to SA!');
+                // print('Go to SA!');
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => AssessmentPages()),
+                );
               })),
             ),
             SizedBox(
@@ -70,7 +75,7 @@ class _HomePageState extends State<HomePage> {
                   size: mdqr.size.width * 0.1,
                 ),
                 onPressed: () {
-                  print('Open drawer!');
+                  // print('Open drawer!');
                   _scaffoldState.currentState.openEndDrawer();
                 },
               ),
