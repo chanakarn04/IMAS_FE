@@ -75,7 +75,7 @@ class _AssessmentPagesState extends State<AssessmentPages> {
                       InputDecoration(hintText: 'type your symptom here'),
                   controller: _symptomController,
                   onSubmitted: (_) {
-                    print(_symptomController.text);
+                    // print(_symptomController.text);
                     Navigator.push(
                         context,
                         MaterialPageRoute(
