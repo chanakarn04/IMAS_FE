@@ -33,7 +33,7 @@ class SymptomCard extends StatelessWidget {
                       // padding: EdgeInsets.all(10),
                       alignment: Alignment.centerLeft,
                       child: SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.06,
+                        height: MediaQuery.of(context).size.height * 0.04,
                         child: FittedBox(
                           // fit: BoxFit.fitHeight,
                           alignment: Alignment.centerLeft,
@@ -47,8 +47,11 @@ class SymptomCard extends StatelessWidget {
                         ),
                       ),
                     ),
-                    AdaptiveBorderButton(
-                        'Select symptom', 0.02, selectSymptomHandler)
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: AdaptiveBorderButton(
+                          'Select symptom', 0.018, selectSymptomHandler),
+                    )
                   ],
                 ),
               )),

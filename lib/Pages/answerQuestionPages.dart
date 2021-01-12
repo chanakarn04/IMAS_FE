@@ -1,6 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:homepage_proto/Widget/answerList.dart';
+
+// import '../Widget/adaptiveBorderButton.dart';
 
 class AnswerQuestionPages extends StatelessWidget {
+  final List<String> answerList = [
+    'Stabbing',
+    'Squeezing',
+    'Throbbing',
+    'Mixed',
+  ];
+
   @override
   Widget build(BuildContext context) {
     final appBar = AppBar(
@@ -28,27 +38,73 @@ class AnswerQuestionPages extends StatelessWidget {
     );
     return Scaffold(
       appBar: appBar,
-      body: Stack(
-        children: <Widget>[
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+      body: Container(
+          // color: Colors.pink,
+          padding: EdgeInsets.only(
+            bottom: 30,
+            top: 10,
+            left: 15,
+            right: 10,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            // color: Colors.purple,
+            // alignment: Alignment.,
             children: <Widget>[
-              Container(
-                height: MediaQuery.of(context).size.height * 0.06,
-                child: FittedBox(
-                  child: Text(
-                    'Headache',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Column(
+                  // mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Container(
+                      height: MediaQuery.of(context).size.height * 0.06,
+                      child: FittedBox(
+                        child: Text(
+                          'Headache',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
+                    Container(
+                      height: MediaQuery.of(context).size.height * 0.035,
+                      child: FittedBox(
+                        child: Text(
+                          'What is your pain charateristic?',
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              Text('What is your pain charateristic?'),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.1,
+              ),
+              Container(
+                height: MediaQuery.of(context).size.height * 0.35,
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: AnswerList(answerList),
+                ),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.05,
+              ),
             ],
           )
-        ],
-      ),
+          // AdaptiveBorderButton('Squeezing', 0.025, () {
+          //   print('Squeeze');
+          // }),
+          // AdaptiveBorderButton('Throbbing', 0.025, () {
+          //   print('Throb');
+          // }),
+          // AdaptiveBorderButton('Mixed', 0.025, () {
+          //   print('Mix');
+          // }),
+
+          ),
     );
   }
 }
