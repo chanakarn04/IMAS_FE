@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import './searchResultPages.dart';
 import '../Widget/sideDrawer.dart';
 
 class AssessmentPages extends StatefulWidget {
@@ -70,10 +71,17 @@ class _AssessmentPagesState extends State<AssessmentPages> {
                   child:
                       Image.asset('assets/images/body.png', fit: BoxFit.cover)),
               TextField(
-                decoration: InputDecoration(labelText: 'Symptom'),
-                controller: _symptomController,
-                onSubmitted: (_) => print(_symptomController.text),
-              ),
+                  decoration:
+                      InputDecoration(hintText: 'type your symptom here'),
+                  controller: _symptomController,
+                  onSubmitted: (_) {
+                    print(_symptomController.text);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                SearchResultPages(_symptomController.text)));
+                  }),
             ],
           ),
         ),

@@ -1,24 +1,30 @@
 import 'package:flutter/material.dart';
 
+import './adaptiveBorderButton.dart';
 import '../Models/symptom.dart';
 
 class SymptomCard extends StatelessWidget {
   final List<Symptom> symptomList;
+  final Function selectSymptomHandler;
 
-  SymptomCard(this.symptomList);
+  SymptomCard(this.symptomList, this.selectSymptomHandler);
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
       itemBuilder: (ctx, index) {
-        return Container(
+        return Padding(
           padding: EdgeInsets.symmetric(
             horizontal: 5,
-            vertical: 2,
+            vertical: 5,
           ),
-          // height: MediaQuery.of(context).size.height * 0.12,
-          child: Card(
-              elevation: 8,
+          child: Container(
+              decoration: BoxDecoration(
+                  border: Border.all(
+                    width: 1,
+                    color: Color.fromARGB(125, 75, 75, 75),
+                  ),
+                  borderRadius: BorderRadius.circular(15)),
               child: Padding(
                 padding: EdgeInsets.all(10),
                 child: Column(
@@ -41,34 +47,8 @@ class SymptomCard extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Container(
-                        height: MediaQuery.of(context).size.height * 0.05,
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Theme.of(context).primaryColor,
-                              width: 1,
-                            ),
-                            borderRadius: BorderRadius.circular(10)),
-                        child: FlatButton(
-                          child: Container(
-                            height: MediaQuery.of(context).size.height * 0.02,
-                            child: FittedBox(
-                              child: Text(
-                                'Select symptom',
-                                style: TextStyle(
-                                  color: Theme.of(context).primaryColor,
-                                ),
-                              ),
-                            ),
-                          ),
-                          onPressed: () {
-                            print('Hiya!');
-                          },
-                        ),
-                      ),
-                    ),
+                    AdaptiveBorderButton(
+                        'Select symptom', 0.02, selectSymptomHandler)
                   ],
                 ),
               )),
