@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'IMAS - Home Page',
+        title: 'IMAS',
         theme: ThemeData(
           primaryColor: Color.fromARGB(255, 81, 195, 169),
           primaryColorDark: Color.fromARGB(255, 38, 117, 99),

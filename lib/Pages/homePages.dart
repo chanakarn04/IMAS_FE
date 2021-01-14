@@ -54,8 +54,8 @@ class _HomePageState extends State<HomePage> {
             ),
             Align(
               alignment: Alignment.centerRight,
-              child:
-                  AdaptiveRaisedButton('Start symptom assessment', 0.05, (() {
+              child: AdaptiveRaisedButton(
+                  'Start symptom assessment', 0.05, 0.55, (() {
                 // print('Go to SA!');
                 Navigator.push(
                   context,

@@ -5,8 +5,10 @@ class AdaptiveRaisedButton extends StatelessWidget {
   final String buttonText;
   final Function handlerFn;
   final double pctHeight;
+  final double pctWidth;
 
-  AdaptiveRaisedButton(this.buttonText, this.pctHeight, this.handlerFn);
+  AdaptiveRaisedButton(
+      this.buttonText, this.pctHeight, this.pctWidth, this.handlerFn);
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +18,7 @@ class AdaptiveRaisedButton extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.all(7),
         height: MediaQuery.of(context).size.height * pctHeight,
+        width: MediaQuery.of(context).size.width * pctWidth,
         child: FittedBox(child: Text(buttonText)),
       ),
       padding: EdgeInsets.all(5),
