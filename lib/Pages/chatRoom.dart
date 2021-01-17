@@ -1,16 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../Widget/textBoxItem.dart';
-
-class Conversation {
-  final int role;
-  final String msg;
-
-  Conversation(
-    this.role,
-    this.msg,
-  );
-}
+import '../Models/conversation.dart';
 
 class ChatRoom extends StatefulWidget {
   @override
