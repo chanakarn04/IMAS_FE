@@ -7,8 +7,8 @@ class Conversation {
   final String msg;
 
   Conversation(
-    @required this.role,
-    @required this.msg,
+    this.role,
+    this.msg,
   );
 }
 
@@ -19,14 +19,26 @@ class ChatRoom extends StatefulWidget {
 
 class _ChatRoomState extends State<ChatRoom> {
   final _textController = TextEditingController();
+  final listScrollController = new ScrollController();
+
+  ScrollController _scrollController = ScrollController();
+
   final List<Conversation> conversationList = [
     Conversation(1, 'Hi, How can i help you'),
     Conversation(0, 'Mr.Harold, I dont feel so well'),
     Conversation(0, 'I dont like sand'),
   ];
 
+  _scrollToBottom() {
+    _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   _sendConversation() {
-    // print('run here');
     if (_textController.text.isEmpty) {
       return;
     } else {
@@ -40,6 +52,8 @@ class _ChatRoomState extends State<ChatRoom> {
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToBottom());
+
     final appBar = AppBar(
       iconTheme: IconThemeData(
         color: Theme.of(context).primaryColor,
@@ -116,7 +130,6 @@ class _ChatRoomState extends State<ChatRoom> {
               color: Colors.white,
             ),
             onPressed: () {
-              // print('test test');
               _sendConversation();
             },
           )
@@ -128,14 +141,16 @@ class _ChatRoomState extends State<ChatRoom> {
       appBar: appBar,
       body: SingleChildScrollView(
         child: Column(
-          // mainAxisAlignment: MainAxisAlignment.end,
-          children: [
+          children: <Widget>[
             Container(
               height: (MediaQuery.of(context).size.height -
                   appBar.preferredSize.height -
                   MediaQuery.of(context).padding.top -
+                  MediaQuery.of(context).viewInsets.bottom -
                   50),
               child: ListView.builder(
+                controller: _scrollController,
+                // reverse: true,
                 itemCount: conversationList.length,
                 itemBuilder: (ctx, index) {
                   return Container(
