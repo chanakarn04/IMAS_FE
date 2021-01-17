@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../Pages/profilePages.dart';
 import '../Pages/assessmentPages.dart';
-import '../Pages/medicalConsultPages.dart';
+import '../Pages/chatRoom.dart';
 import '../Pages/nearbyHospitalPages.dart';
 import '../Pages/settingPages.dart';
 
@@ -61,7 +61,7 @@ class SideDrawer extends StatelessWidget {
                 (() {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => MedicalConsultPages()),
+                MaterialPageRoute(builder: (context) => ChatRoom()),
               );
             })),
             menuDrawerFlatButton(Icons.location_on_outlined, 'Nearby hospital',
