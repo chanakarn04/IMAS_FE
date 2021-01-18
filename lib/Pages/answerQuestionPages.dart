@@ -4,12 +4,20 @@ import 'package:homepage_proto/Widget/answerList.dart';
 // import '../Widget/adaptiveBorderButton.dart';
 
 class AnswerQuestionPages extends StatelessWidget {
+  final String symptom = 'Headache';
+  final String question = 'What is your pain charateristic?';
   final List<String> answerList = [
     'Stabbing',
     'Squeezing',
     'Throbbing',
     'Mixed',
   ];
+
+  // AnswerQuestionPages({
+  //   @required this.symptom,
+  //   @required this.question,
+  //   @required this.answerList,
+  // })
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +69,7 @@ class AnswerQuestionPages extends StatelessWidget {
                       height: MediaQuery.of(context).size.height * 0.06,
                       child: FittedBox(
                         child: Text(
-                          'Headache',
+                          symptom,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                           ),
@@ -72,7 +80,7 @@ class AnswerQuestionPages extends StatelessWidget {
                       height: MediaQuery.of(context).size.height * 0.035,
                       child: FittedBox(
                         child: Text(
-                          'What is your pain charateristic?',
+                          question,
                         ),
                       ),
                     ),
