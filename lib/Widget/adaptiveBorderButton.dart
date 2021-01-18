@@ -3,17 +3,17 @@ import 'package:flutter/material.dart';
 class AdaptiveBorderButton extends StatelessWidget {
   final String buttonText;
   final Function handlerFn;
-  final double pctHeight;
-  final double pctWidth;
+  final double height;
+  final double width;
 
   AdaptiveBorderButton(
-      this.buttonText, this.pctHeight, this.pctWidth, this.handlerFn);
+      {this.buttonText, this.height, this.width, this.handlerFn});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * (pctHeight + 0.03),
-      width: MediaQuery.of(context).size.width * pctWidth,
+      height: (height + 0.03),
+      width: width,
       decoration: BoxDecoration(
           border: Border.all(
             color: Theme.of(context).primaryColor,
@@ -22,7 +22,7 @@ class AdaptiveBorderButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(10)),
       child: FlatButton(
           child: Container(
-            height: MediaQuery.of(context).size.height * pctHeight,
+            height: height,
             child: FittedBox(
               child: Text(
                 buttonText,

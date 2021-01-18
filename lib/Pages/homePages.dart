@@ -55,13 +55,16 @@ class _HomePageState extends State<HomePage> {
             Align(
               alignment: Alignment.centerRight,
               child: AdaptiveRaisedButton(
-                  'Start symptom assessment', 0.05, 0.55, (() {
-                // print('Go to SA!');
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => AssessmentPages()),
-                );
-              })),
+                buttonText: 'Start symptom assessment',
+                height: MediaQuery.of(context).size.height * 0.05,
+                width: MediaQuery.of(context).size.width * 0.55,
+                handlerFn: (() {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => AssessmentPages()),
+                  );
+                }),
+              ),
             ),
             SizedBox(
               height: mdqr.size.height * 0.01,
