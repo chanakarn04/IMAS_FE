@@ -6,6 +6,9 @@ import '../Pages/chatRoom.dart';
 import '../Pages/nearbyHospitalPages.dart';
 import '../Pages/settingPages.dart';
 
+//Test zone
+import '../Pages/vitalSignStartPages.dart';
+
 class SideDrawer extends StatelessWidget {
   SideDrawer();
 
@@ -75,6 +78,12 @@ class SideDrawer extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => SettingPages()),
+              );
+            })),
+            menuDrawerFlatButton(Icons.traffic_outlined, 'Test', (() {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => VitalSignStartPage()),
               );
             })),
             Container(
