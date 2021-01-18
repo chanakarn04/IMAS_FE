@@ -4,11 +4,11 @@ import 'package:flutter/cupertino.dart';
 class AdaptiveRaisedButton extends StatelessWidget {
   final String buttonText;
   final Function handlerFn;
-  final double pctHeight;
-  final double pctWidth;
+  final double height;
+  final double width;
 
   AdaptiveRaisedButton(
-      this.buttonText, this.pctHeight, this.pctWidth, this.handlerFn);
+      {this.buttonText, this.height, this.width, this.handlerFn});
 
   @override
   Widget build(BuildContext context) {
@@ -17,8 +17,8 @@ class AdaptiveRaisedButton extends StatelessWidget {
       color: Theme.of(context).primaryColor,
       child: Container(
         padding: EdgeInsets.all(7),
-        height: MediaQuery.of(context).size.height * pctHeight,
-        width: MediaQuery.of(context).size.width * pctWidth,
+        height: height,
+        width: width,
         child: FittedBox(child: Text(buttonText)),
       ),
       padding: EdgeInsets.all(5),
