@@ -6,12 +6,13 @@ import '../Widget/symptomCard.dart';
 import '../Widget/sideDrawer.dart';
 
 class SearchResultPages extends StatefulWidget {
-  final String _searchText;
+  static const routeName = '/SymptomSearch';
+  // final String _searchText;
 
-  SearchResultPages(this._searchText);
+  // SearchResultPages(this._searchText);
 
   @override
-  _SearchResultPagesState createState() => _SearchResultPagesState(_searchText);
+  _SearchResultPagesState createState() => _SearchResultPagesState();
 }
 
 class _SearchResultPagesState extends State<SearchResultPages> {
@@ -31,8 +32,6 @@ class _SearchResultPagesState extends State<SearchResultPages> {
     Symptom('010', 'Headache 7'),
   ];
 
-  _SearchResultPagesState(this._searchText);
-
   List<Symptom> searchedSymptom(String _searchText) {
     return symptomList.where((element) {
       String elm = element.name.toLowerCase();
@@ -50,6 +49,9 @@ class _SearchResultPagesState extends State<SearchResultPages> {
 
   @override
   Widget build(BuildContext context) {
+    final routeArgument =
+        ModalRoute.of(context).settings.arguments as Map<String, String>;
+    _searchText = routeArgument['search'];
     final appBar = AppBar(
       iconTheme: IconThemeData(
         color: Theme.of(context).primaryColor,
@@ -89,7 +91,7 @@ class _SearchResultPagesState extends State<SearchResultPages> {
               child: TextField(
                 controller: _symptomController,
                 decoration: InputDecoration(
-                  hintText: widget._searchText,
+                  hintText: _searchText,
                 ),
                 onSubmitted: (_) {
                   setSearchState(_);

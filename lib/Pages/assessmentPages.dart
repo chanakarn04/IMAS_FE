@@ -4,6 +4,7 @@ import './searchResultPages.dart';
 import '../Widget/sideDrawer.dart';
 
 class AssessmentPages extends StatefulWidget {
+  static const routeName = '/assessment';
   @override
   _AssessmentPagesState createState() => _AssessmentPagesState();
 }
@@ -76,11 +77,8 @@ class _AssessmentPagesState extends State<AssessmentPages> {
                   controller: _symptomController,
                   onSubmitted: (_) {
                     // print(_symptomController.text);
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                SearchResultPages(_symptomController.text)));
+                    Navigator.of(context).pushNamed(SearchResultPages.routeName,
+                        arguments: {'search': _symptomController.text});
                   }),
             ],
           ),

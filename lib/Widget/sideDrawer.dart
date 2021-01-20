@@ -49,35 +49,30 @@ class SideDrawer extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
             menuDrawerFlatButton(Icons.account_circle_outlined, 'Profile', (() {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => ProfilePages()),
+              Navigator.of(context).pushNamed(
+                ProfilePages.routeName,
               );
             })),
             menuDrawerFlatButton(Icons.analytics_outlined, 'Assessment', (() {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => AssessmentPages()),
+              Navigator.of(context).pushNamed(
+                AssessmentPages.routeName,
               );
             })),
             menuDrawerFlatButton(Icons.chat_bubble_outline, 'Medical consult',
                 (() {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => ChatRoom()),
+              Navigator.of(context).pushNamed(
+                ChatRoom.routeName,
               );
             })),
             menuDrawerFlatButton(Icons.location_on_outlined, 'Nearby hospital',
                 (() {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => NearbyHospitalPages()),
+              Navigator.of(context).pushNamed(
+                NearbyHospitalPages.routeName,
               );
             })),
             menuDrawerFlatButton(Icons.settings_outlined, 'Setting', (() {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => SettingPages()),
+              Navigator.of(context).pushNamed(
+                SettingPages.routeName,
               );
             })),
             menuDrawerFlatButton(Icons.traffic_outlined, 'Test', (() {

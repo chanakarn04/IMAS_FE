@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ProfilePages extends StatelessWidget {
+  static const routeName = '/profile';
   @override
   Widget build(BuildContext context) {
     return Scaffold(

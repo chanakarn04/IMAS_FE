@@ -6,10 +6,8 @@ import '../../Widget/AdaptiveRaisedButton.dart';
 import './vs_RespiratoryRatePage.dart';
 
 class VSHeartRatePage extends StatelessWidget {
+  static const routeName = '/vitalSign-pulse';
   final textController = TextEditingController();
-  final double temp;
-
-  VSHeartRatePage(this.temp);
 
   _headerBuilder(
     BuildContext context,
@@ -51,6 +49,8 @@ class VSHeartRatePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final routeArgument =
+        ModalRoute.of(context).settings.arguments as Map<String, Object>;
     final appBar = AppBar(
       centerTitle: true,
       iconTheme: IconThemeData(
@@ -143,17 +143,17 @@ class VSHeartRatePage extends StatelessWidget {
                       buttonText: 'Next',
                       height: 35,
                       width: MediaQuery.of(context).size.width * 0.35,
-                      handlerFn: (double.tryParse(textController.text) !=
-                                  null) &&
-                              (textController.text.isNotEmpty)
-                          ? (() {
-                              // print(textController.text);
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => VSRespiratoryRatePage(
-                                      temp,
-                                      double.parse(textController.text))));
-                            })
-                          : null,
+                      handlerFn:
+                          (double.tryParse(textController.text) != null) &&
+                                  (textController.text.isNotEmpty)
+                              ? (() {
+                                  routeArgument['pulse'] =
+                                      double.parse(textController.text);
+                                  Navigator.of(context).pushNamed(
+                                      VSRespiratoryRatePage.routeName,
+                                      arguments: routeArgument);
+                                })
+                              : null,
                     ),
                   ),
                 ],

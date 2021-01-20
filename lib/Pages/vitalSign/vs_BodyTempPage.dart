@@ -6,6 +6,7 @@ import '../../Widget/AdaptiveRaisedButton.dart';
 import './vs_HeartRatePage.dart';
 
 class VSBodyTempPage extends StatelessWidget {
+  static const routeName = '/vitalSign-bodyTemp';
   final textController = TextEditingController();
 
   _headerBuilder(
@@ -48,6 +49,8 @@ class VSBodyTempPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final routeArgument =
+        ModalRoute.of(context).settings.arguments as Map<String, Object>;
     final appBar = AppBar(
       centerTitle: true,
       iconTheme: IconThemeData(
@@ -151,9 +154,11 @@ class VSBodyTempPage extends StatelessWidget {
                           (double.tryParse(textController.text) != null) &&
                                   (textController.text.isNotEmpty)
                               ? (() {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) => VSHeartRatePage(
-                                          double.parse(textController.text))));
+                                  routeArgument['temp'] =
+                                      double.parse(textController.text);
+                                  Navigator.of(context).pushNamed(
+                                      VSHeartRatePage.routeName,
+                                      arguments: routeArgument);
                                 })
                               : null,
                     ),

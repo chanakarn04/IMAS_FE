@@ -5,16 +5,8 @@ import '../../Widget/adaptiveRaisedButton.dart';
 import '../../Widget/progress4Dot.dart';
 
 class VSBloodPressurePage extends StatelessWidget {
+  static const routeName = '/vitalSign-pressure';
   final textController = TextEditingController();
-  final double temp;
-  final double pulse;
-  final double breath;
-
-  VSBloodPressurePage(
-    this.temp,
-    this.pulse,
-    this.breath,
-  );
 
   _headerBuilder(
     BuildContext context,
@@ -56,6 +48,8 @@ class VSBloodPressurePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final routeArgument =
+        ModalRoute.of(context).settings.arguments as Map<String, Object>;
     final appBar = AppBar(
       centerTitle: true,
       iconTheme: IconThemeData(
@@ -156,13 +150,10 @@ class VSBloodPressurePage extends StatelessWidget {
                       width: MediaQuery.of(context).size.width * 0.35,
                       handlerFn: (textController.text.isNotEmpty)
                           ? (() {
+                              routeArgument['pressure'] = textController.text;
                               Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => VSSummary({
-                                        'temp': temp,
-                                        'pulse': pulse,
-                                        'breath': breath,
-                                        'pressure': textController.text,
-                                      })));
+                                  builder: (context) =>
+                                      VSSummary(routeArgument)));
                             })
                           : null,
                     ),

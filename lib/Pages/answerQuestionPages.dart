@@ -4,6 +4,7 @@ import 'package:homepage_proto/Widget/answerList.dart';
 // import '../Widget/adaptiveBorderButton.dart';
 
 class AnswerQuestionPages extends StatelessWidget {
+  static const routeName = '/QuestionSymptom';
   final String symptom = 'Headache';
   final String question = 'What is your pain charateristic?';
   final List<String> answerList = [
@@ -21,6 +22,8 @@ class AnswerQuestionPages extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // final routeArgument =
+    //     ModalRoute.of(context).settings.arguments as Map<String, Object>;
     final appBar = AppBar(
       centerTitle: true,
       iconTheme: IconThemeData(

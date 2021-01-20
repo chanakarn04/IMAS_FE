@@ -6,14 +6,8 @@ import '../../Widget/progress4Dot.dart';
 import './vs_BloodPressurePage.dart';
 
 class VSRespiratoryRatePage extends StatelessWidget {
+  static const routeName = '/vitalSign-breath';
   final textController = TextEditingController();
-  final double temp;
-  final double pulse;
-
-  VSRespiratoryRatePage(
-    this.temp,
-    this.pulse,
-  );
 
   _headerBuilder(
     BuildContext context,
@@ -55,6 +49,8 @@ class VSRespiratoryRatePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final routeArgument =
+        ModalRoute.of(context).settings.arguments as Map<String, Object>;
     final appBar = AppBar(
       centerTitle: true,
       iconTheme: IconThemeData(
@@ -151,13 +147,11 @@ class VSRespiratoryRatePage extends StatelessWidget {
                           (double.tryParse(textController.text) != null) &&
                                   (textController.text.isNotEmpty)
                               ? (() {
-                                  // print(textController.text);
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) => VSBloodPressurePage(
-                                            temp,
-                                            pulse,
-                                            double.parse(textController.text),
-                                          )));
+                                  routeArgument['breath'] =
+                                      double.parse(textController.text);
+                                  Navigator.of(context).pushNamed(
+                                      VSBloodPressurePage.routeName,
+                                      arguments: routeArgument);
                                 })
                               : null,
                     ),

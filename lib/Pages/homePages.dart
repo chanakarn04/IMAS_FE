@@ -59,9 +59,8 @@ class _HomePageState extends State<HomePage> {
                 height: MediaQuery.of(context).size.height * 0.05,
                 width: MediaQuery.of(context).size.width * 0.55,
                 handlerFn: (() {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => AssessmentPages()),
+                  Navigator.of(context).pushNamed(
+                    AssessmentPages.routeName,
                   );
                 }),
               ),
@@ -78,7 +77,6 @@ class _HomePageState extends State<HomePage> {
                   size: mdqr.size.width * 0.1,
                 ),
                 onPressed: () {
-                  // print('Open drawer!');
                   _scaffoldState.currentState.openEndDrawer();
                 },
               ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class NearbyHospitalPages extends StatelessWidget {
+  static const routeName = '/NearbyHoptial';
   @override
   Widget build(BuildContext context) {
     return Scaffold(

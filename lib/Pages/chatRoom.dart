@@ -4,6 +4,7 @@ import '../Widget/textBoxItem.dart';
 import '../Models/conversation.dart';
 
 class ChatRoom extends StatefulWidget {
+  static const routeName = '/CharRoom';
   @override
   _ChatRoomState createState() => _ChatRoomState();
 }
