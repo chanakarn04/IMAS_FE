@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../Widget/numberTextInput.dart';
 import '../../Widget/progress4Dot.dart';
 import '../../Widget/AdaptiveRaisedButton.dart';
 import './vs_HeartRatePage.dart';
@@ -29,10 +30,9 @@ class VSBodyTempPage extends StatelessWidget {
   ) {
     return Align(
       alignment: Alignment.centerRight,
-      // color: Colors.deepPurple,
       child: Container(
         constraints:
-            BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.95),
+            BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.9),
         child: Text(
           description,
           style: TextStyle(
@@ -75,81 +75,88 @@ class VSBodyTempPage extends StatelessWidget {
     return Scaffold(
       appBar: appBar,
       body: SingleChildScrollView(
-        child: Container(
-          // color: Colors.teal,
-          height: (MediaQuery.of(context).size.height -
-              appBar.preferredSize.height -
-              MediaQuery.of(context).padding.top),
-          padding: EdgeInsets.only(
-            top: 15,
-            left: 15,
-            right: 15,
-            bottom: 40,
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              _headerBuilder(context, 'Body Temperature'),
-              SizedBox(
-                height: 20,
+        child: Column(
+          children: <Widget>[
+            Container(
+              height: (MediaQuery.of(context).size.height -
+                      appBar.preferredSize.height -
+                      MediaQuery.of(context).padding.top) *
+                  0.6,
+              padding: EdgeInsets.only(
+                top: 120,
+                left: 15,
+                right: 15,
+                bottom: 40,
               ),
-              _descriptionBuilder(context,
-                  'Use thermometer to measure yourself and select your temperature'),
-              SizedBox(
-                height: 120,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Container(
-                    width: 120,
-                    child: TextField(
-                      controller: textController,
-                      textAlign: TextAlign.end,
-                      keyboardType: TextInputType.number,
-                      style: TextStyle(
-                        fontSize: 20,
-                      ),
-                      decoration: InputDecoration(
-                        hintText: 'Type here',
-                        contentPadding: EdgeInsets.only(right: 15),
-                      ),
-                    ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  _headerBuilder(context, 'Body Temperature'),
+                  SizedBox(
+                    height: 20,
                   ),
-                  Text(
-                    '°C',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  _descriptionBuilder(context,
+                      'Use thermometer to measure yourself and select your temperature'),
                 ],
               ),
-              SizedBox(
-                height: 15,
+            ),
+            Container(
+              height: (MediaQuery.of(context).size.height -
+                      appBar.preferredSize.height -
+                      MediaQuery.of(context).padding.top) *
+                  0.4,
+              padding: EdgeInsets.only(
+                top: 15,
+                left: 15,
+                right: 15,
+                bottom: 40,
               ),
-              ProgressDot4(1),
-              SizedBox(
-                height: 15,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Container(
+                        width: 120,
+                        child: NumberTextField(
+                          textController: textController,
+                        ),
+                      ),
+                      Text(
+                        '°C',
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  ProgressDot4(1),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Align(
+                    alignment: Alignment.center,
+                    child: AdaptiveRaisedButton(
+                        buttonText: 'Next',
+                        height: 35,
+                        width: MediaQuery.of(context).size.width * 0.35,
+                        handlerFn: (() {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => VSHeartRatePage(
+                                  double.parse(textController.text))));
+                        })),
+                  )
+                ],
               ),
-              Align(
-                alignment: Alignment.center,
-                child: AdaptiveRaisedButton(
-                  buttonText: 'Next',
-                  height: 35,
-                  width: MediaQuery.of(context).size.width * 0.35,
-                  handlerFn: (() {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => VSHeartRatePage()),
-                    );
-                  }),
-                ),
-              )
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

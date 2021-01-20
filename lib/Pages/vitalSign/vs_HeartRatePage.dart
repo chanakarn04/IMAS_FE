@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 
+import '../../Widget/numberTextInput.dart';
 import '../../Widget/progress4Dot.dart';
 import '../../Widget/AdaptiveRaisedButton.dart';
+import './vs_RespiratoryRatePage.dart';
 
 class VSHeartRatePage extends StatelessWidget {
   final textController = TextEditingController();
+  final double temp;
+
+  VSHeartRatePage(this.temp);
 
   _headerBuilder(
     BuildContext context,
@@ -28,10 +33,9 @@ class VSHeartRatePage extends StatelessWidget {
   ) {
     return Align(
       alignment: Alignment.centerRight,
-      // color: Colors.deepPurple,
       child: Container(
         constraints:
-            BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.95),
+            BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.9),
         child: Text(
           description,
           style: TextStyle(
@@ -74,70 +78,83 @@ class VSHeartRatePage extends StatelessWidget {
     return Scaffold(
       appBar: appBar,
       body: SingleChildScrollView(
-        child: Container(
-          // color: Colors.teal,
-          height: (MediaQuery.of(context).size.height -
-              appBar.preferredSize.height -
-              MediaQuery.of(context).padding.top),
-          padding: EdgeInsets.only(
-            top: 15,
-            left: 15,
-            right: 15,
-            bottom: 40,
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              _headerBuilder(context, 'Heart rate'),
-              SizedBox(
-                height: 20,
+        child: Column(
+          children: [
+            Container(
+              height: (MediaQuery.of(context).size.height -
+                      appBar.preferredSize.height -
+                      MediaQuery.of(context).padding.top) *
+                  0.6,
+              padding: EdgeInsets.only(
+                top: 120,
+                left: 15,
+                right: 15,
+                bottom: 40,
               ),
-              _descriptionBuilder(context,
-                  'Place your pointer and middle fingers on the inside of your opposite wrist just below the thumb. Once you can feel your pulse, count how many beats you feel in 60 second'),
-              SizedBox(
-                height: 120,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  _headerBuilder(context, 'Heart rate'),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  _descriptionBuilder(context,
+                      'Place your pointer and middle fingers on the inside of your opposite wrist just below the thumb. Once you can feel your pulse, count how many beats you feel in 60 second'),
+                ],
               ),
-              Row(
+            ),
+            Container(
+              height: (MediaQuery.of(context).size.height -
+                      appBar.preferredSize.height -
+                      MediaQuery.of(context).padding.top) *
+                  0.4,
+              padding: EdgeInsets.only(
+                top: 15,
+                left: 15,
+                right: 15,
+                bottom: 40,
+              ),
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Container(
-                    width: 120,
-                    child: TextField(
-                      controller: textController,
-                      textAlign: TextAlign.end,
-                      keyboardType: TextInputType.number,
-                      style: TextStyle(
-                        fontSize: 20,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Container(
+                        width: 120,
+                        child: NumberTextField(
+                          textController: textController,
+                        ),
                       ),
-                      decoration: InputDecoration(
-                        hintText: 'Type here',
-                        contentPadding: EdgeInsets.only(right: 15),
-                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  ProgressDot4(2),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Align(
+                    alignment: Alignment.center,
+                    child: AdaptiveRaisedButton(
+                      buttonText: 'Next',
+                      height: 35,
+                      width: MediaQuery.of(context).size.width * 0.35,
+                      handlerFn: (() {
+                        // print(textController.text);
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => VSRespiratoryRatePage(
+                                temp, double.parse(textController.text))));
+                      }),
                     ),
                   ),
                 ],
               ),
-              SizedBox(
-                height: 15,
-              ),
-              ProgressDot4(2),
-              SizedBox(
-                height: 15,
-              ),
-              Align(
-                alignment: Alignment.center,
-                child: AdaptiveRaisedButton(
-                  buttonText: 'Next',
-                  height: 35,
-                  width: MediaQuery.of(context).size.width * 0.35,
-                  handlerFn: (() {
-                    print('to Respiratory');
-                  }),
-                ),
-              )
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

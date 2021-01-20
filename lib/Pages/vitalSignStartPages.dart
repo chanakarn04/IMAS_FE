@@ -9,6 +9,13 @@ class VitalSignStartPage extends StatefulWidget {
 }
 
 class _VitalSignStartPageState extends State<VitalSignStartPage> {
+  // Map<String, Object> vitalSign = {
+  //   'Temp': null,
+  //   'Pulse': null,
+  //   'Breath': null,
+  //   'Pressure': null,
+  // };
+
   @override
   Widget build(BuildContext context) {
     final appBar = AppBar(
