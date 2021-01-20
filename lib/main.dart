@@ -29,10 +29,11 @@ class MyApp extends StatelessWidget {
         primaryColorLight: Color.fromARGB(255, 133, 255, 226),
         accentColor: Color.fromARGB(255, 77, 159, 206),
       ),
-      home: HomePage(),
+      // home: HomePage(),
       color: Color.fromARGB(255, 255, 255, 255),
+      initialRoute: HomePage.routeName,
       routes: {
-        // '/': (ctx) => HomePage(),
+        HomePage.routeName: (ctx) => HomePage(),
         AssessmentPages.routeName: (ctx) => AssessmentPages(),
         SearchResultPages.routeName: (ctx) => SearchResultPages(),
         AnswerQuestionPages.routeName: (ctx) => AnswerQuestionPages(),

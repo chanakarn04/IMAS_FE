@@ -6,6 +6,7 @@ import '../Widget/Logo.dart';
 import '../Widget/sideDrawer.dart';
 
 class HomePage extends StatefulWidget {
+  static const routeName = '/home';
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -18,6 +19,7 @@ class _HomePageState extends State<HomePage> {
     final mdqr = MediaQuery.of(context);
     final scndColor = Color.fromARGB(255, 75, 75, 75);
     return Scaffold(
+      backgroundColor: Colors.white,
       key: _scaffoldState,
       endDrawer: SideDrawer(),
       body: Padding(

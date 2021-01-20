@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../temp_vitalSummary.dart';
 import '../../Widget/adaptiveRaisedButton.dart';
 import '../../Widget/progress4Dot.dart';
 
@@ -145,15 +144,19 @@ class VSBloodPressurePage extends StatelessWidget {
                   Align(
                     alignment: Alignment.center,
                     child: AdaptiveRaisedButton(
-                      buttonText: 'Next',
+                      buttonText: 'Submit',
                       height: 35,
                       width: MediaQuery.of(context).size.width * 0.35,
                       handlerFn: (textController.text.isNotEmpty)
                           ? (() {
                               routeArgument['pressure'] = textController.text;
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) =>
-                                      VSSummary(routeArgument)));
+                              print('${routeArgument['temp']}');
+                              print('${routeArgument['pulse']}');
+                              print('${routeArgument['breath']}');
+                              print('${routeArgument['pressure']}');
+                              // Navigator.of(context).push(MaterialPageRoute(
+                              //     builder: (context) =>
+                              //         VSSummary(routeArgument)));
                             })
                           : null,
                     ),
