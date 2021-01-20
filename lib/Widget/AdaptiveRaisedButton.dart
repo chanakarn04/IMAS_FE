@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
-class AdaptiveRaisedButton extends StatelessWidget {
+class AdaptiveRaisedButton extends StatefulWidget {
   final String buttonText;
   final Function handlerFn;
   final double height;
@@ -11,15 +11,20 @@ class AdaptiveRaisedButton extends StatelessWidget {
       {this.buttonText, this.height, this.width, this.handlerFn});
 
   @override
+  _AdaptiveRaisedButtonState createState() => _AdaptiveRaisedButtonState();
+}
+
+class _AdaptiveRaisedButtonState extends State<AdaptiveRaisedButton> {
+  @override
   Widget build(BuildContext context) {
     return CupertinoButton(
-      onPressed: handlerFn,
+      onPressed: widget.handlerFn,
       color: Theme.of(context).primaryColor,
       child: Container(
         padding: EdgeInsets.all(7),
-        height: height,
-        width: width,
-        child: FittedBox(child: Text(buttonText)),
+        height: widget.height,
+        width: widget.width,
+        child: FittedBox(child: Text(widget.buttonText)),
       ),
       padding: EdgeInsets.all(5),
     );

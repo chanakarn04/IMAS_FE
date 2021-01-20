@@ -143,12 +143,17 @@ class VSHeartRatePage extends StatelessWidget {
                       buttonText: 'Next',
                       height: 35,
                       width: MediaQuery.of(context).size.width * 0.35,
-                      handlerFn: (() {
-                        // print(textController.text);
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => VSRespiratoryRatePage(
-                                temp, double.parse(textController.text))));
-                      }),
+                      handlerFn: (double.tryParse(textController.text) !=
+                                  null) &&
+                              (textController.text.isNotEmpty)
+                          ? (() {
+                              // print(textController.text);
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => VSRespiratoryRatePage(
+                                      temp,
+                                      double.parse(textController.text))));
+                            })
+                          : null,
                     ),
                   ),
                 ],

@@ -154,20 +154,17 @@ class VSBloodPressurePage extends StatelessWidget {
                       buttonText: 'Next',
                       height: 35,
                       width: MediaQuery.of(context).size.width * 0.35,
-                      handlerFn: (() {
-                        print('=> Temp : ${temp.toStringAsFixed(1)}');
-                        print('=> Pulse : ${pulse.toStringAsFixed(0)}');
-                        print('=> Breath : ${breath.toStringAsFixed(0)}');
-                        print('=> Pressure : ${textController.text}');
-                        print('to Pain Score');
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => VSSummary({
-                                  'temp': temp,
-                                  'pulse': pulse,
-                                  'breath': breath,
-                                  'pressure': textController.text,
-                                })));
-                      }),
+                      handlerFn: (textController.text.isNotEmpty)
+                          ? (() {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => VSSummary({
+                                        'temp': temp,
+                                        'pulse': pulse,
+                                        'breath': breath,
+                                        'pressure': textController.text,
+                                      })));
+                            })
+                          : null,
                     ),
                   ),
                 ],

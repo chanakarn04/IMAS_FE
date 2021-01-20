@@ -144,14 +144,19 @@ class VSBodyTempPage extends StatelessWidget {
                   Align(
                     alignment: Alignment.center,
                     child: AdaptiveRaisedButton(
-                        buttonText: 'Next',
-                        height: 35,
-                        width: MediaQuery.of(context).size.width * 0.35,
-                        handlerFn: (() {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => VSHeartRatePage(
-                                  double.parse(textController.text))));
-                        })),
+                      buttonText: 'Next',
+                      height: 35,
+                      width: MediaQuery.of(context).size.width * 0.35,
+                      handlerFn:
+                          (double.tryParse(textController.text) != null) &&
+                                  (textController.text.isNotEmpty)
+                              ? (() {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => VSHeartRatePage(
+                                          double.parse(textController.text))));
+                                })
+                              : null,
+                    ),
                   )
                 ],
               ),
