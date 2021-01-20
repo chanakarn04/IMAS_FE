@@ -13,6 +13,8 @@ import './Pages/vitalSign/vs_BodyTempPage.dart';
 import './Pages/vitalSign/vs_HeartRatePage.dart';
 import './Pages/vitalSign/vs_RespiratoryRatePage.dart';
 import './Pages/vitalSign/vs_BloodPressurePage.dart';
+import './Pages/painScoreStartPage.dart';
+import './Pages/painScorePage.dart';
 
 void main() {
   runApp(MyApp());
@@ -46,6 +48,8 @@ class MyApp extends StatelessWidget {
         VSHeartRatePage.routeName: (ctx) => VSHeartRatePage(),
         VSRespiratoryRatePage.routeName: (ctx) => VSRespiratoryRatePage(),
         VSBloodPressurePage.routeName: (ctx) => VSBloodPressurePage(),
+        PainScoreStartPage.routeName: (ctx) => PainScoreStartPage(),
+        PainScroePage.routeName: (ctx) => PainScroePage(),
       },
     );
   }
