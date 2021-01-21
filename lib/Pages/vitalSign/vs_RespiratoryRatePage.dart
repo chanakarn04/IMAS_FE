@@ -128,6 +128,30 @@ class VSRespiratoryRatePage extends StatelessWidget {
                           textController: textController,
                         ),
                       ),
+                      SizedBox(
+                        width: 3,
+                      ),
+                      Column(
+                        // mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            'BPM',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 26,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            '(Breath Per Minute)',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 9,
+                              // fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                   SizedBox(
