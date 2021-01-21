@@ -61,28 +61,19 @@ class _PainScoreSliderState extends State<PainScoreSlider> {
           Expanded(
             child: SliderTheme(
               data: SliderTheme.of(context).copyWith(
-                //undone
                 activeTrackColor: Colors.white,
                 inactiveTrackColor: Colors.white,
                 tickMarkShape: RoundSliderTickMarkShape(),
                 activeTickMarkColor: Colors.white,
                 inactiveTickMarkColor: Colors.white.withAlpha(100),
                 thumbColor: Theme.of(context).primaryColor,
-                // overlayColor: Theme.of(context).primaryColor.withAlpha(125),
-                // valueIndicatorShape: PaddleSliderValueIndicatorShape(),
-                // valueIndicatorColor: Theme.of(context).primaryColor,
-                // valueIndicatorTextStyle: TextStyle(
-                //   color: Colors.white,
-                // ),
-                //done
+                showValueIndicator: ShowValueIndicator.never,
                 trackShape: RoundedRectSliderTrackShape(),
                 trackHeight: this.widget.height / 6,
-
                 thumbShape: CustomSliderThumbCircle(
                     thumbRadius: this.widget.height / 2.5,
                     max: this.widget.max,
                     min: this.widget.min),
-                // overlayShape: RoundSliderOverlayShape(overlayRadius: 20.0),
               ),
               child: Slider(
                 min: this.widget.min.toDouble(),
