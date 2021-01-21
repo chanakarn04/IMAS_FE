@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../Widget/AdaptiveRaisedButton.dart';
+import './painScorePage.dart';
 
 class PainScoreStartPage extends StatelessWidget {
   static const routeName = '/painScore-start';
@@ -84,18 +85,9 @@ class PainScoreStartPage extends StatelessWidget {
                 height: 35,
                 width: MediaQuery.of(context).size.width * 0.35,
                 handlerFn: (() {
-                  print('JaJa');
-                  // Navigator.of(context)
-                  //     .pushNamed(VSBodyTempPage.routeName, arguments: {
-                  //   'temp': 0,
-                  //   'pulse': 0,
-                  //   'breath': 0,
-                  //   'pressure': '',
-                  // });
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(builder: (context) => VSBodyTempPage()),
-                  // );
+                  // print('JaJa');
+                  Navigator.of(context).pushNamed(PainScorePage.routeName,
+                      arguments: {'symptom': 'Headache'});
                 }),
               ),
             )

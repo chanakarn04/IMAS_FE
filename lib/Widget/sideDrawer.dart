@@ -7,7 +7,8 @@ import '../Pages/nearbyHospitalPages.dart';
 import '../Pages/settingPages.dart';
 
 //Test zone
-import '../Pages/vitalSignStartPages.dart';
+import '../Pages/painScoreStartPage.dart';
+// import '../Pages/vitalSignStartPages.dart';
 
 class SideDrawer extends StatelessWidget {
   SideDrawer();
@@ -76,10 +77,12 @@ class SideDrawer extends StatelessWidget {
               );
             })),
             menuDrawerFlatButton(Icons.traffic_outlined, 'Test', (() {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => VitalSignStartPage()),
+              Navigator.of(context).pushNamed(
+                PainScoreStartPage.routeName,
               );
+              // Navigator.of(context).pushNamed(
+              //   VitalSignStartPage.routeName,
+              // );
             })),
             Container(
               padding: EdgeInsets.all(10),

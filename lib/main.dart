@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
         VSRespiratoryRatePage.routeName: (ctx) => VSRespiratoryRatePage(),
         VSBloodPressurePage.routeName: (ctx) => VSBloodPressurePage(),
         PainScoreStartPage.routeName: (ctx) => PainScoreStartPage(),
-        PainScroePage.routeName: (ctx) => PainScroePage(),
+        PainScorePage.routeName: (ctx) => PainScorePage(),
       },
     );
   }

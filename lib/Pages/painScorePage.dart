@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
 import '../Widget/AdaptiveRaisedButton.dart';
+import '../Widget/PainScoreSlider.dart';
 
-class PainScroePage extends StatelessWidget {
+class PainScorePage extends StatelessWidget {
   static const routeName = '/painScore';
+  // double _value = 0;
 
   _headerBuilder(
     BuildContext context,
@@ -114,7 +116,8 @@ class PainScroePage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text('Score Bar'),
+                  PainScoreSlider(),
+                  // Text('Score Bar'),
                   // Row(
                   //   mainAxisAlignment: MainAxisAlignment.end,
                   //   children: [
@@ -144,6 +147,7 @@ class PainScroePage extends StatelessWidget {
                         width: MediaQuery.of(context).size.width * 0.35,
                         handlerFn: () {
                           print('blank');
+                          // print(_value.toString());
                         }),
                   )
                 ],

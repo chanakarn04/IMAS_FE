@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../Widget/adaptiveRaisedButton.dart';
 import '../../Widget/progress4Dot.dart';
+import '../painScoreStartPage.dart';
+import '../homePages.dart';
 
 class VSBloodPressurePage extends StatelessWidget {
   static const routeName = '/vitalSign-pressure';
@@ -154,6 +156,10 @@ class VSBloodPressurePage extends StatelessWidget {
                               print('${routeArgument['pulse']}');
                               print('${routeArgument['breath']}');
                               print('${routeArgument['pressure']}');
+                              Navigator.of(context).pushNamedAndRemoveUntil(
+                                  PainScoreStartPage.routeName,
+                                  ModalRoute.withName(HomePage.routeName));
+                              // .popUntil(ModalRoute.withName('/home'));
                               // Navigator.of(context).push(MaterialPageRoute(
                               //     builder: (context) =>
                               //         VSSummary(routeArgument)));
