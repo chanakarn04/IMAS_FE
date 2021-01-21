@@ -156,9 +156,13 @@ class VSBloodPressurePage extends StatelessWidget {
                               print('${routeArgument['pulse']}');
                               print('${routeArgument['breath']}');
                               print('${routeArgument['pressure']}');
-                              Navigator.of(context).pushNamedAndRemoveUntil(
-                                  PainScoreStartPage.routeName,
+                              Navigator.of(context).popUntil(
                                   ModalRoute.withName(HomePage.routeName));
+                              Navigator.of(context)
+                                  .pushNamed(PainScoreStartPage.routeName);
+                              // Navigator.of(context).pushNamedAndRemoveUntil(
+                              //     PainScoreStartPage.routeName,
+                              //     ModalRoute.withName(HomePage.routeName));
                               // .popUntil(ModalRoute.withName('/home'));
                               // Navigator.of(context).push(MaterialPageRoute(
                               //     builder: (context) =>

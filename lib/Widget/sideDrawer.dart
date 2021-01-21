@@ -8,7 +8,7 @@ import '../Pages/settingPages.dart';
 
 //Test zone
 import '../Pages/painScoreStartPage.dart';
-// import '../Pages/vitalSignStartPages.dart';
+import '../Pages/vitalSignStartPages.dart';
 
 class SideDrawer extends StatelessWidget {
   SideDrawer();
@@ -50,38 +50,48 @@ class SideDrawer extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
             menuDrawerFlatButton(Icons.account_circle_outlined, 'Profile', (() {
+              Navigator.of(context).pop();
               Navigator.of(context).pushNamed(
                 ProfilePages.routeName,
               );
             })),
             menuDrawerFlatButton(Icons.analytics_outlined, 'Assessment', (() {
+              Navigator.of(context).pop();
               Navigator.of(context).pushNamed(
                 AssessmentPages.routeName,
               );
             })),
             menuDrawerFlatButton(Icons.chat_bubble_outline, 'Medical consult',
                 (() {
+              Navigator.of(context).pop();
               Navigator.of(context).pushNamed(
                 ChatRoom.routeName,
               );
             })),
             menuDrawerFlatButton(Icons.location_on_outlined, 'Nearby hospital',
                 (() {
+              Navigator.of(context).pop();
               Navigator.of(context).pushNamed(
                 NearbyHospitalPages.routeName,
               );
             })),
             menuDrawerFlatButton(Icons.settings_outlined, 'Setting', (() {
+              Navigator.of(context).pop();
               Navigator.of(context).pushNamed(
                 SettingPages.routeName,
               );
             })),
             menuDrawerFlatButton(Icons.traffic_outlined, 'Test', (() {
-              Navigator.of(context).pushNamed(
-                PainScoreStartPage.routeName,
-              );
               // Navigator.of(context).pushNamed(
+              //   PainScoreStartPage.routeName,
+              // );
+              Navigator.of(context).pop();
+              Navigator.of(context).pushNamed(
+                VitalSignStartPage.routeName,
+              );
+              // Navigator.of(context).pushNamedAndRemoveUntil(
               //   VitalSignStartPage.routeName,
+              //   ModalRoute.withName('/home'),
               // );
             })),
             Container(
