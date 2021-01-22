@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../Pages/profilePages.dart';
 // import '../Pages/assessmentPages.dart';
-import '../Pages/assessmentHistoryPage.dart';
+// import '../Pages/assessmentHistoryPage.dart';
+import '../Pages/predictionResultPage.dart';
 import '../Pages/chatRoom.dart';
 import '../Pages/nearbyHospitalPages.dart';
 import '../Pages/settingPages.dart';
@@ -59,7 +60,7 @@ class SideDrawer extends StatelessWidget {
             menuDrawerFlatButton(Icons.analytics_outlined, 'Assessment', (() {
               Navigator.of(context).pop();
               Navigator.of(context).pushNamed(
-                AssessmentHistoryPage.routeName,
+                PredictionResultPage.routeName,
               );
             })),
             menuDrawerFlatButton(Icons.chat_bubble_outline, 'Medical consult',

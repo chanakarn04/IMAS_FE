@@ -54,8 +54,7 @@ class PredResDisease extends StatelessWidget {
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (ctx, index) {
               return DiseaseCard(
-                name: detectedDisease[index].name,
-                description: detectedDisease[index].description,
+                disease: detectedDisease[index],
                 servere: detectedDiseaseAPI[index].severity,
               );
             },

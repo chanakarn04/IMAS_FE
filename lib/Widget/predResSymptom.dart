@@ -55,7 +55,7 @@ class PredResSymptom extends StatelessWidget {
             },
             itemCount: symptomList.length,
           ),
-        )
+        ),
       ],
     );
   }

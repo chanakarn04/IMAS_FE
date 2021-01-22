@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 
 import '../Widget/adaptiveBorderButton.dart';
+import '../Models/disease.dart';
+import '../Pages/diseaseDetail.dart';
 
 class DiseaseCard extends StatelessWidget {
-  final String name;
-  final String description;
+  // final String name;
+  // final String description;
+  final Disease disease;
   final String servere;
 
   DiseaseCard({
-    @required this.name,
-    @required this.description,
+    // @required this.name,
+    // @required this.description,
+    @required this.disease,
     @required this.servere,
   });
 
@@ -27,7 +31,7 @@ class DiseaseCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              name,
+              disease.name,
               style: TextStyle(
                   color: Theme.of(context).primaryColor,
                   fontSize: 28,
@@ -41,7 +45,7 @@ class DiseaseCard extends StatelessWidget {
                 left: 10,
               ),
               child: Text(
-                '\t\t\t\t' + description,
+                '\t\t\t\t' + disease.description,
                 style: TextStyle(
                   color: Color.fromARGB(255, 75, 75, 75),
                   fontSize: 16,
@@ -71,7 +75,10 @@ class DiseaseCard extends StatelessWidget {
                     height: 25,
                     width: 120,
                     handlerFn: () {
-                      print('to disease detail');
+                      Navigator.of(context).pushNamed(
+                          DiseaseDetailPages.routeName,
+                          arguments: disease);
+                      // print('to disease detail');
                     },
                   )
                 ],
