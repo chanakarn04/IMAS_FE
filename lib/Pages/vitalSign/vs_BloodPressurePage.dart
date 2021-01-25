@@ -134,6 +134,16 @@ class VSBloodPressurePage extends StatelessWidget {
                           ),
                         ),
                       ),
+                      SizedBox(
+                        width: 8,
+                      ),
+                      Text(
+                        'mmHg',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ],
                   ),
                   SizedBox(
