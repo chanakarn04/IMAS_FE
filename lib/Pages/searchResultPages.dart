@@ -20,16 +20,19 @@ class _SearchResultPagesState extends State<SearchResultPages> {
   String _searchText;
 
   final List<Symptom> symptomList = [
-    Symptom('001', 'Headache'),
-    Symptom('002', 'Headband'),
-    Symptom('003', 'Armache'),
-    Symptom('004', 'Headhoge'),
-    Symptom('005', 'Headache 2'),
-    Symptom('006', 'Headache 3'),
-    Symptom('007', 'Headache 4'),
-    Symptom('008', 'Headache 5'),
-    Symptom('009', 'Headache 6'),
-    Symptom('010', 'Headache 7'),
+    Symptom('001', 'Head drop'),
+    Symptom('002', 'Head tilt in order to avoid diplopia'),
+    Symptom('003', 'Head tremors'),
+    Symptom('004', 'Headache'),
+    Symptom('005', 'Forearm pain'),
+    Symptom('006', 'Sensory loss in both arms'),
+    Symptom('007', 'Paralysis'),
+    Symptom('008', 'Chest pain'),
+    Symptom('009', 'Back pain'),
+    Symptom('010', 'Dizziness'),
+    Symptom('011', 'Dry eyes'),
+    Symptom('012', 'Dry skin'),
+    Symptom('013', 'Rash'),
   ];
 
   List<Symptom> searchedSymptom(String _searchText) {
