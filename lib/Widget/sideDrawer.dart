@@ -9,8 +9,9 @@ import '../Pages/nearbyHospitalPages.dart';
 import '../Pages/settingPages.dart';
 
 //Test zone
-import '../Pages/painScoreStartPage.dart';
-import '../Pages/vitalSignStartPages.dart';
+// import '../Pages/painScoreStartPage.dart';
+// import '../Pages/vitalSignStartPages.dart';
+import '../Pages/PatientInfoPage.dart';
 
 class SideDrawer extends StatelessWidget {
   SideDrawer();
@@ -84,17 +85,12 @@ class SideDrawer extends StatelessWidget {
               );
             })),
             menuDrawerFlatButton(Icons.traffic_outlined, 'Test', (() {
-              // Navigator.of(context).pushNamed(
-              //   PainScoreStartPage.routeName,
-              // );
+              // **********************
               Navigator.of(context).pop();
               Navigator.of(context).pushNamed(
-                VitalSignStartPage.routeName,
+                PatientInfoPage.routeName,
               );
-              // Navigator.of(context).pushNamedAndRemoveUntil(
-              //   VitalSignStartPage.routeName,
-              //   ModalRoute.withName('/home'),
-              // );
+              // **********************
             })),
             Container(
               padding: EdgeInsets.all(10),
