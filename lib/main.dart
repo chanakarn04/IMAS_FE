@@ -17,7 +17,7 @@ import './Pages/painScoreStartPage.dart';
 import './Pages/painScorePage.dart';
 import './Pages/predictionResultPage.dart';
 import './Pages/diseaseDetail.dart';
-import './Pages/PatientInfoPage.dart';
+import 'Pages/patientInfoPage.dart';
 
 void main() {
   runApp(MyApp());

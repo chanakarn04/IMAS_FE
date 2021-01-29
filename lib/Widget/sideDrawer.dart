@@ -11,7 +11,7 @@ import '../Pages/settingPages.dart';
 //Test zone
 // import '../Pages/painScoreStartPage.dart';
 // import '../Pages/vitalSignStartPages.dart';
-import '../Pages/PatientInfoPage.dart';
+import '../Pages/patientInfoPage.dart';
 
 class SideDrawer extends StatelessWidget {
   SideDrawer();

@@ -21,12 +21,13 @@ class _PredictionResultPageState extends State<PredictionResultPage> {
   bool isHistory = false;
   bool isMeetDoctor = true;
 
-  final List<Symptom> symptomList = [
+  final List<Symptom> detectedSymtomList = [
     Symptom('s001', 'Headache'),
     Symptom('s002', 'Hedgehog'),
     Symptom('s003', 'Headlight'),
     Symptom('s004', 'HeadQuarter'),
   ];
+
   final List<Disease> detectedDisease = [
     Disease(
       id: 'D001',
@@ -105,7 +106,7 @@ class _PredictionResultPageState extends State<PredictionResultPage> {
           padding: EdgeInsets.all(8),
           child: Column(
             children: <Widget>[
-              PredResSymptom(symptomList),
+              PredResSymptom(detectedSymtomList),
               PredResDisease(detectedDisease, detectedDiseaseAPI),
               !isHistory
                   ? isMeetDoctor
