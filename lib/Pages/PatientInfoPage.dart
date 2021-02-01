@@ -166,7 +166,7 @@ class _PatientInfoPageState extends State<PatientInfoPage> {
             BasicInfoTab(),
             DiseaseSymptomTab(appBar.preferredSize.height),
             VitalSignTab(),
-            SuggestionTab(),
+            SuggestionTab(appBar.preferredSize.height),
           ],
         ),
       ),
