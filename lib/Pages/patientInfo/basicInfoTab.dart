@@ -93,7 +93,12 @@ class BasicInfoTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
-        padding: EdgeInsets.all(10),
+        padding: EdgeInsets.only(
+          top: 20,
+          left: 10,
+          right: 10,
+          bottom: 10,
+        ),
         child: Column(
           children: <Widget>[
             _buildLineHeader(context, 'Basic Info'),

@@ -7,8 +7,8 @@ import './Models/symptom.dart';
 
 enum Gender { Male, Female }
 enum Status { Yes, No, NotSure }
-enum TreatmentStatus { Edited, Passed, Lastest }
-enum AptStatus { InProgress, Cured, Hospital }
+enum AptStatus { Edited, Passed, Lastest }
+enum TreatmentStatus { InProgress, Cured, Hospital }
 
 class Patient {
   final String pId;
@@ -64,8 +64,8 @@ class VitalSign {
   final DateTime vsDt;
   final double bodyTemp;
   final double pulse;
-  final double bloodPress;
   final double respiratRate;
+  final String bloodPress;
 
   VitalSign({
     @required this.vsId,
@@ -73,8 +73,8 @@ class VitalSign {
     @required this.vsDt,
     @required this.bodyTemp,
     @required this.pulse,
-    @required this.bloodPress,
     @required this.respiratRate,
+    @required this.bloodPress,
   });
 }
 
@@ -162,7 +162,7 @@ class TreatmentPlan {
   });
 }
 
-Patient dummy_Paitent = Patient(
+final Patient dummy_Paitent = Patient(
   pId: 'p001',
   pName: 'Harold',
   pSurname: 'Pain',
@@ -174,25 +174,67 @@ Patient dummy_Paitent = Patient(
   hasHighPress: Status.No,
 );
 
-final List<Symptom> dummy_symptoms = [
-  Symptom('001', 'Head drop'),
-  Symptom('002', 'Head tilt in order to avoid diplopia'),
-  Symptom('003', 'Head tremors'),
-  Symptom('004', 'Headache'),
-  Symptom('005', 'Forearm pain'),
-  Symptom('006', 'Sensory loss in both arms'),
-  Symptom('007', 'Paralysis'),
-  Symptom('008', 'Chest pain'),
-  Symptom('009', 'Back pain'),
-  Symptom('010', 'Dizziness'),
-  Symptom('011', 'Dry eyes'),
-  Symptom('012', 'Dry skin'),
-  Symptom('013', 'Rash'),
+final Doctor dummy_doctor = Doctor(
+  drId: 'd001',
+  drName: 'Harold',
+  drSurname: 'NoPain',
+  namePrefix: 'Dr.',
+  gender: Gender.Male,
+);
+
+final TreatmentPlan dummy_treatmentPlan = TreatmentPlan(
+  tpId: 'tp001',
+  pId: 'p001',
+  drId: 'd001',
+  status: TreatmentStatus.InProgress,
+);
+
+final List<Appointment> dummy_appointment = [
+  Appointment(
+    apId: 'ap001',
+    tpId: 'tp001',
+    note: '',
+    advises: 'Rest mak mak na',
+    apDt: DateTime.utc(2020, 12, 20),
+    status: AptStatus.Edited,
+  ),
+  Appointment(
+    apId: 'ap002',
+    tpId: 'tp001',
+    note: '',
+    advises: 'Kin kwaw yer yer',
+    apDt: DateTime.utc(2020, 12, 26),
+    status: AptStatus.Edited,
+  ),
+  Appointment(
+    apId: 'ap003',
+    tpId: 'tp001',
+    note: '',
+    advises: '',
+    apDt: DateTime.now(),
+    status: AptStatus.Lastest,
+  ),
 ];
 
-final List<Disease> diseases = [
+final List<Symptom> dummy_symptoms = [
+  Symptom('s001', 'Head drop'),
+  Symptom('s002', 'Head tilt in order to avoid diplopia'),
+  Symptom('s003', 'Head tremors'),
+  Symptom('s004', 'Headache'),
+  Symptom('s005', 'Forearm pain'),
+  Symptom('s006', 'Sensory loss in both arms'),
+  Symptom('s007', 'Paralysis'),
+  Symptom('s008', 'Chest pain'),
+  Symptom('s009', 'Back pain'),
+  Symptom('s010', 'Dizziness'),
+  Symptom('s011', 'Dry eyes'),
+  Symptom('s012', 'Dry skin'),
+  Symptom('s013', 'Rash'),
+];
+
+final List<Disease> dummy_diseases = [
   Disease(
-    id: 'D001',
+    id: 'd001',
     name: 'Tension Headache',
     description:
         'Pain associated with muscle used and working. pain seem to be aggravated over the day and can relieved by rest.',
@@ -200,19 +242,11 @@ final List<Disease> diseases = [
     cause:
         'Tension headaches are caused by muscle contractions in the head and neck regions. These types of contractions can be caused by a variety of foods, activities and stressors. Some people develop tension headaches after staring at a computer screen for a long time or after driving for long periods. Cold temperatures may also trigger a tension headache.',
   ),
-  Disease(
-    id: 'D001',
-    name: 'Tension Headache',
-    description:
-        'Pain associated with muscle used and working. pain seem to be aggravated over the day and can relieved by rest.',
-    treatment: ['Medication', 'Rest'],
-    cause:
-        'Tension headaches are caused by muscle contractions in the head and neck regions. These types of contractions can be caused by a variety of foods, activities and stressors. Some people develop tension headaches after staring at a computer screen for a long time or after driving for long periods. Cold temperatures may also trigger a tension headache.',
-  )
 ];
-final List<DiseaseAPI> diseaseAPIs = [
+
+final List<DiseaseAPI> dummy_diseaseAPIs = [
   DiseaseAPI(
-      id: 'D001',
+      id: 'd001',
       name: 'Some Science Tension Headache',
       commonName: 'Tension Headache',
       sexFilter: 'both',
@@ -221,14 +255,85 @@ final List<DiseaseAPI> diseaseAPIs = [
       acuteness: 'acute',
       severity: 'mild',
       extras: {}),
-  DiseaseAPI(
-      id: 'D001',
-      name: 'Some Science Tension Headache',
-      commonName: 'Tension Headache',
-      sexFilter: 'both',
-      categories: ['HeadoThology'],
-      prevalence: 'common',
-      acuteness: 'acute',
-      severity: 'mild',
-      extras: {}),
+];
+
+final List<Prescription> dummy_prescriptions = [
+  Prescription(
+    psId: 'ps001',
+    psDt: DateTime.utc(2020, 12, 20),
+    apId: 'ap001',
+  ),
+  Prescription(
+    psId: 'ps002',
+    psDt: DateTime.utc(2020, 12, 26),
+    apId: 'ap002',
+  ),
+];
+
+final List<Drug> dummy_drug = [
+  Drug(
+    item: 1,
+    psId: 'ps001',
+    drugDetail: 'Paracetamol',
+  ),
+  Drug(
+    item: 1,
+    psId: 'ps002',
+    drugDetail: 'Paracetamol',
+  ),
+  Drug(
+    item: 2,
+    psId: 'ps002',
+    drugDetail: 'Bakamol',
+  ),
+];
+
+final List<DetectedSymptom> dummy_dtdSymptoms = [
+  DetectedSymptom(
+    dsId: 'ds001',
+    apId: 'ap001',
+    stId: 's004',
+    painScore: 1,
+    dsDt: DateTime.utc(2020, 12, 20),
+  ),
+  DetectedSymptom(
+    dsId: 'ds002',
+    apId: 'ap002',
+    stId: 's004',
+    painScore: 6,
+    dsDt: DateTime.utc(2020, 12, 26),
+  ),
+  DetectedSymptom(
+    dsId: 'ds003',
+    apId: 'ap002',
+    stId: 's007',
+    painScore: 9,
+    dsDt: DateTime.utc(2020, 12, 26),
+  ),
+];
+
+final List<DiagnosedDisease> dummy_diagDiseases = [
+  DiagnosedDisease(ddId: 'dd001', dId: 'd001', apId: 'ap001'),
+  DiagnosedDisease(ddId: 'dd002', dId: 'd001', apId: 'ap002'),
+];
+
+final List<VitalSign> dummy_vitalSign = [
+  VitalSign(
+    vsId: 'vs001',
+    apId: 'ap001',
+    vsDt: DateTime.utc(2020, 12, 20),
+    bodyTemp: 36.5,
+    pulse: 87.0,
+    respiratRate: 14,
+    bloodPress: '80/120',
+  ),
+  VitalSign(
+    vsId: 'vs002',
+    apId: 'ap001',
+    vsDt: DateTime.utc(2020, 12, 26),
+    bodyTemp: 36.5,
+    pulse: 87.0,
+    respiratRate: null,
+    bloodPress: null,
+  ),
 ];

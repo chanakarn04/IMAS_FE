@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:homepage_proto/Pages/vitalSignStartPages.dart';
 
 import '../Pages/profilePages.dart';
 // import '../Pages/assessmentPages.dart';
@@ -84,11 +85,31 @@ class SideDrawer extends StatelessWidget {
                 SettingPages.routeName,
               );
             })),
-            menuDrawerFlatButton(Icons.traffic_outlined, 'Test', (() {
+            menuDrawerFlatButton(Icons.traffic_outlined, 'PtInfo', (() {
               // **********************
               Navigator.of(context).pop();
               Navigator.of(context).pushNamed(
                 PatientInfoPage.routeName,
+              );
+              // Navigator.of(context).pop();
+              // Navigator.of(context).pushNamed(
+              //   VitalSignStartPage.routeName
+              // );
+              // **********************
+            })),
+            menuDrawerFlatButton(Icons.traffic_outlined, 'VS/PS', (() {
+              // **********************
+              Navigator.of(context).pop();
+              Navigator.of(context).pushNamed(
+                VitalSignStartPage.routeName,
+              );
+              // **********************
+            })),
+            menuDrawerFlatButton(Icons.traffic_outlined, 'PredRes', (() {
+              // **********************
+              Navigator.of(context).pop();
+              Navigator.of(context).pushNamed(
+                PredictionResultPage.routeName,
               );
               // **********************
             })),

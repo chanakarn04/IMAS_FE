@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../dummy_data.dart';
 import '../Widget/sideDrawer.dart';
@@ -17,6 +18,9 @@ class PatientInfoPage extends StatefulWidget {
 
 class _PatientInfoPageState extends State<PatientInfoPage> {
   GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
+  final lastAppointment =
+      dummy_appointment.firstWhere((apt) => apt.status == AptStatus.Lastest);
+
   @override
   Widget build(BuildContext context) {
     final appBar = AppBar(
@@ -93,14 +97,19 @@ class _PatientInfoPageState extends State<PatientInfoPage> {
                 height: 15,
                 child: FittedBox(
                   child: Text(
-                    'Next Appointment : 18 December 2020',
+                    'Next Appointment : ${DateFormat.yMMMEd().format(lastAppointment.apDt)}',
                     style: TextStyle(
                       color: Colors.white,
                     ),
                   ),
                 ),
               ),
+              SizedBox(
+                height: 10,
+              ),
               TabBar(
+                // indicatorSize: ,
+                isScrollable: true,
                 indicatorWeight: 4.0,
                 indicatorColor: Theme.of(context).primaryColorLight,
                 // labelColor: Theme.of(context).primaryColorLight,
@@ -112,24 +121,36 @@ class _PatientInfoPageState extends State<PatientInfoPage> {
                     // Theme.of(context).primaryColorLight.withAlpha(100),
                     Colors.white54,
                 tabs: <Widget>[
-                  Tab(
-                    text: 'Basic info',
+                  Container(
+                    height: 25,
+                    child: Tab(
+                      text: 'Basic info',
+                    ),
                   ),
-                  Tab(
-                    text: 'Disease/Symptom',
+                  Container(
+                    height: 25,
+                    child: Tab(
+                      text: 'Disease/Symptom',
+                    ),
                   ),
-                  Tab(
-                    text: 'Vital sign',
+                  Container(
+                    height: 25,
+                    child: Tab(
+                      text: 'Vital sign',
+                    ),
                   ),
-                  Tab(
-                    text: 'Suggestion',
+                  Container(
+                    height: 25,
+                    child: Tab(
+                      text: 'Suggestion',
+                    ),
                   ),
                 ],
               ),
             ],
           ),
         ),
-        preferredSize: Size(0.0, 160.0),
+        preferredSize: Size(0.0, 145.0),
       ),
     );
 
@@ -140,9 +161,10 @@ class _PatientInfoPageState extends State<PatientInfoPage> {
         endDrawer: SideDrawer(),
         appBar: appBar,
         body: TabBarView(
+          physics: const NeverScrollableScrollPhysics(),
           children: <Widget>[
             BasicInfoTab(),
-            DiseaseSymptomTab(),
+            DiseaseSymptomTab(appBar.preferredSize.height),
             VitalSignTab(),
             SuggestionTab(),
           ],
