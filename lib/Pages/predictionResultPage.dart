@@ -7,6 +7,7 @@ import '../Models/symptom.dart';
 import '../Widget/sideDrawer.dart';
 import '../Widget/predResSymptom.dart';
 import '../Widget/AdaptiveRaisedButton.dart';
+import '../Widget/adaptiveBorderButton.dart';
 
 class PredictionResultPage extends StatefulWidget {
   static const routeName = '/prediction-result';
@@ -19,13 +20,13 @@ class _PredictionResultPageState extends State<PredictionResultPage> {
   GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
 
   bool isHistory = false;
-  bool isMeetDoctor = true;
+  bool isMeetDoctor = false;
 
   final List<Symptom> detectedSymtomList = [
-    Symptom('s001', 'Headache'),
-    Symptom('s002', 'Hedgehog'),
-    Symptom('s003', 'Headlight'),
-    Symptom('s004', 'HeadQuarter'),
+    Symptom('s001', 'Head drop'),
+    Symptom('s002', 'Head tilt in order to avoid diplopia'),
+    Symptom('s003', 'Head tremors'),
+    Symptom('s004', 'Headache'),
   ];
 
   final List<Disease> detectedDisease = [
@@ -110,16 +111,48 @@ class _PredictionResultPageState extends State<PredictionResultPage> {
               PredResDisease(detectedDisease, detectedDiseaseAPI),
               !isHistory
                   ? isMeetDoctor
-                      ? AdaptiveRaisedButton(
-                          buttonText: 'Meet Doctor',
-                          handlerFn: () {
-                            print('Go to wait doctor');
-                          },
-                          height: 35,
-                          width: 160,
+                      ? Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            AdaptiveRaisedButton(
+                              buttonText: 'Meet Doctor',
+                              handlerFn: () {
+                                print('Go to wait doctor');
+                              },
+                              height: 35,
+                              width: 170,
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                AdaptiveBorderButton(
+                                  buttonText: 'Home',
+                                  handlerFn: () {
+                                    print('Home');
+                                  },
+                                  height: 45,
+                                  width: 180,
+                                ),
+                                SizedBox(
+                                  width: 15,
+                                ),
+                                AdaptiveBorderButton(
+                                  buttonText: 'Nearby Hospital',
+                                  handlerFn: () {
+                                    print('Go to nearby Hospital');
+                                  },
+                                  height: 45,
+                                  width: 180,
+                                ),
+                              ],
+                            ),
+                          ],
                         )
                       : AdaptiveRaisedButton(
-                          buttonText: '    Home   ',
+                          buttonText: 'Home',
                           handlerFn: () {
                             print('Go to wait doctor');
                           },

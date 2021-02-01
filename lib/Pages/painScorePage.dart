@@ -117,25 +117,6 @@ class PainScorePage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   PainScoreSlider(),
-                  // Text('Score Bar'),
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.end,
-                  //   children: [
-                  //     Container(
-                  //       width: 120,
-                  //       child: NumberTextField(
-                  //         textController: textController,
-                  //       ),
-                  //     ),
-                  //     Text(
-                  //       '°C',
-                  //       style: TextStyle(
-                  //         fontSize: 24,
-                  //         fontWeight: FontWeight.bold,
-                  //       ),
-                  //     ),
-                  //   ],
-                  // ),
                   SizedBox(
                     height: 45,
                   ),
