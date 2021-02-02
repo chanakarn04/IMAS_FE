@@ -20,15 +20,18 @@ class AdaptiveBorderButton extends StatelessWidget {
             width: 1,
           ),
           borderRadius: BorderRadius.circular(10)),
+      alignment: Alignment.center,
+      // padding: EdgeInsets.all(7),
       child: FlatButton(
           child: Container(
             height: height,
-            child: FittedBox(
-              child: Text(
-                buttonText,
-                style: TextStyle(
-                  color: Theme.of(context).primaryColor,
-                ),
+            width: width,
+            alignment: Alignment.center,
+            child: Text(
+              buttonText,
+              style: TextStyle(
+                color: Theme.of(context).primaryColor,
+                // fontSize: 20,
               ),
             ),
           ),

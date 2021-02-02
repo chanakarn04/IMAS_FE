@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../dummy_data.dart';
 import './answerQuestionPages.dart';
 import '../Models/symptom.dart';
 import '../Widget/symptomCard.dart';
@@ -19,18 +20,7 @@ class _SearchResultPagesState extends State<SearchResultPages> {
   final _symptomController = TextEditingController();
   String _searchText;
 
-  final List<Symptom> symptomList = [
-    Symptom('001', 'Headache'),
-    Symptom('002', 'Headband'),
-    Symptom('003', 'Armache'),
-    Symptom('004', 'Headhoge'),
-    Symptom('005', 'Headache 2'),
-    Symptom('006', 'Headache 3'),
-    Symptom('007', 'Headache 4'),
-    Symptom('008', 'Headache 5'),
-    Symptom('009', 'Headache 6'),
-    Symptom('010', 'Headache 7'),
-  ];
+  final List<Symptom> symptomList = dummy_symptoms;
 
   List<Symptom> searchedSymptom(String _searchText) {
     return symptomList.where((element) {

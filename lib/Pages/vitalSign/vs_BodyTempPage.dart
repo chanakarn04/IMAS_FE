@@ -149,7 +149,7 @@ class VSBodyTempPage extends StatelessWidget {
                     child: AdaptiveRaisedButton(
                       buttonText: 'Next',
                       height: 35,
-                      width: MediaQuery.of(context).size.width * 0.35,
+                      width: 125,
                       handlerFn:
                           (double.tryParse(textController.text) != null) &&
                                   (textController.text.isNotEmpty)

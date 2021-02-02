@@ -15,6 +15,9 @@ import './Pages/vitalSign/vs_RespiratoryRatePage.dart';
 import './Pages/vitalSign/vs_BloodPressurePage.dart';
 import './Pages/painScoreStartPage.dart';
 import './Pages/painScorePage.dart';
+import './Pages/predictionResultPage.dart';
+import './Pages/diseaseDetail.dart';
+import 'Pages/patientInfoPage.dart';
 
 void main() {
   runApp(MyApp());
@@ -37,6 +40,9 @@ class MyApp extends StatelessWidget {
       routes: {
         HomePage.routeName: (ctx) => HomePage(),
         AssessmentPages.routeName: (ctx) => AssessmentPages(),
+        // AssessmentHistoryPage.routeName: (ctx) => AssessmentHistoryPage(),
+        PredictionResultPage.routeName: (ctx) => PredictionResultPage(),
+        DiseaseDetailPages.routeName: (ctx) => DiseaseDetailPages(),
         SearchResultPages.routeName: (ctx) => SearchResultPages(),
         AnswerQuestionPages.routeName: (ctx) => AnswerQuestionPages(),
         ProfilePages.routeName: (ctx) => ProfilePages(),
@@ -50,6 +56,7 @@ class MyApp extends StatelessWidget {
         VSBloodPressurePage.routeName: (ctx) => VSBloodPressurePage(),
         PainScoreStartPage.routeName: (ctx) => PainScoreStartPage(),
         PainScorePage.routeName: (ctx) => PainScorePage(),
+        PatientInfoPage.routeName: (ctx) => PatientInfoPage(),
       },
     );
   }
