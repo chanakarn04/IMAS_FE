@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../Widget/numberTextInput.dart';
+import '../../Widget/adaptiveBorderButton.dart';
 import '../../Widget/adaptiveRaisedButton.dart';
 import '../../Widget/progress4Dot.dart';
 import '../painScoreStartPage.dart';
@@ -7,7 +9,8 @@ import '../homePages.dart';
 
 class VSBloodPressurePage extends StatelessWidget {
   static const routeName = '/vitalSign-pressure';
-  final textController = TextEditingController();
+  final textControllerf = TextEditingController();
+  final textControllerb = TextEditingController();
 
   _headerBuilder(
     BuildContext context,
@@ -49,6 +52,7 @@ class VSBloodPressurePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // final node = FocusScope.of(context);
     final routeArgument =
         ModalRoute.of(context).settings.arguments as Map<String, Object>;
     final appBar = AppBar(
@@ -122,16 +126,28 @@ class VSBloodPressurePage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Container(
-                        width: 120,
-                        child: TextField(
-                          controller: textController,
-                          textAlign: TextAlign.end,
-                          style: TextStyle(
-                            fontSize: 20,
-                          ),
-                          decoration: InputDecoration(
-                            hintText: 'Type here',
-                          ),
+                        width: 100,
+                        child: NumberTextField(
+                          textController: textControllerf,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 8,
+                      ),
+                      Text(
+                        '/',
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 8,
+                      ),
+                      Container(
+                        width: 100,
+                        child: NumberTextField(
+                          textController: textControllerb,
                         ),
                       ),
                       SizedBox(
@@ -153,33 +169,60 @@ class VSBloodPressurePage extends StatelessWidget {
                   SizedBox(
                     height: 15,
                   ),
-                  Align(
-                    alignment: Alignment.center,
-                    child: AdaptiveRaisedButton(
-                      buttonText: 'Submit',
-                      height: 35,
-                      width: MediaQuery.of(context).size.width * 0.35,
-                      handlerFn: (textController.text.isNotEmpty)
-                          ? (() {
-                              routeArgument['pressure'] = textController.text;
-                              print('${routeArgument['temp']}');
-                              print('${routeArgument['pulse']}');
-                              print('${routeArgument['breath']}');
-                              print('${routeArgument['pressure']}');
-                              Navigator.of(context).popUntil(
-                                  ModalRoute.withName(HomePage.routeName));
-                              Navigator.of(context)
-                                  .pushNamed(PainScoreStartPage.routeName);
-                              // Navigator.of(context).pushNamedAndRemoveUntil(
-                              //     PainScoreStartPage.routeName,
-                              //     ModalRoute.withName(HomePage.routeName));
-                              // .popUntil(ModalRoute.withName('/home'));
-                              // Navigator.of(context).push(MaterialPageRoute(
-                              //     builder: (context) =>
-                              //         VSSummary(routeArgument)));
-                            })
-                          : null,
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      AdaptiveBorderButton(
+                        buttonText: 'Skip',
+                        height: 45,
+                        width: 125,
+                        handlerFn: () {
+                          routeArgument['pressure'] = null;
+                          print('${routeArgument['temp']}');
+                          print('${routeArgument['pulse']}');
+                          print('${routeArgument['breath']}');
+                          print('${routeArgument['pressure']}');
+                          Navigator.of(context).popUntil(
+                              ModalRoute.withName(HomePage.routeName));
+                          Navigator.of(context)
+                              .pushNamed(PainScoreStartPage.routeName);
+                        },
+                      ),
+                      SizedBox(
+                        width: 15,
+                      ),
+                      AdaptiveRaisedButton(
+                        buttonText: 'Submit',
+                        height: 35,
+                        width: MediaQuery.of(context).size.width * 0.35,
+                        handlerFn: (double.tryParse(textControllerf.text) !=
+                                    null) &&
+                                (textControllerf.text.isNotEmpty) &&
+                                (double.tryParse(textControllerb.text) !=
+                                    null) &&
+                                (textControllerb.text.isNotEmpty)
+                            ? (() {
+                                routeArgument['pressure'] =
+                                    '${textControllerf.text}/${textControllerb.text}';
+                                print('temp:   ${routeArgument['temp']}');
+                                print('pulse:  ${routeArgument['pulse']}');
+                                print('breath: ${routeArgument['breath']}');
+                                print('press:  ${routeArgument['pressure']}');
+                                Navigator.of(context).popUntil(
+                                    ModalRoute.withName(HomePage.routeName));
+                                Navigator.of(context)
+                                    .pushNamed(PainScoreStartPage.routeName);
+                                // Navigator.of(context).pushNamedAndRemoveUntil(
+                                //     PainScoreStartPage.routeName,
+                                //     ModalRoute.withName(HomePage.routeName));
+                                // .popUntil(ModalRoute.withName('/home'));
+                                // Navigator.of(context).push(MaterialPageRoute(
+                                //     builder: (context) =>
+                                //         VSSummary(routeArgument)));
+                              })
+                            : null,
+                      ),
+                    ],
                   ),
                 ],
               ),

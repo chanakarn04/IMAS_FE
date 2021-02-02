@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:homepage_proto/Pages/vitalSignStartPages.dart';
 
 import '../Pages/profilePages.dart';
 // import '../Pages/assessmentPages.dart';
@@ -9,8 +10,9 @@ import '../Pages/nearbyHospitalPages.dart';
 import '../Pages/settingPages.dart';
 
 //Test zone
-import '../Pages/painScoreStartPage.dart';
-import '../Pages/vitalSignStartPages.dart';
+// import '../Pages/painScoreStartPage.dart';
+// import '../Pages/vitalSignStartPages.dart';
+import '../Pages/patientInfoPage.dart';
 
 class SideDrawer extends StatelessWidget {
   SideDrawer();
@@ -83,18 +85,33 @@ class SideDrawer extends StatelessWidget {
                 SettingPages.routeName,
               );
             })),
-            menuDrawerFlatButton(Icons.traffic_outlined, 'Test', (() {
+            menuDrawerFlatButton(Icons.traffic_outlined, 'PtInfo', (() {
+              // **********************
+              Navigator.of(context).pop();
+              Navigator.of(context).pushNamed(
+                PatientInfoPage.routeName,
+              );
+              // Navigator.of(context).pop();
               // Navigator.of(context).pushNamed(
-              //   PainScoreStartPage.routeName,
+              //   VitalSignStartPage.routeName
               // );
+              // **********************
+            })),
+            menuDrawerFlatButton(Icons.traffic_outlined, 'VS/PS', (() {
+              // **********************
               Navigator.of(context).pop();
               Navigator.of(context).pushNamed(
                 VitalSignStartPage.routeName,
               );
-              // Navigator.of(context).pushNamedAndRemoveUntil(
-              //   VitalSignStartPage.routeName,
-              //   ModalRoute.withName('/home'),
-              // );
+              // **********************
+            })),
+            menuDrawerFlatButton(Icons.traffic_outlined, 'PredRes', (() {
+              // **********************
+              Navigator.of(context).pop();
+              Navigator.of(context).pushNamed(
+                PredictionResultPage.routeName,
+              );
+              // **********************
             })),
             Container(
               padding: EdgeInsets.all(10),

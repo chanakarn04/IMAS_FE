@@ -24,7 +24,11 @@ class _AdaptiveRaisedButtonState extends State<AdaptiveRaisedButton> {
         padding: EdgeInsets.all(7),
         height: widget.height,
         width: widget.width,
-        child: FittedBox(child: Text(widget.buttonText)),
+        alignment: Alignment.center,
+        child: Text(
+          widget.buttonText,
+          // style: TextStyle(fontSize: 20),
+        ),
       ),
       padding: EdgeInsets.all(5),
     );

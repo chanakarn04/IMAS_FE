@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../Widget/numberTextInput.dart';
 import '../../Widget/adaptiveRaisedButton.dart';
+import '../../Widget/adaptiveBorderButton.dart';
 import '../../Widget/progress4Dot.dart';
 import './vs_BloodPressurePage.dart';
 
@@ -161,24 +162,40 @@ class VSRespiratoryRatePage extends StatelessWidget {
                   SizedBox(
                     height: 15,
                   ),
-                  Align(
-                    alignment: Alignment.center,
-                    child: AdaptiveRaisedButton(
-                      buttonText: 'Next',
-                      height: 35,
-                      width: MediaQuery.of(context).size.width * 0.35,
-                      handlerFn:
-                          (double.tryParse(textController.text) != null) &&
-                                  (textController.text.isNotEmpty)
-                              ? (() {
-                                  routeArgument['breath'] =
-                                      double.parse(textController.text);
-                                  Navigator.of(context).pushNamed(
-                                      VSBloodPressurePage.routeName,
-                                      arguments: routeArgument);
-                                })
-                              : null,
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      AdaptiveBorderButton(
+                        buttonText: 'Skip',
+                        height: 45,
+                        width: 125,
+                        handlerFn: () {
+                          routeArgument['breath'] = null;
+                          Navigator.of(context).pushNamed(
+                              VSBloodPressurePage.routeName,
+                              arguments: routeArgument);
+                        },
+                      ),
+                      SizedBox(
+                        width: 15,
+                      ),
+                      AdaptiveRaisedButton(
+                        buttonText: 'Next',
+                        height: 35,
+                        width: 125,
+                        handlerFn:
+                            (double.tryParse(textController.text) != null) &&
+                                    (textController.text.isNotEmpty)
+                                ? (() {
+                                    routeArgument['breath'] =
+                                        double.parse(textController.text);
+                                    Navigator.of(context).pushNamed(
+                                        VSBloodPressurePage.routeName,
+                                        arguments: routeArgument);
+                                  })
+                                : null,
+                      ),
+                    ],
                   ),
                 ],
               ),

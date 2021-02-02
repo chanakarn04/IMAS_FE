@@ -17,6 +17,7 @@ import './Pages/painScoreStartPage.dart';
 import './Pages/painScorePage.dart';
 import './Pages/predictionResultPage.dart';
 import './Pages/diseaseDetail.dart';
+import 'Pages/patientInfoPage.dart';
 
 void main() {
   runApp(MyApp());
@@ -55,6 +56,7 @@ class MyApp extends StatelessWidget {
         VSBloodPressurePage.routeName: (ctx) => VSBloodPressurePage(),
         PainScoreStartPage.routeName: (ctx) => PainScoreStartPage(),
         PainScorePage.routeName: (ctx) => PainScorePage(),
+        PatientInfoPage.routeName: (ctx) => PatientInfoPage(),
       },
     );
   }
