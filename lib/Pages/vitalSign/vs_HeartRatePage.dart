@@ -123,10 +123,35 @@ class VSHeartRatePage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Container(
+                        // color: Colors.teal[100],
                         width: 120,
                         child: NumberTextField(
                           textController: textController,
                         ),
+                      ),
+                      SizedBox(
+                        width: 3,
+                      ),
+                      Column(
+                        // mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            'BPM',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 26,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            '(Beat Per Minute)',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 9,
+                              // fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -142,7 +167,7 @@ class VSHeartRatePage extends StatelessWidget {
                     child: AdaptiveRaisedButton(
                       buttonText: 'Next',
                       height: 35,
-                      width: MediaQuery.of(context).size.width * 0.35,
+                      width: 125,
                       handlerFn:
                           (double.tryParse(textController.text) != null) &&
                                   (textController.text.isNotEmpty)

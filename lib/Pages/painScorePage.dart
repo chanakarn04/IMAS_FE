@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '../../Widget/numberTextInput.dart';
-import '../../Widget/progress4Dot.dart';
-import '../../Widget/AdaptiveRaisedButton.dart';
-import './vs_HeartRatePage.dart';
+import '../Widget/AdaptiveRaisedButton.dart';
+import '../Widget/PainScoreSlider.dart';
 
-class VSBodyTempPage extends StatelessWidget {
-  static const routeName = '/vitalSign-bodyTemp';
-  final textController = TextEditingController();
+class PainScorePage extends StatelessWidget {
+  static const routeName = '/painScore';
+  // double _value = 0;
 
   _headerBuilder(
     BuildContext context,
@@ -74,7 +72,6 @@ class VSBodyTempPage extends StatelessWidget {
         )
       ],
     );
-
     return Scaffold(
       appBar: appBar,
       body: SingleChildScrollView(
@@ -95,12 +92,12 @@ class VSBodyTempPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  _headerBuilder(context, 'Body Temperature'),
+                  _headerBuilder(context, routeArgument['symptom']),
                   SizedBox(
                     height: 20,
                   ),
                   _descriptionBuilder(context,
-                      'Use thermometer to measure yourself and select your temperature'),
+                      'Determine your pain score from 0 to 10 (No effect to Can\'t stand)'),
                 ],
               ),
             ),
@@ -119,49 +116,20 @@ class VSBodyTempPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Container(
-                        width: 120,
-                        child: NumberTextField(
-                          textController: textController,
-                        ),
-                      ),
-                      Text(
-                        '°C',
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
+                  PainScoreSlider(),
                   SizedBox(
-                    height: 15,
-                  ),
-                  ProgressDot4(1),
-                  SizedBox(
-                    height: 15,
+                    height: 45,
                   ),
                   Align(
                     alignment: Alignment.center,
                     child: AdaptiveRaisedButton(
-                      buttonText: 'Next',
-                      height: 35,
-                      width: 125,
-                      handlerFn:
-                          (double.tryParse(textController.text) != null) &&
-                                  (textController.text.isNotEmpty)
-                              ? (() {
-                                  routeArgument['temp'] =
-                                      double.parse(textController.text);
-                                  Navigator.of(context).pushNamed(
-                                      VSHeartRatePage.routeName,
-                                      arguments: routeArgument);
-                                })
-                              : null,
-                    ),
+                        buttonText: 'Next',
+                        height: 35,
+                        width: MediaQuery.of(context).size.width * 0.35,
+                        handlerFn: () {
+                          print('blank');
+                          // print(_value.toString());
+                        }),
                   )
                 ],
               ),

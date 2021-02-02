@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:homepage_proto/Pages/vitalSignStartPages.dart';
 
 import '../Pages/profilePages.dart';
-import '../Pages/assessmentPages.dart';
+// import '../Pages/assessmentPages.dart';
+// import '../Pages/assessmentHistoryPage.dart';
+import '../Pages/predictionResultPage.dart';
 import '../Pages/chatRoom.dart';
 import '../Pages/nearbyHospitalPages.dart';
 import '../Pages/settingPages.dart';
 
 //Test zone
-import '../Pages/vitalSignStartPages.dart';
+// import '../Pages/painScoreStartPage.dart';
+// import '../Pages/vitalSignStartPages.dart';
+import '../Pages/patientInfoPage.dart';
 
 class SideDrawer extends StatelessWidget {
   SideDrawer();
@@ -49,37 +54,64 @@ class SideDrawer extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
             menuDrawerFlatButton(Icons.account_circle_outlined, 'Profile', (() {
+              Navigator.of(context).pop();
               Navigator.of(context).pushNamed(
                 ProfilePages.routeName,
               );
             })),
             menuDrawerFlatButton(Icons.analytics_outlined, 'Assessment', (() {
+              Navigator.of(context).pop();
               Navigator.of(context).pushNamed(
-                AssessmentPages.routeName,
+                PredictionResultPage.routeName,
               );
             })),
             menuDrawerFlatButton(Icons.chat_bubble_outline, 'Medical consult',
                 (() {
+              Navigator.of(context).pop();
               Navigator.of(context).pushNamed(
                 ChatRoom.routeName,
               );
             })),
             menuDrawerFlatButton(Icons.location_on_outlined, 'Nearby hospital',
                 (() {
+              Navigator.of(context).pop();
               Navigator.of(context).pushNamed(
                 NearbyHospitalPages.routeName,
               );
             })),
             menuDrawerFlatButton(Icons.settings_outlined, 'Setting', (() {
+              Navigator.of(context).pop();
               Navigator.of(context).pushNamed(
                 SettingPages.routeName,
               );
             })),
-            menuDrawerFlatButton(Icons.traffic_outlined, 'Test', (() {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => VitalSignStartPage()),
+            menuDrawerFlatButton(Icons.traffic_outlined, 'PtInfo', (() {
+              // **********************
+              Navigator.of(context).pop();
+              Navigator.of(context).pushNamed(
+                PatientInfoPage.routeName,
               );
+              // Navigator.of(context).pop();
+              // Navigator.of(context).pushNamed(
+              //   VitalSignStartPage.routeName
+              // );
+              // **********************
+            })),
+            menuDrawerFlatButton(Icons.traffic_outlined, 'VS/PS', (() {
+              // **********************
+              Navigator.of(context).pop();
+              Navigator.of(context).pushNamed(
+                VitalSignStartPage.routeName,
+              );
+              // **********************
+            })),
+            menuDrawerFlatButton(Icons.traffic_outlined, 'PredRes', (() {
+              // **********************
+              Navigator.of(context).pop();
+              Navigator.of(context).pushNamed(
+                PredictionResultPage.routeName,
+              );
+              // **********************
             })),
             Container(
               padding: EdgeInsets.all(10),
