@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
 
 import '../Widget/AdaptiveRaisedButton.dart';
-import '../Widget/PainScoreSlider.dart';
+// import '../Widget/PainScoreSlider.dart';
+import '../Widget/customSliderThumbCircle.dart';
 
-class PainScorePage extends StatelessWidget {
+class PainScorePage extends StatefulWidget {
   static const routeName = '/painScore';
-  // double _value = 0;
+  // final double value;
 
-  _headerBuilder(
+  @override
+  _PainScorePageState createState() => _PainScorePageState();
+}
+
+class _PainScorePageState extends State<PainScorePage> {
+  double value = 0;
+
+  Widget _headerBuilder(
     BuildContext context,
     String header,
   ) {
@@ -23,7 +31,7 @@ class PainScorePage extends StatelessWidget {
     );
   }
 
-  _descriptionBuilder(
+  Widget _descriptionBuilder(
     BuildContext context,
     String description,
   ) {
@@ -116,26 +124,87 @@ class PainScorePage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  PainScoreSlider(),
-                  // Text('Score Bar'),
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.end,
-                  //   children: [
-                  //     Container(
-                  //       width: 120,
-                  //       child: NumberTextField(
-                  //         textController: textController,
-                  //       ),
-                  //     ),
-                  //     Text(
-                  //       '°C',
-                  //       style: TextStyle(
-                  //         fontSize: 24,
-                  //         fontWeight: FontWeight.bold,
-                  //       ),
-                  //     ),
-                  //   ],
+                  // PainScoreSlider(
+                  //   value: this.widget.value,
                   // ),
+                  Container(
+                    height: 50,
+                    width: double.infinity,
+                    padding: EdgeInsets.all(15),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      gradient: LinearGradient(
+                        colors: [
+                          Colors.lightBlue[200],
+                          Colors.teal[300],
+                          Colors.green[400],
+                          Colors.yellow,
+                          Colors.amber,
+                          Colors.orange,
+                          Colors.red[700],
+                        ],
+                        stops: [0.05, 0.2, 0.3, 0.55, 0.7, 0.80, 0.95],
+                      ),
+                    ),
+                    child: Row(
+                      children: [
+                        Text(
+                          0.toString(),
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 50 * .4,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.white,
+                          ),
+                        ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.02,
+                        ),
+                        Expanded(
+                          child: SliderTheme(
+                            data: SliderTheme.of(context).copyWith(
+                              activeTrackColor: Colors.white,
+                              inactiveTrackColor: Colors.white,
+                              tickMarkShape: RoundSliderTickMarkShape(),
+                              activeTickMarkColor: Colors.white,
+                              inactiveTickMarkColor:
+                                  Colors.white.withAlpha(100),
+                              thumbColor: Theme.of(context).primaryColor,
+                              showValueIndicator: ShowValueIndicator.never,
+                              trackShape: RoundedRectSliderTrackShape(),
+                              trackHeight: 50 / 6,
+                              thumbShape: CustomSliderThumbCircle(
+                                  thumbRadius: 50 / 2.5, max: 10, min: 0),
+                            ),
+                            child: Slider(
+                              min: 0.toDouble(),
+                              max: 10.toDouble(),
+                              divisions: 10,
+                              value: value,
+                              label: value.round().toString(),
+                              onChanged: (sldvalue) {
+                                setState(() {
+                                  value = sldvalue;
+                                });
+                              },
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.02,
+                        ),
+                        Text(
+                          10.toString(),
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 50 * .4,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                   SizedBox(
                     height: 45,
                   ),
@@ -147,7 +216,8 @@ class PainScorePage extends StatelessWidget {
                         width: MediaQuery.of(context).size.width * 0.35,
                         handlerFn: () {
                           print('blank');
-                          // print(_value.toString());
+                          // print(PainScoreSlider.value)
+                          print(value.toString());
                         }),
                   )
                 ],
