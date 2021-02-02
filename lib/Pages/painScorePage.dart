@@ -124,10 +124,6 @@ class _PainScorePageState extends State<PainScorePage> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-<<<<<<< HEAD
-=======
-
->>>>>>> 9f974e57f668b1b755edcd34e2ac2ae480c632a5
                   // PainScoreSlider(
                   //   value: this.widget.value,
                   // ),
