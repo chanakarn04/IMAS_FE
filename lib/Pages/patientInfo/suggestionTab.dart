@@ -181,9 +181,6 @@ class _AptSuggestCardState extends State<AptSuggestCard> {
 
 class SuggestionTab extends StatefulWidget {
   final String tpId = 'tp001';
-  final double appBarSize;
-
-  SuggestionTab(this.appBarSize);
 
   @override
   _SuggestionTabState createState() => _SuggestionTabState();
@@ -210,10 +207,11 @@ class _SuggestionTabState extends State<SuggestionTab> {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        height: (MediaQuery.of(context).size.height -
-            MediaQuery.of(context).padding.top -
-            MediaQuery.of(context).padding.bottom -
-            this.widget.appBarSize),
+        height: (MediaQuery.of(context).size.height
+            // MediaQuery.of(context).padding.top -
+            // MediaQuery.of(context).padding.bottom -
+            // this.widget.appBarSize
+            ),
         child: ListView.builder(
           itemBuilder: (context, index) => AptSuggestCard(
               appointments[index], (appointments.length - index)),

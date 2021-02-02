@@ -195,9 +195,6 @@ class _VsCardWidgetState extends State<VsCardWidget> {
 
 class VitalSignTab extends StatefulWidget {
   final String tpId = 'tp001';
-  final double appBarSize;
-
-  VitalSignTab(this.appBarSize);
 
   @override
   _VitalSignTabState createState() => _VitalSignTabState();
@@ -229,10 +226,11 @@ class _VitalSignTabState extends State<VitalSignTab> {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        height: (MediaQuery.of(context).size.height -
-            MediaQuery.of(context).padding.top -
-            MediaQuery.of(context).padding.bottom -
-            this.widget.appBarSize),
+        height: (MediaQuery.of(context).size.height
+            // MediaQuery.of(context).padding.top -
+            // MediaQuery.of(context).padding.bottom -
+            // this.widget.appBarSize
+            ),
         child: ListView.builder(
           itemBuilder: (context, index) => VsCardWidget(vitalSigns[index]),
           itemCount: vitalSigns.length,

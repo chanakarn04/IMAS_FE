@@ -219,9 +219,6 @@ class _AptStpDisCardWidgetState extends State<AptStpDisCardWidget> {
 
 class DiseaseSymptomTab extends StatefulWidget {
   final String tpId = 'tp001';
-  final double appBarSize;
-
-  DiseaseSymptomTab(this.appBarSize);
 
   @override
   _DiseaseSymptomTabState createState() => _DiseaseSymptomTabState();
@@ -246,18 +243,17 @@ class _DiseaseSymptomTabState extends State<DiseaseSymptomTab> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Center(
-        child: Container(
-          height: (MediaQuery.of(context).size.height -
-              MediaQuery.of(context).padding.top -
-              MediaQuery.of(context).padding.bottom -
-              this.widget.appBarSize),
-          child: ListView.builder(
-            itemBuilder: (context, index) => AptStpDisCardWidget(
-                appointments[index], (appointments.length - index)),
-            itemCount: appointments.length,
-          ),
+    return Center(
+      child: Container(
+        height: (MediaQuery.of(context).size.height
+            // MediaQuery.of(context).padding.top -
+            // MediaQuery.of(context).padding.bottom -
+            // this.widget.appBarSize
+            ),
+        child: ListView.builder(
+          itemBuilder: (context, index) => AptStpDisCardWidget(
+              appointments[index], (appointments.length - index)),
+          itemCount: appointments.length,
         ),
       ),
     );
