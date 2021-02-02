@@ -165,7 +165,7 @@ class _PatientInfoPageState extends State<PatientInfoPage> {
           children: <Widget>[
             BasicInfoTab(),
             DiseaseSymptomTab(appBar.preferredSize.height),
-            VitalSignTab(),
+            VitalSignTab(appBar.preferredSize.height),
             SuggestionTab(appBar.preferredSize.height),
           ],
         ),

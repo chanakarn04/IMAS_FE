@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../../Models/symptom.dart';
-import '../../Models/diseaseAPI.dart';
 import '../../dummy_data.dart';
 
 class AptSuggestCard extends StatefulWidget {
