@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../Widget/Logo.dart';
 import '../Widget/AdaptiveRaisedButton.dart';
+import './forgetPswPage.dart';
 
 class LogInPage extends StatelessWidget {
   static const routeName = '/login';
@@ -60,7 +61,8 @@ class LogInPage extends StatelessWidget {
                 height: 40,
                 child: TextButton(
                   onPressed: () {
-                    print('to forget password');
+                    // print('to forget password');
+                    Navigator.of(context).pushNamed(ForgetPswPage.routeName);
                   },
                   child: FittedBox(
                     child: Text(
