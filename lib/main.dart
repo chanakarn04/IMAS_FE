@@ -18,7 +18,7 @@ import './Pages/painScorePage.dart';
 import './Pages/predictionResultPage.dart';
 import './Pages/diseaseDetail.dart';
 import './Pages/patientInfoPage.dart';
-import './Pages/login.dart';
+import './Pages/loginPage.dart';
 import './Pages/forgetPswPage.dart';
 import './Pages/registerPage.dart';
 

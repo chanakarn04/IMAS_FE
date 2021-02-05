@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../Widget/Logo.dart';
 import '../Widget/AdaptiveRaisedButton.dart';
 import './forgetPswPage.dart';
+import './registerPage.dart';
 
 class LogInPage extends StatelessWidget {
   static const routeName = '/login';
@@ -100,7 +101,9 @@ class LogInPage extends StatelessWidget {
                     ),
                   ),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).pushNamed(RegisterPage.routeName);
+                    },
                     child: Text(
                       'Sign Up',
                       style: TextStyle(color: Colors.black),

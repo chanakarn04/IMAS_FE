@@ -12,7 +12,7 @@ import '../Pages/settingPages.dart';
 // import '../Pages/vitalSignStartPages.dart';
 // import '../Pages/painScoreStartPage.dart';
 // import '../Pages/vitalSignStartPages.dart';
-import '../Pages/login.dart';
+import '../Pages/loginPage.dart';
 import '../Pages/patientInfoPage.dart';
 
 class SideDrawer extends StatelessWidget {

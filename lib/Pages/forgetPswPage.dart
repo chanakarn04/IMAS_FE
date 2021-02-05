@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../Widget/AdaptiveRaisedButton.dart';
+import '../Widget/adaptiveBorderButton.dart';
 
 class ForgetPswPage extends StatelessWidget {
   static const routeName = '/forget-password';
@@ -79,14 +80,30 @@ class ForgetPswPage extends StatelessWidget {
               SizedBox(
                 height: 25,
               ),
-              AdaptiveRaisedButton(
-                buttonText: 'Submit',
-                handlerFn: () {
-                  print('Submit fgt psw');
-                  print('${textController.text}');
-                },
-                height: 35,
-                width: 120,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  AdaptiveBorderButton(
+                    buttonText: 'Cancel',
+                    handlerFn: () {
+                      Navigator.of(context).pop();
+                    },
+                    height: 45,
+                    width: 120,
+                  ),
+                  SizedBox(
+                    width: 50,
+                  ),
+                  AdaptiveRaisedButton(
+                    buttonText: 'Submit',
+                    handlerFn: () {
+                      print('Submit fgt psw');
+                      print('${textController.text}');
+                    },
+                    height: 35,
+                    width: 120,
+                  ),
+                ],
               ),
             ],
           ),
