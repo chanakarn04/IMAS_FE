@@ -21,6 +21,8 @@ import './Pages/patientInfoPage.dart';
 import './Pages/loginPage.dart';
 import './Pages/forgetPswPage.dart';
 import './Pages/registerPage.dart';
+import './Pages/registerPatientScreen.dart';
+import './Pages/registerDoctorScreen.dart';
 
 void main() {
   runApp(MyApp());
@@ -44,6 +46,8 @@ class MyApp extends StatelessWidget {
         HomePage.routeName: (ctx) => HomePage(),
         LogInPage.routeName: (ctx) => LogInPage(),
         RegisterPage.routeName: (ctx) => RegisterPage(),
+        RegisterPatientScreen.routeName: (ctx) => RegisterPatientScreen(),
+        RegisterDoctorScreen.routeName: (ctx) => RegisterDoctorScreen(),
         ForgetPswPage.routeName: (ctx) => ForgetPswPage(),
         AssessmentPages.routeName: (ctx) => AssessmentPages(),
         // AssessmentHistoryPage.routeName: (ctx) => AssessmentHistoryPage(),
