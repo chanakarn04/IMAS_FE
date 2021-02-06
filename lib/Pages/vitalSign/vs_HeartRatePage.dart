@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../Widget/numberTextInput.dart';
-import '../../Widget/progress4Dot.dart';
+import '../../Widget/progressDot.dart';
 import '../../Widget/AdaptiveRaisedButton.dart';
 import './vs_RespiratoryRatePage.dart';
 
@@ -158,7 +158,13 @@ class VSHeartRatePage extends StatelessWidget {
                   SizedBox(
                     height: 15,
                   ),
-                  ProgressDot4(2),
+                  Align(
+                    alignment: Alignment.center,
+                    child: ProgressDot(
+                      length: 4,
+                      markedIndex: 2,
+                    ),
+                  ),
                   SizedBox(
                     height: 15,
                   ),

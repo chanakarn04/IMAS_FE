@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../Widget/numberTextInput.dart';
 import '../../Widget/adaptiveBorderButton.dart';
 import '../../Widget/adaptiveRaisedButton.dart';
-import '../../Widget/progress4Dot.dart';
+import '../../Widget/progressDot.dart';
 import '../painScoreStartPage.dart';
 import '../homePages.dart';
 
@@ -165,7 +165,13 @@ class VSBloodPressurePage extends StatelessWidget {
                   SizedBox(
                     height: 15,
                   ),
-                  ProgressDot4(4),
+                  Align(
+                    alignment: Alignment.center,
+                    child: ProgressDot(
+                      length: 4,
+                      markedIndex: 4,
+                    ),
+                  ),
                   SizedBox(
                     height: 15,
                   ),
