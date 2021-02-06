@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import './registerPatientScreen.dart';
-import './registerDoctorScreen.dart';
+import './register/registerPatientScreen_1.dart';
+import './register/registerDoctorScreen.dart';
 import '../Widget/AdaptiveRaisedButton.dart';
 import '../Widget/adaptiveBorderButton.dart';
 
@@ -155,7 +155,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 if (role == 0) {
                   // print('to patient register');
                   Navigator.of(context)
-                      .pushNamed(RegisterPatientScreen.routeName);
+                      .pushNamed(RegisterPatient1Screen.routeName);
                 } else {
                   // print('to doctor registor');
                   Navigator.of(context)

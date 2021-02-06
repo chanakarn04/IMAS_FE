@@ -21,8 +21,10 @@ import './Pages/patientInfoPage.dart';
 import './Pages/loginPage.dart';
 import './Pages/forgetPswPage.dart';
 import './Pages/registerPage.dart';
-import './Pages/registerPatientScreen.dart';
-import './Pages/registerDoctorScreen.dart';
+import './Pages/register/registerPatientScreen_1.dart';
+import './Pages/register/registerPatientScreen_2.dart';
+import './Pages/register/registerPatientScreen_3.dart';
+import './Pages/register/registerDoctorScreen.dart';
 
 void main() {
   runApp(MyApp());
@@ -46,7 +48,9 @@ class MyApp extends StatelessWidget {
         HomePage.routeName: (ctx) => HomePage(),
         LogInPage.routeName: (ctx) => LogInPage(),
         RegisterPage.routeName: (ctx) => RegisterPage(),
-        RegisterPatientScreen.routeName: (ctx) => RegisterPatientScreen(),
+        RegisterPatient1Screen.routeName: (ctx) => RegisterPatient1Screen(),
+        RegisterPatient2Screen.routeName: (ctx) => RegisterPatient2Screen(),
+        RegisterPatient3Screen.routeName: (ctx) => RegisterPatient3Screen(),
         RegisterDoctorScreen.routeName: (ctx) => RegisterDoctorScreen(),
         ForgetPswPage.routeName: (ctx) => ForgetPswPage(),
         AssessmentPages.routeName: (ctx) => AssessmentPages(),
