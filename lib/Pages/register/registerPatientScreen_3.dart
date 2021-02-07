@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../loginPage.dart';
 import '../../Widget/AdaptiveRaisedButton.dart';
 import '../../Widget/adaptiveBorderButton.dart';
 import '../../Widget/progressDot.dart';
@@ -157,7 +158,9 @@ class _RegisterPatient3ScreenState extends State<RegisterPatient3Screen> {
                         ? 'Skip'
                         : 'Submit',
                     handlerFn: () {
-                      print('Submit');
+                      Navigator.of(context)
+                          .popUntil(ModalRoute.withName(LogInPage.routeName));
+                      print('Register Done!!');
                     },
                     width: 120,
                     height: 40,

@@ -152,6 +152,7 @@ class _RegisterPageState extends State<RegisterPage> {
             AdaptiveRaisedButton(
               buttonText: 'Next',
               handlerFn: () {
+                print(role);
                 if (role == 0) {
                   // print('to patient register');
                   Navigator.of(context)

@@ -275,29 +275,27 @@ class _RegisterPatient1ScreenState extends State<RegisterPatient1Screen> {
                   AdaptiveRaisedButton(
                     buttonText: 'Next',
                     handlerFn: () {
-                      Navigator.of(context)
-                          .pushNamed(RegisterPatient2Screen.routeName);
-                      // print(usrnTxtCtrl.text);
-                      // print(pswTxtCtrl.text);
-                      // print(cfPswTxtCtrl.text);
-                      // print(nameTxtCtrl.text);
-                      // print(surnameTxtCtrl.text);
-                      // if (usrnTxtCtrl.text.isNotEmpty &&
-                      //     pswTxtCtrl.text.isNotEmpty &&
-                      //     cfPswTxtCtrl.text.isNotEmpty &&
-                      //     nameTxtCtrl.text.isNotEmpty &&
-                      //     surnameTxtCtrl.text.isNotEmpty &&
-                      //     _selectedDate != null) {
-                      //   if (pswTxtCtrl.text == cfPswTxtCtrl.text) {
-                      //     // if (cfPswTxtCtrl.text.compareTo(pswTxtCtrl.text) == 0) {
-                      //     print('Hello true');
-                      //     Navigator.of(context)
-                      //         .pushNamed(RegisterPatient2Screen.routeName);
-                      //   } else {
-                      //     print('Hello false');
-                      //     checkCfPwd();
-                      //   }
-                      // }
+                      print(usrnTxtCtrl.text);
+                      print(pswTxtCtrl.text);
+                      print(cfPswTxtCtrl.text);
+                      print(nameTxtCtrl.text);
+                      print(surnameTxtCtrl.text);
+                      if (usrnTxtCtrl.text.isNotEmpty &&
+                          pswTxtCtrl.text.isNotEmpty &&
+                          cfPswTxtCtrl.text.isNotEmpty &&
+                          nameTxtCtrl.text.isNotEmpty &&
+                          surnameTxtCtrl.text.isNotEmpty &&
+                          _selectedDate != null) {
+                        if (pswTxtCtrl.text == cfPswTxtCtrl.text) {
+                          // if (cfPswTxtCtrl.text.compareTo(pswTxtCtrl.text) == 0) {
+                          print('Hello true');
+                          Navigator.of(context)
+                              .pushNamed(RegisterPatient2Screen.routeName);
+                        } else {
+                          print('Hello false');
+                          checkCfPwd();
+                        }
+                      }
                     },
                     width: 120,
                     height: 40,

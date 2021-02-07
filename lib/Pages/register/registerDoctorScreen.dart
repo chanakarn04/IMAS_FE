@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../loginPage.dart';
 import '../../Widget/AdaptiveRaisedButton.dart';
 import '../../Widget/adaptiveBorderButton.dart';
 
@@ -380,6 +381,8 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
                         if (pswTxtCtrl.text == cfPswTxtCtrl.text) {
                           checkCfPwd();
                           print('Register Done!!');
+                          Navigator.of(context).popUntil(
+                              ModalRoute.withName(LogInPage.routeName));
                           // Navigator.of(context)
                           //     .pushNamed(RegisterPatient2Screen.routeName);
                         } else {
