@@ -64,7 +64,7 @@ class _RegisterPageState extends State<RegisterPage> {
             borderRadius: BorderRadius.circular(15),
             border: Border.all(
               width: 3,
-              color: Theme.of(context).primaryColor,
+              color: Colors.grey,
             )),
         child: InkWell(
           onTap: toggleRole,
@@ -74,7 +74,7 @@ class _RegisterPageState extends State<RegisterPage> {
             children: [
               Icon(
                 iconData,
-                color: Theme.of(context).primaryColor,
+                color: Colors.grey,
                 size: 56,
               ),
               Text(
@@ -82,7 +82,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
-                  color: Theme.of(context).primaryColor,
+                  color: Colors.grey,
                 ),
               )
             ],

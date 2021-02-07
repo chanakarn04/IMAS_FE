@@ -72,10 +72,11 @@ class _RegisterPatient2ScreenState extends State<RegisterPatient2Screen> {
           padding: EdgeInsets.all(5),
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: Colors.white,
+            // color: Colors.white,
             border: Border.all(
               width: 2,
-              color: Theme.of(context).primaryColor,
+              // color: Theme.of(context).primaryColor,
+              color: Colors.grey,
             ),
           ),
           alignment: Alignment.center,
@@ -83,7 +84,8 @@ class _RegisterPatient2ScreenState extends State<RegisterPatient2Screen> {
             text,
             textAlign: TextAlign.center,
             style: TextStyle(
-              color: Theme.of(context).primaryColor,
+              // color: Theme.of(context).primaryColor,
+              color: Colors.grey,
               // fontWeight: FontWeight.bold,
               fontSize: 16,
             ),
@@ -122,7 +124,7 @@ class _RegisterPatient2ScreenState extends State<RegisterPatient2Screen> {
                 Expanded(
                   child: Container(
                     height: 2,
-                    color: Theme.of(context).primaryColor,
+                    color: Colors.grey,
                   ),
                 ),
                 buildSelectionDot('Not\nsure', Status.NotSure, hasHighPress,
@@ -130,7 +132,7 @@ class _RegisterPatient2ScreenState extends State<RegisterPatient2Screen> {
                 Expanded(
                   child: Container(
                     height: 2,
-                    color: Theme.of(context).primaryColor,
+                    color: Colors.grey,
                   ),
                 ),
                 buildSelectionDot(
@@ -148,7 +150,7 @@ class _RegisterPatient2ScreenState extends State<RegisterPatient2Screen> {
                 Expanded(
                   child: Container(
                     height: 2,
-                    color: Theme.of(context).primaryColor,
+                    color: Colors.grey,
                   ),
                 ),
                 buildSelectionDot(
@@ -156,7 +158,7 @@ class _RegisterPatient2ScreenState extends State<RegisterPatient2Screen> {
                 Expanded(
                   child: Container(
                     height: 2,
-                    color: Theme.of(context).primaryColor,
+                    color: Colors.grey,
                   ),
                 ),
                 buildSelectionDot(
@@ -173,7 +175,7 @@ class _RegisterPatient2ScreenState extends State<RegisterPatient2Screen> {
                 Expanded(
                   child: Container(
                     height: 2,
-                    color: Theme.of(context).primaryColor,
+                    color: Colors.grey,
                   ),
                 ),
                 buildSelectionDot(
@@ -181,7 +183,7 @@ class _RegisterPatient2ScreenState extends State<RegisterPatient2Screen> {
                 Expanded(
                   child: Container(
                     height: 2,
-                    color: Theme.of(context).primaryColor,
+                    color: Colors.grey,
                   ),
                 ),
                 buildSelectionDot('Yes', Status.Yes, isSmoke, toggleIsSmoke),
@@ -249,7 +251,7 @@ class _RegisterPatient2ScreenState extends State<RegisterPatient2Screen> {
                       Navigator.of(context).pop();
                     },
                     width: 130,
-                    height: 40,
+                    height: 50,
                   ),
                   SizedBox(
                     width: 30,
@@ -261,7 +263,7 @@ class _RegisterPatient2ScreenState extends State<RegisterPatient2Screen> {
                           .pushNamed(RegisterPatient3Screen.routeName);
                     },
                     width: 120,
-                    height: 30,
+                    height: 40,
                   ),
                 ],
               ),

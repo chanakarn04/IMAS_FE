@@ -267,7 +267,7 @@ class _RegisterPatient1ScreenState extends State<RegisterPatient1Screen> {
                       Navigator.of(context).pop();
                     },
                     width: 130,
-                    height: 40,
+                    height: 50,
                   ),
                   SizedBox(
                     width: 30,
@@ -300,7 +300,7 @@ class _RegisterPatient1ScreenState extends State<RegisterPatient1Screen> {
                       // }
                     },
                     width: 120,
-                    height: 30,
+                    height: 40,
                   ),
                 ],
               ),
