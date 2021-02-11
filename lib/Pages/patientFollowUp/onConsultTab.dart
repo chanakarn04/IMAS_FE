@@ -19,13 +19,85 @@ class _OnConsultTabState extends State<OnConsultTab> {
   // String last_message = 'test last message';
   // DateTime last_messageDt = DateTime.now();
 
-  Widget buildPatientBox(
-    String fname,
-    String sname,
-    String imageAsset,
-    String lastMessage,
-    DateTime lastMessageDt,
-  ) {
+  openModalBottomSheet(String tpId) {
+    return showModalBottomSheet(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+            ),
+            // color: Colors.pink[200],
+          ),
+          height: 150,
+          padding: EdgeInsets.symmetric(
+            vertical: 20,
+            horizontal: 20,
+          ),
+          child: Column(
+            children: [
+              FlatButton(
+                onPressed: () {
+                  print('to patient info with $tpId');
+                },
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.edit_outlined,
+                      size: 40,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    SizedBox(
+                      width: 15,
+                    ),
+                    Text(
+                      'Case Management',
+                      style: TextStyle(
+                        color: Theme.of(context).primaryColor,
+                        fontSize: 24,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              FlatButton(
+                onPressed: () {
+                  print('to patient info with $tpId');
+                },
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.info_outline,
+                      size: 40,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    SizedBox(
+                      width: 15,
+                    ),
+                    Text(
+                      'Patient Infomation',
+                      style: TextStyle(
+                        color: Theme.of(context).primaryColor,
+                        fontSize: 24,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget buildPatientBox(String fname, String sname, String imageAsset,
+      String lastMessage, DateTime lastMessageDt, String tpId) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 5),
       decoration: BoxDecoration(
@@ -38,6 +110,12 @@ class _OnConsultTabState extends State<OnConsultTab> {
             topLeft: Radius.circular(15),
           )),
       child: ListTile(
+        onTap: () {
+          print('to chat page');
+        },
+        onLongPress: () {
+          openModalBottomSheet(tpId);
+        },
         leading: Container(
           height: 50,
           width: 50,
@@ -90,6 +168,7 @@ class _OnConsultTabState extends State<OnConsultTab> {
                   'assets/images/default_photo.png',
                   'test last message',
                   DateTime.now(),
+                  this.widget.infomation[index]['tpId'],
                 );
               },
               itemCount: this.widget.infomation.length,
