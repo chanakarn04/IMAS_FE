@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../dummy_data.dart';
-import '../Widget/sideDrawer.dart';
+// import '../Widget/sideDrawer.dart';
 import './patientInfo/basicInfoTab.dart';
 import './patientInfo/disease_symptomTab.dart';
 import './patientInfo/vitalSignTab.dart';
@@ -10,14 +10,14 @@ import './patientInfo/suggestionTab.dart';
 
 class PatientInfoPage extends StatefulWidget {
   static const routeName = '/patient-info';
-  final pInfo = dummy_Paitent;
+  final pInfo = dummy_Patient;
 
   @override
   _PatientInfoPageState createState() => _PatientInfoPageState();
 }
 
 class _PatientInfoPageState extends State<PatientInfoPage> {
-  GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
+  // GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
   ScrollController _scrollController;
   bool sliverCollapsed = false;
   String appBarTitle = '';
