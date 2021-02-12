@@ -22,19 +22,15 @@ class _OnConsultTabState extends State<OnConsultTab> {
   openModalBottomSheet(String tpId) {
     return showModalBottomSheet(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10.0),
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
       ),
       context: context,
       builder: (BuildContext context) {
         return Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20),
-              topRight: Radius.circular(20),
-            ),
-            // color: Colors.pink[200],
-          ),
-          height: 150,
+          height: 180,
           padding: EdgeInsets.symmetric(
             vertical: 20,
             horizontal: 20,
@@ -42,6 +38,7 @@ class _OnConsultTabState extends State<OnConsultTab> {
           child: Column(
             children: [
               FlatButton(
+                padding: EdgeInsets.symmetric(vertical: 10),
                 onPressed: () {
                   print('to patient info with $tpId');
                 },
@@ -66,6 +63,7 @@ class _OnConsultTabState extends State<OnConsultTab> {
                 ),
               ),
               FlatButton(
+                padding: EdgeInsets.symmetric(vertical: 10),
                 onPressed: () {
                   print('to patient info with $tpId');
                 },
@@ -101,14 +99,33 @@ class _OnConsultTabState extends State<OnConsultTab> {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 5),
       decoration: BoxDecoration(
-          border: Border.all(
-            width: 2,
-            color: Theme.of(context).primaryColor,
-          ),
-          borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(15),
-            topLeft: Radius.circular(15),
-          )),
+        border: Border.all(
+          color: Theme.of(context).primaryColor,
+          width: 2,
+        ),
+        // border: Border(
+        //   bottom: BorderSide(
+        //     width: 2,
+        //     color: Theme.of(context).primaryColor,
+        //   ),
+        //   top: BorderSide(
+        //     width: 2,
+        //     color: Theme.of(context).primaryColor,
+        //   ),
+        //   right: BorderSide(
+        //     width: 2,
+        //     color: Theme.of(context).primaryColor,
+        //   ),
+        //   left: BorderSide(
+        //     width: 2,
+        //     color: Colors.transparent,
+        //   ),
+        // ),
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(15),
+          topLeft: Radius.circular(15),
+        ),
+      ),
       child: ListTile(
         onTap: () {
           print('to chat page');

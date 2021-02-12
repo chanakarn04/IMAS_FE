@@ -22,19 +22,15 @@ class _InCareTabState extends State<InCareTab> {
   openModalBottomSheet(String tpId) {
     return showModalBottomSheet(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10.0),
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
       ),
       context: context,
       builder: (BuildContext context) {
         return Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20),
-              topRight: Radius.circular(20),
-            ),
-            // color: Colors.pink[200],
-          ),
-          height: 150,
+          height: 180,
           padding: EdgeInsets.symmetric(
             vertical: 20,
             horizontal: 20,

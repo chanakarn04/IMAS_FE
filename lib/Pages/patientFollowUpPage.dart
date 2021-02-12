@@ -211,7 +211,10 @@ class _PatientFollowUpPageState extends State<PatientFollowUpPage> {
             onPressed: () => Navigator.of(context).pop()),
         title: Container(
           alignment: Alignment.center,
-          child: Text('Patient'),
+          child: Text(
+            'Patient',
+            style: TextStyle(color: Theme.of(context).primaryColor),
+          ),
         ),
         actions: <Widget>[
           IconButton(
