@@ -230,7 +230,7 @@ class _PatientFollowUpPageState extends State<PatientFollowUpPage> {
       bottomNavigationBar: BottomNavigationBar(
         // backgroundColor: Theme.of(context).primaryColor,
         // selectedItemColor: Colors.white,
-        // unselectedItemColor: Colors.white54,
+        unselectedItemColor: Theme.of(context).primaryColor.withAlpha(150),
         currentIndex: selectedPageIndex,
         onTap: _selectPage,
         items: <BottomNavigationBarItem>[
