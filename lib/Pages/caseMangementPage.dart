@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+import './caseMangementTab/cmDiseaseSymptom.dart';
+import './caseMangementTab/cmPrescription.dart';
+import './caseMangementTab/caseManagement.dart';
+
 class CaseManagementPage extends StatefulWidget {
   static const routeName = '/caseManagement';
   @override
@@ -16,15 +20,15 @@ class _CaseManagementPageState extends State<CaseManagementPage> {
     _pages = [
       {
         'title': 'Disease/Symptom',
-        'tab': Center(child: Text('Disease/Symptom')),
+        'tab': CMDiseaseSymptomTab(),
       },
       {
         'title': 'Prescription',
-        'tab': Center(child: Text('Prescription')),
+        'tab': CMPrescriptionTab(),
       },
       {
         'title': 'Case management',
-        'tab': Center(child: Text('Case management')),
+        'tab': CaseManagementTab(),
       },
     ];
     super.initState();
