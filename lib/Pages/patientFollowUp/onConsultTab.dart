@@ -170,6 +170,33 @@ class _OnConsultTabState extends State<OnConsultTab> {
     //     ModalRoute.of(context).settings.arguments as Map<String, Object>;
     return Column(
       children: [
+        Padding(
+          padding: EdgeInsets.symmetric(
+            vertical: 10,
+            horizontal: 15,
+          ),
+          child: Row(
+            children: [
+              Text(
+                'On Consult',
+                style: TextStyle(
+                  fontSize: 36,
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).primaryColor,
+                ),
+              ),
+              SizedBox(
+                width: 15,
+              ),
+              Expanded(
+                child: Container(
+                  height: 2,
+                  color: Theme.of(context).primaryColor,
+                ),
+              ),
+            ],
+          ),
+        ),
         Expanded(
           child: Container(
             padding: EdgeInsets.only(
