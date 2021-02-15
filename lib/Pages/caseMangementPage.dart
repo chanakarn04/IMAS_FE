@@ -76,15 +76,15 @@ class _CaseManagementPageState extends State<CaseManagementPage> {
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.analytics_outlined),
-            label: _pages[selectedPageIndex]['title'],
+            label: _pages[0]['title'],
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.medical_services_outlined),
-            label: _pages[selectedPageIndex]['title'],
+            label: _pages[1]['title'],
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.assignment_ind_outlined),
-            label: _pages[selectedPageIndex]['title'],
+            label: _pages[2]['title'],
           ),
         ],
       ),
