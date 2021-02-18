@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../dummy_data.dart';
 import '../../Widget/caseMangementListitemBox.dart';
+import '../../Widget/showMyDialog.dart';
 
 class CaseManagementAdviseBox extends StatelessWidget {
   final String title;
@@ -142,7 +143,16 @@ class _CMPrescriptionTabState extends State<CMPrescriptionTab> {
                   print('edit');
                 },
                 delFn: () {
-                  print('del');
+                  showMyDialog(
+                    context,
+                    'Delete?',
+                    'Confirm to delete this item?',
+                    'cancel',
+                    'confirm',
+                    () {
+                      print('Delete item');
+                    },
+                  );
                 },
               ),
             ),

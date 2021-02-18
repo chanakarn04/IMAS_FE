@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../Widget/showMyDialog.dart';
+
 class CaseManagementTab extends StatelessWidget {
   Widget _buildBox({
     BuildContext context,
@@ -91,7 +93,16 @@ class CaseManagementTab extends StatelessWidget {
                 description: '    Patient need to go to hospital right now!',
                 buttonTitle: 'Close case',
                 buttonFn: () {
-                  print('Close case Critical');
+                  showMyDialog(
+                    context,
+                    'Critical?',
+                    'Confirm to close case as critical?',
+                    'cancel',
+                    'confirm',
+                    () {
+                      print('close case as critical');
+                    },
+                  );
                 }),
           ),
           SizedBox(
@@ -105,7 +116,16 @@ class CaseManagementTab extends StatelessWidget {
                 description: '    Patient has cured or has no symptom anymore.',
                 buttonTitle: 'Close case',
                 buttonFn: () {
-                  print('Close case Cured');
+                  showMyDialog(
+                    context,
+                    'Cured?',
+                    'Confirm to close case as cured?',
+                    'cancel',
+                    'confirm',
+                    () {
+                      print('close case as Cured');
+                    },
+                  );
                 }),
           ),
           SizedBox(
@@ -120,7 +140,16 @@ class CaseManagementTab extends StatelessWidget {
                     '    Close this consult and make appointment of next consult.',
                 buttonTitle: 'Create appointment',
                 buttonFn: () {
-                  print('Create apt');
+                  showMyDialog(
+                    context,
+                    'On track?',
+                    'Confirm to close this consult and create next appointment?',
+                    'cancel',
+                    'confirm',
+                    () {
+                      print('to create appointment page');
+                    },
+                  );
                 }),
           ),
           SizedBox(

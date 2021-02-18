@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../dummy_data.dart';
 import '../../Widget/caseMangementListitemBox.dart';
+import '../../Widget/showMyDialog.dart';
+import '../../Widget/textModalBottomSheet.dart';
 
 class CMDiseaseSymptomTab extends StatefulWidget {
   final String tpId = 'tp001';
@@ -17,6 +19,8 @@ class _CMDiseaseSymptomTabState extends State<CMDiseaseSymptomTab> {
   List<Appointment> appointments;
   List<DetectedSymptom> lastSymptoms;
   List<DiagnosedDisease> lastDiagDiseases;
+  final controller = TextEditingController();
+  String temp;
 
   @override
   void didChangeDependencies() {
@@ -37,6 +41,24 @@ class _CMDiseaseSymptomTabState extends State<CMDiseaseSymptomTab> {
           .toList();
     }
     super.didChangeDependencies();
+  }
+
+  _setAdd() {
+    setState(() {
+      temp = controller.text;
+    });
+    controller.clear();
+    print('Add as $temp');
+    Navigator.of(context).pop();
+  }
+
+  _setEdit() {
+    setState(() {
+      temp = controller.text;
+    });
+    controller.clear();
+    print('Edit as $temp');
+    Navigator.of(context).pop();
   }
 
   List<String> get _getDiseaseNames {
@@ -82,13 +104,34 @@ class _CMDiseaseSymptomTabState extends State<CMDiseaseSymptomTab> {
                 title: 'Disease',
                 items: _getDiseaseNames,
                 addFn: () {
-                  print('add');
+                  showMyTextModalBottomSheet(
+                    context,
+                    'Add disease',
+                    controller,
+                    'Add',
+                    _setAdd,
+                  );
                 },
                 editFn: () {
-                  print('edit');
+                  showMyTextModalBottomSheet(
+                    context,
+                    'Edit disease',
+                    controller,
+                    'Edit',
+                    _setEdit,
+                  );
                 },
                 delFn: () {
-                  print('del');
+                  showMyDialog(
+                    context,
+                    'Delete?',
+                    'Confirm to delete this item?',
+                    'cancel',
+                    'confirm',
+                    () {
+                      print('Delete item');
+                    },
+                  );
                 },
               ),
             ),
@@ -103,13 +146,34 @@ class _CMDiseaseSymptomTabState extends State<CMDiseaseSymptomTab> {
                 title: 'Symptom',
                 items: _getSymptomNames,
                 addFn: () {
-                  print('add');
+                  showMyTextModalBottomSheet(
+                    context,
+                    'Add disease',
+                    controller,
+                    'Add',
+                    _setAdd,
+                  );
                 },
                 editFn: () {
-                  print('edit');
+                  showMyTextModalBottomSheet(
+                    context,
+                    'Edit disease',
+                    controller,
+                    'Edit',
+                    _setEdit,
+                  );
                 },
                 delFn: () {
-                  print('del');
+                  showMyDialog(
+                    context,
+                    'Delete?',
+                    'Confirm to delete this item?',
+                    'cancel',
+                    'confirm',
+                    () {
+                      print('Delete item');
+                    },
+                  );
                 },
               ),
             ),
