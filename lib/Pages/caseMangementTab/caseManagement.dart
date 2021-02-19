@@ -1,8 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
+import '../closeCasePage.dart';
 import '../../Widget/showMyDialog.dart';
+import '../../Widget/caseManagementCreateAppointment.dart';
 
-class CaseManagementTab extends StatelessWidget {
+class CaseManagementTab extends StatefulWidget {
+  @override
+  _CaseManagementTabState createState() => _CaseManagementTabState();
+}
+
+class _CaseManagementTabState extends State<CaseManagementTab> {
+  DateTime selectedDate = DateTime.now().add(Duration(days: 2));
+  TimeOfDay selectedTime = TimeOfDay.now();
+
   Widget _buildBox({
     BuildContext context,
     Color color,
@@ -101,6 +112,8 @@ class CaseManagementTab extends StatelessWidget {
                     'confirm',
                     () {
                       print('close case as critical');
+                      Navigator.of(context)
+                          .popAndPushNamed(CloseCasePage.routneName);
                     },
                   );
                 }),
@@ -124,6 +137,8 @@ class CaseManagementTab extends StatelessWidget {
                     'confirm',
                     () {
                       print('close case as Cured');
+                      Navigator.of(context)
+                          .popAndPushNamed(CloseCasePage.routneName);
                     },
                   );
                 }),
@@ -140,14 +155,21 @@ class CaseManagementTab extends StatelessWidget {
                     '    Close this consult and make appointment of next consult.',
                 buttonTitle: 'Create appointment',
                 buttonFn: () {
-                  showMyDialog(
-                    context,
-                    'On track?',
-                    'Confirm to close this consult and create next appointment?',
-                    'cancel',
-                    'confirm',
-                    () {
-                      print('to create appointment page');
+                  showModalBottomSheet(
+                    context: context,
+                    isDismissible: false,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(20),
+                        topRight: Radius.circular(20),
+                      ),
+                    ),
+                    builder: (context) {
+                      return CaseManagementCreateAppointment(
+                        'Harold Pain',
+                        selectedDate,
+                        selectedTime,
+                      );
                     },
                   );
                 }),

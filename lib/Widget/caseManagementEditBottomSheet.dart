@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import './adaptiveBorderButton.dart';
-import './AdaptiveRaisedButton.dart';
+import 'adaptiveBorderButton.dart';
+import 'AdaptiveRaisedButton.dart';
 
-showMyTextModalBottomSheet(
+caseManagementEditBottomSheet(
   BuildContext context,
   String title,
   TextEditingController controller,
@@ -22,7 +22,7 @@ showMyTextModalBottomSheet(
     ),
     builder: (context) {
       return Container(
-        height: 300 + MediaQuery.of(context).viewInsets.bottom,
+        height: 250 + MediaQuery.of(context).viewInsets.bottom,
         padding: EdgeInsets.only(
           left: 30,
           right: 30,

@@ -3,80 +3,9 @@ import 'package:flutter/material.dart';
 import '../../dummy_data.dart';
 import '../../Widget/caseMangementListitemBox.dart';
 import '../../Widget/showMyDialog.dart';
-
-class CaseManagementAdviseBox extends StatelessWidget {
-  final String title;
-  final String item;
-  final Function editFn;
-
-  CaseManagementAdviseBox({
-    this.title,
-    this.item,
-    this.editFn,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          children: [
-            Text(
-              title,
-              style: TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.bold,
-                color: Theme.of(context).primaryColor,
-              ),
-            ),
-            Expanded(child: Container()),
-            SizedBox(
-              height: 45,
-              width: 45,
-              child: IconButton(
-                icon: Icon(
-                  Icons.edit_outlined,
-                  color: Theme.of(context).primaryColor,
-                  size: 30,
-                ),
-                onPressed: editFn,
-              ),
-            ),
-          ],
-        ),
-        SizedBox(height: 10),
-        Expanded(
-          child: Container(
-            margin: EdgeInsets.only(left: 20),
-            padding: EdgeInsets.symmetric(
-              horizontal: 20,
-              vertical: 15,
-            ),
-            width: double.infinity,
-            decoration: BoxDecoration(
-                border: Border.all(
-                  width: 2,
-                  color: Theme.of(context).primaryColor,
-                ),
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(15),
-                  topLeft: Radius.circular(15),
-                )),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: Text(
-                '    \u2022 $item',
-                style: TextStyle(
-                  fontSize: 18,
-                ),
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
+import '../../Widget/caseManagementEditBottomSheet.dart';
+import '../../Widget/caseManagementAdviseBox.dart';
+import '../../Widget/caseManagementAdviseEdit.dart';
 
 class CMPrescriptionTab extends StatefulWidget {
   final String tpId = 'tp001';
@@ -88,6 +17,26 @@ class CMPrescriptionTab extends StatefulWidget {
 class _CMPrescriptionTabState extends State<CMPrescriptionTab> {
   var _loadedInitData = false;
   List<Appointment> appointments;
+  final controller = TextEditingController();
+  String temp;
+
+  _setAdd() {
+    setState(() {
+      temp = controller.text;
+    });
+    controller.clear();
+    print('Add as $temp');
+    Navigator.of(context).pop();
+  }
+
+  _setEdit() {
+    setState(() {
+      temp = controller.text;
+    });
+    controller.clear();
+    print('Edit as $temp');
+    Navigator.of(context).pop();
+  }
 
   @override
   void didChangeDependencies() {
@@ -137,10 +86,22 @@ class _CMPrescriptionTabState extends State<CMPrescriptionTab> {
                 title: 'Disease',
                 items: _getPrescription,
                 addFn: () {
-                  print('add');
+                  caseManagementEditBottomSheet(
+                    context,
+                    'Add drug',
+                    controller,
+                    'Add',
+                    _setAdd,
+                  );
                 },
                 editFn: () {
-                  print('edit');
+                  caseManagementEditBottomSheet(
+                    context,
+                    'Edit drug',
+                    controller,
+                    'Edit',
+                    _setEdit,
+                  );
                 },
                 delFn: () {
                   showMyDialog(
@@ -151,6 +112,7 @@ class _CMPrescriptionTabState extends State<CMPrescriptionTab> {
                     'confirm',
                     () {
                       print('Delete item');
+                      Navigator.of(context).pop();
                     },
                   );
                 },
@@ -167,7 +129,13 @@ class _CMPrescriptionTabState extends State<CMPrescriptionTab> {
                 title: 'Treatment',
                 item: _getAdvise,
                 editFn: () {
-                  print('edit treatment');
+                  caseManagementAdviseEdit(
+                    context,
+                    'Edit treatment',
+                    controller,
+                    'Edit',
+                    _setEdit,
+                  );
                 },
               ),
             ),

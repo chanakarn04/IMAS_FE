@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../dummy_data.dart';
 import '../../Widget/caseMangementListitemBox.dart';
 import '../../Widget/showMyDialog.dart';
-import '../../Widget/textModalBottomSheet.dart';
+import '../../Widget/caseManagementEditBottomSheet.dart';
 
 class CMDiseaseSymptomTab extends StatefulWidget {
   final String tpId = 'tp001';
@@ -104,7 +104,7 @@ class _CMDiseaseSymptomTabState extends State<CMDiseaseSymptomTab> {
                 title: 'Disease',
                 items: _getDiseaseNames,
                 addFn: () {
-                  showMyTextModalBottomSheet(
+                  caseManagementEditBottomSheet(
                     context,
                     'Add disease',
                     controller,
@@ -113,7 +113,7 @@ class _CMDiseaseSymptomTabState extends State<CMDiseaseSymptomTab> {
                   );
                 },
                 editFn: () {
-                  showMyTextModalBottomSheet(
+                  caseManagementEditBottomSheet(
                     context,
                     'Edit disease',
                     controller,
@@ -130,6 +130,7 @@ class _CMDiseaseSymptomTabState extends State<CMDiseaseSymptomTab> {
                     'confirm',
                     () {
                       print('Delete item');
+                      Navigator.of(context).pop();
                     },
                   );
                 },
@@ -146,18 +147,18 @@ class _CMDiseaseSymptomTabState extends State<CMDiseaseSymptomTab> {
                 title: 'Symptom',
                 items: _getSymptomNames,
                 addFn: () {
-                  showMyTextModalBottomSheet(
+                  caseManagementEditBottomSheet(
                     context,
-                    'Add disease',
+                    'Add symptom',
                     controller,
                     'Add',
                     _setAdd,
                   );
                 },
                 editFn: () {
-                  showMyTextModalBottomSheet(
+                  caseManagementEditBottomSheet(
                     context,
-                    'Edit disease',
+                    'Edit symptom',
                     controller,
                     'Edit',
                     _setEdit,
@@ -172,6 +173,7 @@ class _CMDiseaseSymptomTabState extends State<CMDiseaseSymptomTab> {
                     'confirm',
                     () {
                       print('Delete item');
+                      Navigator.of(context).pop();
                     },
                   );
                 },
