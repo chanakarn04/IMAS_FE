@@ -35,8 +35,8 @@ class _CaseManagementCreateAppointmentState
     super.initState();
   }
 
-  void _presentDatePicker() {
-    showDatePicker(
+  void _presentDatePicker() async {
+    final DateTime picked = await showDatePicker(
       context: context,
       initialDate: selectedDate,
       firstDate: DateTime.now(),
@@ -54,15 +54,16 @@ class _CaseManagementCreateAppointmentState
           child: child,
         );
       },
-    ).then((pickedDate) {
+    );
+    if (picked != null && picked != selectedDate) {
       setState(() {
-        selectedDate = pickedDate;
+        selectedDate = picked;
       });
-    });
+    }
   }
 
-  void _presentTimePicker() {
-    showTimePicker(
+  void _presentTimePicker() async {
+    final TimeOfDay picked = await showTimePicker(
       context: context,
       // initialDate: selectedDate,
       // firstDate: DateTime.now(),
@@ -78,11 +79,12 @@ class _CaseManagementCreateAppointmentState
           child: child,
         );
       },
-    ).then((pickedDate) {
+    );
+    if (picked != null && picked != selectedTime) {
       setState(() {
-        selectedTime = pickedDate;
+        selectedTime = picked;
       });
-    });
+    }
   }
 
   @override
