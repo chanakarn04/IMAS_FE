@@ -25,30 +25,6 @@ class _AssessmentHistoryPageState extends State<AssessmentHistoryPage> {
       'symptom': 'Dizziness',
       'date': DateTime(2020, 11, 28),
     },
-    {
-      'symptom': 'Dizziness',
-      'date': DateTime(2020, 11, 28),
-    },
-    {
-      'symptom': 'Dizziness',
-      'date': DateTime(2020, 11, 28),
-    },
-    {
-      'symptom': 'Dizziness',
-      'date': DateTime(2020, 11, 28),
-    },
-    {
-      'symptom': 'Dizziness',
-      'date': DateTime(2020, 11, 28),
-    },
-    {
-      'symptom': 'Dizziness',
-      'date': DateTime(2020, 11, 28),
-    },
-    {
-      'symptom': 'Dizziness',
-      'date': DateTime(2020, 11, 28),
-    },
   ];
   @override
   Widget build(BuildContext context) {
@@ -85,16 +61,17 @@ class _AssessmentHistoryPageState extends State<AssessmentHistoryPage> {
               margin: (index == 0)
                   ? EdgeInsets.only(
                       top: 10,
-                      bottom: 2.5,
+                      bottom: 3,
                     )
                   : (index == items.length - 1)
                       ? EdgeInsets.only(
-                          top: 2.5,
+                          top: 3,
                           bottom: 10,
                         )
                       : EdgeInsets.symmetric(
-                          vertical: 2.5,
+                          vertical: 3,
                         ),
+              padding: EdgeInsets.all(2),
               decoration: BoxDecoration(
                 border: Border.all(
                   width: 2,
@@ -105,9 +82,13 @@ class _AssessmentHistoryPageState extends State<AssessmentHistoryPage> {
               child: ListTile(
                 title: Text(
                   items[index]['symptom'],
+                  style: TextStyle(
+                    // fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  ),
                 ),
                 subtitle: Text(
-                  '${DateFormat.yMd().format(items[index]['date'])} ${DateFormat.jm().format(items[index]['date'])}',
+                  '${DateFormat.yMMMd().format(items[index]['date'])}   ${DateFormat.jm().format(items[index]['date'])}',
                 ),
                 trailing: InkWell(
                   onTap: () {
