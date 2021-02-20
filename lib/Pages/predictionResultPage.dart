@@ -163,14 +163,7 @@ class _PredictionResultPageState extends State<PredictionResultPage> {
                           height: 35,
                           width: 160,
                         )
-                  : AdaptiveRaisedButton(
-                      buttonText: 'Back',
-                      handlerFn: () {
-                        Navigator.of(context).pop();
-                      },
-                      height: 35,
-                      width: 160,
-                    ),
+                  : Container(),
             ],
           ),
         ),
