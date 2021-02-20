@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import './Pages/homePages.dart';
 import './Pages/assessmentPages.dart';
+import './Pages/assessmentHistoryPage.dart';
 import './Pages/searchResultPages.dart';
 import './Pages/answerQuestionPages.dart';
 import './Pages/profilePages.dart';
@@ -57,7 +58,7 @@ class MyApp extends StatelessWidget {
         RegisterDoctorScreen.routeName: (ctx) => RegisterDoctorScreen(),
         ForgetPswPage.routeName: (ctx) => ForgetPswPage(),
         AssessmentPages.routeName: (ctx) => AssessmentPages(),
-        // AssessmentHistoryPage.routeName: (ctx) => AssessmentHistoryPage(),
+        AssessmentHistoryPage.routeName: (ctx) => AssessmentHistoryPage(),
         PredictionResultPage.routeName: (ctx) => PredictionResultPage(),
         DiseaseDetailPages.routeName: (ctx) => DiseaseDetailPages(),
         SearchResultPages.routeName: (ctx) => SearchResultPages(),
