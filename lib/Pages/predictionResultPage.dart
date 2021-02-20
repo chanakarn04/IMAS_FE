@@ -95,10 +95,9 @@ class _PredictionResultPageState extends State<PredictionResultPage> {
           IconButton(
             icon: Icon(
               Icons.menu_rounded,
+              color: Colors.transparent,
             ),
-            onPressed: () {
-              _scaffoldState.currentState.openEndDrawer();
-            },
+            onPressed: null,
           )
         ],
       ),
