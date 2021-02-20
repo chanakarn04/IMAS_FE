@@ -92,8 +92,9 @@ class _AssessmentHistoryPageState extends State<AssessmentHistoryPage> {
                 ),
                 trailing: InkWell(
                   onTap: () {
-                    Navigator.of(context)
-                        .pushNamed(PredictionResultPage.routeName);
+                    Navigator.of(context).pushNamed(
+                        PredictionResultPage.routeName,
+                        arguments: {'isHistory': true, 'isMeetDoctor': false});
                   },
                   child: Icon(
                     Icons.arrow_forward_ios_outlined,
