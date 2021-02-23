@@ -66,16 +66,34 @@ class _SuggestionPageState extends State<SuggestionPage> {
       return bDt.compareTo(aDt);
     });
     AppBar appbar = AppBar(
-      title: Text('Title'),
+      iconTheme: IconThemeData(
+        color: Theme.of(context).primaryColor,
+      ),
       backgroundColor: Colors.white,
+      leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios_rounded),
+          onPressed: () => Navigator.of(context).pop()),
+      title: Container(
+        alignment: Alignment.center,
+        child: Text('Suggestion'),
+      ),
+      actions: <Widget>[
+        IconButton(
+          icon: Icon(
+            Icons.menu_rounded,
+            color: Colors.transparent,
+          ),
+          onPressed: null,
+        )
+      ],
     );
     return Scaffold(
       appBar: appbar,
       body: Center(
         child: Container(
           padding: EdgeInsets.only(
-            top: 10,
-            bottom: 20,
+            top: 15,
+            bottom: 15,
             // horizontal: 0,
           ),
           decoration: BoxDecoration(
@@ -111,6 +129,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
                       );
                     },
                     options: CarouselOptions(
+                        enlargeCenterPage: true,
                         height: MediaQuery.of(context).size.height -
                             appbar.preferredSize.height -
                             60,

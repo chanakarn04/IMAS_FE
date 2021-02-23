@@ -45,12 +45,12 @@ class SuggestionCardContent extends StatelessWidget {
         Text(
           '${DateFormat.yMMMEd().format(data[index]['apDt'])}',
           style: TextStyle(
-            color: Colors.grey,
+            color: Colors.grey[600],
             fontSize: 16,
           ),
         ),
         SizedBox(
-          height: 10,
+          height: 15,
         ),
         Expanded(
           child: ListView(
