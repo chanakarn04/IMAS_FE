@@ -129,17 +129,18 @@ class _SuggestionPageState extends State<SuggestionPage> {
                       );
                     },
                     options: CarouselOptions(
-                        enlargeCenterPage: true,
-                        height: MediaQuery.of(context).size.height -
-                            appbar.preferredSize.height -
-                            60,
-                        enableInfiniteScroll: false,
-                        initialPage: carouselIndex,
-                        onPageChanged: (index, _) {
-                          setState(() {
-                            carouselIndex = index;
-                          });
-                        }),
+                      enlargeCenterPage: true,
+                      height: MediaQuery.of(context).size.height -
+                          appbar.preferredSize.height -
+                          60,
+                      enableInfiniteScroll: false,
+                      initialPage: carouselIndex,
+                      onPageChanged: (index, _) {
+                        setState(() {
+                          carouselIndex = index;
+                        });
+                      },
+                    ),
                   ),
                 ),
               ),
@@ -149,6 +150,8 @@ class _SuggestionPageState extends State<SuggestionPage> {
               CarouselDotIndicator(
                 length: data.length,
                 ctrlIndex: carouselIndex,
+                selectedColor: Theme.of(context).primaryColorLight,
+                unSelectedColor: Colors.white54,
               ),
             ],
           ),

@@ -3,10 +3,14 @@ import 'package:flutter/material.dart';
 class CarouselDotIndicator extends StatelessWidget {
   final int length;
   final int ctrlIndex;
+  final Color selectedColor;
+  final Color unSelectedColor;
 
   CarouselDotIndicator({
     @required this.length,
     @required this.ctrlIndex,
+    @required this.selectedColor,
+    @required this.unSelectedColor,
   });
 
   @override
@@ -24,9 +28,7 @@ class CarouselDotIndicator extends StatelessWidget {
             margin: EdgeInsets.symmetric(horizontal: 2),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: (ctrlIndex == index)
-                  ? Theme.of(context).primaryColorLight
-                  : Colors.white54,
+              color: (ctrlIndex == index) ? selectedColor : unSelectedColor,
             ),
           );
         },

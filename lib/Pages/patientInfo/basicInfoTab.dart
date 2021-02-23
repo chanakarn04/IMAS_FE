@@ -91,178 +91,178 @@ class BasicInfoTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: EdgeInsets.only(
-          top: 20,
-          left: 10,
-          right: 10,
-          bottom: 10,
-        ),
-        child: Column(
-          children: <Widget>[
-            _buildLineHeader(context, 'Basic Info'),
-            Row(
-              children: [
-                Container(
-                  padding: EdgeInsets.only(
-                    top: 5,
-                    left: 15,
-                    bottom: 5,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Age:',
-                        style: TextStyle(
-                          color: Color.fromARGB(255, 150, 150, 150),
-                          fontSize: 24,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Text(
-                        'Gender:',
-                        style: TextStyle(
-                          color: Color.fromARGB(255, 150, 150, 150),
-                          fontSize: 24,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  width: 20,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      // '${((DateTime.now().month - pInfo.dob.month) / 12)}',
-                      '${((DateTime.now().difference(pInfo.dob).inDays) / 365).floor()}',
-                      style: TextStyle(
-                        fontSize: 24,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Text(
-                      '$genderText',
-                      style: TextStyle(
-                        fontSize: 24,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            _buildLineHeader(context, 'Chronic health conditions'),
-            Row(
-              children: [
-                Container(
-                  padding: EdgeInsets.only(
-                    top: 5,
-                    left: 15,
-                    bottom: 5,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'High bloodpressure:',
-                        style: TextStyle(
-                          color: Color.fromARGB(255, 150, 150, 150),
-                          fontSize: 24,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Text(
-                        'Diabete:',
-                        style: TextStyle(
-                          color: Color.fromARGB(255, 150, 150, 150),
-                          fontSize: 24,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Text(
-                        'Smoke:',
-                        style: TextStyle(
-                          color: Color.fromARGB(255, 150, 150, 150),
-                          fontSize: 24,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  width: 20,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '$highPressText',
-                      style: TextStyle(
-                        fontSize: 24,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Text(
-                      '$diabeteText',
-                      style: TextStyle(
-                        fontSize: 24,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Text(
-                      '$smokeText',
-                      style: TextStyle(
-                        fontSize: 24,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            _buildLineHeader(context, 'Drug allergy'),
-            Container(
-              height: (pInfo.drugAllegy.length.toDouble() * 30),
-              child: ListView.builder(
-                physics: const NeverScrollableScrollPhysics(),
+    return Container(
+      // color: Colors.orange[200],
+      // height: 200,
+      padding: EdgeInsets.only(
+        top: 30,
+        left: 10,
+        right: 10,
+        bottom: 10,
+      ),
+      child: Column(
+        children: <Widget>[
+          _buildLineHeader(context, 'Basic Info'),
+          Row(
+            children: [
+              Container(
                 padding: EdgeInsets.only(
-                  left: 20,
-                  right: 5,
                   top: 5,
+                  left: 15,
                   bottom: 5,
                 ),
-                itemBuilder: (context, index) {
-                  return Text(
-                    '\u2022 ${pInfo.drugAllegy[index]}',
-                    style: TextStyle(fontSize: 24),
-                  );
-                },
-                itemCount: pInfo.drugAllegy.length,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Age:',
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 150, 150, 150),
+                        fontSize: 24,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Text(
+                      'Gender:',
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 150, 150, 150),
+                        fontSize: 24,
+                      ),
+                    ),
+                  ],
+                ),
               ),
+              SizedBox(
+                width: 20,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    // '${((DateTime.now().month - pInfo.dob.month) / 12)}',
+                    '${((DateTime.now().difference(pInfo.dob).inDays) / 365).floor()}',
+                    style: TextStyle(
+                      fontSize: 24,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    '$genderText',
+                    style: TextStyle(
+                      fontSize: 24,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 15,
+          ),
+          _buildLineHeader(context, 'Chronic health conditions'),
+          Row(
+            children: [
+              Container(
+                padding: EdgeInsets.only(
+                  top: 5,
+                  left: 15,
+                  bottom: 5,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'High bloodpressure:',
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 150, 150, 150),
+                        fontSize: 24,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Text(
+                      'Diabete:',
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 150, 150, 150),
+                        fontSize: 24,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Text(
+                      'Smoke:',
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 150, 150, 150),
+                        fontSize: 24,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                width: 20,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '$highPressText',
+                    style: TextStyle(
+                      fontSize: 24,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    '$diabeteText',
+                    style: TextStyle(
+                      fontSize: 24,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    '$smokeText',
+                    style: TextStyle(
+                      fontSize: 24,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 15,
+          ),
+          _buildLineHeader(context, 'Drug allergy'),
+          Container(
+            height: (pInfo.drugAllegy.length.toDouble() * 30),
+            child: ListView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              padding: EdgeInsets.only(
+                left: 20,
+                right: 5,
+                top: 5,
+                bottom: 5,
+              ),
+              itemBuilder: (context, index) {
+                return Text(
+                  '\u2022 ${pInfo.drugAllegy[index]}',
+                  style: TextStyle(fontSize: 24),
+                );
+              },
+              itemCount: pInfo.drugAllegy.length,
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

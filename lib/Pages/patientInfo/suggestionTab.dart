@@ -1,7 +1,9 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../../dummy_data.dart';
+import '../../Widget/carouselDotIndicator.dart';
 
 class AptSuggestCard extends StatefulWidget {
   final Appointment appointment;
@@ -44,51 +46,21 @@ class _AptSuggestCardState extends State<AptSuggestCard> {
     super.didChangeDependencies();
   }
 
-  Widget buildListCard(
-    String title,
-    Widget child,
-  ) {
-    return Container(
-      margin: EdgeInsets.symmetric(
-        horizontal: 25,
-        vertical: 10,
-      ),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
-          border: Border.all(color: Colors.grey)),
-      child: Column(
+  Widget _buildSeperator(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 15),
+      child: Row(
         children: [
-          Container(
-            width: double.infinity,
-            height: 40,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(15),
-                topRight: Radius.circular(15),
-              ),
-              gradient: LinearGradient(
-                begin: Alignment.centerRight,
-                end: Alignment.centerLeft,
-                colors: [
-                  Theme.of(context).accentColor,
-                  Theme.of(context).primaryColor,
-                ],
-              ),
-            ),
-            alignment: Alignment.centerLeft,
-            padding: EdgeInsets.symmetric(horizontal: 15),
-            child: Text(
-              title,
-              // textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                  fontSize: 24),
-            ),
+          SizedBox(
+            width: 10,
           ),
-          Container(
-            height: 100,
-            child: child,
+          Expanded(
+              child: Container(
+            height: 1,
+            color: Theme.of(context).primaryColor,
+          )),
+          SizedBox(
+            width: 10,
           ),
         ],
       ),
@@ -98,7 +70,7 @@ class _AptSuggestCardState extends State<AptSuggestCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 10,
+      elevation: 5,
       margin: EdgeInsets.symmetric(
         horizontal: 20,
         vertical: 15,
@@ -111,8 +83,9 @@ class _AptSuggestCardState extends State<AptSuggestCard> {
           color: Colors.white,
         ),
         margin: EdgeInsets.all(3),
+        padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
         // height: 200,
-        width: MediaQuery.of(context).size.width * 0.85,
+        // width: MediaQuery.of(context).size.width * 0.85,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -130,42 +103,63 @@ class _AptSuggestCardState extends State<AptSuggestCard> {
               DateFormat.yMMMEd().format(this.widget.appointment.apDt),
               style: TextStyle(color: Color.fromARGB(255, 100, 100, 100)),
             ),
-            buildListCard(
-              'Prescription',
-              ListView.builder(
-                itemBuilder: (context, index) {
-                  return Column(
-                    children: [
-                      Container(
-                        alignment: Alignment.centerLeft,
-                        padding: EdgeInsets.all(8),
-                        child: Text(
-                          '\t\t\t${aptDrugs[index].drugDetail}',
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Color.fromARGB(255, 75, 75, 75),
-                          ),
-                        ),
-                      ),
-                      Divider(),
-                    ],
-                  );
-                },
-                itemCount: aptDrugs.length,
-              ),
-            ),
-            buildListCard(
-              'Treatment',
-              ListView(
+            Expanded(
+              child: ListView(
                 children: [
+                  Text(
+                    'Prescription',
+                    style: TextStyle(
+                      fontSize: 26,
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  ),
                   Container(
-                    alignment: Alignment.centerLeft,
-                    padding: EdgeInsets.all(8),
-                    child: Text(
-                      '\t\t\t$suggestion',
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Color.fromARGB(255, 75, 75, 75),
+                    height: aptDrugs.length * 25.0 + 20,
+                    padding: EdgeInsets.symmetric(vertical: 10),
+                    child: ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return Column(
+                          children: [
+                            Container(
+                              alignment: Alignment.centerLeft,
+                              padding: EdgeInsets.symmetric(vertical: 2.5),
+                              child: Text(
+                                '\t\t\t${aptDrugs[index].drugDetail}',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Color.fromARGB(255, 75, 75, 75),
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                      itemCount: aptDrugs.length,
+                    ),
+                  ),
+                  _buildSeperator(context),
+                  Text(
+                    'Prescription',
+                    style: TextStyle(
+                      fontSize: 26,
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  ),
+                  Container(
+                    // height: aptDrugs.length * 25.0 + 20,
+                    padding: EdgeInsets.symmetric(vertical: 10),
+                    child: Container(
+                      alignment: Alignment.centerLeft,
+                      padding: EdgeInsets.symmetric(vertical: 2.5),
+                      child: Text(
+                        '    $suggestion',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Color.fromARGB(255, 75, 75, 75),
+                        ),
                       ),
                     ),
                   ),
@@ -189,6 +183,7 @@ class SuggestionTab extends StatefulWidget {
 class _SuggestionTabState extends State<SuggestionTab> {
   List<Appointment> appointments;
   var _loadInitData = false;
+  int carouselIndex = 0;
 
   @override
   void didChangeDependencies() {
@@ -206,17 +201,45 @@ class _SuggestionTabState extends State<SuggestionTab> {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Container(
-        height: (MediaQuery.of(context).size.height
-            // MediaQuery.of(context).padding.top -
-            // MediaQuery.of(context).padding.bottom -
-            // this.widget.appBarSize
+      child: Column(
+        children: [
+          Expanded(
+            child: Container(
+              // height: (MediaQuery.of(context).size.height
+              // MediaQuery.of(context).padding.top -
+              // MediaQuery.of(context).padding.bottom -
+              // this.widget.appBarSize
+              child: CarouselSlider.builder(
+                itemCount: appointments.length,
+                itemBuilder: (context, index, _) => AptSuggestCard(
+                    appointments[index], (appointments.length - index)),
+                options: CarouselOptions(
+                  height: 500,
+                  enlargeCenterPage: true,
+                  initialPage: carouselIndex,
+                  enableInfiniteScroll: false,
+                  onPageChanged: (index, _) {
+                    setState(() {
+                      carouselIndex = index;
+                    });
+                  },
+                ),
+              ),
             ),
-        child: ListView.builder(
-          itemBuilder: (context, index) => AptSuggestCard(
-              appointments[index], (appointments.length - index)),
-          itemCount: appointments.length,
-        ),
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          CarouselDotIndicator(
+            length: appointments.length,
+            ctrlIndex: carouselIndex,
+            selectedColor: Theme.of(context).primaryColor,
+            unSelectedColor: Colors.grey,
+          ),
+          SizedBox(
+            height: 10,
+          ),
+        ],
       ),
     );
   }
