@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
+import '../dummy_data.dart';
 import '../Widget/SuggestionCardContent.dart';
 import '../Widget/carouselDotIndicator.dart';
 
@@ -13,6 +14,9 @@ class SuggestionPage extends StatefulWidget {
 
 class _SuggestionPageState extends State<SuggestionPage> {
   int carouselIndex = 0;
+
+  // get status of this treatmentPlan
+  TreatmentStatus status = TreatmentStatus.InProgress;
 
   // every apt with edited
   List<Map<String, Object>> data = [
@@ -39,24 +43,34 @@ class _SuggestionPageState extends State<SuggestionPage> {
     },
   ];
 
-  List items = [
-    {
-      'content': 'ONE',
-      'color': Colors.red,
-    },
-    {
-      'content': 'TWO',
-      'color': Colors.amber,
-    },
-    {
-      'content': 'THREE',
-      'color': Colors.green,
-    },
-    {
-      'content': 'FOUR',
-      'color': Colors.blue,
-    },
-  ];
+  Map get statusInfo {
+    switch (status) {
+      case TreatmentStatus.Api:
+        return {
+          'text': 'Mild',
+          'color': Theme.of(context).primaryColor,
+        };
+        break;
+      case TreatmentStatus.Cured:
+        return {
+          'text': 'Cured',
+          'color': Theme.of(context).primaryColor,
+        };
+        break;
+      case TreatmentStatus.InProgress:
+        return {
+          'text': 'In progress',
+          'color': Theme.of(context).accentColor,
+        };
+        break;
+      case TreatmentStatus.Hospital:
+        return {
+          'text': 'Hospital',
+          'color': Color.fromARGB(255, 205, 16, 16),
+        };
+        break;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +89,19 @@ class _SuggestionPageState extends State<SuggestionPage> {
           onPressed: () => Navigator.of(context).pop()),
       title: Container(
         alignment: Alignment.center,
-        child: Text('Suggestion'),
+        child: Column(
+          children: [
+            Text('Suggestion'),
+            SizedBox(height: 3),
+            Text(
+              '${statusInfo['text']}',
+              style: TextStyle(
+                color: statusInfo['color'],
+                fontSize: 14,
+              ),
+            ),
+          ],
+        ),
       ),
       actions: <Widget>[
         IconButton(
