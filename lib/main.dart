@@ -30,6 +30,7 @@ import './Pages/register/registerDoctorScreen.dart';
 import './Pages/patientFollowUpPage.dart';
 import './Pages/caseMangementPage.dart';
 import './Pages/closeCasePage.dart';
+import './Pages/appointmentPatient.dart';
 
 void main() {
   runApp(MyApp());
@@ -80,6 +81,7 @@ class MyApp extends StatelessWidget {
         PatientFollowUpPage.routeName: (ctx) => PatientFollowUpPage(),
         CaseManagementPage.routeName: (ctx) => CaseManagementPage(),
         CloseCasePage.routneName: (ctx) => CloseCasePage(),
+        AppointmentPatientPage.routeName: (ctx) => AppointmentPatientPage(),
       },
     );
   }

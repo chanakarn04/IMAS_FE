@@ -5,6 +5,7 @@ import '../Pages/profilePages.dart';
 // import '../Pages/assessmentPages.dart';
 import '../Pages/assessmentHistoryPage.dart';
 import '../Pages/predictionResultPage.dart';
+import '../Pages/appointmentPatient.dart';
 import '../Pages/chatRoom.dart';
 import '../Pages/nearbyHospitalPages.dart';
 import '../Pages/settingPages.dart';
@@ -72,7 +73,8 @@ class SideDrawer extends StatelessWidget {
                 (() {
               Navigator.of(context).pop();
               Navigator.of(context).pushNamed(
-                ChatRoom.routeName,
+                // ChatRoom.routeName,
+                AppointmentPatientPage.routeName,
               );
             })),
             menuDrawerFlatButton(Icons.location_on_outlined, 'Nearby hospital',
