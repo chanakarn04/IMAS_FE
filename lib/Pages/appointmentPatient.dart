@@ -8,12 +8,12 @@ class AppointmentPatientPage extends StatelessWidget {
   static const routeName = '/appointment-Patient';
 
   // get apDt of last ap and dr Name
-  Map data = {
+  final Map data = {
     'apDt': DateTime(2021, 9, 20, 14, 30),
     // 'apDt': DateTime.now().subtract(
     //   Duration(minutes: 5),
     // ),
-    'drName': 'Samitanan Techabunyawatthankul',
+    'drName': 'Samitanan Techabunyawatthanakul',
     'namePrefix': 'Dr.',
   };
 
@@ -102,9 +102,7 @@ class AppointmentPatientPage extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Container(
-                        // color: Colors.white54,
                         padding: const EdgeInsets.all(20.0),
-                        // width: double.infinity,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -122,9 +120,7 @@ class AppointmentPatientPage extends StatelessWidget {
                             Align(
                               alignment: Alignment.centerRight,
                               child: Text(
-                                // '${DateFormat.EEEE().format(data['apDt'])},\n${DateFormat.yMMMMd().format(data['apDt'])}',
                                 '${DateFormat.yMMMMd().format(data['apDt'])}',
-                                // textAlign: TextAlign.end,
                                 style: TextStyle(
                                   fontSize: 36,
                                   fontWeight: FontWeight.bold,
@@ -165,8 +161,6 @@ class AppointmentPatientPage extends StatelessWidget {
                               children: [
                                 Flexible(
                                   child: Container(
-                                    // height: 30,
-                                    // color: Colors.white54,
                                     child: Text(
                                       '${data['namePrefix']} ${data['drName']}',
                                       textAlign: TextAlign.end,
@@ -175,7 +169,6 @@ class AppointmentPatientPage extends StatelessWidget {
                                       softWrap: false,
                                       style: TextStyle(
                                         fontSize: 18,
-                                        // fontWeight: FontWeight.bold,
                                         color: Colors.white,
                                       ),
                                     ),
@@ -207,7 +200,6 @@ class AppointmentPatientPage extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      // DateTime.now().is
                       child: (DateTime.now().isBefore(data['apDt']))
                           ? Text(
                               'It not the appointment time yet.',
