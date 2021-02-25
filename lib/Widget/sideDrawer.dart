@@ -6,7 +6,8 @@ import '../Pages/profilePages.dart';
 import '../Pages/assessmentHistoryPage.dart';
 import '../Pages/predictionResultPage.dart';
 import '../Pages/appointmentPatient.dart';
-import '../Pages/chatRoom.dart';
+import '../Pages/appointmentDoctor.dart';
+// import '../Pages/chatRoom.dart';
 import '../Pages/nearbyHospitalPages.dart';
 import '../Pages/settingPages.dart';
 
@@ -134,6 +135,14 @@ class SideDrawer extends StatelessWidget {
               Navigator.of(context).pop();
               Navigator.of(context).pushNamed(
                 CaseManagementPage.routeName,
+              );
+              // **********************
+            })),
+            menuDrawerFlatButton(Icons.traffic_outlined, 'aptDr', (() {
+              // **********************
+              Navigator.of(context).pop();
+              Navigator.of(context).pushNamed(
+                AppointmentDoctorPage.routeName,
               );
               // **********************
             })),
