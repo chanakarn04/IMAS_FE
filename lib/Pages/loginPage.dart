@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../Pages/homePages.dart';
 import '../Widget/Logo.dart';
 import '../Widget/AdaptiveRaisedButton.dart';
 import './forgetPswPage.dart';
@@ -83,6 +84,7 @@ class LogInPage extends StatelessWidget {
                     print('call login service');
                     print('user: ${usrnTextController.text}');
                     print('pswd: ${pswTextController.text}');
+                    Navigator.of(context).popAndPushNamed(HomePage.routeName);
                   }
                 },
                 height: 35,

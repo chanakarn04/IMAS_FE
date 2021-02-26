@@ -4,15 +4,15 @@ import './sideDrawer_patient.dart';
 import './sideDrawer_doctor.dart';
 
 class SideDrawer extends StatefulWidget {
-  // role of user
-  //  0 = patient
-  //  1 = doctor
   @override
   _SideDrawerState createState() => _SideDrawerState();
 }
 
 class _SideDrawerState extends State<SideDrawer> {
-  final int role = 1;
+  // role of user
+  //  0 = patient
+  //  1 = doctor
+  final int role = 0;
   Color drOnlineColor = Colors.red;
   bool onlineState = false;
 
@@ -54,7 +54,7 @@ class _SideDrawerState extends State<SideDrawer> {
           children: [
             if (role == 0)
               ...buildSideDrawerPatient(context, menuDrawerFlatButton),
-            if (role == 1)
+            if (role == 1) ...[
               Container(
                 padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 16.0),
                 child: Row(
@@ -94,7 +94,8 @@ class _SideDrawerState extends State<SideDrawer> {
                   ],
                 ),
               ),
-            ...buildSideDrawerDoctor(context, menuDrawerFlatButton),
+              ...buildSideDrawerDoctor(context, menuDrawerFlatButton),
+            ],
 
             // <Widget>[
             //   menuDrawerFlatButton(Icons.account_circle_outlined, 'Profile', (() {

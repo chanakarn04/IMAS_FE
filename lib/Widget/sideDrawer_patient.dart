@@ -17,7 +17,7 @@ List<Widget> buildSideDrawerPatient(
         ProfilePages.routeName,
       );
     })),
-    menuDrawerFlatButton(Icons.analytics_outlined, 'Assessment', (() {
+    menuDrawerFlatButton(Icons.analytics_outlined, 'Assessment History', (() {
       Navigator.of(context).pop();
       Navigator.of(context).pushNamed(
         AssessmentHistoryPage.routeName,

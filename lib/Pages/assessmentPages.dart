@@ -36,10 +36,9 @@ class _AssessmentPagesState extends State<AssessmentPages> {
           IconButton(
             icon: Icon(
               Icons.menu_rounded,
+              color: Colors.transparent,
             ),
-            onPressed: () {
-              _scaffoldState.currentState.openEndDrawer();
-            },
+            onPressed: () {},
           )
         ],
       ),

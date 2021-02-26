@@ -13,6 +13,10 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
+  int role = 0;
+
+  // data if role = doctor
+  String drName = 'Samitanan';
 
   @override
   Widget build(BuildContext context) {
@@ -32,32 +36,38 @@ class _HomePageState extends State<HomePage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             // Drawer(),
+            SizedBox(
+              height: mdqr.size.height * 0.35,
+            ),
             Container(
-                height: mdqr.size.height * 0.2,
+                height: mdqr.size.height * 0.25,
                 child: FittedBox(child: Logo())),
             SizedBox(
-              height: mdqr.size.height * 0.05,
+              height: 20,
+              // height: mdqr.size.height * 0.05,
             ),
             Padding(
               padding: EdgeInsets.only(left: mdqr.size.width * 0.05),
-              child: Container(
-                height: mdqr.size.height * 0.12,
-                child: FittedBox(
-                    child: Text(
-                  'Hi. I can help you find\nwhat’s going on.\nJust start a symptom\nassessment.',
-                  style: TextStyle(
-                    color: scndColor,
-                  ),
-                )),
+              child: Text(
+                (role == 0)
+                    ? 'Hi. I can help you find\nwhat’s going on.\nJust start a symptom\nassessment.'
+                    : 'Welcome $drName',
+                style: TextStyle(
+                  color: scndColor,
+                  fontSize: 16,
+                ),
               ),
             ),
-            SizedBox(
-              height: mdqr.size.height * 0.05,
-            ),
+            Expanded(child: Container()),
+            // SizedBox(
+            //   // height: mdqr.size.height * 0.05,
+            //   height: 40,
+            // ),
             Align(
               alignment: Alignment.centerRight,
               child: AdaptiveRaisedButton(
-                buttonText: 'Start symptom assessment',
+                buttonText:
+                    (role == 0) ? 'Start symptom assessment' : 'See patient',
                 height: MediaQuery.of(context).size.height * 0.05,
                 width: MediaQuery.of(context).size.width * 0.55,
                 handlerFn: (() {
@@ -68,7 +78,8 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             SizedBox(
-              height: mdqr.size.height * 0.01,
+              // height: mdqr.size.height * 0.01,
+              height: 5,
             ),
             Align(
               alignment: Alignment.centerRight,

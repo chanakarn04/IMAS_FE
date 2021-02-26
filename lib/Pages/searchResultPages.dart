@@ -58,10 +58,9 @@ class _SearchResultPagesState extends State<SearchResultPages> {
         IconButton(
           icon: Icon(
             Icons.menu_rounded,
+            color: Colors.transparent,
           ),
-          onPressed: () {
-            _scaffoldState.currentState.openEndDrawer();
-          },
+          onPressed: () {},
         )
       ],
     );
