@@ -1,26 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:homepage_proto/Pages/patientFollowUpPage.dart';
 
-import '../Pages/profilePages.dart';
-// import '../Pages/assessmentPages.dart';
-import '../Pages/assessmentHistoryPage.dart';
-import '../Pages/predictionResultPage.dart';
-import '../Pages/appointmentPatient.dart';
-import '../Pages/appointmentDoctor.dart';
-// import '../Pages/chatRoom.dart';
-import '../Pages/nearbyHospitalPages.dart';
-import '../Pages/settingPages.dart';
+import './sideDrawer_patient.dart';
+import './sideDrawer_doctor.dart';
 
-//Test zone
-// import '../Pages/vitalSignStartPages.dart';
-// import '../Pages/painScoreStartPage.dart';
-// import '../Pages/vitalSignStartPages.dart';
-import '../Pages/loginPage.dart';
-import '../Pages/patientInfoPage.dart';
-import '../Pages/caseMangementPage.dart';
+class SideDrawer extends StatefulWidget {
+  // role of user
+  //  0 = patient
+  //  1 = doctor
+  @override
+  _SideDrawerState createState() => _SideDrawerState();
+}
 
-class SideDrawer extends StatelessWidget {
-  SideDrawer();
+class _SideDrawerState extends State<SideDrawer> {
+  final int role = 1;
+  Color drOnlineColor = Colors.red;
+  bool onlineState = false;
 
   @override
   Widget build(BuildContext context) {
@@ -57,95 +51,141 @@ class SideDrawer extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.end,
-          children: <Widget>[
-            menuDrawerFlatButton(Icons.account_circle_outlined, 'Profile', (() {
-              Navigator.of(context).pop();
-              Navigator.of(context).pushNamed(
-                ProfilePages.routeName,
-              );
-            })),
-            menuDrawerFlatButton(Icons.analytics_outlined, 'Assessment', (() {
-              Navigator.of(context).pop();
-              Navigator.of(context).pushNamed(
-                AssessmentHistoryPage.routeName,
-              );
-            })),
-            menuDrawerFlatButton(Icons.chat_bubble_outline, 'Medical consult',
-                (() {
-              Navigator.of(context).pop();
-              Navigator.of(context).pushNamed(
-                // ChatRoom.routeName,
-                AppointmentPatientPage.routeName,
-              );
-            })),
-            menuDrawerFlatButton(Icons.location_on_outlined, 'Nearby hospital',
-                (() {
-              Navigator.of(context).pop();
-              Navigator.of(context).pushNamed(
-                NearbyHospitalPages.routeName,
-              );
-            })),
-            menuDrawerFlatButton(Icons.settings_outlined, 'Setting', (() {
-              Navigator.of(context).pop();
-              Navigator.of(context).pushNamed(
-                SettingPages.routeName,
-              );
-            })),
-            menuDrawerFlatButton(Icons.traffic_outlined, 'PatientInfo', (() {
-              // **********************
-              Navigator.of(context).pop();
-              Navigator.of(context).pushNamed(
-                PatientInfoPage.routeName,
-              );
-              // **********************
-            })),
-            menuDrawerFlatButton(Icons.traffic_outlined, 'login', (() {
-              // **********************
-              Navigator.of(context).pop();
-              Navigator.of(context).pushNamed(
-                LogInPage.routeName,
-              );
-            })),
-            menuDrawerFlatButton(Icons.traffic_outlined, 'Patient-FollowUp',
-                (() {
-              // **********************
-              Navigator.of(context).pop();
-              Navigator.of(context).pushNamed(
-                PatientFollowUpPage.routeName,
-              );
-            })),
-            // menuDrawerFlatButton(Icons.traffic_outlined, 'VS/PS', (() {
+          children: [
+            if (role == 0)
+              ...buildSideDrawerPatient(context, menuDrawerFlatButton),
+            if (role == 1)
+              Container(
+                padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 16.0),
+                child: Row(
+                  children: <Widget>[
+                    Container(
+                      decoration: BoxDecoration(
+                        color: drOnlineColor,
+                        shape: BoxShape.circle,
+                      ),
+                      height: constraints.maxHeight * 0.04,
+                      width: constraints.maxHeight * 0.04,
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Container(
+                      height: constraints.maxHeight * 0.03,
+                      child: FittedBox(
+                        child: Text('Online'),
+                      ),
+                    ),
+                    Expanded(child: Container()),
+                    Switch(
+                      value: onlineState,
+                      activeColor: Theme.of(context).primaryColor,
+                      onChanged: (bool newValue) {
+                        setState(() {
+                          onlineState = newValue;
+                        });
+                        if (newValue) {
+                          drOnlineColor = Theme.of(context).primaryColor;
+                        } else {
+                          drOnlineColor = Colors.red;
+                        }
+                      },
+                    )
+                  ],
+                ),
+              ),
+            ...buildSideDrawerDoctor(context, menuDrawerFlatButton),
+
+            // <Widget>[
+            //   menuDrawerFlatButton(Icons.account_circle_outlined, 'Profile', (() {
+            //     Navigator.of(context).pop();
+            //     Navigator.of(context).pushNamed(
+            //       ProfilePages.routeName,
+            //     );
+            //   })),
+            //   menuDrawerFlatButton(Icons.analytics_outlined, 'Assessment', (() {
+            //     Navigator.of(context).pop();
+            //     Navigator.of(context).pushNamed(
+            //       AssessmentHistoryPage.routeName,
+            //     );
+            //   })),
+            //   menuDrawerFlatButton(Icons.chat_bubble_outline, 'Medical consult',
+            //       (() {
+            //     Navigator.of(context).pop();
+            //     Navigator.of(context).pushNamed(
+            //       // ChatRoom.routeName,
+            //       AppointmentPatientPage.routeName,
+            //     );
+            //   })),
+            //   menuDrawerFlatButton(Icons.location_on_outlined, 'Nearby hospital',
+            //       (() {
+            //     Navigator.of(context).pop();
+            //     Navigator.of(context).pushNamed(
+            //       NearbyHospitalPages.routeName,
+            //     );
+            //   })),
+            //   menuDrawerFlatButton(Icons.settings_outlined, 'Setting', (() {
+            //     Navigator.of(context).pop();
+            //     Navigator.of(context).pushNamed(
+            //       SettingPages.routeName,
+            //     );
+            //   })),
+
+            // menuDrawerFlatButton(Icons.traffic_outlined, 'PatientInfo', (() {
             //   // **********************
             //   Navigator.of(context).pop();
             //   Navigator.of(context).pushNamed(
-            //     VitalSignStartPage.routeName,
+            //     PatientInfoPage.routeName,
             //   );
             //   // **********************
             // })),
-            // menuDrawerFlatButton(Icons.traffic_outlined, 'PredRes', (() {
+            // menuDrawerFlatButton(Icons.traffic_outlined, 'login', (() {
             //   // **********************
             //   Navigator.of(context).pop();
             //   Navigator.of(context).pushNamed(
-            //     PredictionResultPage.routeName,
+            //     LogInPage.routeName,
+            //   );
+            // })),
+            // menuDrawerFlatButton(Icons.traffic_outlined, 'Patient-FollowUp',
+            //     (() {
+            //   // **********************
+            //   Navigator.of(context).pop();
+            //   Navigator.of(context).pushNamed(
+            //     PatientFollowUpPage.routeName,
+            //   );
+            // })),
+            // // menuDrawerFlatButton(Icons.traffic_outlined, 'VS/PS', (() {
+            // //   // **********************
+            // //   Navigator.of(context).pop();
+            // //   Navigator.of(context).pushNamed(
+            // //     VitalSignStartPage.routeName,
+            // //   );
+            // //   // **********************
+            // // })),
+            // // menuDrawerFlatButton(Icons.traffic_outlined, 'PredRes', (() {
+            // //   // **********************
+            // //   Navigator.of(context).pop();
+            // //   Navigator.of(context).pushNamed(
+            // //     PredictionResultPage.routeName,
+            // //   );
+            // //   // **********************
+            // // })),
+            // menuDrawerFlatButton(Icons.traffic_outlined, 'CaseMgn', (() {
+            //   // **********************
+            //   Navigator.of(context).pop();
+            //   Navigator.of(context).pushNamed(
+            //     CaseManagementPage.routeName,
             //   );
             //   // **********************
             // })),
-            menuDrawerFlatButton(Icons.traffic_outlined, 'CaseMgn', (() {
-              // **********************
-              Navigator.of(context).pop();
-              Navigator.of(context).pushNamed(
-                CaseManagementPage.routeName,
-              );
-              // **********************
-            })),
-            menuDrawerFlatButton(Icons.traffic_outlined, 'aptDr', (() {
-              // **********************
-              Navigator.of(context).pop();
-              Navigator.of(context).pushNamed(
-                AppointmentDoctorPage.routeName,
-              );
-              // **********************
-            })),
+            // menuDrawerFlatButton(Icons.traffic_outlined, 'aptDr', (() {
+            //   // **********************
+            //   Navigator.of(context).pop();
+            //   Navigator.of(context).pushNamed(
+            //     AppointmentDoctorPage.routeName,
+            //   );
+            //   // **********************
+            // })),
             Container(
               padding: EdgeInsets.all(10),
               alignment: Alignment.centerRight,
