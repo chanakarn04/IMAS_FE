@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'assessmentPages.dart';
+import './assessmentPages.dart';
+import './patientFollowUpPage.dart';
 import '../Widget/adaptiveRaisedButton.dart';
 import '../Widget/Logo.dart';
 import '../Widget/sideDrawer.dart';
@@ -13,7 +14,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
-  int role = 0;
+  int role = 1;
 
   // data if role = doctor
   String drName = 'Samitanan';
@@ -71,9 +72,15 @@ class _HomePageState extends State<HomePage> {
                 height: MediaQuery.of(context).size.height * 0.05,
                 width: MediaQuery.of(context).size.width * 0.55,
                 handlerFn: (() {
-                  Navigator.of(context).pushNamed(
-                    AssessmentPages.routeName,
-                  );
+                  if (role == 0) {
+                    Navigator.of(context).pushNamed(
+                      AssessmentPages.routeName,
+                    );
+                  } else {
+                    Navigator.of(context).pushNamed(
+                      PatientFollowUpPage.routeName,
+                    );
+                  }
                 }),
               ),
             ),

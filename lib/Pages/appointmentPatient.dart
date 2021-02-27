@@ -207,13 +207,7 @@ class AppointmentPatientPage extends StatelessWidget {
                                           .difference(data['apDt'])
                                           .inMinutes <=
                                       30))
-                              ? Text(
-                                  'It not the appointment time yet.',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                  ),
-                                )
-                              : InkWell(
+                              ? InkWell(
                                   onTap: () {
                                     Navigator.of(context)
                                         .popAndPushNamed(ChatRoom.routeName);
@@ -233,6 +227,12 @@ class AppointmentPatientPage extends StatelessWidget {
                                         fontSize: 20,
                                       ),
                                     ),
+                                  ),
+                                )
+                              : Text(
+                                  'It not the appointment time yet.',
+                                  style: TextStyle(
+                                    color: Colors.white,
                                   ),
                                 ),
                     ),

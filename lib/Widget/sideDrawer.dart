@@ -15,6 +15,7 @@ class _SideDrawerState extends State<SideDrawer> {
   final int role = 0;
   Color drOnlineColor = Colors.red;
   bool onlineState = false;
+  String onlineText = 'Offline';
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +74,9 @@ class _SideDrawerState extends State<SideDrawer> {
                     Container(
                       height: constraints.maxHeight * 0.03,
                       child: FittedBox(
-                        child: Text('Online'),
+                        child: Text(
+                          onlineText,
+                        ),
                       ),
                     ),
                     Expanded(child: Container()),
@@ -85,9 +88,15 @@ class _SideDrawerState extends State<SideDrawer> {
                           onlineState = newValue;
                         });
                         if (newValue) {
-                          drOnlineColor = Theme.of(context).primaryColor;
+                          setState(() {
+                            drOnlineColor = Theme.of(context).primaryColor;
+                            onlineText = 'Online';
+                          });
                         } else {
-                          drOnlineColor = Colors.red;
+                          setState(() {
+                            drOnlineColor = Colors.red;
+                            onlineText = 'Offline';
+                          });
                         }
                       },
                     )

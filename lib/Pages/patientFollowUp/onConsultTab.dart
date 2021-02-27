@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:homepage_proto/Pages/chatRoom.dart';
 import 'package:intl/intl.dart';
+
+import '../caseMangementPage.dart';
+import '../PatientInfoPage.dart';
 
 class OnConsultTab extends StatefulWidget {
   // final List<Patient>
@@ -42,30 +46,37 @@ class _OnConsultTabState extends State<OnConsultTab> {
                 onPressed: () {
                   print('to patient info with $tpId');
                 },
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.edit_outlined,
-                      size: 40,
-                      color: Theme.of(context).primaryColor,
-                    ),
-                    SizedBox(
-                      width: 15,
-                    ),
-                    Text(
-                      'Case Management',
-                      style: TextStyle(
+                child: InkWell(
+                  onTap: () {
+                    Navigator.of(context)
+                        .pushNamed(CaseManagementPage.routeName);
+                  },
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.edit_outlined,
+                        size: 40,
                         color: Theme.of(context).primaryColor,
-                        fontSize: 24,
                       ),
-                    ),
-                  ],
+                      SizedBox(
+                        width: 15,
+                      ),
+                      Text(
+                        'Case Management',
+                        style: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                          fontSize: 24,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               FlatButton(
                 padding: EdgeInsets.symmetric(vertical: 10),
                 onPressed: () {
                   print('to patient info with $tpId');
+                  Navigator.of(context).pushNamed(PatientInfoPage.routeName);
                 },
                 child: Row(
                   children: [
@@ -103,24 +114,6 @@ class _OnConsultTabState extends State<OnConsultTab> {
           color: Theme.of(context).primaryColor,
           width: 2,
         ),
-        // border: Border(
-        //   bottom: BorderSide(
-        //     width: 2,
-        //     color: Theme.of(context).primaryColor,
-        //   ),
-        //   top: BorderSide(
-        //     width: 2,
-        //     color: Theme.of(context).primaryColor,
-        //   ),
-        //   right: BorderSide(
-        //     width: 2,
-        //     color: Theme.of(context).primaryColor,
-        //   ),
-        //   left: BorderSide(
-        //     width: 2,
-        //     color: Colors.transparent,
-        //   ),
-        // ),
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(15),
           topLeft: Radius.circular(15),
@@ -128,7 +121,7 @@ class _OnConsultTabState extends State<OnConsultTab> {
       ),
       child: ListTile(
         onTap: () {
-          print('to chat page');
+          Navigator.of(context).pushNamed(ChatRoom.routeName);
         },
         onLongPress: () {
           openModalBottomSheet(tpId);

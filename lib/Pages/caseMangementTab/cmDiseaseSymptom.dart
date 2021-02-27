@@ -50,6 +50,20 @@ class _CMDiseaseSymptomTabState extends State<CMDiseaseSymptomTab> {
     controller.clear();
     print('Add as $temp');
     Navigator.of(context).pop();
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Data added'),
+        actions: [
+          FlatButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text('OK'),
+          ),
+        ],
+      ),
+    );
   }
 
   _setEdit() {
@@ -59,6 +73,20 @@ class _CMDiseaseSymptomTabState extends State<CMDiseaseSymptomTab> {
     controller.clear();
     print('Edit as $temp');
     Navigator.of(context).pop();
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Data edited'),
+        actions: [
+          FlatButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text('OK'),
+          ),
+        ],
+      ),
+    );
   }
 
   List<String> get _getDiseaseNames {

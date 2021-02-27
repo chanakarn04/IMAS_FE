@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../PatientInfoPage.dart';
+
 class InCareTab extends StatefulWidget {
   // final List<Patient>
   final List<Map<String, Object>> infomation;
@@ -41,6 +43,7 @@ class _InCareTabState extends State<InCareTab> {
                 padding: EdgeInsets.symmetric(vertical: 10),
                 onPressed: () {
                   print('to patient info with $tpId');
+                  Navigator.of(context).pushNamed(PatientInfoPage.routeName);
                 },
                 child: Row(
                   children: [
@@ -90,6 +93,7 @@ class _InCareTabState extends State<InCareTab> {
       child: ListTile(
         onTap: () {
           print('to patient info with $tpId');
+          Navigator.of(context).pushNamed(PatientInfoPage.routeName);
         },
         onLongPress: () {
           openModalBottomSheet(tpId);

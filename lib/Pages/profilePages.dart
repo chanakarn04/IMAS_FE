@@ -9,7 +9,7 @@ class ProfilePages extends StatelessWidget {
   // role of user
   //  0 = patient
   //  1 = doctor
-  final int role = 0;
+  final int role = 1;
 
   Widget _buildHeaderBox(BuildContext context, String title, Widget child) {
     return Column(

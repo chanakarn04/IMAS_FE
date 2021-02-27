@@ -22,7 +22,7 @@ List<Widget> buildSideDrawerDoctor(
     //     AssessmentHistoryPage.routeName,
     //   );
     // })),
-    menuDrawerFlatButton(Icons.chat_bubble_outline, 'Medical consult', (() {
+    menuDrawerFlatButton(Icons.event, 'Appointment', (() {
       Navigator.of(context).pop();
       Navigator.of(context).pushNamed(
         // ChatRoom.routeName,
