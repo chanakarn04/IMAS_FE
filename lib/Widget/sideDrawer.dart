@@ -15,6 +15,7 @@ import '../Pages/settingPages.dart';
 // import '../Pages/vitalSignStartPages.dart';
 import '../Pages/loginPage.dart';
 import '../Pages/patientInfoPage.dart';
+import '../Pages/caseMangementPage.dart';
 
 class SideDrawer extends StatelessWidget {
   SideDrawer();
@@ -126,6 +127,14 @@ class SideDrawer extends StatelessWidget {
             //   );
             //   // **********************
             // })),
+            menuDrawerFlatButton(Icons.traffic_outlined, 'CaseMgn', (() {
+              // **********************
+              Navigator.of(context).pop();
+              Navigator.of(context).pushNamed(
+                CaseManagementPage.routeName,
+              );
+              // **********************
+            })),
             Container(
               padding: EdgeInsets.all(10),
               alignment: Alignment.centerRight,

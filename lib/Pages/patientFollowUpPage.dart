@@ -236,11 +236,11 @@ class _PatientFollowUpPageState extends State<PatientFollowUpPage> {
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.chat_bubble_outline_rounded),
-            label: 'On Consult',
+            label: _pages[0]['title'],
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_box_rounded),
-            label: 'In Care',
+            label: _pages[1]['title'],
           ),
         ],
       ),

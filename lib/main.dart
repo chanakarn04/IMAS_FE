@@ -26,6 +26,8 @@ import './Pages/register/registerPatientScreen_2.dart';
 import './Pages/register/registerPatientScreen_3.dart';
 import './Pages/register/registerDoctorScreen.dart';
 import './Pages/patientFollowUpPage.dart';
+import './Pages/caseMangementPage.dart';
+import './Pages/closeCasePage.dart';
 
 void main() {
   runApp(MyApp());
@@ -73,6 +75,8 @@ class MyApp extends StatelessWidget {
         PainScorePage.routeName: (ctx) => PainScorePage(),
         PatientInfoPage.routeName: (ctx) => PatientInfoPage(),
         PatientFollowUpPage.routeName: (ctx) => PatientFollowUpPage(),
+        CaseManagementPage.routeName: (ctx) => CaseManagementPage(),
+        CloseCasePage.routneName: (ctx) => CloseCasePage(),
       },
     );
   }
