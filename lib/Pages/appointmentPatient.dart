@@ -200,35 +200,41 @@ class AppointmentPatientPage extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      child: (DateTime.now().isBefore(data['apDt']))
-                          ? Text(
-                              'It not the appointment time yet.',
-                              style: TextStyle(
-                                color: Colors.white,
-                              ),
-                            )
-                          : InkWell(
-                              onTap: () {
-                                Navigator.of(context)
-                                    .popAndPushNamed(ChatRoom.routeName);
-                              },
-                              child: Container(
-                                height: 50,
-                                width: 150,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(25),
-                                ),
-                                alignment: Alignment.center,
-                                child: Text(
-                                  'Chatroom',
+                      child:
+                          ((DateTime.now().difference(data['apDt']).inMinutes >=
+                                      0) &&
+                                  (DateTime.now()
+                                          .difference(data['apDt'])
+                                          .inMinutes <=
+                                      30))
+                              ? InkWell(
+                                  onTap: () {
+                                    Navigator.of(context)
+                                        .popAndPushNamed(ChatRoom.routeName);
+                                  },
+                                  child: Container(
+                                    height: 50,
+                                    width: 150,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(25),
+                                    ),
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      'Chatroom',
+                                      style: TextStyle(
+                                        color: Theme.of(context).accentColor,
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              : Text(
+                                  'It not the appointment time yet.',
                                   style: TextStyle(
-                                    color: Theme.of(context).accentColor,
-                                    fontSize: 20,
+                                    color: Colors.white,
                                   ),
                                 ),
-                              ),
-                            ),
                     ),
                     SizedBox(
                       height: 15,

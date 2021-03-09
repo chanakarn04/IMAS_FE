@@ -86,33 +86,35 @@ class _ChatRoomState extends State<ChatRoom> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          IconButton(
-            icon: Icon(
-              Icons.image_outlined,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              print('Select image');
-            },
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              padding: EdgeInsets.only(
-                left: 10,
-                top: 5,
-              ),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(25),
-              ),
-              width: MediaQuery.of(context).size.width * 0.7,
-              child: TextField(
-                decoration: InputDecoration(
-                  hintText: 'Aa',
+          // IconButton(
+          //   icon: Icon(
+          //     Icons.image_outlined,
+          //     color: Colors.white,
+          //   ),
+          //   onPressed: () {
+          //     print('Select image');
+          //   },
+          // ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                padding: EdgeInsets.only(
+                  left: 10,
+                  top: 5,
                 ),
-                controller: _textController,
-                onSubmitted: _sendConversation(),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(25),
+                ),
+                // width: MediaQuery.of(context).size.width * 0.7,
+                child: TextField(
+                  decoration: InputDecoration(
+                    hintText: 'Aa',
+                  ),
+                  controller: _textController,
+                  onSubmitted: _sendConversation(),
+                ),
               ),
             ),
           ),

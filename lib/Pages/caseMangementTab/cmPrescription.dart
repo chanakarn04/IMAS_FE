@@ -27,6 +27,20 @@ class _CMPrescriptionTabState extends State<CMPrescriptionTab> {
     controller.clear();
     print('Add as $temp');
     Navigator.of(context).pop();
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Data added'),
+        actions: [
+          FlatButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text('OK'),
+          ),
+        ],
+      ),
+    );
   }
 
   _setEdit() {
@@ -36,6 +50,20 @@ class _CMPrescriptionTabState extends State<CMPrescriptionTab> {
     controller.clear();
     print('Edit as $temp');
     Navigator.of(context).pop();
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Data added'),
+        actions: [
+          FlatButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text('OK'),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
