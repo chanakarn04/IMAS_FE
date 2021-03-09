@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../Widget/profile_patinent_body.dart';
 import '../Widget/profile_doctor_body.dart';
+import '../Provider/user-info.dart';
 
 class ProfilePages extends StatelessWidget {
   static const routeName = '/profile';
@@ -9,7 +11,7 @@ class ProfilePages extends StatelessWidget {
   // role of user
   //  0 = patient
   //  1 = doctor
-  final int role = 1;
+  // final int role = 1;
 
   Widget _buildHeaderBox(BuildContext context, String title, Widget child) {
     return Column(
@@ -67,6 +69,7 @@ class ProfilePages extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final userInfo = Provider.of<UserInfo>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(
@@ -93,7 +96,7 @@ class ProfilePages extends StatelessWidget {
           )
         ],
       ),
-      body: (role == 0)
+      body: (userInfo.role == Role.Patient)
           ? ProfilePatientBody(_buildHeaderBox)
           : ProfileDoctorBody(_buildHeaderBox),
     );

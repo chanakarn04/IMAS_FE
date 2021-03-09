@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import './sideDrawer_patient.dart';
 import './sideDrawer_doctor.dart';
+import '../Provider/user-info.dart';
 
 class SideDrawer extends StatefulWidget {
   @override
@@ -12,13 +14,14 @@ class _SideDrawerState extends State<SideDrawer> {
   // role of user
   //  0 = patient
   //  1 = doctor
-  final int role = 0;
+  // final int role = 0;
   Color drOnlineColor = Colors.red;
-  bool onlineState = false;
+  // bool onlineState = false;
   String onlineText = 'Offline';
 
   @override
   Widget build(BuildContext context) {
+    final userInfo = Provider.of<UserInfo>(context);
     return Drawer(child: LayoutBuilder(builder: (ctx, constraints) {
       Widget menuDrawerFlatButton(
         IconData icon,
@@ -53,9 +56,9 @@ class _SideDrawerState extends State<SideDrawer> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            if (role == 0)
+            if (userInfo.role == Role.Patient)
               ...buildSideDrawerPatient(context, menuDrawerFlatButton),
-            if (role == 1) ...[
+            if (userInfo.role == Role.Doctor) ...[
               Container(
                 padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 16.0),
                 child: Row(
@@ -81,12 +84,10 @@ class _SideDrawerState extends State<SideDrawer> {
                     ),
                     Expanded(child: Container()),
                     Switch(
-                      value: onlineState,
+                      value: userInfo.online,
                       activeColor: Theme.of(context).primaryColor,
                       onChanged: (bool newValue) {
-                        setState(() {
-                          onlineState = newValue;
-                        });
+                        userInfo.triggerOnline();
                         if (newValue) {
                           setState(() {
                             drOnlineColor = Theme.of(context).primaryColor;

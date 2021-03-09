@@ -1,27 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
-import '../dummy_data.dart';
+import '../Provider/user-info.dart';
+
+// import '../dummy_data.dart';
 
 class ProfileDoctorBody extends StatelessWidget {
   final Function headerBox;
 
   ProfileDoctorBody(this.headerBox);
 
-  final Map<String, Object> data = {
-    'userName': 'example@mail.com',
-    'namePrefix': 'Dr.',
-    'drName': 'Samitanan',
-    'drSurname': 'Techabunyawatthanakul',
-    'dob': DateTime(1998, 4, 12),
-    'gender': Gender.Female,
-    'citizenID': '1234567890123',
-    'mdID': 'XXXXXXXXXXXXX',
-    'certID': 'XXXXXXXXXXXXX',
-  };
+  Doctor dInfo;
+  // final Map<String, Object> data = {
+  //   'userName': 'example@mail.com',
+  //   'namePrefix': 'Dr.',
+  //   'drName': 'Samitanan',
+  //   'drSurname': 'Techabunyawatthanakul',
+  //   'dob': DateTime(1998, 4, 12),
+  //   'gender': Gender.Female,
+  //   'citizenID': '1234567890123',
+  //   'mdID': 'XXXXXXXXXXXXX',
+  //   'certID': 'XXXXXXXXXXXXX',
+  // };
 
   String get genderText {
-    switch (data['gender']) {
+    switch (dInfo.gender) {
       case Gender.Male:
         return 'Male';
         break;
@@ -35,6 +39,8 @@ class ProfileDoctorBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final userInfo = Provider.of<UserInfo>(context);
+    dInfo = userInfo.dInfo;
     return Center(
       child: Column(
         // mainAxisAlignment: MainAxisAlignment.center,
@@ -101,7 +107,7 @@ class ProfileDoctorBody extends StatelessWidget {
                             bottom: 8.0,
                           ),
                           child: Text(
-                            '${data['pName']} ${data['pSurname']}',
+                            userInfo.getUserName(),
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 20,
@@ -120,32 +126,32 @@ class ProfileDoctorBody extends StatelessWidget {
                             bottom: 8.0,
                           ),
                           child: Text(
-                            data['userName'],
+                            userInfo.userId,
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 20,
                             ),
                           ),
                         ),
-                        Text(
-                          'Date of birth',
-                          style: TextStyle(
-                            color: Colors.grey,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            left: 8.0,
-                            bottom: 8.0,
-                          ),
-                          child: Text(
-                            DateFormat.yMMMMd().format(data['dob']),
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 20,
-                            ),
-                          ),
-                        ),
+                        // Text(
+                        //   'Date of birth',
+                        //   style: TextStyle(
+                        //     color: Colors.grey,
+                        //   ),
+                        // ),
+                        // Padding(
+                        //   padding: const EdgeInsets.only(
+                        //     left: 8.0,
+                        //     bottom: 8.0,
+                        //   ),
+                        //   child: Text(
+                        //     DateFormat.yMMMMd().format(dInfo.),
+                        //     style: TextStyle(
+                        //       color: Colors.black,
+                        //       fontSize: 20,
+                        //     ),
+                        //   ),
+                        // ),
                         Text(
                           'Gender',
                           style: TextStyle(
@@ -177,7 +183,7 @@ class ProfileDoctorBody extends StatelessWidget {
                             bottom: 8.0,
                           ),
                           child: Text(
-                            data['citizenID'],
+                            dInfo.citizenID.toString(),
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 20,
@@ -196,7 +202,7 @@ class ProfileDoctorBody extends StatelessWidget {
                             bottom: 8.0,
                           ),
                           child: Text(
-                            data['mdID'],
+                            dInfo.mdID,
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 20,
@@ -215,7 +221,7 @@ class ProfileDoctorBody extends StatelessWidget {
                             bottom: 8.0,
                           ),
                           child: Text(
-                            data['certID'],
+                            dInfo.certID,
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 20,

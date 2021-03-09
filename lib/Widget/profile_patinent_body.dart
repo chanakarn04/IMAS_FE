@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
-import '../dummy_data.dart';
+import '../Provider/user-info.dart';
+
+// import '../dummy_data.dart';
 
 class ProfilePatientBody extends StatelessWidget {
   final Function headerBox;
@@ -9,23 +12,24 @@ class ProfilePatientBody extends StatelessWidget {
   ProfilePatientBody(this.headerBox);
 
   //user data
-  final Map<String, Object> data = {
-    'userName': 'example@mail.com',
-    'pName': 'Samitanan',
-    'pSurname': 'Techabunyawatthanakul',
-    'dob': DateTime(1998, 4, 12),
-    'gender': Gender.Female,
-    'drugAllergy': [
-      'Paracetamol',
-      'Bakamol',
-    ],
-    'isSmoke': Status.No,
-    'isDiabetes': Status.No,
-    'hasHighPress': Status.NotSure,
-  };
+  Patient pInfo;
+  // final Map<String, Object> data = {
+  //   'userName': 'example@mail.com',
+  //   'pName': 'Samitanan',
+  //   'pSurname': 'Techabunyawatthanakul',
+  //   'dob': DateTime(1998, 4, 12),
+  //   'gender': Gender.Female,
+  //   'drugAllergy': [
+  //     'Paracetamol',
+  //     'Bakamol',
+  //   ],
+  //   'isSmoke': Status.No,
+  //   'isDiabetes': Status.No,
+  //   'hasHighPress': Status.NotSure,
+  // };
 
   String get genderText {
-    switch (data['gender']) {
+    switch (pInfo.gender) {
       case Gender.Male:
         return 'Male';
         break;
@@ -38,7 +42,7 @@ class ProfilePatientBody extends StatelessWidget {
   }
 
   String get smokeText {
-    switch (data['isSmoke']) {
+    switch (pInfo.isSmoke) {
       case Status.NotSure:
         return 'Not sure';
         break;
@@ -54,7 +58,7 @@ class ProfilePatientBody extends StatelessWidget {
   }
 
   String get diabeteText {
-    switch (data['isDiabetes']) {
+    switch (pInfo.isDiabetes) {
       case Status.NotSure:
         return 'Not sure';
         break;
@@ -70,7 +74,7 @@ class ProfilePatientBody extends StatelessWidget {
   }
 
   String get highPressText {
-    switch (data['hasHighPress']) {
+    switch (pInfo.hasHighPress) {
       case Status.NotSure:
         return 'Not sure';
         break;
@@ -86,12 +90,14 @@ class ProfilePatientBody extends StatelessWidget {
   }
 
   int get _getDrugAllergyLength {
-    List temp = data['drugAllergy'];
+    List temp = pInfo.drugAllegy;
     return temp.length;
   }
 
   @override
   Widget build(BuildContext context) {
+    final userInfo = Provider.of<UserInfo>(context);
+    pInfo = userInfo.pInfo;
     return Center(
       child: Column(
         // mainAxisAlignment: MainAxisAlignment.center,
@@ -158,7 +164,7 @@ class ProfilePatientBody extends StatelessWidget {
                             bottom: 8.0,
                           ),
                           child: Text(
-                            '${data['pName']} ${data['pSurname']}',
+                            userInfo.getUserName(),
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 20,
@@ -177,7 +183,7 @@ class ProfilePatientBody extends StatelessWidget {
                             bottom: 8.0,
                           ),
                           child: Text(
-                            data['userName'],
+                            userInfo.userId,
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 20,
@@ -196,7 +202,7 @@ class ProfilePatientBody extends StatelessWidget {
                             bottom: 8.0,
                           ),
                           child: Text(
-                            DateFormat.yMMMMd().format(data['dob']),
+                            DateFormat.yMMMMd().format(pInfo.dob),
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 20,
@@ -332,7 +338,7 @@ class ProfilePatientBody extends StatelessWidget {
                               child: ListView.builder(
                                 physics: NeverScrollableScrollPhysics(),
                                 itemBuilder: (context, index) {
-                                  List drugs = data['drugAllergy'];
+                                  List drugs = pInfo.drugAllegy;
                                   return Padding(
                                     padding: EdgeInsets.only(bottom: 8.0),
                                     child: Text(

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import './assessmentPages.dart';
 import './patientFollowUpPage.dart';
 import '../Widget/adaptiveRaisedButton.dart';
 import '../Widget/Logo.dart';
 import '../Widget/sideDrawer.dart';
+import '../Provider/user-info.dart';
 
 class HomePage extends StatefulWidget {
   static const routeName = '/home';
@@ -14,13 +16,13 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
-  int role = 1;
 
   // data if role = doctor
-  String drName = 'Samitanan';
+  // String drName = 'Samitanan';
 
   @override
   Widget build(BuildContext context) {
+    final userInfo = Provider.of<UserInfo>(context, listen: false);
     final mdqr = MediaQuery.of(context);
     final scndColor = Color.fromARGB(255, 75, 75, 75);
     return Scaffold(
@@ -50,9 +52,9 @@ class _HomePageState extends State<HomePage> {
             Padding(
               padding: EdgeInsets.only(left: mdqr.size.width * 0.05),
               child: Text(
-                (role == 0)
+                (userInfo.role == Role.Patient)
                     ? 'Hi. I can help you find\nwhat’s going on.\nJust start a symptom\nassessment.'
-                    : 'Welcome $drName',
+                    : 'Welcome ${userInfo.getUserName()}',
                 style: TextStyle(
                   color: scndColor,
                   fontSize: 16,
@@ -67,12 +69,13 @@ class _HomePageState extends State<HomePage> {
             Align(
               alignment: Alignment.centerRight,
               child: AdaptiveRaisedButton(
-                buttonText:
-                    (role == 0) ? 'Start symptom assessment' : 'See patient',
+                buttonText: (userInfo.role == Role.Patient)
+                    ? 'Start symptom assessment'
+                    : 'See patient',
                 height: MediaQuery.of(context).size.height * 0.05,
                 width: MediaQuery.of(context).size.width * 0.55,
                 handlerFn: (() {
-                  if (role == 0) {
+                  if (userInfo.role == Role.Patient) {
                     Navigator.of(context).pushNamed(
                       AssessmentPages.routeName,
                     );
