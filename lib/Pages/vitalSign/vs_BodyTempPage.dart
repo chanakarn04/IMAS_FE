@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../Widget/numberTextInput.dart';
-import '../../Widget/progress4Dot.dart';
+import '../../Widget/progressDot.dart';
 import '../../Widget/AdaptiveRaisedButton.dart';
 import './vs_HeartRatePage.dart';
 
@@ -140,7 +140,13 @@ class VSBodyTempPage extends StatelessWidget {
                   SizedBox(
                     height: 15,
                   ),
-                  ProgressDot4(1),
+                  Align(
+                    alignment: Alignment.center,
+                    child: ProgressDot(
+                      length: 4,
+                      markedIndex: 1,
+                    ),
+                  ),
                   SizedBox(
                     height: 15,
                   ),
