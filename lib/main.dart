@@ -17,7 +17,10 @@ import './Pages/painScoreStartPage.dart';
 import './Pages/painScorePage.dart';
 import './Pages/predictionResultPage.dart';
 import './Pages/diseaseDetail.dart';
-import 'Pages/patientInfoPage.dart';
+import './Pages/patientInfoPage.dart';
+import './Pages/loginPage.dart';
+import './Pages/forgetPswPage.dart';
+import './Pages/registerPage.dart';
 
 void main() {
   runApp(MyApp());
@@ -39,6 +42,9 @@ class MyApp extends StatelessWidget {
       initialRoute: HomePage.routeName,
       routes: {
         HomePage.routeName: (ctx) => HomePage(),
+        LogInPage.routeName: (ctx) => LogInPage(),
+        RegisterPage.routeName: (ctx) => RegisterPage(),
+        ForgetPswPage.routeName: (ctx) => ForgetPswPage(),
         AssessmentPages.routeName: (ctx) => AssessmentPages(),
         // AssessmentHistoryPage.routeName: (ctx) => AssessmentHistoryPage(),
         PredictionResultPage.routeName: (ctx) => PredictionResultPage(),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:homepage_proto/Pages/vitalSignStartPages.dart';
 
 import '../Pages/profilePages.dart';
 // import '../Pages/assessmentPages.dart';
@@ -10,8 +9,10 @@ import '../Pages/nearbyHospitalPages.dart';
 import '../Pages/settingPages.dart';
 
 //Test zone
+// import '../Pages/vitalSignStartPages.dart';
 // import '../Pages/painScoreStartPage.dart';
 // import '../Pages/vitalSignStartPages.dart';
+import '../Pages/loginPage.dart';
 import '../Pages/patientInfoPage.dart';
 
 class SideDrawer extends StatelessWidget {
@@ -85,34 +86,29 @@ class SideDrawer extends StatelessWidget {
                 SettingPages.routeName,
               );
             })),
-            menuDrawerFlatButton(Icons.traffic_outlined, 'PtInfo', (() {
+            menuDrawerFlatButton(Icons.traffic_outlined, 'login', (() {
               // **********************
               Navigator.of(context).pop();
               Navigator.of(context).pushNamed(
-                PatientInfoPage.routeName,
+                LogInPage.routeName,
               );
-              // Navigator.of(context).pop();
-              // Navigator.of(context).pushNamed(
-              //   VitalSignStartPage.routeName
-              // );
-              // **********************
             })),
-            menuDrawerFlatButton(Icons.traffic_outlined, 'VS/PS', (() {
-              // **********************
-              Navigator.of(context).pop();
-              Navigator.of(context).pushNamed(
-                VitalSignStartPage.routeName,
-              );
-              // **********************
-            })),
-            menuDrawerFlatButton(Icons.traffic_outlined, 'PredRes', (() {
-              // **********************
-              Navigator.of(context).pop();
-              Navigator.of(context).pushNamed(
-                PredictionResultPage.routeName,
-              );
-              // **********************
-            })),
+            // menuDrawerFlatButton(Icons.traffic_outlined, 'VS/PS', (() {
+            //   // **********************
+            //   Navigator.of(context).pop();
+            //   Navigator.of(context).pushNamed(
+            //     VitalSignStartPage.routeName,
+            //   );
+            //   // **********************
+            // })),
+            // menuDrawerFlatButton(Icons.traffic_outlined, 'PredRes', (() {
+            //   // **********************
+            //   Navigator.of(context).pop();
+            //   Navigator.of(context).pushNamed(
+            //     PredictionResultPage.routeName,
+            //   );
+            //   // **********************
+            // })),
             Container(
               padding: EdgeInsets.all(10),
               alignment: Alignment.centerRight,
