@@ -74,8 +74,10 @@ class _PredictionResultPageState extends State<PredictionResultPage> {
 
   @override
   Widget build(BuildContext context) {
-    // final routeArgument =
-    //     ModalRoute.of(context).settings.arguments as Map<String, Object>;
+    final routeArgument =
+        ModalRoute.of(context).settings.arguments as Map<String, Object>;
+    isHistory = routeArgument['isHistory'];
+    isMeetDoctor = routeArgument['isMeetDoctor'];
     return Scaffold(
       key: _scaffoldState,
       endDrawer: SideDrawer(),
@@ -95,10 +97,9 @@ class _PredictionResultPageState extends State<PredictionResultPage> {
           IconButton(
             icon: Icon(
               Icons.menu_rounded,
+              color: Colors.transparent,
             ),
-            onPressed: () {
-              _scaffoldState.currentState.openEndDrawer();
-            },
+            onPressed: null,
           )
         ],
       ),
@@ -131,7 +132,9 @@ class _PredictionResultPageState extends State<PredictionResultPage> {
                                 AdaptiveBorderButton(
                                   buttonText: 'Home',
                                   handlerFn: () {
-                                    print('Home');
+                                    // print('Home');
+                                    Navigator.of(context)
+                                        .popUntil(ModalRoute.withName('/home'));
                                   },
                                   height: 45,
                                   width: 180,
@@ -154,19 +157,13 @@ class _PredictionResultPageState extends State<PredictionResultPage> {
                       : AdaptiveRaisedButton(
                           buttonText: 'Home',
                           handlerFn: () {
-                            print('Go to wait doctor');
+                            Navigator.of(context)
+                                .popUntil(ModalRoute.withName('/home'));
                           },
                           height: 35,
                           width: 160,
                         )
-                  : AdaptiveRaisedButton(
-                      buttonText: 'Back',
-                      handlerFn: () {
-                        Navigator.of(context).pop();
-                      },
-                      height: 35,
-                      width: 160,
-                    ),
+                  : Container(),
             ],
           ),
         ),

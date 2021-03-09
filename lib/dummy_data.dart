@@ -8,7 +8,7 @@ import './Models/symptom.dart';
 enum Gender { Male, Female }
 enum Status { Yes, No, NotSure }
 enum AptStatus { Edited, Passed, Lastest }
-enum TreatmentStatus { InProgress, Cured, Hospital }
+enum TreatmentStatus { InProgress, Cured, Hospital, Api }
 
 class Patient {
   final String pId;
