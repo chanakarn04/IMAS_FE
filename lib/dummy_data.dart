@@ -162,7 +162,7 @@ class TreatmentPlan {
   });
 }
 
-final Patient dummy_Paitent = Patient(
+final Patient dummy_Patient = Patient(
   pId: 'p001',
   pName: 'Harold',
   pSurname: 'Pain',
@@ -173,6 +173,20 @@ final Patient dummy_Paitent = Patient(
   isDiabetes: Status.NotSure,
   hasHighPress: Status.No,
 );
+
+final List<Patient> dummy_Patients = [
+  Patient(
+    pId: 'p001',
+    pName: 'Harold',
+    pSurname: 'Pain',
+    dob: DateTime.utc(1998, 4, 4),
+    gender: Gender.Male,
+    drugAllegy: ['Paracetamol', 'Aspirin'],
+    isSmoke: Status.Yes,
+    isDiabetes: Status.NotSure,
+    hasHighPress: Status.No,
+  ),
+];
 
 final Doctor dummy_doctor = Doctor(
   drId: 'd001',
@@ -188,6 +202,21 @@ final TreatmentPlan dummy_treatmentPlan = TreatmentPlan(
   drId: 'd001',
   status: TreatmentStatus.InProgress,
 );
+
+final List<TreatmentPlan> dummy_treatmentPlans = [
+  TreatmentPlan(
+    tpId: 'tp001',
+    pId: 'p001',
+    drId: 'd001',
+    status: TreatmentStatus.InProgress,
+  ),
+  TreatmentPlan(
+    tpId: 'tp002',
+    pId: 'p002',
+    drId: 'd001',
+    status: TreatmentStatus.InProgress,
+  ),
+];
 
 final List<Appointment> dummy_appointment = [
   Appointment(
@@ -211,7 +240,19 @@ final List<Appointment> dummy_appointment = [
     tpId: 'tp001',
     note: '',
     advises: '',
-    apDt: DateTime.now(),
+    apDt: DateTime.now().add(
+      new Duration(minutes: 10),
+    ),
+    status: AptStatus.Lastest,
+  ),
+  Appointment(
+    apId: 'ap004',
+    tpId: 'tp002',
+    note: '',
+    advises: '',
+    apDt: DateTime.now().add(
+      new Duration(days: 4),
+    ),
     status: AptStatus.Lastest,
   ),
 ];

@@ -55,6 +55,7 @@ flutter:
     - assets/images/body.png
     - assets/images/doctor.png
     - assets/images/patient.jpg
+    - assets/images/default_photo.png
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 

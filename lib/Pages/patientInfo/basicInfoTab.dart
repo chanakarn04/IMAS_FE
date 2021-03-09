@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../dummy_data.dart';
 
 class BasicInfoTab extends StatelessWidget {
-  final pInfo = dummy_Paitent;
+  final pInfo = dummy_Patient;
 
   String get genderText {
     switch (pInfo.gender) {

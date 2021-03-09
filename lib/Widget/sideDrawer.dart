@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:homepage_proto/Pages/patientFollowUpPage.dart';
 
 import '../Pages/profilePages.dart';
 // import '../Pages/assessmentPages.dart';
@@ -86,11 +87,27 @@ class SideDrawer extends StatelessWidget {
                 SettingPages.routeName,
               );
             })),
+            menuDrawerFlatButton(Icons.traffic_outlined, 'PatientInfo', (() {
+              // **********************
+              Navigator.of(context).pop();
+              Navigator.of(context).pushNamed(
+                PatientInfoPage.routeName,
+              );
+              // **********************
+            })),
             menuDrawerFlatButton(Icons.traffic_outlined, 'login', (() {
               // **********************
               Navigator.of(context).pop();
               Navigator.of(context).pushNamed(
                 LogInPage.routeName,
+              );
+            })),
+            menuDrawerFlatButton(Icons.traffic_outlined, 'Patient-FollowUp',
+                (() {
+              // **********************
+              Navigator.of(context).pop();
+              Navigator.of(context).pushNamed(
+                PatientFollowUpPage.routeName,
               );
             })),
             // menuDrawerFlatButton(Icons.traffic_outlined, 'VS/PS', (() {
