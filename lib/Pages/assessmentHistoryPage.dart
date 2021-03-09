@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import './predictionResultPage.dart';
+import './suggestionPage.dart';
 
 class AssessmentHistoryPage extends StatefulWidget {
   static const routeName = '/assessment history';
@@ -193,7 +194,9 @@ class _AssessmentHistoryPageState extends State<AssessmentHistoryPage> {
                               'isMeetDoctor': false
                             });
                       } else {
-                        print('to suggestion');
+                        Navigator.of(context).pushNamed(
+                          SuggestionPage.routeName,
+                        );
                       }
                     },
                     child: Icon(

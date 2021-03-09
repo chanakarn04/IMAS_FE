@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 import '../../dummy_data.dart';
+import '../../Widget/carouselDotIndicator.dart';
 
 class VsCardWidget extends StatefulWidget {
   final VitalSign vitalSign;
@@ -204,6 +206,7 @@ class _VitalSignTabState extends State<VitalSignTab> {
   List<Appointment> appointments;
   List<VitalSign> vitalSigns;
   var _loadInitData = false;
+  int carouselIndex = 0;
 
   @override
   void didChangeDependencies() {
@@ -225,16 +228,41 @@ class _VitalSignTabState extends State<VitalSignTab> {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Container(
-        height: (MediaQuery.of(context).size.height
-            // MediaQuery.of(context).padding.top -
-            // MediaQuery.of(context).padding.bottom -
-            // this.widget.appBarSize
+      child: Column(
+        children: [
+          Expanded(
+            child: Container(
+              child: CarouselSlider.builder(
+                itemCount: vitalSigns.length,
+                itemBuilder: (context, index, _) =>
+                    VsCardWidget(vitalSigns[index]),
+                options: CarouselOptions(
+                  height: 350,
+                  enlargeCenterPage: true,
+                  initialPage: carouselIndex,
+                  enableInfiniteScroll: false,
+                  onPageChanged: (index, _) {
+                    setState(() {
+                      carouselIndex = index;
+                    });
+                  },
+                ),
+              ),
             ),
-        child: ListView.builder(
-          itemBuilder: (context, index) => VsCardWidget(vitalSigns[index]),
-          itemCount: vitalSigns.length,
-        ),
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          CarouselDotIndicator(
+            length: appointments.length,
+            ctrlIndex: carouselIndex,
+            selectedColor: Theme.of(context).primaryColor,
+            unSelectedColor: Colors.grey,
+          ),
+          SizedBox(
+            height: 10,
+          ),
+        ],
       ),
     );
   }
