@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
 import '../Provider/user-info.dart';
+import '../Models/model.dart';
 
 // import '../dummy_data.dart';
 
@@ -27,6 +28,22 @@ class ProfilePatientBody extends StatelessWidget {
   //   'isDiabetes': Status.No,
   //   'hasHighPress': Status.NotSure,
   // };
+
+  // load pInfo
+  Patient _loadData() {
+    // ...
+
+    return Patient(
+        pId: 'p0001',
+        pName: 'pName',
+        pSurname: 'pSurname',
+        dob: DateTime(1998, 4, 12),
+        gender: Gender.Female,
+        drugAllegy: ['Paracetamol'],
+        isSmoke: Status.No,
+        isDiabetes: Status.Yes,
+        hasHighPress: Status.NotSure);
+  }
 
   String get genderText {
     switch (pInfo.gender) {
@@ -97,7 +114,7 @@ class ProfilePatientBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userInfo = Provider.of<UserInfo>(context);
-    pInfo = userInfo.pInfo;
+    pInfo = _loadData();
     return Center(
       child: Column(
         // mainAxisAlignment: MainAxisAlignment.center,
@@ -164,7 +181,7 @@ class ProfilePatientBody extends StatelessWidget {
                             bottom: 8.0,
                           ),
                           child: Text(
-                            userInfo.getUserName(),
+                            userInfo.userFname,
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 20,
