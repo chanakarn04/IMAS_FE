@@ -54,7 +54,7 @@ class _HomePageState extends State<HomePage> {
               child: Text(
                 (userInfo.role == Role.Patient)
                     ? 'Hi. I can help you find\nwhat’s going on.\nJust start a symptom\nassessment.'
-                    : 'Welcome ${userInfo.getUserName()}',
+                    : 'Welcome ${userInfo.userFname}',
                 style: TextStyle(
                   color: scndColor,
                   fontSize: 16,
