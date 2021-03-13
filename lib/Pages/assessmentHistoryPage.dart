@@ -1,52 +1,79 @@
 import 'package:flutter/material.dart';
+import 'package:homepage_proto/dummy_data.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 import './predictionResultPage.dart';
 import './suggestionPage.dart';
+import '../Provider/user-info.dart';
 
-class AssessmentHistoryPage extends StatefulWidget {
+class AssessmentHistoryPage extends StatelessWidget {
   static const routeName = '/assessment history';
-  final String pId = 'p001';
+  List<Map<String, Object>> items = [];
 
-  @override
-  _AssessmentHistoryPageState createState() => _AssessmentHistoryPageState();
-}
+  // load pInfo
+  List<Map<String, Object>> _loadData() {
+    // ...
 
-class _AssessmentHistoryPageState extends State<AssessmentHistoryPage> {
-  List<Map<String, Object>> items = [
-    {
-      'tpId': 'tp001',
-      'symptom': 'Headache',
-      'date': DateTime.now(),
-      'status': 'In progress',
-    },
-    {
-      'tpId': 'tp002',
-      'symptom': 'Forearm pain',
-      'date': DateTime(2020, 12, 10),
-      'status': 'Mild',
-    },
-    {
-      'tpId': 'tp003',
-      'symptom': 'Dizziness',
-      'date': DateTime(2020, 11, 28),
-      'status': 'Cured',
-    },
-    {
-      'tpId': 'tp004',
-      'symptom': 'Break',
-      'date': DateTime(2020, 11, 28),
-      'status': 'Hospital',
-    },
-    {
-      'tpId': 'tp005',
-      'symptom': 'Silence',
-      'date': DateTime(2020, 11, 28),
-      'status': 'Hospital',
-    },
-  ];
+    return [
+      {
+        'tpId': 'tp001',
+        'symptom': 'Headache',
+        'date': DateTime.now(),
+        'status': TreatmentStatus.InProgress,
+      },
+      {
+        'tpId': 'tp002',
+        'symptom': 'Forearm pain',
+        'date': DateTime(2020, 12, 10),
+        'status': TreatmentStatus.Api,
+      },
+      {
+        'tpId': 'tp003',
+        'symptom': 'Dizziness',
+        'date': DateTime(2020, 11, 28),
+        'status': TreatmentStatus.Cured,
+      },
+      {
+        'tpId': 'tp004',
+        'symptom': 'Break',
+        'date': DateTime(2020, 11, 28),
+        'status': TreatmentStatus.Hospital,
+      },
+      {
+        'tpId': 'tp005',
+        'symptom': 'Silence',
+        'date': DateTime(2020, 11, 28),
+        'status': TreatmentStatus.Hospital,
+      },
+    ];
+  }
+
+  String _statusInfo(
+    BuildContext context,
+    TreatmentStatus status,
+  ) {
+    switch (status) {
+      case TreatmentStatus.Api:
+        return 'Mild';
+        break;
+      case TreatmentStatus.Cured:
+        return 'Cured';
+        break;
+      case TreatmentStatus.InProgress:
+        return 'In progress';
+        break;
+      case TreatmentStatus.Hospital:
+        return 'Hospital';
+        break;
+      default:
+        return '';
+        break;
+    }
+  }
 
   Widget _buildStatusBox(
+    BuildContext context,
     String status,
   ) {
     BoxDecoration decoration;
@@ -95,6 +122,8 @@ class _AssessmentHistoryPageState extends State<AssessmentHistoryPage> {
 
   @override
   Widget build(BuildContext context) {
+    final userInfo = Provider.of<UserInfo>(context);
+    items = _loadData();
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(
@@ -169,20 +198,22 @@ class _AssessmentHistoryPageState extends State<AssessmentHistoryPage> {
                       SizedBox(
                         height: 30,
                       ),
-                      _buildStatusBox(items[index]['status']),
+                      _buildStatusBox(context,
+                          _statusInfo(context, items[index]['status'])),
                     ],
                   ),
                   Expanded(child: Container()),
                   InkWell(
                     onTap: () {
-                      if (items[index]['status'] == 'Mild') {
+                      if (items[index]['status'] == TreatmentStatus.Api) {
                         Navigator.of(context).pushNamed(
                             PredictionResultPage.routeName,
                             arguments: {
                               'isHistory': true,
                               'isMeetDoctor': false
                             });
-                      } else if ((items[index]['status'] == 'Hospital') &&
+                      } else if ((items[index]['status'] ==
+                              TreatmentStatus.Hospital) &&
                           (items[index]['tpId'] == 'tp005')) {
                         // check is doctor id is null
                         // if doctor id is null mean this case never talk to doctor then no suggstion to show
@@ -196,6 +227,7 @@ class _AssessmentHistoryPageState extends State<AssessmentHistoryPage> {
                       } else {
                         Navigator.of(context).pushNamed(
                           SuggestionPage.routeName,
+                          arguments: items[index]['status'],
                         );
                       }
                     },

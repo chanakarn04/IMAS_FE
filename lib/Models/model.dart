@@ -76,33 +76,33 @@ class VitalSign {
   });
 }
 
-class DetectedSymptom {
-  final String dsId;
-  final String apId;
-  final String stId;
-  final int painScore;
-  final DateTime dsDt;
+// class Detecteda {
+//   final String dsId;
+//   final String apId;
+//   final String stId;
+//   final int painScore;
+//   final DateTime dsDt;
 
-  DetectedSymptom({
-    @required this.dsId,
-    @required this.apId,
-    @required this.stId,
-    @required this.painScore,
-    @required this.dsDt,
-  });
-}
+//   DetectedSymptom({
+//     @required this.dsId,
+//     @required this.apId,
+//     @required this.stId,
+//     @required this.painScore,
+//     @required this.dsDt,
+//   });
+// }
 
-class DiagnosedDisease {
-  final String ddId;
-  final String dId;
-  final String apId;
+// class DiagnosedDisease {
+//   final String ddId;
+//   final String dId;
+//   final String apId;
 
-  DiagnosedDisease({
-    @required this.ddId,
-    @required this.dId,
-    @required this.apId,
-  });
-}
+//   DiagnosedDisease({
+//     @required this.ddId,
+//     @required this.dId,
+//     @required this.apId,
+//   });
+// }
 
 class Drug {
   final int item;

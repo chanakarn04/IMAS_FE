@@ -15,35 +15,67 @@ class SuggestionPage extends StatefulWidget {
 class _SuggestionPageState extends State<SuggestionPage> {
   int carouselIndex = 0;
 
+  List<Map<String, dynamic>> _loadedData() {
+    // every apt with edited
+    List<Map<String, Object>> data = [
+      {
+        'apDt': DateTime(2020, 12, 24),
+        'symptoms': ['Headache', 'Rash', 'Paralysis'],
+        'diseases': ['Tension Headache'],
+        'drugs': ['Paracetamol', 'Bakamol'],
+        'advise': 'Norn Dai leaw Deaw kheun Nee khaow Kor Klab Mah',
+      },
+      {
+        'apDt': DateTime(2020, 12, 10),
+        'symptoms': ['Headache', 'Stun', 'Paralysis'],
+        'diseases': ['Tension Headache', 'Depression'],
+        'drugs': ['Tango', 'Healing Salve'],
+        'advise': 'Recommend to use Guardian Greaves',
+      },
+      {
+        'apDt': DateTime(2020, 11, 30),
+        'symptoms': ['Headache'],
+        'diseases': ['Depression'],
+        'drugs': ['Faerie Fire'],
+        'advise': 'Use Magic wand',
+      },
+    ];
+
+    return data;
+  }
+
   // get status of this treatmentPlan
-  TreatmentStatus status = TreatmentStatus.InProgress;
+  TreatmentStatus status;
 
   // every apt with edited
-  List<Map<String, Object>> data = [
-    {
-      'apDt': DateTime(2020, 12, 24),
-      'symptoms': ['Headache', 'Rash', 'Paralysis'],
-      'diseases': ['Tension Headache'],
-      'drugs': ['Paracetamol', 'Bakamol'],
-      'advise': 'Norn Dai leaw Deaw kheun Nee khaow Kor Klab Mah',
-    },
-    {
-      'apDt': DateTime(2020, 12, 10),
-      'symptoms': ['Headache', 'Stun', 'Paralysis'],
-      'diseases': ['Tension Headache', 'Depression'],
-      'drugs': ['Tango', 'Healing Salve'],
-      'advise': 'Recommend to use Guardian Greaves',
-    },
-    {
-      'apDt': DateTime(2020, 11, 30),
-      'symptoms': ['Headache'],
-      'diseases': ['Depression'],
-      'drugs': ['Faerie Fire'],
-      'advise': 'Use Magic wand',
-    },
-  ];
+  // List<Map<String, Object>> data = [
+  //   {
+  //     'apDt': DateTime(2020, 12, 24),
+  //     'symptoms': ['Headache', 'Rash', 'Paralysis'],
+  //     'diseases': ['Tension Headache'],
+  //     'drugs': ['Paracetamol', 'Bakamol'],
+  //     'advise': 'Norn Dai leaw Deaw kheun Nee khaow Kor Klab Mah',
+  //   },
+  //   {
+  //     'apDt': DateTime(2020, 12, 10),
+  //     'symptoms': ['Headache', 'Stun', 'Paralysis'],
+  //     'diseases': ['Tension Headache', 'Depression'],
+  //     'drugs': ['Tango', 'Healing Salve'],
+  //     'advise': 'Recommend to use Guardian Greaves',
+  //   },
+  //   {
+  //     'apDt': DateTime(2020, 11, 30),
+  //     'symptoms': ['Headache'],
+  //     'diseases': ['Depression'],
+  //     'drugs': ['Faerie Fire'],
+  //     'advise': 'Use Magic wand',
+  //   },
+  // ];
 
-  Map get statusInfo {
+  Map _statusInfo(
+    BuildContext context,
+    TreatmentStatus status,
+  ) {
     switch (status) {
       case TreatmentStatus.Api:
         return {
@@ -69,16 +101,26 @@ class _SuggestionPageState extends State<SuggestionPage> {
           'color': Color.fromARGB(255, 205, 16, 16),
         };
         break;
+      default:
+        {
+          return {
+            'texr': '',
+            'color': Colors.transparent,
+          };
+        }
+        break;
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final List<Map<String, Object>> data = _loadedData();
     data.sort((a, b) {
       DateTime aDt = a['apDt'];
       DateTime bDt = b['apDt'];
       return bDt.compareTo(aDt);
     });
+    final TreatmentStatus status = ModalRoute.of(context).settings.arguments;
     AppBar appbar = AppBar(
       iconTheme: IconThemeData(
         color: Theme.of(context).primaryColor,
@@ -94,9 +136,9 @@ class _SuggestionPageState extends State<SuggestionPage> {
             Text('Suggestion'),
             SizedBox(height: 3),
             Text(
-              '${statusInfo['text']}',
+              '${_statusInfo(context, status)['text']}',
               style: TextStyle(
-                color: statusInfo['color'],
+                color: _statusInfo(context, status)['color'],
                 fontSize: 14,
               ),
             ),
