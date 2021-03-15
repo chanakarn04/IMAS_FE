@@ -18,15 +18,21 @@ class _PatientInfoPageState extends State<PatientInfoPage> {
   ScrollController _scrollController;
   bool sliverCollapsed = false;
   String appBarTitle = '';
+  String pFullName = '';
   Map<String, dynamic> data;
 
-  // get user id from  route argument
+  // get treatmentPlan id from  route argument
   // get username, apDt with apStatus.lastest
 
-  Map<String, dynamic> _loadData() {
+  Map<String, dynamic> _loadData(String tpId) {
     // ...
 
+    // assign pName for sliver header
+    // pName + pSurname
+    pFullName = 'pName pSurname';
+
     return {
+      'userId': 'p0001',
       'pName': 'pName',
       'pSurname': 'pSurname',
       'apDt': DateTime(2021, 12, 14),
@@ -36,43 +42,76 @@ class _PatientInfoPageState extends State<PatientInfoPage> {
   // final lastAppointment =
   //     dummy_appointment.firstWhere((apt) => apt.status == AptStatus.Lastest);
 
+  // @override
+  // void initState() {
+  //   _scrollController = ScrollController();
+
+  //   _scrollController.addListener(() {
+  //     if (_scrollController.offset > 80 &&
+  //         !_scrollController.position.outOfRange) {
+  //       if (!sliverCollapsed) {
+  //         // do what ever you want when silver is collapsing !
+
+  //         appBarTitle = '${data['pName']} ${data['pSurname']}';
+  //         sliverCollapsed = true;
+  //         setState(() {});
+  //       }
+  //     }
+  //     if (_scrollController.offset <= 40
+  //         // &&
+  //         //     !_scrollController.position.outOfRange
+  //         ) {
+  //       if (sliverCollapsed) {
+  //         // do what ever you want when silver is expanding !
+
+  //         appBarTitle = '';
+  //         sliverCollapsed = false;
+  //         setState(() {});
+  //       }
+  //     }
+  //   });
+  //   super.initState();
+  // }
+
   @override
-  void initState() {
+  void didChangeDependencies() {
     _scrollController = ScrollController();
 
-    _scrollController.addListener(() {
-      if (_scrollController.offset > 80)
-      // &&
-      //     !_scrollController.position.outOfRange)
-      {
-        if (!sliverCollapsed) {
-          // do what ever you want when silver is collapsing !
+    _scrollController.addListener(
+      () {
+        if (_scrollController.offset > 80 &&
+            !_scrollController.position.outOfRange) {
+          if (!sliverCollapsed) {
+            // do what ever you want when silver is collapsing !
 
-          appBarTitle = '${data['pName']} ${data['pSurname']}';
-          sliverCollapsed = true;
-          setState(() {});
+            appBarTitle = pFullName;
+            sliverCollapsed = true;
+            setState(() {});
+          }
         }
-      }
-      if (_scrollController.offset <= 80
-          // &&
-          //     !_scrollController.position.outOfRange
-          ) {
-        if (sliverCollapsed) {
-          // do what ever you want when silver is expanding !
+        if (_scrollController.offset <= 40
+            // &&
+            //     !_scrollController.position.outOfRange
+            ) {
+          if (sliverCollapsed) {
+            // do what ever you want when silver is expanding !
 
-          appBarTitle = '';
-          sliverCollapsed = false;
-          setState(() {});
+            appBarTitle = '';
+            sliverCollapsed = false;
+            setState(() {});
+          }
         }
-      }
-    });
-    super.initState();
+      },
+    );
+    super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
-    final String userId = ModalRoute.of(context).settings.arguments;
-    final Map<String, dynamic> data = _loadData();
+    final String tpId = ModalRoute.of(context).settings.arguments;
+    final Map<String, dynamic> data = _loadData(
+      tpId,
+    );
     final appBar = SliverAppBar(
       title: Text(
         appBarTitle,
@@ -222,10 +261,10 @@ class _PatientInfoPageState extends State<PatientInfoPage> {
           body: TabBarView(
             physics: const NeverScrollableScrollPhysics(),
             children: <Widget>[
-              BasicInfoTab(),
-              DiseaseSymptomTab(),
-              VitalSignTab(),
-              SuggestionTab(),
+              BasicInfoTab(data['userId']),
+              DiseaseSymptomTab(tpId),
+              VitalSignTab(tpId),
+              SuggestionTab(tpId),
             ],
           ),
         ),
