@@ -48,8 +48,10 @@ class _OnConsultTabState extends State<OnConsultTab> {
                 },
                 child: InkWell(
                   onTap: () {
-                    Navigator.of(context)
-                        .pushNamed(CaseManagementPage.routeName);
+                    Navigator.of(context).pushNamed(
+                      CaseManagementPage.routeName,
+                      arguments: tpId,
+                    );
                   },
                   child: Row(
                     children: [
@@ -76,7 +78,8 @@ class _OnConsultTabState extends State<OnConsultTab> {
                 padding: EdgeInsets.symmetric(vertical: 10),
                 onPressed: () {
                   print('to patient info with $tpId');
-                  Navigator.of(context).pushNamed(PatientInfoPage.routeName);
+                  Navigator.of(context)
+                      .pushNamed(PatientInfoPage.routeName, arguments: tpId);
                 },
                 child: Row(
                   children: [
@@ -200,8 +203,8 @@ class _OnConsultTabState extends State<OnConsultTab> {
             child: ListView.builder(
               itemBuilder: (context, index) {
                 return buildPatientBox(
-                  this.widget.infomation[index]['fname'],
-                  this.widget.infomation[index]['sname'],
+                  this.widget.infomation[index]['pName'],
+                  this.widget.infomation[index]['pSurname'],
                   'assets/images/default_photo.png',
                   'test last message',
                   DateTime.now(),
