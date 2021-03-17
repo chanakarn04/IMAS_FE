@@ -1,27 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:homepage_proto/dummy_data.dart';
+import 'package:provider/provider.dart';
+// import 'package:homepage_proto/dummy_data.dart';
 
+import '../Provider/caseManagement_Info.dart';
 import './caseMangementTab/cmDiseaseSymptom.dart';
 import './caseMangementTab/cmPrescription.dart';
 import './caseMangementTab/caseManagement.dart';
 
 class CaseManagementPage extends StatefulWidget {
   static const routeName = '/caseManagement';
-  final String tpId = 'tp001';
+  // final String tpId = 'tp001';
   @override
   _CaseManagementPageState createState() => _CaseManagementPageState();
 }
 
 class _CaseManagementPageState extends State<CaseManagementPage> {
   int selectedPageIndex = 0;
-  String ptFullName = '';
+  // String ptFullName = '';
 
   List<Map<String, Object>> _pages;
 
   @override
   void initState() {
-    ptFullName =
-        '${dummy_Patients.firstWhere((pt) => dummy_treatmentPlans.firstWhere((tp) => tp.tpId == this.widget.tpId).pId == pt.pId).pName} ${dummy_Patients.firstWhere((pt) => dummy_treatmentPlans.firstWhere((tp) => tp.tpId == this.widget.tpId).pId == pt.pId).pSurname}';
+    // ptFullName =
+    //     '${dummy_Patients.firstWhere((pt) => dummy_treatmentPlans.firstWhere((tp) => tp.tpId == this.widget.tpId).pId == pt.pId).pName} ${dummy_Patients.firstWhere((pt) => dummy_treatmentPlans.firstWhere((tp) => tp.tpId == this.widget.tpId).pId == pt.pId).pSurname}';
     _pages = [
       {
         'title': 'Disease/Symptom',
@@ -47,6 +49,10 @@ class _CaseManagementPageState extends State<CaseManagementPage> {
 
   @override
   Widget build(BuildContext context) {
+    final data =
+        ModalRoute.of(context).settings.arguments as Map<String, String>;
+    final cmInfo = Provider.of<CMinfoProvider>(context, listen: false);
+    cmInfo.loadCMInfo(data['tpId']);
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(
@@ -88,7 +94,7 @@ class _CaseManagementPageState extends State<CaseManagementPage> {
                   ),
                 ),
                 Text(
-                  ptFullName,
+                  data['name'],
                   style: TextStyle(
                     fontSize: 14,
                   ),

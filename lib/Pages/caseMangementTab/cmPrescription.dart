@@ -113,37 +113,37 @@ class _CMPrescriptionTabState extends State<CMPrescriptionTab> {
               child: CaseManagementListItemBox(
                 title: 'Disease',
                 items: _getPrescription,
-                addFn: () {
-                  caseManagementEditBottomSheet(
-                    context,
-                    'Add drug',
-                    controller,
-                    'Add',
-                    _setAdd,
-                  );
-                },
-                editFn: () {
-                  caseManagementEditBottomSheet(
-                    context,
-                    'Edit drug',
-                    controller,
-                    'Edit',
-                    _setEdit,
-                  );
-                },
-                delFn: () {
-                  showMyDialog(
-                    context,
-                    'Delete?',
-                    'Confirm to delete this item?',
-                    'cancel',
-                    'confirm',
-                    () {
-                      print('Delete item');
-                      Navigator.of(context).pop();
-                    },
-                  );
-                },
+                // addFn: () {
+                //   caseManagementEditBottomSheet(
+                //     context,
+                //     'Add drug',
+                //     controller,
+                //     'Add',
+                //     _setAdd,
+                //   );
+                // },
+                // editFn: () {
+                //   caseManagementEditBottomSheet(
+                //     context,
+                //     'Edit drug',
+                //     controller,
+                //     'Edit',
+                //     _setEdit,
+                //   );
+                // },
+                // delFn: () {
+                //   showMyDialog(
+                //     context,
+                //     'Delete?',
+                //     'Confirm to delete this item?',
+                //     'cancel',
+                //     'confirm',
+                //     () {
+                //       print('Delete item');
+                //       Navigator.of(context).pop();
+                //     },
+                //   );
+                // },
               ),
             ),
           ),

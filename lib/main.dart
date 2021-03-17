@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import './route.dart';
-import 'Provider/user-info.dart';
+import './Provider/user-info.dart';
+import './Provider/caseManagement_Info.dart';
 
 void main() {
   runApp(MyApp());
@@ -15,6 +16,9 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (context) => UserInfo(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => CMinfoProvider(),
         ),
       ],
       child: MaterialApp(
