@@ -180,8 +180,25 @@ class _CaseManagementListItemBoxState extends State<CaseManagementListItemBox> {
                                   ),
                                   onTap: () {
                                     // print('Edit as ${cmInfo.condition[index]}');
-                                    controller.text =
-                                        '${cmInfo.condition[index]}';
+                                    print('index: $index');
+                                    switch (this.widget.caseIndex) {
+                                      case 'symptom':
+                                        controller.text =
+                                            '${cmInfo.symptoms[index]}';
+                                        break;
+                                      case 'disease':
+                                        controller.text =
+                                            '${cmInfo.condition[index]}';
+                                        break;
+                                      case 'prescription':
+                                        controller.text =
+                                            '${cmInfo.prescriptions[index]}';
+                                        break;
+                                      default:
+                                        break;
+                                    }
+                                    // controller.text =
+                                    //     '${cmInfo.condition[index]}';
                                     caseManagementEditBottomSheet(
                                       context,
                                       'Edit ${this.widget.caseIndex}',
