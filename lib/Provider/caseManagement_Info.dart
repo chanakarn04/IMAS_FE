@@ -20,20 +20,21 @@ class CMinfo {
 }
 
 class CMinfoProvider with ChangeNotifier {
+  String pName = '';
   String editingApId = '';
   List<String> symptoms = [];
   List<String> condition = [];
   List<String> prescriptions = [];
   String suggestions = '';
 
-  void loadCMInfo(String tpId) {
+  void loadCMInfo(String tpId, String name) {
     // ... load from Lastest apId
 
     // if  lastest ApId info is null
     // load from lastest edit and assign to lastest
 
     // After get data
-
+    pName = name;
     editingApId = 'ap001';
     symptoms = [
       'Headache',
@@ -119,6 +120,21 @@ class CMinfoProvider with ChangeNotifier {
       //   break;
     }
     notifyListeners();
+  }
+
+  void closeCase() {
+    // use on close case by critical and cured
+    // ... upload all infomation
+    // ...
+    // ... change apt status and tp status
+    // ...
+  }
+
+  void createAppointment(
+    DateTime apDt,
+  ) {
+    // ... change old apt status and create new apt
+    // ...
   }
 
   void cleanDispose() {

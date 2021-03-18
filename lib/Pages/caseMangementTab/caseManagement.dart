@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 // import 'package:intl/intl.dart';
 
 import '../closeCasePage.dart';
 import '../../Widget/showMyDialog.dart';
 import '../../Widget/caseManagementCreateAppointment.dart';
+import '../../Provider/caseManagement_Info.dart';
 
 class CaseManagementTab extends StatefulWidget {
   @override
@@ -13,6 +15,7 @@ class CaseManagementTab extends StatefulWidget {
 class _CaseManagementTabState extends State<CaseManagementTab> {
   DateTime selectedDate = DateTime.now().add(Duration(days: 2));
   TimeOfDay selectedTime = TimeOfDay.now();
+  // DateTime selectedApDt;
 
   Widget _buildBox({
     BuildContext context,
@@ -88,6 +91,7 @@ class _CaseManagementTabState extends State<CaseManagementTab> {
 
   @override
   Widget build(BuildContext context) {
+    final cmInfo = Provider.of<CMinfoProvider>(context, listen: false);
     return Container(
       padding: EdgeInsets.only(
         top: 15,
@@ -112,8 +116,16 @@ class _CaseManagementTabState extends State<CaseManagementTab> {
                     'confirm',
                     () {
                       print('close case as critical');
-                      Navigator.of(context)
-                          .popAndPushNamed(CloseCasePage.routneName);
+                      cmInfo.closeCase();
+                      cmInfo.cleanDispose();
+                      // cmInfo.dispose();
+                      Navigator.of(context).popAndPushNamed(
+                        CloseCasePage.routneName,
+                        arguments: {
+                          'name': cmInfo.pName,
+                          'closeCase': true,
+                        },
+                      );
                     },
                   );
                 }),
@@ -137,8 +149,16 @@ class _CaseManagementTabState extends State<CaseManagementTab> {
                     'confirm',
                     () {
                       print('close case as Cured');
-                      Navigator.of(context)
-                          .popAndPushNamed(CloseCasePage.routneName);
+                      cmInfo.closeCase();
+                      cmInfo.cleanDispose();
+                      // cmInfo.dispose();
+                      Navigator.of(context).popAndPushNamed(
+                        CloseCasePage.routneName,
+                        arguments: {
+                          'name': cmInfo.pName,
+                          'closeCase': true,
+                        },
+                      );
                     },
                   );
                 }),
@@ -166,9 +186,10 @@ class _CaseManagementTabState extends State<CaseManagementTab> {
                     ),
                     builder: (context) {
                       return CaseManagementCreateAppointment(
-                        'Harold Pain',
+                        // 'Harold Pain',
                         selectedDate,
                         selectedTime,
+                        // cmInfo.pName
                       );
                     },
                   );

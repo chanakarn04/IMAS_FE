@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 import './adaptiveBorderButton.dart';
 import './AdaptiveRaisedButton.dart';
+import '../Pages/closeCasePage.dart';
+import '../Provider/caseManagement_Info.dart';
 
 class CaseManagementCreateAppointment extends StatefulWidget {
-  final String pName;
+  // final String pName;
   // final Function datePicker;
   // final Function timePicker;
   DateTime date;
   TimeOfDay time;
 
   CaseManagementCreateAppointment(
-    this.pName,
+    // this.pName,
     // this.datePicker,
     // this.timePicker,
     this.date,
@@ -89,6 +92,7 @@ class _CaseManagementCreateAppointmentState
 
   @override
   Widget build(BuildContext context) {
+    final cmInfo = Provider.of<CMinfoProvider>(context);
     return Container(
       height: 300,
       padding: EdgeInsets.only(
@@ -128,7 +132,7 @@ class _CaseManagementCreateAppointmentState
             padding: EdgeInsets.only(left: 10),
             alignment: Alignment.centerLeft,
             child: Text(
-              this.widget.pName,
+              cmInfo.pName,
               style: TextStyle(
                 fontSize: 24,
                 // color: Colors.grey,
@@ -219,7 +223,31 @@ class _CaseManagementCreateAppointmentState
                     this.widget.date = selectedDate;
                     this.widget.time = selectedTime;
                   });
-                  Navigator.of(context).pop();
+                  cmInfo.createAppointment(
+                    DateTime(
+                      selectedDate.year,
+                      selectedDate.month,
+                      selectedDate.day,
+                      selectedTime.hour,
+                      selectedTime.minute,
+                    ),
+                  );
+                  cmInfo.cleanDispose();
+                  // cmInfo.dispose();
+                  Navigator.of(context).popAndPushNamed(
+                    CloseCasePage.routneName,
+                    arguments: {
+                      'name': cmInfo.pName,
+                      'closeCase': false,
+                      'date': DateTime(
+                        selectedDate.year,
+                        selectedDate.month,
+                        selectedDate.day,
+                        selectedTime.hour,
+                        selectedTime.minute,
+                      ),
+                    },
+                  );
                   // Not passing back for now.
                   print('${DateFormat.yMd().format(this.widget.date)}');
                   print('${this.widget.time.format(context)}');
@@ -233,19 +261,5 @@ class _CaseManagementCreateAppointmentState
         ],
       ),
     );
-    //   return showModalBottomSheet(
-    //   context: context,
-    //   isScrollControlled: true,
-    //   isDismissible: false,
-    //   shape: RoundedRectangleBorder(
-    //     borderRadius: BorderRadius.only(
-    //       topLeft: Radius.circular(20),
-    //       topRight: Radius.circular(20),
-    //     ),
-    //   ),
-    //   builder: (context) {
-    //     return
-    //   },
-    // );
   }
 }

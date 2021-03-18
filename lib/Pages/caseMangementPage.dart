@@ -52,7 +52,11 @@ class _CaseManagementPageState extends State<CaseManagementPage> {
     final data =
         ModalRoute.of(context).settings.arguments as Map<String, String>;
     final cmInfo = Provider.of<CMinfoProvider>(context, listen: false);
-    cmInfo.loadCMInfo(data['tpId']);
+    cmInfo.loadCMInfo(
+      data['tpId'],
+      data['name'],
+    );
+    // cmInfo.savePname(data['name']);
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(
