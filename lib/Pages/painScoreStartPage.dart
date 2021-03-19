@@ -5,8 +5,32 @@ import './painScorePage.dart';
 
 class PainScoreStartPage extends StatelessWidget {
   static const routeName = '/painScore-start';
+
+  Map<String, dynamic> _loadData(
+      // use something
+      ) {
+    // ... load List of symptom
+
+    // expected to get
+    List<String> symptoms = [
+      'Headache',
+      'Paralysis',
+    ];
+    Map<String, int> painScore = Map<String, int>.fromIterable(
+      symptoms,
+      key: (symptom) => symptom,
+      value: (_) => 0,
+    );
+
+    return {
+      'symptoms': symptoms,
+      'painScore': painScore,
+    };
+  }
+
   @override
   Widget build(BuildContext context) {
+    Map<String, dynamic> data = _loadData();
     final appBar = AppBar(
       centerTitle: true,
       iconTheme: IconThemeData(
@@ -86,8 +110,14 @@ class PainScoreStartPage extends StatelessWidget {
                 width: MediaQuery.of(context).size.width * 0.35,
                 handlerFn: (() {
                   // print('JaJa');
-                  Navigator.of(context).pushNamed(PainScorePage.routeName,
-                      arguments: {'symptom': 'Headache'});
+                  Navigator.of(context).pushNamed(
+                    PainScorePage.routeName,
+                    arguments: {
+                      'index': 0,
+                      'symptom': data['symptoms'],
+                      'painScore': data['painScore'],
+                    },
+                  );
                 }),
               ),
             )
