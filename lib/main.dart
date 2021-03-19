@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import './route.dart';
 import './Provider/user-info.dart';
 import './Provider/caseManagement_Info.dart';
+import './Provider/vitalSign_Info.dart';
 
 void main() {
   runApp(MyApp());
@@ -19,6 +20,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => CMinfoProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => VitalSignProvider(),
         ),
       ],
       child: MaterialApp(

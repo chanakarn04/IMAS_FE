@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../Provider/vitalSign_Info.dart';
+// import '../Provider/user-info.dart';
 import './vitalSign/vs_BodyTempPage.dart';
 import '../Widget/adaptiveRaisedButton.dart';
 
@@ -19,6 +22,8 @@ class _VitalSignStartPageState extends State<VitalSignStartPage> {
 
   @override
   Widget build(BuildContext context) {
+    // final userInfo = Provider.of<UserInfo>(context, listen: false);
+    final vitalSign = Provider.of<VitalSignProvider>(context);
     final appBar = AppBar(
       centerTitle: true,
       iconTheme: IconThemeData(
@@ -42,76 +47,76 @@ class _VitalSignStartPageState extends State<VitalSignStartPage> {
         )
       ],
     );
-    return Scaffold(
-      appBar: appBar,
-      body: Container(
-        padding: EdgeInsets.only(
-          top: 15,
-          left: 15,
-          right: 15,
-          bottom: 40,
-        ),
-        // alignment: Alignment.bottomCenter,
-        child: Column(
-          // mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.end,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Container(
-              constraints: BoxConstraints(
-                  maxWidth: MediaQuery.of(context).size.width * 0.7),
-              child: Text('Vital Sign Measurement',
-                  style: TextStyle(
-                    fontSize: 38,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  overflow: TextOverflow.clip),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Align(
-              alignment: Alignment.centerRight,
-              // color: Colors.deepPurple,
-              child: Container(
+    return Provider(
+      create: (context) => VitalSignProvider(),
+      child: Scaffold(
+        appBar: appBar,
+        body: Container(
+          padding: EdgeInsets.only(
+            top: 15,
+            left: 15,
+            right: 15,
+            bottom: 40,
+          ),
+          // alignment: Alignment.bottomCenter,
+          child: Column(
+            // mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
                 constraints: BoxConstraints(
                     maxWidth: MediaQuery.of(context).size.width * 0.7),
-                child: Text(
-                  'We want to gather some information from you. That can help in diaganosis',
-                  style: TextStyle(
-                    color: Color.fromARGB(255, 75, 75, 75),
-                    fontSize: 18,
+                child: Text('Vital Sign Measurement',
+                    style: TextStyle(
+                      fontSize: 38,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    overflow: TextOverflow.clip),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Align(
+                alignment: Alignment.centerRight,
+                // color: Colors.deepPurple,
+                child: Container(
+                  constraints: BoxConstraints(
+                      maxWidth: MediaQuery.of(context).size.width * 0.7),
+                  child: Text(
+                    'We want to gather some information from you. That can help in diaganosis',
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 75, 75, 75),
+                      fontSize: 18,
+                    ),
+                    textAlign: TextAlign.end,
+                    overflow: TextOverflow.clip,
                   ),
-                  textAlign: TextAlign.end,
-                  overflow: TextOverflow.clip,
                 ),
               ),
-            ),
-            SizedBox(
-              height: 240,
-            ),
-            Align(
-              alignment: Alignment.center,
-              child: AdaptiveRaisedButton(
-                buttonText: 'Start',
-                height: 35,
-                width: MediaQuery.of(context).size.width * 0.35,
-                handlerFn: (() {
-                  Navigator.of(context)
-                      .pushNamed(VSBodyTempPage.routeName, arguments: {
-                    'temp': 0,
-                    'pulse': 0,
-                    'breath': 0,
-                    'pressure': '',
-                  });
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(builder: (context) => VSBodyTempPage()),
-                  // );
-                }),
+              SizedBox(
+                height: 240,
               ),
-            )
-          ],
+              Align(
+                alignment: Alignment.center,
+                child: AdaptiveRaisedButton(
+                  buttonText: 'Start',
+                  height: 35,
+                  width: MediaQuery.of(context).size.width * 0.35,
+                  handlerFn: (() {
+                    Navigator.of(context).pushNamed(
+                      VSBodyTempPage.routeName,
+                      arguments: vitalSign,
+                    );
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(builder: (context) => VSBodyTempPage()),
+                    // );
+                  }),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

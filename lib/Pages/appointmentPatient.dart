@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 // import 'package:provider/provider.dart';
 
 import './homePages.dart';
 import './chatRoom.dart';
+import '../Provider/vitalSign_Info.dart';
 // import '../Provider/user-info.dart';
 
 class AppointmentPatientPage extends StatelessWidget {
@@ -26,6 +28,7 @@ class AppointmentPatientPage extends StatelessWidget {
   }
 
   Widget _buildNoapt(BuildContext context) {
+    final vitalSign = Provider.of<VitalSignProvider>(context);
     return Column(
       children: [
         Expanded(

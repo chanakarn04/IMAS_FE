@@ -5,6 +5,7 @@ import '../Pages/assessmentHistoryPage.dart';
 import '../Pages/appointmentPatient.dart';
 // import '../Pages/nearbyHospitalPages.dart';
 import '../Pages/settingPages.dart';
+import '../Pages/vitalSignStartPages.dart';
 
 List<Widget> buildSideDrawerPatient(
   BuildContext context,
@@ -41,6 +42,12 @@ List<Widget> buildSideDrawerPatient(
       Navigator.of(context).pop();
       Navigator.of(context).pushNamed(
         SettingPages.routeName,
+      );
+    })),
+    menuDrawerFlatButton(Icons.casino, 'vs', (() {
+      Navigator.of(context).pop();
+      Navigator.of(context).pushNamed(
+        VitalSignStartPage.routeName,
       );
     })),
   ];

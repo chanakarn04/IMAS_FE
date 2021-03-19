@@ -3,22 +3,6 @@ import 'package:flutter/material.dart';
 
 // import '../Models/model.dart';
 
-class CMinfo {
-  String editingApId;
-  List<String> symptoms;
-  List<String> condition;
-  List<String> prescriptions;
-  String suggestions;
-
-  CMinfo(
-    this.editingApId,
-    this.symptoms,
-    this.condition,
-    this.prescriptions,
-    this.suggestions,
-  );
-}
-
 class CMinfoProvider with ChangeNotifier {
   String pName = '';
   String editingApId = '';
