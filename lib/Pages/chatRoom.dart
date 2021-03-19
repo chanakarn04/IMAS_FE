@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../Widget/textBoxItem.dart';
-import '../Models/conversation.dart';
+import '../Provider/user-info.dart';
+import '../Provider/chatRoom_info.dart';
+// import '../Models/conversation.dart';
 
 class ChatRoom extends StatefulWidget {
   static const routeName = '/CharRoom';
@@ -15,11 +18,11 @@ class _ChatRoomState extends State<ChatRoom> {
 
   ScrollController _scrollController = ScrollController();
 
-  final List<Conversation> conversationList = [
-    Conversation(1, 'Hi, How can i help you'),
-    Conversation(0, 'Mr.Harold, I dont feel so well'),
-    Conversation(0, 'I dont like sand'),
-  ];
+  // final List<Conversation> conversationList = [
+  //   Conversation(1, 'Hi, How can i help you'),
+  //   Conversation(0, 'Mr.Harold, I dont feel so well'),
+  //   Conversation(0, 'I dont like sand'),
+  // ];
 
   _scrollToBottom() {
     _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
@@ -30,20 +33,49 @@ class _ChatRoomState extends State<ChatRoom> {
     super.initState();
   }
 
-  _sendConversation() {
-    if (_textController.text.isEmpty) {
-      return;
-    } else {
-      setState(() {
-        conversationList.add(Conversation(0, _textController.text));
-      });
-      _textController.clear();
-      FocusScope.of(context).unfocus();
-    }
+  String _getOpUserName(
+    String opUserId,
+  ) {
+    // request for opposite user name
+    final String opUserName = 'Name Surname';
+    return opUserName;
   }
+
+  // _sendConversation() {
+  //   if (_textController.text.isEmpty) {
+  //     return;
+  //   } else {
+  //     chatProvider
+  //     setState(() {
+  //       conversationList.add(Conversation(0, _textController.text));
+  //     });
+  //     _textController.clear();
+  //     FocusScope.of(context).unfocus();
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
+    final userInfo = Provider.of<UserInfo>(context);
+    final chatProvider = Provider.of<ChatRoomProvider>(context);
+
+    _sendConversation() {
+      if (_textController.text.isEmpty) {
+        return;
+      } else {
+        chatProvider.sendMessage(
+          userInfo.userId,
+          _textController.text,
+          userInfo.role,
+        );
+        _textController.clear();
+        FocusScope.of(context).unfocus();
+      }
+    }
+
+    // not here but have to finish here
+    chatProvider.chatRequest();
+    final opName = _getOpUserName(chatProvider.opUserId);
     WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToBottom());
 
     final appBar = AppBar(
@@ -59,7 +91,7 @@ class _ChatRoomState extends State<ChatRoom> {
           Container(
             height: 58,
             child: CircleAvatar(
-              backgroundImage: AssetImage('assets/images/doctor.png'),
+              backgroundImage: AssetImage('assets/images/default_photo.png'),
               backgroundColor: Theme.of(context).primaryColor,
             ),
             decoration: BoxDecoration(
@@ -73,7 +105,11 @@ class _ChatRoomState extends State<ChatRoom> {
           SizedBox(
             width: 20,
           ),
-          Text('Doctor Harold')
+          Text(opName),
+          // FlatButton(
+          //   onPressed: () => chatProvider.recieveMessage(Role.Patient),
+          //   child: Text('test'),
+          // ),
         ],
       ),
     );
@@ -145,14 +181,18 @@ class _ChatRoomState extends State<ChatRoom> {
               child: ListView.builder(
                 controller: _scrollController,
                 // reverse: true,
-                itemCount: conversationList.length,
+                itemCount: chatProvider.messages.length,
                 itemBuilder: (ctx, index) {
                   return Container(
-                    alignment: conversationList[index].role == 0
-                        ? Alignment.centerRight
-                        : Alignment.centerLeft,
-                    child: TextBoxItem(conversationList[index].role,
-                        conversationList[index].msg),
+                    alignment:
+                        chatProvider.messages[index].role == userInfo.role
+                            ? Alignment.centerRight
+                            : Alignment.centerLeft,
+                    child: TextBoxItem(
+                      userInfo.role,
+                      chatProvider.messages[index].role,
+                      chatProvider.messages[index].message,
+                    ),
                   );
                 },
               ),
