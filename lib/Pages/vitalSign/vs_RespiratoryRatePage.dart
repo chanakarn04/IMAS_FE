@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../Provider/vitalSign_Info.dart';
 import '../../Widget/numberTextInput.dart';
 import '../../Widget/adaptiveRaisedButton.dart';
 import '../../Widget/adaptiveBorderButton.dart';
@@ -50,8 +52,9 @@ class VSRespiratoryRatePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final routeArgument =
-        ModalRoute.of(context).settings.arguments as Map<String, Object>;
+    // final routeArgument =
+    //     ModalRoute.of(context).settings.arguments as Map<String, Object>;
+    final vitalSign = Provider.of<VitalSignProvider>(context);
     final appBar = AppBar(
       centerTitle: true,
       iconTheme: IconThemeData(
@@ -176,10 +179,14 @@ class VSRespiratoryRatePage extends StatelessWidget {
                         height: 45,
                         width: 125,
                         handlerFn: () {
-                          routeArgument['breath'] = null;
+                          vitalSign.breath = null;
                           Navigator.of(context).pushNamed(
-                              VSBloodPressurePage.routeName,
-                              arguments: routeArgument);
+                            VSBloodPressurePage.routeName,
+                          );
+                          // routeArgument['breath'] = null;
+                          // Navigator.of(context).pushNamed(
+                          //     VSBloodPressurePage.routeName,
+                          //     arguments: routeArgument);
                         },
                       ),
                       SizedBox(
@@ -193,11 +200,11 @@ class VSRespiratoryRatePage extends StatelessWidget {
                             (double.tryParse(textController.text) != null) &&
                                     (textController.text.isNotEmpty)
                                 ? (() {
-                                    routeArgument['breath'] =
+                                    vitalSign.breath =
                                         double.parse(textController.text);
                                     Navigator.of(context).pushNamed(
-                                        VSBloodPressurePage.routeName,
-                                        arguments: routeArgument);
+                                      VSBloodPressurePage.routeName,
+                                    );
                                   })
                                 : null,
                       ),

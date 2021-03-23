@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../Provider/vitalSign_Info.dart';
 import '../../Widget/numberTextInput.dart';
 import '../../Widget/progressDot.dart';
 import '../../Widget/AdaptiveRaisedButton.dart';
@@ -49,8 +51,8 @@ class VSBodyTempPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final routeArgument =
-        ModalRoute.of(context).settings.arguments as Map<String, Object>;
+    final vitalSign = Provider.of<VitalSignProvider>(context);
+    // final vitalSign = ModalRoute.of(context).settings.arguments as VitalSignProvider;
     final appBar = AppBar(
       centerTitle: true,
       iconTheme: IconThemeData(
@@ -160,11 +162,12 @@ class VSBodyTempPage extends StatelessWidget {
                           (double.tryParse(textController.text) != null) &&
                                   (textController.text.isNotEmpty)
                               ? (() {
-                                  routeArgument['temp'] =
+                                  vitalSign.temp =
                                       double.parse(textController.text);
+                                  // print();
                                   Navigator.of(context).pushNamed(
-                                      VSHeartRatePage.routeName,
-                                      arguments: routeArgument);
+                                    VSHeartRatePage.routeName,
+                                  );
                                 })
                               : null,
                     ),

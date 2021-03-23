@@ -1,226 +1,76 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
-import '../../dummy_data.dart';
+// import '../../dummy_data.dart';
 import '../../Widget/carouselDotIndicator.dart';
-
-class VsCardWidget extends StatefulWidget {
-  final VitalSign vitalSign;
-  // final int index;
-
-  VsCardWidget(
-    this.vitalSign,
-    // this.index,
-  );
-
-  @override
-  _VsCardWidgetState createState() => _VsCardWidgetState();
-}
-
-class _VsCardWidgetState extends State<VsCardWidget> {
-  Widget buildListCard(
-    String title,
-    Widget child,
-  ) {
-    return Container(
-      margin: EdgeInsets.symmetric(
-        horizontal: 25,
-        vertical: 10,
-      ),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
-          border: Border.all(color: Colors.grey)),
-      child: Column(
-        children: [
-          Container(
-            width: double.infinity,
-            height: 40,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(15),
-                topRight: Radius.circular(15),
-              ),
-              gradient: LinearGradient(
-                begin: Alignment.centerRight,
-                end: Alignment.centerLeft,
-                colors: [
-                  Theme.of(context).accentColor,
-                  Theme.of(context).primaryColor,
-                ],
-              ),
-            ),
-            alignment: Alignment.centerLeft,
-            padding: EdgeInsets.symmetric(horizontal: 15),
-            child: Text(
-              title,
-              // textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                  fontSize: 24),
-            ),
-          ),
-          Container(
-            height: 100,
-            child: child,
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget buildInfoList({
-    String title,
-    String unit,
-    var value,
-  }) {
-    String valueText;
-    // (value == null) ? valueText = 'No data' : valueText = '$value $unit';
-    return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: 15,
-        vertical: 3,
-      ),
-      child: Row(
-        children: <Widget>[
-          Text(
-            title,
-            style: TextStyle(fontSize: 18),
-          ),
-          Expanded(child: Container()),
-          (value == null)
-              ? Container(
-                  width: 80,
-                  child: Text(
-                    'No data',
-                    textAlign: TextAlign.start,
-                    style: TextStyle(fontSize: 18),
-                  ),
-                )
-              : Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      '$value',
-                      textAlign: TextAlign.end,
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
-                    Container(
-                      width: 10,
-                      color: Colors.amber,
-                    ),
-                    Container(
-                      width: 45,
-                      child: Text(
-                        '$unit',
-                        textAlign: TextAlign.start,
-                        style: TextStyle(fontSize: 14),
-                      ),
-                    ),
-                  ],
-                )
-        ],
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      elevation: 10,
-      margin: EdgeInsets.symmetric(
-        horizontal: 20,
-        vertical: 15,
-      ),
-      color: Theme.of(context).primaryColor,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
-          color: Colors.white,
-        ),
-        margin: EdgeInsets.all(3),
-        // height: 200,
-        width: MediaQuery.of(context).size.width * 0.85,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(
-              height: 5,
-            ),
-            Text(
-              DateFormat.yMMMEd().format(this.widget.vitalSign.vsDt),
-              style: TextStyle(
-                color: Color.fromARGB(255, 100, 100, 100),
-                fontSize: 22,
-              ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            buildInfoList(
-                title: 'Body Temperature',
-                unit: '°C',
-                value: this.widget.vitalSign.bodyTemp),
-            Divider(
-              color: Colors.grey[700],
-            ),
-            buildInfoList(
-                title: 'Heart Rate',
-                unit: 'BPM',
-                value: this.widget.vitalSign.pulse),
-            Divider(
-              color: Colors.grey[700],
-            ),
-            buildInfoList(
-                title: 'Respiratory Rate',
-                unit: 'BPM',
-                value: this.widget.vitalSign.respiratRate),
-            Divider(
-              color: Colors.grey[700],
-            ),
-            buildInfoList(
-                title: 'Bloodpressure',
-                unit: 'mmHg',
-                value: this.widget.vitalSign.bloodPress),
-            SizedBox(
-              height: 20,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
+import '../../Widget/ptInfo_vsCard.dart';
 
 class VitalSignTab extends StatefulWidget {
-  final String tpId = 'tp001';
+  final String tpId;
+
+  VitalSignTab(this.tpId);
 
   @override
   _VitalSignTabState createState() => _VitalSignTabState();
 }
 
 class _VitalSignTabState extends State<VitalSignTab> {
-  List<Appointment> appointments;
-  List<VitalSign> vitalSigns;
+  // List<Appointment> appointments;
+  // List<VitalSign> vitalSigns;
+  List<Map<String, dynamic>> data;
   var _loadInitData = false;
   int carouselIndex = 0;
+
+  List<Map<String, dynamic>> _loadData(
+    String tpId,
+  ) {
+    // ... use tpId toget data
+
+    return [
+      {
+        'vsId': 'vs001',
+        'apId': 'ap001',
+        'vsDt': DateTime.utc(2020, 12, 20),
+        'bodyTemp': 36.5,
+        'pulse': 87.0,
+        'respiratRate': 15,
+        'bloodPress': '80/120',
+      },
+      {
+        'vsId': 'vs002',
+        'apId': 'ap001',
+        'vsDt': DateTime.utc(2020, 12, 26),
+        'bodyTemp': 37.5,
+        'pulse': 90.0,
+        'respiratRate': null,
+        'bloodPress': null,
+      },
+      {
+        'vsId': 'vs003',
+        'apId': 'ap003',
+        'vsDt': DateTime.utc(2020, 12, 27),
+        'bodyTemp': 36.5,
+        'pulse': 87.0,
+        'respiratRate': null,
+        'bloodPress': null,
+      }
+    ];
+  }
 
   @override
   void didChangeDependencies() {
     if (!_loadInitData) {
-      vitalSigns = [];
-      appointments = dummy_appointment
-          .where((apt) =>
-              (apt.tpId == widget.tpId) && (apt.status == AptStatus.Edited))
-          .toList()
-          .reversed
-          .toList();
-      for (Appointment apt in appointments) {
-        vitalSigns.addAll(dummy_vitalSign.where((vs) => vs.apId == apt.apId));
-      }
+      data = _loadData(this.widget.tpId);
+      // vitalSigns = [];
+      // appointments = dummy_appointment
+      //     .where((apt) =>
+      //         (apt.tpId == widget.tpId) && (apt.status == AptStatus.Edited))
+      //     .toList()
+      //     .reversed
+      //     .toList();
+      // for (Appointment apt in appointments) {
+      //   vitalSigns.addAll(dummy_vitalSign.where((vs) => vs.apId == apt.apId));
+      // }
       super.didChangeDependencies();
     }
   }
@@ -233,9 +83,8 @@ class _VitalSignTabState extends State<VitalSignTab> {
           Expanded(
             child: Container(
               child: CarouselSlider.builder(
-                itemCount: vitalSigns.length,
-                itemBuilder: (context, index, _) =>
-                    VsCardWidget(vitalSigns[index]),
+                itemCount: data.length,
+                itemBuilder: (context, index, _) => VsCardWidget(data[index]),
                 options: CarouselOptions(
                   height: 350,
                   enlargeCenterPage: true,
@@ -254,7 +103,7 @@ class _VitalSignTabState extends State<VitalSignTab> {
             height: 5,
           ),
           CarouselDotIndicator(
-            length: appointments.length,
+            length: data.length,
             ctrlIndex: carouselIndex,
             selectedColor: Theme.of(context).primaryColor,
             unSelectedColor: Colors.grey,

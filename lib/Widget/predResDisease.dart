@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 
-import '../Models/disease.dart';
-import '../Models/diseaseAPI.dart';
 import '../Widget/diseaseCard.dart';
 
 class PredResDisease extends StatelessWidget {
-  final List<Disease> detectedDisease;
-  final List<DiseaseAPI> detectedDiseaseAPI;
+  final List<Map> conditions;
+  // final List<Disease> detectedDisease;
+  // final List<DiseaseAPI> detectedDiseaseAPI;
 
-  PredResDisease(
-    this.detectedDisease,
-    this.detectedDiseaseAPI,
-  );
+  PredResDisease(this.conditions
+      // this.detectedDisease,
+      // this.detectedDiseaseAPI,
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -49,16 +48,17 @@ class PredResDisease extends StatelessWidget {
             horizontal: 10,
           ),
           // color: Colors.teal[100],
-          height: (detectedDisease.length * 200).toDouble(),
+          height: (conditions.length * 200).toDouble(),
           child: ListView.builder(
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (ctx, index) {
               return DiseaseCard(
-                disease: detectedDisease[index],
-                servere: detectedDiseaseAPI[index].severity,
+                conditionID: conditions[index]['cid'],
+                name: conditions[index]['name'],
+                description: conditions[index]['description'],
               );
             },
-            itemCount: detectedDisease.length,
+            itemCount: conditions.length,
           ),
         )
       ],

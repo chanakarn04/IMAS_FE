@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class DiseaseDetailCard extends StatelessWidget {
+  final String name;
   final String description;
   final String cause;
   final List<String> treatment;
@@ -8,6 +9,7 @@ class DiseaseDetailCard extends StatelessWidget {
   final Color textColor = Color.fromARGB(255, 75, 75, 75);
 
   DiseaseDetailCard({
+    @required this.name,
     @required this.description,
     @required this.cause,
     @required this.treatment,
@@ -29,6 +31,20 @@ class DiseaseDetailCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
+              Align(
+                alignment: Alignment.center,
+                child: Text(
+                  name,
+                  style: TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 15,
+              ),
               Text(
                 'Description',
                 style: TextStyle(

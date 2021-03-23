@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 
+import '../Provider/user-info.dart';
+
 class TextBoxItem extends StatelessWidget {
-  final int role;
+  final Role userRole;
+  final Role msgRole;
   final String text;
 
-  TextBoxItem(this.role, this.text);
+  TextBoxItem(this.userRole, this.msgRole, this.text);
 
   @override
   Widget build(BuildContext context) {
@@ -27,11 +30,13 @@ class TextBoxItem extends StatelessWidget {
         padding: EdgeInsets.all(10),
         constraints:
             BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.6),
-        decoration: role == 0 ? raisedDeco : borderDeco,
+        decoration: msgRole != userRole ? raisedDeco : borderDeco,
         child: Text(
           text,
           style: TextStyle(
-            color: role == 0 ? Colors.white : Theme.of(context).primaryColor,
+            color: msgRole != userRole
+                ? Colors.white
+                : Theme.of(context).primaryColor,
             fontSize: 18,
           ),
           overflow: TextOverflow.clip,

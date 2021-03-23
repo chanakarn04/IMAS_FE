@@ -65,7 +65,7 @@ caseManagementEditBottomSheet(
                 ),
                 AdaptiveRaisedButton(
                   buttonText: buttonText,
-                  handlerFn: buttonHandler,
+                  handlerFn: () => buttonHandler(),
                   height: 30,
                   width: 140,
                 ),

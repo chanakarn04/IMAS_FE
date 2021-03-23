@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../Models/disease.dart';
 import '../Widget/diseaseDetailCard.dart';
 
 class DiseaseDetailPages extends StatelessWidget {
@@ -11,9 +10,28 @@ class DiseaseDetailPages extends StatelessWidget {
   //   this.disease,
   // });
 
+  Map _loadData(
+    String cid,
+  ) {
+    //...
+
+    final data = {
+      'cid': 'c0001',
+      'dName': 'Tension Headache',
+      'description':
+          'Pain associated with muscle used and working. pain seem to be aggravated over the day and can relieved by rest.',
+      'treatment': ['Medication', 'Rest'],
+      'cause':
+          'Tension headaches are caused by muscle contractions in the head and neck regions. These types of contractions can be caused by a variety of foods, activities and stressors. Some people develop tension headaches after staring at a computer screen for a long time or after driving for long periods. Cold temperatures may also trigger a tension headache.',
+    };
+
+    return data;
+  }
+
   @override
   Widget build(BuildContext context) {
-    final disease = ModalRoute.of(context).settings.arguments as Disease;
+    final cid = ModalRoute.of(context).settings.arguments as String;
+    final condition = _loadData(cid);
     final appBar = AppBar(
       centerTitle: true,
       iconTheme: IconThemeData(
@@ -50,9 +68,10 @@ class DiseaseDetailPages extends StatelessWidget {
             ])),
         child: Center(
           child: DiseaseDetailCard(
-            description: disease.description,
-            cause: disease.cause,
-            treatment: disease.treatment,
+            name: condition['dName'],
+            description: condition['description'],
+            cause: condition['cause'],
+            treatment: condition['treatment'],
           ),
         ),
       ),

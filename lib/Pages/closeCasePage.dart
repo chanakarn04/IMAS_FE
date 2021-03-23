@@ -1,12 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import './homePages.dart';
 import '../Widget/AdaptiveRaisedButton.dart';
 
 class CloseCasePage extends StatelessWidget {
   static const routneName = '/CloseCase';
+  // final String pName;
+  // final bool closeCase;
+
+  // CloseCasePage(
+  //   this.pName,
+  //   this.closeCase,
+  // );
+
   @override
   Widget build(BuildContext context) {
+    final routeArg = ModalRoute.of(context).settings.arguments as Map;
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
@@ -23,14 +33,25 @@ class CloseCasePage extends StatelessWidget {
               SizedBox(
                 height: 15,
               ),
-              Text(
-                'Harold Pain case\nhave successful close',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 24,
-                  color: Theme.of(context).primaryColor,
+              if (routeArg['closeCase'])
+                Text(
+                  '${routeArg['name']} case\nhave successful close',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 24,
+                    color: Theme.of(context).primaryColor,
+                  ),
                 ),
-              ),
+              if (!routeArg['closeCase'])
+                Text(
+                  // 'test',
+                  'Create Appointment\nwith ${routeArg['name']}\non ${DateFormat.yMd().add_jm().format(routeArg['date'])}',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 24,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                ),
               Expanded(child: Container()),
               AdaptiveRaisedButton(
                 buttonText: 'Home',

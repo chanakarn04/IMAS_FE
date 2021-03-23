@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../Provider/user-info.dart';
+import '../../Provider/vitalSign_Info.dart';
 import '../../Widget/numberTextInput.dart';
 import '../../Widget/adaptiveBorderButton.dart';
 import '../../Widget/adaptiveRaisedButton.dart';
@@ -53,8 +56,10 @@ class VSBloodPressurePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // final node = FocusScope.of(context);
-    final routeArgument =
-        ModalRoute.of(context).settings.arguments as Map<String, Object>;
+    // final routeArgument =
+    //     ModalRoute.of(context).settings.arguments as Map<String, Object>;
+    final userInfo = Provider.of<UserInfo>(context);
+    final vitalSign = Provider.of<VitalSignProvider>(context);
     final appBar = AppBar(
       centerTitle: true,
       iconTheme: IconThemeData(
@@ -183,11 +188,11 @@ class VSBloodPressurePage extends StatelessWidget {
                         height: 45,
                         width: 125,
                         handlerFn: () {
-                          routeArgument['pressure'] = null;
-                          print('${routeArgument['temp']}');
-                          print('${routeArgument['pulse']}');
-                          print('${routeArgument['breath']}');
-                          print('${routeArgument['pressure']}');
+                          vitalSign.pressure = null;
+                          // print('${routeArgument['temp']}');
+                          // print('${routeArgument['pulse']}');
+                          // print('${routeArgument['breath']}');
+                          // print('${routeArgument['pressure']}');
                           Navigator.of(context).popUntil(
                               ModalRoute.withName(HomePage.routeName));
                           Navigator.of(context)
@@ -208,12 +213,15 @@ class VSBloodPressurePage extends StatelessWidget {
                                     null) &&
                                 (textControllerb.text.isNotEmpty)
                             ? (() {
-                                routeArgument['pressure'] =
-                                    '${textControllerf.text}/${textControllerb.text}';
-                                print('temp:   ${routeArgument['temp']}');
-                                print('pulse:  ${routeArgument['pulse']}');
-                                print('breath: ${routeArgument['breath']}');
-                                print('press:  ${routeArgument['pressure']}');
+                                vitalSign.pressure = [
+                                  double.parse(textControllerf.text),
+                                  double.parse(textControllerb.text),
+                                ];
+                                vitalSign.uploadValue(userInfo.userId);
+                                // print('temp:   ${routeArgument['temp']}');
+                                // print('pulse:  ${routeArgument['pulse']}');
+                                // print('breath: ${routeArgument['breath']}');
+                                // print('press:  ${routeArgument['pressure']}');
                                 Navigator.of(context).popUntil(
                                     ModalRoute.withName(HomePage.routeName));
                                 Navigator.of(context)

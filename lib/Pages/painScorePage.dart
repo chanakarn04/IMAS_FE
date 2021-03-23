@@ -15,6 +15,18 @@ class PainScorePage extends StatefulWidget {
 class _PainScorePageState extends State<PainScorePage> {
   double value = 0;
 
+  void _uploadData(
+    Map<String, int> painScore,
+    // ... use something more
+  ) {
+    // upload painScore
+
+    // temp
+    painScore.forEach((key, value) {
+      print('$key : $value');
+    });
+  }
+
   Widget _headerBuilder(
     BuildContext context,
     String header,
@@ -55,8 +67,12 @@ class _PainScorePageState extends State<PainScorePage> {
 
   @override
   Widget build(BuildContext context) {
-    final routeArgument =
-        ModalRoute.of(context).settings.arguments as Map<String, Object>;
+    final routeArg =
+        ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
+    int index = routeArg['index'];
+    List<String> symptoms = routeArg['symptom'];
+    Map<String, int> painScore = routeArg['painScore'];
+    // print(routeArg['symptom']);
     final appBar = AppBar(
       centerTitle: true,
       iconTheme: IconThemeData(
@@ -100,7 +116,7 @@ class _PainScorePageState extends State<PainScorePage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  _headerBuilder(context, routeArgument['symptom']),
+                  _headerBuilder(context, symptoms[index]),
                   SizedBox(
                     height: 20,
                   ),
@@ -211,13 +227,46 @@ class _PainScorePageState extends State<PainScorePage> {
                   Align(
                     alignment: Alignment.center,
                     child: AdaptiveRaisedButton(
-                        buttonText: 'Next',
+                        buttonText:
+                            (index < (symptoms.length - 1)) ? 'Next' : 'Submit',
                         height: 35,
                         width: MediaQuery.of(context).size.width * 0.35,
                         handlerFn: () {
-                          print('blank');
+                          if (index < (symptoms.length - 1)) {
+                            painScore[symptoms[index]] = value.toInt();
+                            Navigator.of(context)
+                                .pushNamed(PainScorePage.routeName, arguments: {
+                              'index': index + 1,
+                              'symptom': symptoms,
+                              'painScore': painScore,
+                            });
+                          } else {
+                            painScore[symptoms[index]] = value.toInt();
+                            // ... uploadData to server
+                            _uploadData(painScore);
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8.0)),
+                                  title: Text('Submit Data successfully'),
+                                  actions: [
+                                    FlatButton(
+                                      child: Text("OK"),
+                                      onPressed: () {
+                                        Navigator.of(context).popUntil(
+                                            ModalRoute.withName('/home'));
+                                      },
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          }
+                          // print('blank');
                           // print(PainScoreSlider.value)
-                          print(value.toString());
+                          // print(value.toString());
                         }),
                   )
                 ],

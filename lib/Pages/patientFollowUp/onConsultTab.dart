@@ -23,7 +23,10 @@ class _OnConsultTabState extends State<OnConsultTab> {
   // String last_message = 'test last message';
   // DateTime last_messageDt = DateTime.now();
 
-  openModalBottomSheet(String tpId) {
+  openModalBottomSheet(
+    String tpId,
+    String name,
+  ) {
     return showModalBottomSheet(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
@@ -49,7 +52,10 @@ class _OnConsultTabState extends State<OnConsultTab> {
                 child: InkWell(
                   onTap: () {
                     Navigator.of(context)
-                        .pushNamed(CaseManagementPage.routeName);
+                        .pushNamed(CaseManagementPage.routeName, arguments: {
+                      'tpId': tpId,
+                      'name': name,
+                    });
                   },
                   child: Row(
                     children: [
@@ -76,7 +82,8 @@ class _OnConsultTabState extends State<OnConsultTab> {
                 padding: EdgeInsets.symmetric(vertical: 10),
                 onPressed: () {
                   print('to patient info with $tpId');
-                  Navigator.of(context).pushNamed(PatientInfoPage.routeName);
+                  Navigator.of(context)
+                      .pushNamed(PatientInfoPage.routeName, arguments: tpId);
                 },
                 child: Row(
                   children: [
@@ -124,7 +131,7 @@ class _OnConsultTabState extends State<OnConsultTab> {
           Navigator.of(context).pushNamed(ChatRoom.routeName);
         },
         onLongPress: () {
-          openModalBottomSheet(tpId);
+          openModalBottomSheet(tpId, '$fname $sname');
         },
         leading: Container(
           height: 50,
@@ -200,8 +207,8 @@ class _OnConsultTabState extends State<OnConsultTab> {
             child: ListView.builder(
               itemBuilder: (context, index) {
                 return buildPatientBox(
-                  this.widget.infomation[index]['fname'],
-                  this.widget.infomation[index]['sname'],
+                  this.widget.infomation[index]['pName'],
+                  this.widget.infomation[index]['pSurname'],
                   'assets/images/default_photo.png',
                   'test last message',
                   DateTime.now(),

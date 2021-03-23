@@ -1,12 +1,33 @@
 import 'package:flutter/material.dart';
 
-import '../../dummy_data.dart';
+// import '../../dummy_data.dart';
+import '../../Models/model.dart';
 
 class BasicInfoTab extends StatelessWidget {
-  final pInfo = dummy_Patient;
+  final String userId;
 
-  String get genderText {
-    switch (pInfo.gender) {
+  // tpID from main Page
+  BasicInfoTab(this.userId);
+
+  Map<String, dynamic> _loadData(
+    String userId,
+  ) {
+    // ... use tpId to get data
+
+    return {
+      'gender': Gender.Male,
+      'DoB': DateTime(1998, 4, 15),
+      'isSmoke': Status.No,
+      'isDiabetes': Status.NotSure,
+      'hasHighPress': Status.Yes,
+      'drugAllergy': ['Paracetamol'],
+    };
+  }
+
+  // final pInfo = dummy_Patient;
+
+  String genderText(gender) {
+    switch (gender) {
       case Gender.Male:
         return 'Male';
         break;
@@ -18,8 +39,8 @@ class BasicInfoTab extends StatelessWidget {
     }
   }
 
-  String get smokeText {
-    switch (pInfo.isSmoke) {
+  String smokeText(isSmoke) {
+    switch (isSmoke) {
       case Status.NotSure:
         return 'Not sure';
         break;
@@ -34,8 +55,8 @@ class BasicInfoTab extends StatelessWidget {
     }
   }
 
-  String get diabeteText {
-    switch (pInfo.isDiabetes) {
+  String diabeteText(isDiabetes) {
+    switch (isDiabetes) {
       case Status.NotSure:
         return 'Not sure';
         break;
@@ -50,8 +71,8 @@ class BasicInfoTab extends StatelessWidget {
     }
   }
 
-  String get highPressText {
-    switch (pInfo.hasHighPress) {
+  String highPressText(hasHighPress) {
+    switch (hasHighPress) {
       case Status.NotSure:
         return 'Not sure';
         break;
@@ -91,6 +112,8 @@ class BasicInfoTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final String userId = ModalRoute.of(context).settings.arguments;
+    final data = _loadData(userId);
     return Container(
       // color: Colors.orange[200],
       // height: 200,
@@ -142,7 +165,8 @@ class BasicInfoTab extends StatelessWidget {
                 children: [
                   Text(
                     // '${((DateTime.now().month - pInfo.dob.month) / 12)}',
-                    '${((DateTime.now().difference(pInfo.dob).inDays) / 365).floor()}',
+                    '${((DateTime.now().difference(data['DoB']).inDays) / 365).floor()}',
+                    // '${((DateTime.now().difference(data['dob']).inDays) / 365).floor()}',
                     style: TextStyle(
                       fontSize: 24,
                     ),
@@ -151,7 +175,7 @@ class BasicInfoTab extends StatelessWidget {
                     height: 5,
                   ),
                   Text(
-                    '$genderText',
+                    '${genderText(data['gender'])}',
                     style: TextStyle(
                       fontSize: 24,
                     ),
@@ -212,7 +236,7 @@ class BasicInfoTab extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '$highPressText',
+                    '${highPressText(data['hasHighPress'])}',
                     style: TextStyle(
                       fontSize: 24,
                     ),
@@ -221,7 +245,7 @@ class BasicInfoTab extends StatelessWidget {
                     height: 5,
                   ),
                   Text(
-                    '$diabeteText',
+                    '${diabeteText(data['isDiabetes'])}',
                     style: TextStyle(
                       fontSize: 24,
                     ),
@@ -230,7 +254,7 @@ class BasicInfoTab extends StatelessWidget {
                     height: 5,
                   ),
                   Text(
-                    '$smokeText',
+                    '${(smokeText(data['isSmoke']))}',
                     style: TextStyle(
                       fontSize: 24,
                     ),
@@ -244,7 +268,7 @@ class BasicInfoTab extends StatelessWidget {
           ),
           _buildLineHeader(context, 'Drug allergy'),
           Container(
-            height: (pInfo.drugAllegy.length.toDouble() * 30),
+            height: (data['drugAllergy'].length.toDouble() * 30),
             child: ListView.builder(
               physics: const NeverScrollableScrollPhysics(),
               padding: EdgeInsets.only(
@@ -255,11 +279,11 @@ class BasicInfoTab extends StatelessWidget {
               ),
               itemBuilder: (context, index) {
                 return Text(
-                  '\u2022 ${pInfo.drugAllegy[index]}',
+                  '\u2022 ${data['drugAllergy'][index]}',
                   style: TextStyle(fontSize: 24),
                 );
               },
-              itemCount: pInfo.drugAllegy.length,
+              itemCount: data['drugAllergy'].length,
             ),
           ),
         ],
