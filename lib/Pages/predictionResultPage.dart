@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 // import '../Models/disease.dart';
 // import '../Models/diseaseAPI.dart';
 // import '../Models/symptom.dart';
+import './homePages.dart';
+import './Waiting.dart';
 import '../Widget/predResDisease.dart';
 import '../Widget/predResSymptom.dart';
 import '../Widget/AdaptiveRaisedButton.dart';
@@ -145,7 +147,7 @@ class _PredictionResultPageState extends State<PredictionResultPage> {
                           buttonText: 'Home',
                           handlerFn: () {
                             Navigator.of(context)
-                                .popUntil(ModalRoute.withName('/home'));
+                                .popUntil(ModalRoute.withName(HomePage.routeName));
                           },
                           height: 35,
                           width: 160,
@@ -173,7 +175,7 @@ class _PredictionResultPageState extends State<PredictionResultPage> {
                             buttonText: 'Home',
                             handlerFn: () {
                               Navigator.of(context)
-                                  .popUntil(ModalRoute.withName('/home'));
+                                  .popUntil(ModalRoute.withName(HomePage.routeName));
                             },
                             height: 35,
                             width: 160,
@@ -184,7 +186,7 @@ class _PredictionResultPageState extends State<PredictionResultPage> {
                           AdaptiveRaisedButton(
                             buttonText: 'Meet Doctor',
                             handlerFn: () {
-                              print('Meet Doctor');
+                              Navigator.of(context).pushReplacementNamed(WaitingPage.routeName);
                               // Navigator.of(context)
                               //     .popUntil(ModalRoute.withName('/home'));
                             },
@@ -239,7 +241,7 @@ class _PredictionResultPageState extends State<PredictionResultPage> {
                           buttonText: 'Home',
                           handlerFn: () {
                             Navigator.of(context)
-                                .popUntil(ModalRoute.withName('/home'));
+                                .popUntil(ModalRoute.withName(HomePage.routeName));
                           },
                           height: 35,
                           width: 160,

@@ -33,6 +33,7 @@ import './Pages/closeCasePage.dart';
 import './Pages/appointmentPatient.dart';
 import './Pages/appointmentDoctor.dart';
 import './Pages/as_addMoreSymptom.dart';
+import './Pages/Waiting.dart';
 
 class Routes {
   static routes() {
@@ -70,6 +71,7 @@ class Routes {
       AppointmentPatientPage.routeName: (ctx) => AppointmentPatientPage(),
       AppointmentDoctorPage.routeName: (ctx) => AppointmentDoctorPage(),
       AddMoreSymptom.routeName: (ctx) => AddMoreSymptom(),
+      WaitingPage.routeName: (ctx) => WaitingPage(),
     };
   }
 

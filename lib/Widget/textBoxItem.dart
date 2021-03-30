@@ -24,22 +24,27 @@ class TextBoxItem extends StatelessWidget {
       borderRadius: BorderRadius.circular(5),
     );
 
-    return Card(
-      elevation: 2,
-      child: Container(
-        padding: EdgeInsets.all(10),
-        constraints:
-            BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.6),
-        decoration: msgRole != userRole ? raisedDeco : borderDeco,
-        child: Text(
-          text,
-          style: TextStyle(
-            color: msgRole != userRole
-                ? Colors.white
-                : Theme.of(context).primaryColor,
-            fontSize: 18,
+    return Container(
+      margin: msgRole != userRole
+        ? EdgeInsets.only(left: 10)
+        :EdgeInsets.only(right: 10),
+      child: Card(
+        elevation: 2,
+        child: Container(
+          padding: EdgeInsets.all(10),
+          constraints:
+              BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.6),
+          decoration: msgRole != userRole ? raisedDeco : borderDeco,
+          child: Text(
+            text,
+            style: TextStyle(
+              color: msgRole != userRole
+                  ? Colors.white
+                  : Theme.of(context).primaryColor,
+              fontSize: 18,
+            ),
+            overflow: TextOverflow.clip,
           ),
-          overflow: TextOverflow.clip,
         ),
       ),
     );

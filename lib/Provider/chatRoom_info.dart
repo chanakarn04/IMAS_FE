@@ -34,7 +34,7 @@ class ChatRoomProvider with ChangeNotifier {
     chatRoomId = 'x000yx000y';
     // get opposite User id
     opUserId = 'x0001';
-    // notifyListeners();
+    notifyListeners();
   }
 
   void chatRegistor() {
