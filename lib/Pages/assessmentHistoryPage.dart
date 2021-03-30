@@ -210,7 +210,7 @@ class AssessmentHistoryPage extends StatelessWidget {
                             PredictionResultPage.routeName,
                             arguments: {
                               'isHistory': true,
-                              'isMeetDoctor': false
+                              // 'isMeetDoctor': false
                             });
                       } else if ((items[index]['status'] ==
                               TreatmentStatus.Hospital) &&

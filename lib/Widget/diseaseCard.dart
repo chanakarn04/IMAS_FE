@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../Widget/adaptiveBorderButton.dart';
-import '../Models/disease.dart';
+// import '../Models/disease.dart';
 import '../Pages/diseaseDetail.dart';
 
 class DiseaseCard extends StatelessWidget {

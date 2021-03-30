@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../Widget/diseaseCard.dart';
 
 class PredResDisease extends StatelessWidget {
-  final List<Map> conditions;
+  final List<Map<String, dynamic>> conditions;
   // final List<Disease> detectedDisease;
   // final List<DiseaseAPI> detectedDiseaseAPI;
 
@@ -14,6 +14,7 @@ class PredResDisease extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // print(conditions.length);
     return Column(
       children: <Widget>[
         Padding(
@@ -53,8 +54,8 @@ class PredResDisease extends StatelessWidget {
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (ctx, index) {
               return DiseaseCard(
-                conditionID: conditions[index]['cid'],
-                name: conditions[index]['name'],
+                conditionID: conditions[index]['id'],
+                name: conditions[index]['common_name'],
                 description: conditions[index]['description'],
               );
             },

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class PredResSymptom extends StatelessWidget {
-  final List<String> symptomList;
+  final List<Map<String, dynamic>> symptomList;
 
   PredResSymptom(this.symptomList);
 
@@ -45,7 +45,7 @@ class PredResSymptom extends StatelessWidget {
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (ctx, index) {
               return Text(
-                '\u2022 ${symptomList[index]}',
+                '\u2022 ${symptomList[index]['common_name']}',
                 style: const TextStyle(
                   fontSize: 18,
                 ),

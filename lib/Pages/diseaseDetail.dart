@@ -16,13 +16,11 @@ class DiseaseDetailPages extends StatelessWidget {
     //...
 
     final data = {
-      'cid': 'c0001',
-      'dName': 'Tension Headache',
-      'description':
-          'Pain associated with muscle used and working. pain seem to be aggravated over the day and can relieved by rest.',
-      'treatment': ['Medication', 'Rest'],
-      'cause':
-          'Tension headaches are caused by muscle contractions in the head and neck regions. These types of contractions can be caused by a variety of foods, activities and stressors. Some people develop tension headaches after staring at a computer screen for a long time or after driving for long periods. Cold temperatures may also trigger a tension headache.',
+      'cid': 'c_255',
+      'dName': 'Tentanus',
+      'description': 'temporary condition description',
+      'treatment': 'temporary condtion treatment',
+      'cause': 'temporary condition cause',
     };
 
     return data;

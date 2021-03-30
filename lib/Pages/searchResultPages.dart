@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import '../dummy_data.dart';
 import './answerQuestionPages.dart';
-import '../Models/symptom.dart';
 import '../Widget/symptomCard.dart';
 import '../Widget/sideDrawer.dart';
+import '../Provider/user-info.dart';
+import '../Provider/symptomAssessment.dart';
 
 class SearchResultPages extends StatefulWidget {
   static const routeName = '/SymptomSearch';
@@ -18,30 +19,66 @@ class SearchResultPages extends StatefulWidget {
 
 class _SearchResultPagesState extends State<SearchResultPages> {
   final _symptomController = TextEditingController();
-  String _searchText;
+  // String _searchText;
+  var _loadedData = false;
+  String phrase = 'test';
+  List symptomList = [];
+  // Color tempColor = Colors.red;
+  // String searchText;
 
-  final List<Symptom> symptomList = dummy_symptoms;
-
-  List<Symptom> searchedSymptom(String _searchText) {
-    return symptomList.where((element) {
-      String elm = element.name.toLowerCase();
-      return elm.contains(_searchText.toLowerCase());
-    }).toList();
+  @override
+  void didChangeDependencies() {
+    // print(phrase);
+    if (!_loadedData) {
+      phrase = ModalRoute.of(context).settings.arguments as String;
+      _symptomController.text = phrase;
+      _loadedData = true;
+    }
+    super.didChangeDependencies();
   }
 
-  void setSearchState(_) {
-    setState(() {
-      _searchText = _symptomController.text;
-    });
-  }
+  // final List<Symptom> symptomList = dummy_symptoms;
+
+  // List<Symptom> searchedSymptom(String _searchText) {
+  //   return symptomList.where((element) {
+  //     String elm = element.name.toLowerCase();
+  //     return elm.contains(_searchText.toLowerCase());
+  //   }).toList();
+  // }
+
+  // void setSearchState(SymptomAssessmentProvider sap) {
+  //   setState(() {
+  //     // symptomList = sap.searchSymptom(_symptomController.text);
+  //     symptomList = [
+  //       {
+  //         'id': 's_13',
+  //         'label': 'Broken heart boy',
+  //       },
+  //       {
+  //         'id': 's_169',
+  //         'label': 'Burn but fine',
+  //       },
+  //     ];
+  //   });
+  // }
 
   GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
-    final routeArgument =
-        ModalRoute.of(context).settings.arguments as Map<String, String>;
-    _searchText = routeArgument['search'];
+    final userInfo = Provider.of<UserInfo>(context, listen: false);
+    final symptomAssessment = Provider.of<SymptomAssessmentProvider>(context, listen: false);
+    // String searchText = ModalRoute.of(context).settings.arguments as String;
+    // _symptomController.text = searchText;
+    // phrase = searchText;
+
+
+    // symptomAssessment.init(userInfo.userId);
+    // setState(() {
+    //   _symptomController.text = phrase;
+    //   symptomList = symptomAssessment.searchSymptom(phrase);    
+    // });
+
     final appBar = AppBar(
       iconTheme: IconThemeData(
         color: Theme.of(context).primaryColor,
@@ -64,6 +101,7 @@ class _SearchResultPagesState extends State<SearchResultPages> {
         )
       ],
     );
+
     return Scaffold(
       key: _scaffoldState,
       endDrawer: SideDrawer(),
@@ -79,11 +117,10 @@ class _SearchResultPagesState extends State<SearchResultPages> {
               padding: EdgeInsets.all(10),
               child: TextField(
                 controller: _symptomController,
-                decoration: InputDecoration(
-                  hintText: _searchText,
-                ),
                 onSubmitted: (_) {
-                  setSearchState(_);
+                  setState(() {
+                    phrase = _symptomController.text;
+                  });
                 },
               ),
             ),
@@ -93,13 +130,7 @@ class _SearchResultPagesState extends State<SearchResultPages> {
                       appBar.preferredSize.height -
                       MediaQuery.of(context).padding.top) *
                   0.9,
-              child: SymptomCard(searchedSymptom(_searchText), () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => AnswerQuestionPages()),
-                );
-              }),
+              child: SymptomCard(symptomAssessment.searchSymptom(phrase)),
             )
           ],
         ),

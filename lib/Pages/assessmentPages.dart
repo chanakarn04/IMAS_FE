@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import './searchResultPages.dart';
 import '../Widget/sideDrawer.dart';
+import '../Provider/user-info.dart';
+import '../Provider/symptomAssessment.dart';
 
 class AssessmentPages extends StatefulWidget {
   static const routeName = '/assessment';
@@ -16,7 +19,10 @@ class _AssessmentPagesState extends State<AssessmentPages> {
 
   @override
   Widget build(BuildContext context) {
+    final userInfo = Provider.of<UserInfo>(context, listen: false);
+    final symptomAssessment = Provider.of<SymptomAssessmentProvider>(context, listen: false);
     final size = MediaQuery.of(context).size;
+    symptomAssessment.init(userInfo.userId);
     return Scaffold(
       key: _scaffoldState,
       endDrawer: SideDrawer(),
@@ -77,7 +83,7 @@ class _AssessmentPagesState extends State<AssessmentPages> {
                   onSubmitted: (_) {
                     // print(_symptomController.text);
                     Navigator.of(context).pushNamed(SearchResultPages.routeName,
-                        arguments: {'search': _symptomController.text});
+                        arguments: _symptomController.text);
                   }),
             ],
           ),

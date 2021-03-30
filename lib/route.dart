@@ -32,6 +32,7 @@ import './Pages/caseMangementPage.dart';
 import './Pages/closeCasePage.dart';
 import './Pages/appointmentPatient.dart';
 import './Pages/appointmentDoctor.dart';
+import './Pages/as_addMoreSymptom.dart';
 
 class Routes {
   static routes() {
@@ -68,6 +69,7 @@ class Routes {
       CloseCasePage.routneName: (ctx) => CloseCasePage(),
       AppointmentPatientPage.routeName: (ctx) => AppointmentPatientPage(),
       AppointmentDoctorPage.routeName: (ctx) => AppointmentDoctorPage(),
+      AddMoreSymptom.routeName: (ctx) => AddMoreSymptom(),
     };
   }
 

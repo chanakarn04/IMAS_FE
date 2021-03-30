@@ -6,6 +6,7 @@ import './Provider/user-info.dart';
 import './Provider/caseManagement_Info.dart';
 import './Provider/vitalSign_Info.dart';
 import './Provider/chatRoom_info.dart';
+import './Provider/symptomAssessment.dart';
 
 void main() {
   runApp(MyApp());
@@ -27,6 +28,8 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => ChatRoomProvider(),
+        ),
+          ChangeNotifierProvider(create: (context) => SymptomAssessmentProvider(),
         ),
       ],
       child: MaterialApp(
