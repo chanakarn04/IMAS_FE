@@ -54,13 +54,13 @@ class _PredictionResultPageState extends State<PredictionResultPage> {
       'condition': [
         {
           'cid': 'c0001',
-          'name': 'Tension Headache',
+          'common_name': 'Tension Headache',
           'description':
               'Pain associated with muscle used and working. pain seem to be aggravated over the day and can relieved by rest.'
         },
         {
           'cid': 'c0002',
-          'name': 'Tension Headache 2',
+          'common_name': 'Tension Headache 2',
           'description':
               'Pain associated with muscle used and working. pain seem to be aggravated over the day and can relieved by rest.'
         },
@@ -98,6 +98,8 @@ class _PredictionResultPageState extends State<PredictionResultPage> {
         // if it history
         // query from database
         _loadData();
+        // print(conditions);
+        // conditions = 
       }
       _loadedData = true;
     }

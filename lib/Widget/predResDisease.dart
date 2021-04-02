@@ -14,7 +14,7 @@ class PredResDisease extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // print(conditions.length);
+    print(conditions.length);
     return Column(
       children: <Widget>[
         Padding(
