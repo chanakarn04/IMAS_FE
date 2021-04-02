@@ -78,7 +78,7 @@ class VsCardWidget extends StatelessWidget {
         children: <Widget>[
           Text(
             title,
-            style: TextStyle(fontSize: 18),
+            style: TextStyle(fontSize: 14),
           ),
           Expanded(child: Container()),
           (value == null)
@@ -97,18 +97,20 @@ class VsCardWidget extends StatelessWidget {
                       '$value',
                       textAlign: TextAlign.end,
                       style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                     Container(
-                      width: 10,
-                      color: Colors.amber,
+                      height: 10,
+                      width: 5,
+                      // color: Colors.amber,
                     ),
                     Container(
-                      width: 45,
+                      width: 40,
+                      // color: Colors.amber,
                       child: Text(
                         '$unit',
                         textAlign: TextAlign.start,
-                        style: TextStyle(fontSize: 14),
+                        style: TextStyle(fontSize: 12),
                       ),
                     ),
                   ],
