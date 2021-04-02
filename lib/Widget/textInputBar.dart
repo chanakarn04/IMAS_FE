@@ -30,9 +30,13 @@ class _TextInputBarState extends State<TextInputBar> {
         FocusScope.of(context).unfocus();
       }
     }
+
     return Container(
       alignment: Alignment.bottomCenter,
-      height: 50,
+      height: 60,
+      padding: EdgeInsets.only(
+        bottom: 10,
+      ),
       width: double.infinity,
       color: Theme.of(context).primaryColor,
       child: Row(
@@ -62,10 +66,17 @@ class _TextInputBarState extends State<TextInputBar> {
                 // width: MediaQuery.of(context).size.width * 0.7,
                 child: TextField(
                   decoration: InputDecoration(
+                    border: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                    errorBorder: InputBorder.none,
+                    disabledBorder: InputBorder.none,
+                    contentPadding: EdgeInsets.only(
+                        left: 15, bottom: 11, top: 11, right: 15),
                     hintText: 'Aa',
                   ),
                   controller: _textController,
-                  onSubmitted: _sendConversation(),
+                  // onSubmitted: _sendConversation(),
                 ),
               ),
             ),
