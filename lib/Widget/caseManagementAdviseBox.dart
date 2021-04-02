@@ -45,7 +45,7 @@ class _CaseManagementAdviseBoxState extends State<CaseManagementAdviseBox> {
         builder: (context) => AlertDialog(
           title: Text('Data edited'),
           actions: [
-            FlatButton(
+            TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },

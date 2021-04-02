@@ -49,7 +49,7 @@ class _CaseManagementListItemBoxState extends State<CaseManagementListItemBox> {
         builder: (context) => AlertDialog(
           title: Text('$caseIndex added'),
           actions: [
-            FlatButton(
+            TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -73,7 +73,7 @@ class _CaseManagementListItemBoxState extends State<CaseManagementListItemBox> {
         builder: (context) => AlertDialog(
           title: Text('Data edited'),
           actions: [
-            FlatButton(
+            TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },

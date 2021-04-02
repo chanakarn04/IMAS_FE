@@ -44,11 +44,8 @@ class _OnConsultTabState extends State<OnConsultTab> {
           ),
           child: Column(
             children: [
-              FlatButton(
+              Padding(
                 padding: EdgeInsets.symmetric(vertical: 10),
-                onPressed: () {
-                  print('to patient info with $tpId');
-                },
                 child: InkWell(
                   onTap: () {
                     Navigator.of(context)
@@ -78,31 +75,32 @@ class _OnConsultTabState extends State<OnConsultTab> {
                   ),
                 ),
               ),
-              FlatButton(
+              Padding(
                 padding: EdgeInsets.symmetric(vertical: 10),
-                onPressed: () {
-                  print('to patient info with $tpId');
-                  Navigator.of(context)
+                child: InkWell(
+                  onTap: () {
+                    Navigator.of(context)
                       .pushNamed(PatientInfoPage.routeName, arguments: tpId);
-                },
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.info_outline,
-                      size: 40,
-                      color: Theme.of(context).primaryColor,
-                    ),
-                    SizedBox(
-                      width: 15,
-                    ),
-                    Text(
-                      'Patient Infomation',
-                      style: TextStyle(
+                  },
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.info_outline,
+                        size: 40,
                         color: Theme.of(context).primaryColor,
-                        fontSize: 24,
                       ),
-                    ),
-                  ],
+                      SizedBox(
+                        width: 15,
+                      ),
+                      Text(
+                        'Patient Infomation',
+                        style: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                          fontSize: 24,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],

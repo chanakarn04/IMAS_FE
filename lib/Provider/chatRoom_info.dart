@@ -20,6 +20,7 @@ class ChatRoomProvider with ChangeNotifier {
   String chatRoomId = '';
   List<ChatMessage> messages = [];
   String opUserId = '';
+  String note = '';
 
   void chatRequest() {
     // in patient send userId to request
@@ -39,6 +40,10 @@ class ChatRoomProvider with ChangeNotifier {
 
   void chatRegistor() {
     // ... ???
+  }
+
+  void updateNote(String newNote) {
+    this.note = newNote;
   }
 
   void sendMessage(

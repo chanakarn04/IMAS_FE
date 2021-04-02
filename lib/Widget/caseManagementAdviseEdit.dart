@@ -22,12 +22,13 @@ caseManagementAdviseEdit(
     ),
     builder: (context) {
       return Container(
-        height: 350 + MediaQuery.of(context).viewInsets.bottom,
+        height: 300,
         padding: EdgeInsets.only(
           left: 30,
           right: 30,
           top: 20,
-          bottom: 20 + MediaQuery.of(context).viewInsets.bottom,
+          bottom: 20,
+          // bottom: 20 + MediaQuery.of(context).viewInsets.bottom,
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,

@@ -39,8 +39,8 @@ class _InCareTabState extends State<InCareTab> {
           ),
           child: Column(
             children: [
-              FlatButton(
-                padding: EdgeInsets.symmetric(vertical: 10),
+              TextButton(
+                // padding: EdgeInsets.symmetric(vertical: 10),
                 onPressed: () {
                   print('to patient info with $tpId');
                   Navigator.of(context)
