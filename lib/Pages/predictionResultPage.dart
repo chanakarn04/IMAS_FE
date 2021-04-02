@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 // import '../Models/disease.dart';
 // import '../Models/diseaseAPI.dart';
@@ -159,6 +160,27 @@ class _PredictionResultPageState extends State<PredictionResultPage> {
                           buttonText: 'Emergency',
                           handlerFn: () {
                             print('alertDialog');
+                            showDialog(context: context, builder: (_) {
+                              return AlertDialog(
+                                title: Text('Emergency Call 1669'),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(10.0))
+                                ),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      launch('tel:1669');
+                                    },
+                                    child: Text(
+                                      'Call',
+                                      style: TextStyle(
+                                        color: Theme.of(context).primaryColor,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              );
+                            });
                             // Navigator.of(context)
                             //     .popUntil(ModalRoute.withName('/home'));
                           },

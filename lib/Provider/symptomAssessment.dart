@@ -185,7 +185,7 @@ class SymptomAssessmentProvider with ChangeNotifier{
     //recueve as JSON like:
     Map<String, dynamic> triageResult = {
       // "triage_level": "consultation_24",
-      'triage_level': 'consultation',
+      'triage_level': 'emergency',
       "serious": [
         {
           "id": "s_1193",
