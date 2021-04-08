@@ -25,7 +25,9 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
   String prefix = 'Dr.';
   DateTime _selectedDate;
   int selectedGender = 0; // 0 as Male, 1 as Female
-  var _validate = true;
+  var _pswValidate = true;
+  var _mailValidate = true;
+  var _submitValidate = false;
 
   void _presentDatePicker() {
     showDatePicker(
@@ -63,18 +65,36 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
   void checkCfPwd() {
     if (pswTxtCtrl.text == cfPswTxtCtrl.text) {
       setState(() {
-        _validate = true;
+        _pswValidate = true;
       });
     } else {
       setState(() {
         pswTxtCtrl.clear();
         cfPswTxtCtrl.clear();
-        _validate = false;
+        _pswValidate = false;
         _scrollCrtl.animateTo(
           0.0,
           curve: Curves.easeOut,
           duration: const Duration(milliseconds: 100),
         );
+      });
+    }
+  }
+
+  void checkMail() {
+    if (RegExp(
+            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+        .hasMatch(usrnTxtCtrl.text)) {
+      print('Hi there if');
+      setState(() {
+        _mailValidate = true;
+      });
+    } else {
+      print('Hi there else');
+      setState(() {
+        usrnTxtCtrl.clear();
+        // cfPswTxtCtrl.clear();
+        _mailValidate = false;
       });
     }
   }
@@ -126,6 +146,17 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (usrnTxtCtrl.text.isNotEmpty &&
+        pswTxtCtrl.text.isNotEmpty &&
+        cfPswTxtCtrl.text.isNotEmpty &&
+        nameTxtCtrl.text.isNotEmpty &&
+        surnameTxtCtrl.text.isNotEmpty &&
+        citizenIdTxtCtrl.text.isNotEmpty &&
+        medIdTxtCtrl.text.isNotEmpty &&
+        certIdTxtCtrl.text.isNotEmpty &&
+        _selectedDate != null) {
+      _submitValidate = true;
+    }
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -173,8 +204,9 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
                       obscureText: true,
                       decoration: InputDecoration(
                           labelText: 'Password',
-                          errorText:
-                              _validate ? null : '**Password are not macthing'),
+                          errorText: _pswValidate
+                              ? null
+                              : '**Password are not macthing'),
                       onEditingComplete: () =>
                           FocusScope.of(context).nextFocus(),
                     ),
@@ -360,36 +392,34 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
                   ),
                   AdaptiveRaisedButton(
                     buttonText: 'Submit',
-                    handlerFn: () {
-                      print(usrnTxtCtrl.text);
-                      print(pswTxtCtrl.text);
-                      print(cfPswTxtCtrl.text);
-                      print(nameTxtCtrl.text);
-                      print(surnameTxtCtrl.text);
-                      print(citizenIdTxtCtrl.text);
-                      print(medIdTxtCtrl.text);
-                      print(certIdTxtCtrl.text);
-                      if (usrnTxtCtrl.text.isNotEmpty &&
-                          pswTxtCtrl.text.isNotEmpty &&
-                          cfPswTxtCtrl.text.isNotEmpty &&
-                          nameTxtCtrl.text.isNotEmpty &&
-                          surnameTxtCtrl.text.isNotEmpty &&
-                          citizenIdTxtCtrl.text.isNotEmpty &&
-                          medIdTxtCtrl.text.isNotEmpty &&
-                          certIdTxtCtrl.text.isNotEmpty &&
-                          _selectedDate != null) {
-                        if (pswTxtCtrl.text == cfPswTxtCtrl.text) {
-                          checkCfPwd();
-                          print('Register Done!!');
-                          Navigator.of(context).popUntil(
-                              ModalRoute.withName(LogInPage.routeName));
-                          // Navigator.of(context)
-                          //     .pushNamed(RegisterPatient2Screen.routeName);
-                        } else {
-                          checkCfPwd();
-                        }
-                      }
-                    },
+                    handlerFn: (!_submitValidate)
+                        ? null
+                        : () {
+                            // print(usrnTxtCtrl.text);
+                            // print(pswTxtCtrl.text);
+                            // print(cfPswTxtCtrl.text);
+                            // print(nameTxtCtrl.text);
+                            // print(surnameTxtCtrl.text);
+                            // print(citizenIdTxtCtrl.text);
+                            // print(medIdTxtCtrl.text);
+                            // print(certIdTxtCtrl.text);
+                            if (usrnTxtCtrl.text.isNotEmpty &&
+                                pswTxtCtrl.text.isNotEmpty &&
+                                cfPswTxtCtrl.text.isNotEmpty &&
+                                nameTxtCtrl.text.isNotEmpty &&
+                                surnameTxtCtrl.text.isNotEmpty &&
+                                citizenIdTxtCtrl.text.isNotEmpty &&
+                                medIdTxtCtrl.text.isNotEmpty &&
+                                certIdTxtCtrl.text.isNotEmpty &&
+                                _selectedDate != null) {
+                              checkCfPwd();
+                              checkMail();
+                              if (_pswValidate && _mailValidate) {
+                                Navigator.of(context).popUntil(
+                                    ModalRoute.withName(LogInPage.routeName));
+                              }
+                            }
+                          },
                     width: 120,
                     height: 40,
                   ),
