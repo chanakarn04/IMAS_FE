@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import './adaptiveBorderButton.dart';
-import '../Models/symptom.dart';
+import '../Provider/symptomAssessment.dart';
+import '../Pages/as_addMoreSymptom.dart';
+// import '../Models/symptom.dart';
 
 class SymptomCard extends StatelessWidget {
-  final List<Symptom> symptomList;
-  final Function selectSymptomHandler;
+  final List<Map<String, dynamic>> symptomList;
+  // final Function selectSymptomHandler;
 
-  SymptomCard(this.symptomList, this.selectSymptomHandler);
+  SymptomCard(this.symptomList);
 
   @override
   Widget build(BuildContext context) {
+    final symptomAssessment = Provider.of<SymptomAssessmentProvider>(context, listen: false);
     return symptomList.isEmpty
         ? Center(
             child: FittedBox(
@@ -44,7 +48,7 @@ class SymptomCard extends StatelessWidget {
                                 // fit: BoxFit.fitHeight,
                                 alignment: Alignment.centerLeft,
                                 child: Text(
-                                  symptomList[index].name,
+                                  symptomList[index]['label'],
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: Theme.of(context).primaryColor,
@@ -62,7 +66,16 @@ class SymptomCard extends StatelessWidget {
                               buttonText: 'Select symptom',
                               height: 40,
                               width: 150,
-                              handlerFn: selectSymptomHandler,
+                              handlerFn: () {
+                                symptomAssessment.addEvidence(
+                                  {
+                                    'id': symptomList[index]['id'],
+                                    'choice_id': 'present',
+                                    'source': 'initial',
+                                  }
+                                );
+                                Navigator.of(context).pushNamed(AddMoreSymptom.routeName);                 
+                              },
                             ),
                           )
                         ],

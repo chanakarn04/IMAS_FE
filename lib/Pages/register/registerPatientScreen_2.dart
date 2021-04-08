@@ -45,8 +45,8 @@ class _RegisterPatient2ScreenState extends State<RegisterPatient2Screen> {
   ) {
     if (selectedStatus == labelStatus) {
       return Container(
-        height: 75,
-        width: 75,
+        height: 65,
+        width: 65,
         padding: EdgeInsets.all(5),
         decoration: BoxDecoration(
           shape: BoxShape.circle,
@@ -59,7 +59,7 @@ class _RegisterPatient2ScreenState extends State<RegisterPatient2Screen> {
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
-            fontSize: 20,
+            fontSize: 16,
           ),
         ),
       );
@@ -200,8 +200,8 @@ class _RegisterPatient2ScreenState extends State<RegisterPatient2Screen> {
       body: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.only(
-            left: 20,
-            right: 20,
+            left: 30,
+            right: 30,
             bottom: 30,
             top: 50,
           ),

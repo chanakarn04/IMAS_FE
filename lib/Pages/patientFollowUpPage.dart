@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 // import '../dummy_data.dart';
+import '../Provider/user-info.dart';
 import './patientFollowUp/onConsultTab.dart';
 import './patientFollowUp/inCareTab.dart';
 
@@ -12,153 +14,115 @@ class PatientFollowUpPage extends StatefulWidget {
 }
 
 class _PatientFollowUpPageState extends State<PatientFollowUpPage> {
-  // var _loadedInitData = false;
   int selectedPageIndex = 0;
-
-  final String drId = 'd001';
   List<Map<String, Object>> _pages;
-  // List<TreatmentPlan> thisDoctorTreatmentPlans;
-  // List<Appointment> thisDoctorAppointments = new List();
-  // List<Patient> patients;
 
-  // @override
-  // void didChangeDependencies() {
-  //   // if (!_loadedInitData) {
-  //   //   thisDoctorTreatmentPlans = dummy_treatmentPlans
-  //   //       .where((tp) =>
-  //   //           (tp.drId == drId) && (tp.status == TreatmentStatus.InProgress))
-  //   //       .toList();
-  //   //   for (TreatmentPlan tp in thisDoctorTreatmentPlans) {
-  //   //     print('tester: ${tp.tpId}');
-  //   //     thisDoctorAppointments.addAll(dummy_appointment
-  //   //         .where((apt) =>
-  //   //             (apt.tpId == tp.tpId) && (apt.status == AptStatus.Lastest))
-  //   //         .toList());
-  //   //     // patients
-  //   //     //     .addAll(dummy_Paitents.where((p) => (p.pId == tp.pId)).toList());
-  //   //   }
-  //   //   // for (Appointment apt in thisDoctorAppointments) {
-  //   //   //   // print('tester: ${tp.tpId}');
-  //   //   //   patients.addAll(dummy_Paitents.where((pt) =>
-  //   //   //       (pt.pId == apt.) && (apt.status == AptStatus.Lastest)));
-  //   //   // }
+  List<Map<String, dynamic>> _loadData(String userId) {
+    // ... load all tp with drId
 
-  //     // _loadedInitData = true;
-  //   }
-  //   super.didChangeDependencies();
-  // }
-
-  // final String name = 'f-name';
-  // final String surname = 's-name';
-  // final String imageAsset = '';
-  // final DateTime aptDt;
+    return [
+      {
+        'pName': 'Pisit',
+        'pSurname': 'Pasut',
+        'imageAsset': 'assets/images/default_photo.png',
+        'apDt': DateTime.now().add(
+          new Duration(minutes: 10),
+        ),
+        'tpId': 'tp001'
+      },
+      {
+        'pName': 'Mango',
+        'pSurname': 'Steen',
+        'imageAsset': '',
+        'apDt': DateTime.now().add(
+          new Duration(days: 8),
+        ),
+        'tpId': 'tp002'
+      },
+      {
+        'pName': 'Jack',
+        'pSurname': 'Fruit',
+        'imageAsset': '',
+        'apDt': DateTime.now().add(
+          new Duration(days: 17),
+        ),
+        'tpId': 'tp003'
+      },
+      {
+        'pName': 'Ichigo',
+        'pSurname': 'Strawberry',
+        'imageAsset': '',
+        'apDt': DateTime.now().add(
+          new Duration(days: 24),
+        ),
+        'tpId': 'tp004'
+      },
+      {
+        'pName': 'Orange',
+        'pSurname': 'Joe',
+        'imageAsset': '',
+        'apDt': DateTime.now().add(
+          new Duration(days: 34),
+        ),
+        'tpId': 'tp005'
+      },
+      {
+        'pName': 'Faceless',
+        'pSurname': 'Void',
+        'imageAsset': '',
+        'apDt': DateTime.now().add(
+          new Duration(days: 36),
+        ),
+        'tpId': 'tp006'
+      },
+      {
+        'pName': 'Outworld',
+        'pSurname': 'Destroyer',
+        'imageAsset': '',
+        'apDt': DateTime.now().add(
+          new Duration(days: 38),
+        ),
+        'tpId': 'tp007'
+      },
+      {
+        'pName': 'Shadow',
+        'pSurname': 'Shaman',
+        'imageAsset': '',
+        'apDt': DateTime.now().add(
+          new Duration(days: 38),
+        ),
+        'tpId': 'tp008'
+      },
+    ];
+  }
 
   @override
   void initState() {
+    final userInfo = Provider.of<UserInfo>(context, listen: false);
+    final List<Map<String, dynamic>> data = _loadData(userInfo.userId);
+    print(data[0]['apDt'].difference(DateTime.now()));
+    // print(data
+    //     .where((element) =>
+    //         (DateTime.now().difference(element['apDt']).inMinutes >= 0 &&
+    //             DateTime.now().difference(element['apDt']).inMinutes <= 30))
+    //     .toList()
+    //     .length);
     _pages = [
       {
         'title': 'On Consult',
-        // 'tab': OnConsultTab(),
         'tab': OnConsultTab(
-          [
-            {
-              'fname': 'pisit',
-              'sname': 'pasut',
-              'imageAsset': 'assets/images/default_photo.png',
-              'apDt': DateTime.now().subtract(
-                new Duration(minutes: 10),
-              ),
-              'tpId': 'tp001'
-            },
-            {
-              'fname': 'mango',
-              'sname': 'steen',
-              'imageAsset': '',
-              'apDt': DateTime.now().subtract(
-                new Duration(minutes: 15),
-              ),
-              'tpId': 'tp002'
-            },
-          ],
+          data
+              .where((element) =>
+                  (element['apDt'].difference(DateTime.now()).inMinutes >= 0 &&
+                      element['apDt'].difference(DateTime.now()).inMinutes <=
+                          30))
+              .toList(),
         ),
       },
       {
         'title': 'In Care',
         'tab': InCareTab(
-          [
-            {
-              'fname': 'Pisit',
-              'sname': 'Pasut',
-              'imageAsset': 'assets/images/default_photo.png',
-              'aptDt': DateTime.now().add(
-                new Duration(minutes: 10),
-              ),
-              'tpId': 'tp001'
-            },
-            {
-              'fname': 'Mango',
-              'sname': 'Steen',
-              'imageAsset': '',
-              'aptDt': DateTime.now().add(
-                new Duration(days: 8),
-              ),
-              'tpId': 'tp002'
-            },
-            {
-              'fname': 'Jack',
-              'sname': 'Fruit',
-              'imageAsset': '',
-              'aptDt': DateTime.now().add(
-                new Duration(days: 17),
-              ),
-              'tpId': 'tp003'
-            },
-            {
-              'fname': 'Ichigo',
-              'sname': 'Strawberry',
-              'imageAsset': '',
-              'aptDt': DateTime.now().add(
-                new Duration(days: 24),
-              ),
-              'tpId': 'tp004'
-            },
-            {
-              'fname': 'Orange',
-              'sname': 'Joe',
-              'imageAsset': '',
-              'aptDt': DateTime.now().add(
-                new Duration(days: 34),
-              ),
-              'tpId': 'tp005'
-            },
-            {
-              'fname': 'Faceless',
-              'sname': 'Void',
-              'imageAsset': '',
-              'aptDt': DateTime.now().add(
-                new Duration(days: 36),
-              ),
-              'tpId': 'tp006'
-            },
-            {
-              'fname': 'Outworld',
-              'sname': 'Destroyer',
-              'imageAsset': '',
-              'aptDt': DateTime.now().add(
-                new Duration(days: 38),
-              ),
-              'tpId': 'tp007'
-            },
-            {
-              'fname': 'Shadow',
-              'sname': 'Shaman',
-              'imageAsset': '',
-              'aptDt': DateTime.now().add(
-                new Duration(days: 38),
-              ),
-              'tpId': 'tp008'
-            },
-          ],
+          data,
         )
       },
     ];
@@ -170,33 +134,6 @@ class _PatientFollowUpPageState extends State<PatientFollowUpPage> {
       selectedPageIndex = index;
     });
   }
-
-  // getInCareInfo() {
-  //   List<Patient> patients;
-  //   // String tpId;
-  //   for (TreatmentPlan tp in thisDoctorTreatmentPlans) {
-  //     dummy_Patients.firstWhere((pt) => )
-  //     patients.addAll(dummy_Patients.where((pt) => tp.pId == pt.pId));
-  //   }
-  //   for (Patient pt in patients) {
-  //     print(pt.pId);
-  //     print(pt.pName);
-  //     print(pt.pSurname);
-  //   }
-  //   // return
-  // }
-
-  // geOnConsultInfo() {
-  //   List<Patient> patients;
-  //   List<Appointment> appoitments = thisDoctorAppointments.where((apt) => apt.apDt);
-  //   for (TreatmentPlan tp in thisDoctorTreatmentPlans) {
-  //     patients.addAll(dummy_Patients.where((pt) => (tp.pId == pt.pId) && ()));
-  //   }
-  //   for (Patient pt in patients) {
-  //     print(pt.pId);
-  //   }
-  //   // return
-  // }
 
   @override
   Widget build(BuildContext context) {

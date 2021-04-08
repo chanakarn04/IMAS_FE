@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../dummy_data.dart';
-// import '../Widget/sideDrawer.dart';
 import './patientInfo/basicInfoTab.dart';
 import './patientInfo/disease_symptomTab.dart';
 import './patientInfo/vitalSignTab.dart';
@@ -10,7 +8,6 @@ import './patientInfo/suggestionTab.dart';
 
 class PatientInfoPage extends StatefulWidget {
   static const routeName = '/patient-info';
-  final pInfo = dummy_Patient;
 
   @override
   _PatientInfoPageState createState() => _PatientInfoPageState();
@@ -21,46 +18,100 @@ class _PatientInfoPageState extends State<PatientInfoPage> {
   ScrollController _scrollController;
   bool sliverCollapsed = false;
   String appBarTitle = '';
+  String pFullName = '';
+  Map<String, dynamic> data;
 
-  final lastAppointment =
-      dummy_appointment.firstWhere((apt) => apt.status == AptStatus.Lastest);
+  // get treatmentPlan id from  route argument
+  // get username, apDt with apStatus.lastest
+
+  Map<String, dynamic> _loadData(String tpId) {
+    // ...
+
+    // assign pName for sliver header
+    // pName + pSurname
+    pFullName = 'pName pSurname';
+
+    return {
+      'userId': 'p0001',
+      'pName': 'pName',
+      'pSurname': 'pSurname',
+      'apDt': DateTime(2021, 12, 14),
+    };
+  }
+
+  // final lastAppointment =
+  //     dummy_appointment.firstWhere((apt) => apt.status == AptStatus.Lastest);
+
+  // @override
+  // void initState() {
+  //   _scrollController = ScrollController();
+
+  //   _scrollController.addListener(() {
+  //     if (_scrollController.offset > 80 &&
+  //         !_scrollController.position.outOfRange) {
+  //       if (!sliverCollapsed) {
+  //         // do what ever you want when silver is collapsing !
+
+  //         appBarTitle = '${data['pName']} ${data['pSurname']}';
+  //         sliverCollapsed = true;
+  //         setState(() {});
+  //       }
+  //     }
+  //     if (_scrollController.offset <= 40
+  //         // &&
+  //         //     !_scrollController.position.outOfRange
+  //         ) {
+  //       if (sliverCollapsed) {
+  //         // do what ever you want when silver is expanding !
+
+  //         appBarTitle = '';
+  //         sliverCollapsed = false;
+  //         setState(() {});
+  //       }
+  //     }
+  //   });
+  //   super.initState();
+  // }
 
   @override
-  void initState() {
+  void didChangeDependencies() {
     _scrollController = ScrollController();
 
-    _scrollController.addListener(() {
-      if (_scrollController.offset > 80)
-      // &&
-      //     !_scrollController.position.outOfRange)
-      {
-        if (!sliverCollapsed) {
-          // do what ever you want when silver is collapsing !
+    _scrollController.addListener(
+      () {
+        if (_scrollController.offset > 80 &&
+            !_scrollController.position.outOfRange) {
+          if (!sliverCollapsed) {
+            // do what ever you want when silver is collapsing !
 
-          appBarTitle =
-              '${this.widget.pInfo.pName} ${this.widget.pInfo.pSurname}';
-          sliverCollapsed = true;
-          setState(() {});
+            appBarTitle = pFullName;
+            sliverCollapsed = true;
+            setState(() {});
+          }
         }
-      }
-      if (_scrollController.offset <= 80
-          // &&
-          //     !_scrollController.position.outOfRange
-          ) {
-        if (sliverCollapsed) {
-          // do what ever you want when silver is expanding !
+        if (_scrollController.offset <= 40
+            // &&
+            //     !_scrollController.position.outOfRange
+            ) {
+          if (sliverCollapsed) {
+            // do what ever you want when silver is expanding !
 
-          appBarTitle = '';
-          sliverCollapsed = false;
-          setState(() {});
+            appBarTitle = '';
+            sliverCollapsed = false;
+            setState(() {});
+          }
         }
-      }
-    });
-    super.initState();
+      },
+    );
+    super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
+    final String tpId = ModalRoute.of(context).settings.arguments;
+    final Map<String, dynamic> data = _loadData(
+      tpId,
+    );
     final appBar = SliverAppBar(
       title: Text(
         appBarTitle,
@@ -116,7 +167,7 @@ class _PatientInfoPageState extends State<PatientInfoPage> {
                     decoration: BoxDecoration(
                       image: DecorationImage(
                         fit: BoxFit.contain,
-                        image: AssetImage('assets/images/patient.jpg'),
+                        image: AssetImage('assets/images/default_photo.png'),
                       ),
                       shape: BoxShape.circle,
                       border: Border.all(
@@ -132,7 +183,7 @@ class _PatientInfoPageState extends State<PatientInfoPage> {
                     height: 25,
                     child: FittedBox(
                       child: Text(
-                        '${this.widget.pInfo.pName} ${this.widget.pInfo.pSurname}',
+                        '${data['pName']} ${data['pSurname']}',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
@@ -147,7 +198,7 @@ class _PatientInfoPageState extends State<PatientInfoPage> {
                     height: 15,
                     child: FittedBox(
                       child: Text(
-                        'Next Appointment : ${DateFormat.yMMMEd().format(lastAppointment.apDt)}',
+                        'Next Appointment : ${DateFormat.yMMMEd().format(data['apDt'])}',
                         style: TextStyle(
                           color: Colors.white,
                         ),
@@ -210,10 +261,10 @@ class _PatientInfoPageState extends State<PatientInfoPage> {
           body: TabBarView(
             physics: const NeverScrollableScrollPhysics(),
             children: <Widget>[
-              BasicInfoTab(),
-              DiseaseSymptomTab(),
-              VitalSignTab(),
-              SuggestionTab(),
+              BasicInfoTab(data['userId']),
+              DiseaseSymptomTab(tpId),
+              VitalSignTab(tpId),
+              SuggestionTab(tpId),
             ],
           ),
         ),

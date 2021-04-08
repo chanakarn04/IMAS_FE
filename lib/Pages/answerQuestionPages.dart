@@ -1,18 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:homepage_proto/Widget/answerList.dart';
+import 'package:provider/provider.dart';
+
+import '../Widget/answerList.dart';
+import '../Provider/symptomAssessment.dart';
+import '../Pages/homePages.dart';
+import '../Pages/predictionResultPage.dart';
 
 // import '../Widget/adaptiveBorderButton.dart';
 
 class AnswerQuestionPages extends StatelessWidget {
   static const routeName = '/QuestionSymptom';
-  final String symptom = 'Headache';
-  final String question = 'What is your pain charateristic?';
-  final List<String> answerList = [
-    'Stabbing',
-    'Squeezing',
-    'Throbbing',
-    'Mixed',
-  ];
+  // String symptom;
+  // String question;
+  // final List<String> answerList = [
+  //   'Stabbing',
+  //   'Squeezing',
+  //   'Throbbing',
+  //   'Mixed',
+  // ];
+
+  // @override
+  // void didChangeDependencies() {
+  //   print(phrase);
+  //   if (!_loadedData) {
+  //     phrase = ModalRoute.of(context).settings.arguments as String;
+  //     _symptomController.text = phrase;
+  //     _loadedData = true;
+  //   }
+  //   super.didChangeDependencies();
+  // }
 
   // AnswerQuestionPages({
   //   @required this.symptom,
@@ -22,8 +38,14 @@ class AnswerQuestionPages extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final symptomAssessment = Provider.of<SymptomAssessmentProvider>(context, listen: false);
     // final routeArgument =
     //     ModalRoute.of(context).settings.arguments as Map<String, Object>;
+    final Map<String, dynamic> diagnosisData = symptomAssessment.sendDiagnostic();
+    final String question = diagnosisData['question']['text'];
+    final List<Map<String, dynamic>> choices_items = diagnosisData['question']['items'];
+    final bool last_word = diagnosisData['should_stop'];
+    // print(diagnosisData['conditions']);
     final appBar = AppBar(
       centerTitle: true,
       iconTheme: IconThemeData(
@@ -43,7 +65,34 @@ class AnswerQuestionPages extends StatelessWidget {
             Icons.menu_rounded,
             color: Colors.transparent,
           ),
-          onPressed: null,
+          onPressed: () {
+            // for test
+            // DONT FORGET TO DELETE
+            symptomAssessment.conditions = [
+              {
+                "id": "c_255",
+                "name": "Tetanus",
+                "common_name": "Tetanus",
+                "probability": 0.3118,
+                "condition_details": {
+                  "icd10_code": "A35",
+                  "category": {
+                    "id": "cc_16",
+                    "name": "Infectiology"
+                  },
+                  "prevalence": "very_rare",
+                  "severity": "severe",
+                  "acuteness": "acute",
+                  "triage_level": "emergency_ambulance",
+                  "hint": "You may need urgent medical attention! Call an ambulance."
+                }
+              },
+            ];
+            Navigator.of(context).popUntil(ModalRoute.withName(HomePage.routeName));
+            Navigator.of(context).pushNamed(PredictionResultPage.routeName, arguments: {
+              'isHistory': false,
+            });
+          },
         )
       ],
     );
@@ -68,23 +117,29 @@ class AnswerQuestionPages extends StatelessWidget {
                   // mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
+                    // Container(
+                    //   height: MediaQuery.of(context).size.height * 0.06,
+                    //   child: FittedBox(
+                    //     child: Text(
+                    //       symptom,
+                    //       style: TextStyle(
+                    //         fontWeight: FontWeight.bold,
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
                     Container(
-                      height: MediaQuery.of(context).size.height * 0.06,
-                      child: FittedBox(
-                        child: Text(
-                          symptom,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
+                      // height: MediaQuery.of(context).size.height * 0.035,
+                      // height: 60,
+                      // color: Colors.amber,
+                      // width: ,
+                      child: Text(
+                        // question,
+                        question,
+                        style: TextStyle(
+                          fontSize: 20,
                         ),
-                      ),
-                    ),
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.035,
-                      child: FittedBox(
-                        child: Text(
-                          question,
-                        ),
+                        // overflow: TextOverflow.clip,
                       ),
                     ),
                   ],
@@ -97,7 +152,8 @@ class AnswerQuestionPages extends StatelessWidget {
                 height: MediaQuery.of(context).size.height * 0.35,
                 child: Align(
                   alignment: Alignment.centerRight,
-                  child: AnswerList(answerList),
+                  // child: AnswerList(answerList),
+                  child: AnswerList(choices_items[0], last_word),
                 ),
               ),
               SizedBox(

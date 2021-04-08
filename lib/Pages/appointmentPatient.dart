@@ -1,23 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+// import 'package:provider/provider.dart';
 
 import './homePages.dart';
 import './chatRoom.dart';
+import '../Provider/vitalSign_Info.dart';
+// import '../Provider/user-info.dart';
 
 class AppointmentPatientPage extends StatelessWidget {
   static const routeName = '/appointment-Patient';
 
-  // get apDt of last ap and dr Name
-  final Map data = {
-    'apDt': DateTime(2021, 9, 20, 14, 30),
-    // 'apDt': DateTime.now().subtract(
-    //   Duration(minutes: 5),
-    // ),
-    'drName': 'Samitanan Techabunyawatthanakul',
-    'namePrefix': 'Dr.',
-  };
+  // Map data = {};
+
+  Map _loadData(
+      // String userId,
+      ) {
+    // load data from server
+    // get apDt of last ap and dr Name
+
+    Map data = {
+      // 'apDt': DateTime(2021, 9, 20, 14, 30),
+      'apDt': DateTime.now(),
+      'drName': 'dName dSurname',
+      'namePrefix': 'Dr.',
+    };
+    return data;
+  }
 
   Widget _buildNoapt(BuildContext context) {
+    final vitalSign = Provider.of<VitalSignProvider>(context);
     return Column(
       children: [
         Expanded(
@@ -62,6 +74,10 @@ class AppointmentPatientPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // final userInfo = Provider.of<UserInfo>(context);
+    final Map data = _loadData(
+        // userInfo.userId
+        );
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(

@@ -43,8 +43,8 @@ class _RegisterPatient3ScreenState extends State<RegisterPatient3Screen> {
       body: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.only(
-            left: 20,
-            right: 20,
+            left: 30,
+            right: 30,
             bottom: 30,
             top: 50,
           ),
@@ -81,33 +81,39 @@ class _RegisterPatient3ScreenState extends State<RegisterPatient3Screen> {
               Expanded(
                 // height: (length < 7) ? 50 * length.toDouble() : 350,
                 // color: Colors.pink[200],
-                child: ListView.builder(
-                  padding: EdgeInsets.only(left: 10),
-                  itemBuilder: (context, index) {
-                    return Row(
-                      children: [
-                        Expanded(
-                          child: SizedBox(
-                            height: 50,
-                            child: TextField(
-                              controller: textControllers[index],
-                              decoration:
-                                  InputDecoration(hintText: 'e.g. Paracetamol'),
-                            ),
-                          ),
-                        ),
-                        IconButton(
-                          icon: Icon(
-                            Icons.delete_rounded,
-                            color: Colors.grey,
-                          ),
-                          onPressed: rmvTextField,
-                        )
-                      ],
-                    );
-                  },
-                  itemCount: length,
-                ),
+                child: (length == 0)
+                    ? Container(
+                        // color: Colors.amber,
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                            'No drugs yet.\nTap add button on bottom right corner'))
+                    : ListView.builder(
+                        padding: EdgeInsets.only(left: 10),
+                        itemBuilder: (context, index) {
+                          return Row(
+                            children: [
+                              Expanded(
+                                child: SizedBox(
+                                  height: 50,
+                                  child: TextField(
+                                    controller: textControllers[index],
+                                    decoration: InputDecoration(
+                                        hintText: 'e.g. Paracetamol'),
+                                  ),
+                                ),
+                              ),
+                              IconButton(
+                                icon: Icon(
+                                  Icons.delete_rounded,
+                                  color: Colors.grey,
+                                ),
+                                onPressed: rmvTextField,
+                              )
+                            ],
+                          );
+                        },
+                        itemCount: length,
+                      ),
               ),
               SizedBox(
                 height: 15,
@@ -115,17 +121,18 @@ class _RegisterPatient3ScreenState extends State<RegisterPatient3Screen> {
               Align(
                 alignment: Alignment.centerRight,
                 child: Container(
-                    height: 52,
-                    width: 52,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Theme.of(context).primaryColor,
-                    ),
-                    child: IconButton(
-                      icon: Icon(Icons.add_rounded),
-                      color: Colors.white,
-                      onPressed: addTextField,
-                    )),
+                  height: 52,
+                  width: 52,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                  child: IconButton(
+                    icon: Icon(Icons.add_rounded),
+                    color: Colors.white,
+                    onPressed: addTextField,
+                  ),
+                ),
               ),
               // Expanded(child: Container()),
               SizedBox(

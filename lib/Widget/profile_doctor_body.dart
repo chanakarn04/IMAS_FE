@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+// import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../Provider/user-info.dart';
+import '../Models/model.dart';
 
 // import '../dummy_data.dart';
 
@@ -24,6 +25,21 @@ class ProfileDoctorBody extends StatelessWidget {
   //   'certID': 'XXXXXXXXXXXXX',
   // };
 
+  Doctor _loadData() {
+    // ...
+
+    return Doctor(
+      drId: 'd0001',
+      namePrefix: 'Dr.',
+      drName: 'dName',
+      drSurname: 'dSurname',
+      gender: Gender.Male,
+      citizenID: 1234567890123,
+      mdID: 'xxxxxxxxxxxxx',
+      certID: 'xxxxxxxxxxxxx',
+    );
+  }
+
   String get genderText {
     switch (dInfo.gender) {
       case Gender.Male:
@@ -40,7 +56,7 @@ class ProfileDoctorBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userInfo = Provider.of<UserInfo>(context);
-    dInfo = userInfo.dInfo;
+    dInfo = _loadData();
     return Center(
       child: Column(
         // mainAxisAlignment: MainAxisAlignment.center,
@@ -107,7 +123,7 @@ class ProfileDoctorBody extends StatelessWidget {
                             bottom: 8.0,
                           ),
                           child: Text(
-                            userInfo.getUserName(),
+                            userInfo.userFname,
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 20,

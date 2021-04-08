@@ -121,8 +121,8 @@ class _RegisterPatient1ScreenState extends State<RegisterPatient1Screen> {
       body: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.only(
-            left: 20,
-            right: 20,
+            left: 30,
+            right: 30,
             bottom: 30,
             top: 50,
           ),
@@ -148,7 +148,8 @@ class _RegisterPatient1ScreenState extends State<RegisterPatient1Screen> {
               ),
               TextField(
                 controller: usrnTxtCtrl,
-                decoration: InputDecoration(labelText: 'Email/Username'),
+                decoration: InputDecoration(labelText: 'Email'),
+                keyboardType: TextInputType.emailAddress,
                 onEditingComplete: () => FocusScope.of(context).nextFocus(),
               ),
               SizedBox(
@@ -179,7 +180,7 @@ class _RegisterPatient1ScreenState extends State<RegisterPatient1Screen> {
               ),
               TextField(
                 controller: nameTxtCtrl,
-                decoration: InputDecoration(labelText: 'Name'),
+                decoration: InputDecoration(labelText: 'First name'),
                 onEditingComplete: () => FocusScope.of(context).nextFocus(),
               ),
               SizedBox(
@@ -197,7 +198,7 @@ class _RegisterPatient1ScreenState extends State<RegisterPatient1Screen> {
                 children: <Widget>[
                   Text(
                     'Date of Birth',
-                    style: TextStyle(color: Colors.grey[700], fontSize: 18),
+                    style: TextStyle(color: Colors.grey[700], fontSize: 16),
                   ),
                   Expanded(
                     child: Container(
@@ -237,7 +238,7 @@ class _RegisterPatient1ScreenState extends State<RegisterPatient1Screen> {
                 children: <Widget>[
                   Text(
                     'Gender',
-                    style: TextStyle(color: Colors.grey[700], fontSize: 18),
+                    style: TextStyle(color: Colors.grey[700], fontSize: 16),
                   ),
                   Expanded(child: Container()),
                   buildGenderCard(context, 0, 'Male'),

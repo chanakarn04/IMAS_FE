@@ -130,8 +130,8 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
       body: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.only(
-            left: 20,
-            right: 20,
+            left: 30,
+            right: 30,
             // bottom: 30,
             top: 50,
           ),
@@ -161,7 +161,7 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
                   children: [
                     TextField(
                       controller: usrnTxtCtrl,
-                      decoration: InputDecoration(labelText: 'Email/Username'),
+                      decoration: InputDecoration(labelText: 'Email'),
                       onEditingComplete: () =>
                           FocusScope.of(context).nextFocus(),
                     ),
@@ -198,7 +198,7 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
                           'Prefix',
                           style: TextStyle(
                             color: Colors.grey[700],
-                            fontSize: 18,
+                            fontSize: 16,
                           ),
                         ),
                         Expanded(child: Container()),
@@ -235,7 +235,7 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
                     ),
                     TextField(
                       controller: nameTxtCtrl,
-                      decoration: InputDecoration(labelText: 'Name'),
+                      decoration: InputDecoration(labelText: 'First name'),
                       onEditingComplete: () =>
                           FocusScope.of(context).nextFocus(),
                     ),
@@ -255,7 +255,7 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
                         Text(
                           'Date of Birth',
                           style:
-                              TextStyle(color: Colors.grey[700], fontSize: 18),
+                              TextStyle(color: Colors.grey[700], fontSize: 16),
                         ),
                         Expanded(
                           child: Container(
@@ -296,7 +296,7 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
                         Text(
                           'Gender',
                           style:
-                              TextStyle(color: Colors.grey[700], fontSize: 18),
+                              TextStyle(color: Colors.grey[700], fontSize: 16),
                         ),
                         Expanded(child: Container()),
                         buildGenderCard(context, 0, 'Male'),

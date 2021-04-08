@@ -1,50 +1,86 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import '../Widget/textBoxItem.dart';
-import '../Models/conversation.dart';
+import '../Widget/chatRoomMsgList.dart';
+import '../Widget/textInputBar.dart';
+import '../Widget/noteBottomSheet.dart';
+import '../Provider/chatRoom_info.dart';
+import '../Provider/user-info.dart';
+import '../Pages/PatientInfoPage.dart';
+import '../Pages/caseMangementPage.dart';
 
-class ChatRoom extends StatefulWidget {
+class ChatRoom extends StatelessWidget {
   static const routeName = '/CharRoom';
-  @override
-  _ChatRoomState createState() => _ChatRoomState();
-}
 
-class _ChatRoomState extends State<ChatRoom> {
-  final _textController = TextEditingController();
-  final listScrollController = new ScrollController();
-
-  ScrollController _scrollController = ScrollController();
-
-  final List<Conversation> conversationList = [
-    Conversation(1, 'Hi, How can i help you'),
-    Conversation(0, 'Mr.Harold, I dont feel so well'),
-    Conversation(0, 'I dont like sand'),
-  ];
-
-  _scrollToBottom() {
-    _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
-  }
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  _sendConversation() {
-    if (_textController.text.isEmpty) {
-      return;
-    } else {
-      setState(() {
-        conversationList.add(Conversation(0, _textController.text));
-      });
-      _textController.clear();
-      FocusScope.of(context).unfocus();
-    }
+  String _getOpUserName(
+    String opUserId,
+  ) {
+    // request for opposite user name
+    final String opUserName = 'Name Surname';
+    return opUserName;
   }
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToBottom());
+    final userInfo = Provider.of<UserInfo>(context);
+    final chatProvider = Provider.of<ChatRoomProvider>(context);
+
+    final String opName = _getOpUserName(chatProvider.opUserId);
+
+    Widget _popUpMenu() {
+      return PopupMenuButton(
+        itemBuilder: (context) => [
+          PopupMenuItem(
+            child: Text(
+              'Patient Info',
+            ),
+            value: 1,
+          ),
+          PopupMenuItem(
+            child: Text(
+              'Case Management',
+            ),
+            value: 2,
+          ),
+        ],
+        onSelected: (value) {
+          if (value == 1) {
+            Navigator.of(context).pushNamed(
+              PatientInfoPage.routeName,
+              arguments: chatProvider.opUserId,
+            );
+          } else {
+            Navigator.of(context).pushNamed(
+              CaseManagementPage.routeName,
+              arguments: {
+                'tpId': chatProvider.opUserId,
+                'name': opName,
+              },
+            );
+          }
+        },
+        child: Icon(
+          Icons.more_vert_rounded,
+          color: Theme.of(context).primaryColor,
+        ),
+      );
+    }
+
+    _noteBottomSheet() {
+      return showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20),
+          ),
+        ),
+        builder: (BuildContext context) {
+          return NoteBottomSheet();
+        },
+      );
+    }
 
     final appBar = AppBar(
       iconTheme: IconThemeData(
@@ -59,7 +95,7 @@ class _ChatRoomState extends State<ChatRoom> {
           Container(
             height: 58,
             child: CircleAvatar(
-              backgroundImage: AssetImage('assets/images/doctor.png'),
+              backgroundImage: AssetImage('assets/images/default_photo.png'),
               backgroundColor: Theme.of(context).primaryColor,
             ),
             decoration: BoxDecoration(
@@ -73,92 +109,43 @@ class _ChatRoomState extends State<ChatRoom> {
           SizedBox(
             width: 20,
           ),
-          Text('Doctor Harold')
+          Text(opName),
         ],
       ),
-    );
-
-    final textInputBar = Container(
-      alignment: Alignment.bottomCenter,
-      height: 50,
-      width: double.infinity,
-      color: Theme.of(context).primaryColor,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          // IconButton(
-          //   icon: Icon(
-          //     Icons.image_outlined,
-          //     color: Colors.white,
-          //   ),
-          //   onPressed: () {
-          //     print('Select image');
-          //   },
-          // ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                padding: EdgeInsets.only(
-                  left: 10,
-                  top: 5,
-                ),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(25),
-                ),
-                // width: MediaQuery.of(context).size.width * 0.7,
-                child: TextField(
-                  decoration: InputDecoration(
-                    hintText: 'Aa',
-                  ),
-                  controller: _textController,
-                  onSubmitted: _sendConversation(),
-                ),
-              ),
+      actions: 
+        (userInfo.role == Role.Doctor)
+        ? [Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: InkWell(
+            onTap: _noteBottomSheet,
+            child: Icon(
+              Icons.sticky_note_2_rounded,
+              color: Theme.of(context).primaryColor,
             ),
           ),
-          IconButton(
-            icon: Icon(
-              Icons.send_rounded,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              _sendConversation();
-            },
-          )
-        ],
-      ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: _popUpMenu(),
+        ),
+      ]
+      : [],
     );
 
     return Scaffold(
       appBar: appBar,
       body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            Container(
-              height: (MediaQuery.of(context).size.height -
-                  appBar.preferredSize.height -
-                  MediaQuery.of(context).padding.top -
-                  MediaQuery.of(context).viewInsets.bottom -
-                  50),
-              child: ListView.builder(
-                controller: _scrollController,
-                // reverse: true,
-                itemCount: conversationList.length,
-                itemBuilder: (ctx, index) {
-                  return Container(
-                    alignment: conversationList[index].role == 0
-                        ? Alignment.centerRight
-                        : Alignment.centerLeft,
-                    child: TextBoxItem(conversationList[index].role,
-                        conversationList[index].msg),
-                  );
-                },
-              ),
-            ),
-            textInputBar,
-          ],
+        child: SizedBox(
+          height: (MediaQuery.of(context).size.height -
+              appBar.preferredSize.height -
+              MediaQuery.of(context).padding.top -
+              MediaQuery.of(context).viewInsets.bottom),
+          child: Column(
+            children: <Widget>[
+              Expanded(child: ChatRoomMsgList()),
+              TextInputBar(),
+            ],
+          ),
         ),
       ),
     );

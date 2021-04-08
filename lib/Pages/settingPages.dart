@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../Provider/user-info.dart';
 import './loginPage.dart';
 
 class SettingPages extends StatelessWidget {
   static const routeName = '/setting';
 
-  _showMyDialog() {}
+  // _showMyDialog() {}
 
   @override
   Widget build(BuildContext context) {
+    final userInfo = Provider.of<UserInfo>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(
@@ -41,7 +44,7 @@ class SettingPages extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            FlatButton(
+            TextButton(
               onPressed: () {
                 showDialog(
                   context: context,
@@ -55,14 +58,15 @@ class SettingPages extends StatelessWidget {
                         'Confirm to logout?',
                       ),
                       actions: [
-                        FlatButton(
+                        TextButton(
                           onPressed: () {
                             Navigator.of(context).pop();
                           },
                           child: Text('Cancel'),
                         ),
-                        FlatButton(
+                        TextButton(
                           onPressed: () {
+                            userInfo.logout();
                             Navigator.of(context)
                                 .popUntil(ModalRoute.withName('/'));
                             Navigator.of(context)

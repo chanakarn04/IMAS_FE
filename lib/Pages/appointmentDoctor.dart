@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
+// import 'package:provider/provider.dart';
 
 import './chatRoom.dart';
 import './PatientInfoPage.dart';
+// import '../Provider/user-info.dart';
 
 class AppointmentDoctorPage extends StatefulWidget {
   static const routeName = '/appointment-doctor';
@@ -16,71 +18,80 @@ class _AppointmentDoctorPageState extends State<AppointmentDoctorPage> {
   CalendarController _calendarController;
   DateTime _selectedDate;
 
-  // Expected data from BE
-  List<Map<String, Object>> data = [
-    {
-      'apId': 'ap001',
-      'tpId': 'tp001',
-      'image': 'assets/images/default_photo.png',
-      'pName': 'Samitanan Techabunyawatthanakul',
-      'apDt': DateTime(2021, 2, 25, 14, 30),
-    },
-    {
-      'apId': 'ap002',
-      'tpId': 'tp002',
-      'image': 'assets/images/default_photo.png',
-      'pName': 'Never More',
-      'apDt': DateTime(2021, 2, 24, 20, 30),
-    },
-    {
-      'apId': 'ap003',
-      'tpId': 'tp003',
-      'image': 'assets/images/default_photo.png',
-      'pName': 'Mega Tron',
-      'apDt': DateTime(2021, 2, 24, 10, 30),
-    },
-    {
-      'apId': 'ap004',
-      'tpId': 'tp004',
-      'image': 'assets/images/default_photo.png',
-      'pName': 'Hot Rod',
-      'apDt': DateTime(2021, 2, 24, 9, 20),
-    },
-    {
-      'apId': 'ap005',
-      'tpId': 'tp005',
-      'image': 'assets/images/default_photo.png',
-      'pName': 'Manta Style',
-      'apDt': DateTime(2021, 2, 24, 18, 15),
-    },
-    {
-      'apId': 'ap006',
-      'tpId': 'tp006',
-      'image': 'assets/images/default_photo.png',
-      'pName': 'Battle Fury',
-      'apDt': DateTime(
-        DateTime.now().year,
-        DateTime.now().month,
-        DateTime.now().day,
-        DateTime.now().hour,
-        DateTime.now().minute - 5,
-      ),
-    },
-    {
-      'apId': 'ap007',
-      'tpId': 'tp007',
-      'image': 'assets/images/default_photo.png',
-      'pName': 'Nyx Azzin',
-      'apDt': DateTime(2021, 2, 26, 9, 40),
-    },
-    {
-      'apId': 'ap008',
-      'tpId': 'tp008',
-      'image': 'assets/images/default_photo.png',
-      'pName': 'Mona Lisa',
-      'apDt': DateTime(2021, 2, 26, 13, 0),
-    },
-  ];
+  List<Map<String, Object>> data = [];
+
+  List<Map<String, Object>> _loadData(
+      // String userId,
+      ) {
+    // load data from server
+    // get apDt of last ap and dr Name
+
+    List<Map<String, Object>> data = [
+      {
+        'apId': 'ap001',
+        'tpId': 'tp001',
+        'image': 'assets/images/default_photo.png',
+        'pName': 'Samitanan Techabunyawatthanakul',
+        'apDt': DateTime(2021, 2, 25, 14, 30),
+      },
+      {
+        'apId': 'ap002',
+        'tpId': 'tp002',
+        'image': 'assets/images/default_photo.png',
+        'pName': 'Never More',
+        'apDt': DateTime(2021, 2, 24, 20, 30),
+      },
+      {
+        'apId': 'ap003',
+        'tpId': 'tp003',
+        'image': 'assets/images/default_photo.png',
+        'pName': 'Mega Tron',
+        'apDt': DateTime(2021, 2, 24, 10, 30),
+      },
+      {
+        'apId': 'ap004',
+        'tpId': 'tp004',
+        'image': 'assets/images/default_photo.png',
+        'pName': 'Hot Rod',
+        'apDt': DateTime(2021, 2, 24, 9, 20),
+      },
+      {
+        'apId': 'ap005',
+        'tpId': 'tp005',
+        'image': 'assets/images/default_photo.png',
+        'pName': 'Manta Style',
+        'apDt': DateTime(2021, 2, 24, 18, 15),
+      },
+      {
+        'apId': 'ap006',
+        'tpId': 'tp006',
+        'image': 'assets/images/default_photo.png',
+        'pName': 'Battle Fury',
+        'apDt': DateTime(
+          DateTime.now().year,
+          DateTime.now().month,
+          DateTime.now().day,
+          DateTime.now().hour,
+          DateTime.now().minute - 5,
+        ),
+      },
+      {
+        'apId': 'ap007',
+        'tpId': 'tp007',
+        'image': 'assets/images/default_photo.png',
+        'pName': 'Nyx Azzin',
+        'apDt': DateTime(2021, 2, 26, 9, 40),
+      },
+      {
+        'apId': 'ap008',
+        'tpId': 'tp008',
+        'image': 'assets/images/default_photo.png',
+        'pName': 'Mona Lisa',
+        'apDt': DateTime(2021, 2, 26, 13, 0),
+      },
+    ];
+    return data;
+  }
 
   Map<DateTime, List<Map<String, Object>>> _event = {};
 
@@ -127,6 +138,10 @@ class _AppointmentDoctorPageState extends State<AppointmentDoctorPage> {
 
   @override
   void didChangeDependencies() {
+    // final userInfo = Provider.of<UserInfo>(context);
+    data = _loadData(
+        // userInfo.userId
+        );
     _createEvent();
     if (_event[_selectedDate].isNotEmpty) {
       _selectedEvent = _event[_selectedDate];
@@ -165,6 +180,10 @@ class _AppointmentDoctorPageState extends State<AppointmentDoctorPage> {
 
   @override
   Widget build(BuildContext context) {
+    // final userInfo = Provider.of<UserInfo>(context);
+    data = _loadData(
+        // userInfo.userId
+        );
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(

@@ -54,7 +54,7 @@ class _HomePageState extends State<HomePage> {
               child: Text(
                 (userInfo.role == Role.Patient)
                     ? 'Hi. I can help you find\nwhat’s going on.\nJust start a symptom\nassessment.'
-                    : 'Welcome ${userInfo.getUserName()}',
+                    : 'Welcome ${userInfo.userFname}',
                 style: TextStyle(
                   color: scndColor,
                   fontSize: 16,
@@ -73,7 +73,7 @@ class _HomePageState extends State<HomePage> {
                     ? 'Start symptom assessment'
                     : 'See patient',
                 height: MediaQuery.of(context).size.height * 0.05,
-                width: MediaQuery.of(context).size.width * 0.55,
+                width: MediaQuery.of(context).size.width * 0.6,
                 handlerFn: (() {
                   if (userInfo.role == Role.Patient) {
                     Navigator.of(context).pushNamed(

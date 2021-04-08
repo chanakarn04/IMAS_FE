@@ -22,12 +22,12 @@ caseManagementEditBottomSheet(
     ),
     builder: (context) {
       return Container(
-        height: 250 + MediaQuery.of(context).viewInsets.bottom,
+        height: 250,
         padding: EdgeInsets.only(
           left: 30,
           right: 30,
           top: 20,
-          bottom: 20 + MediaQuery.of(context).viewInsets.bottom,
+          bottom: 20,
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -65,7 +65,7 @@ caseManagementEditBottomSheet(
                 ),
                 AdaptiveRaisedButton(
                   buttonText: buttonText,
-                  handlerFn: buttonHandler,
+                  handlerFn: () => buttonHandler(),
                   height: 30,
                   width: 140,
                 ),

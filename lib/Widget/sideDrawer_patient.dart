@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../Provider/user-info.dart';
 import '../Pages/profilePages.dart';
 import '../Pages/assessmentHistoryPage.dart';
 import '../Pages/appointmentPatient.dart';
 // import '../Pages/nearbyHospitalPages.dart';
-import '../Pages/settingPages.dart';
+// import '../Pages/settingPages.dart';
+import '../Pages/loginPage.dart';
+import '../Pages/vitalSignStartPages.dart';
 
 List<Widget> buildSideDrawerPatient(
   BuildContext context,
@@ -37,10 +41,51 @@ List<Widget> buildSideDrawerPatient(
     //     NearbyHospitalPages.routeName,
     //   );
     // })),
-    menuDrawerFlatButton(Icons.settings_outlined, 'Setting', (() {
+    menuDrawerFlatButton(Icons.logout, 'Log out', (() {
+      showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (context) {
+          // return Consumer<CartModel>(
+          //   builder: (context, cart, child) {
+          //     return Text("Total price: ${cart.totalPrice}");
+          //   },
+          // );
+          return AlertDialog(
+            title: Text(
+              'Logout?',
+            ),
+            content: Text(
+              'Confirm to logout?',
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('Cancel'),
+              ),
+              Consumer<UserInfo>(
+                builder: (context, userInfo, child) {
+                  return TextButton(
+                    onPressed: () {
+                      userInfo.logout();
+                      Navigator.of(context).popUntil(ModalRoute.withName('/'));
+                      Navigator.of(context).pushNamed(LogInPage.routeName);
+                    },
+                    child: Text('Confirm'),
+                  );
+                },
+              ),
+            ],
+          );
+        },
+      );
+    })),
+    menuDrawerFlatButton(Icons.casino, 'vs', (() {
       Navigator.of(context).pop();
       Navigator.of(context).pushNamed(
-        SettingPages.routeName,
+        VitalSignStartPage.routeName,
       );
     })),
   ];

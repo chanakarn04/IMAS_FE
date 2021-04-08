@@ -39,11 +39,12 @@ class _InCareTabState extends State<InCareTab> {
           ),
           child: Column(
             children: [
-              FlatButton(
-                padding: EdgeInsets.symmetric(vertical: 10),
+              TextButton(
+                // padding: EdgeInsets.symmetric(vertical: 10),
                 onPressed: () {
                   print('to patient info with $tpId');
-                  Navigator.of(context).pushNamed(PatientInfoPage.routeName);
+                  Navigator.of(context)
+                      .pushNamed(PatientInfoPage.routeName, arguments: tpId);
                 },
                 child: Row(
                   children: [
@@ -93,7 +94,8 @@ class _InCareTabState extends State<InCareTab> {
       child: ListTile(
         onTap: () {
           print('to patient info with $tpId');
-          Navigator.of(context).pushNamed(PatientInfoPage.routeName);
+          Navigator.of(context)
+              .pushNamed(PatientInfoPage.routeName, arguments: tpId);
         },
         onLongPress: () {
           openModalBottomSheet(tpId);
@@ -173,10 +175,10 @@ class _InCareTabState extends State<InCareTab> {
               child: ListView.builder(
                 itemBuilder: (context, index) {
                   return buildPatientBox(
-                    this.widget.infomation[index]['fname'],
-                    this.widget.infomation[index]['sname'],
+                    this.widget.infomation[index]['pName'],
+                    this.widget.infomation[index]['pSurname'],
                     'assets/images/default_photo.png',
-                    this.widget.infomation[index]['aptDt'],
+                    this.widget.infomation[index]['apDt'],
                     this.widget.infomation[index]['tpId'],
                   );
                 },
