@@ -19,6 +19,7 @@ class _RegisterPatient1ScreenState extends State<RegisterPatient1Screen> {
   final cfPswTxtCtrl = TextEditingController();
   final nameTxtCtrl = TextEditingController();
   final surnameTxtCtrl = TextEditingController();
+  Map registerData = {};
   DateTime _selectedDate;
   int selectedGender = 0; // 0 as Male, 1 as Female
   var _pwsValidate = true;
@@ -323,8 +324,15 @@ class _RegisterPatient1ScreenState extends State<RegisterPatient1Screen> {
                         checkCfPwd();
                         checkMail();
                         if (_pwsValidate && _mailValidate) {
-                          Navigator.of(context)
-                              .pushNamed(RegisterPatient2Screen.routeName);
+                          registerData.addAll({
+                            'username': usrnTxtCtrl.text,
+                            'password': pswTxtCtrl.text,
+                            'firstName': nameTxtCtrl.text,
+                            'surName': surnameTxtCtrl.text,
+                            'dob': _selectedDate,
+                            'gender': selectedGender,
+                          });
+                          Navigator.of(context).pushNamed(RegisterPatient2Screen.routeName, arguments: registerData);
                         }
                       }
                     },

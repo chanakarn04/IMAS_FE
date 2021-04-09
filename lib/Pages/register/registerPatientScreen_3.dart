@@ -13,8 +13,7 @@ class RegisterPatient3Screen extends StatefulWidget {
 }
 
 class _RegisterPatient3ScreenState extends State<RegisterPatient3Screen> {
-  final List<TextEditingController> textControllers =
-      List<TextEditingController>();
+  final List<TextEditingController> textControllers = [];
   int length = 1;
 
   @override
@@ -39,6 +38,7 @@ class _RegisterPatient3ScreenState extends State<RegisterPatient3Screen> {
 
   @override
   Widget build(BuildContext context) {
+    Map<String, dynamic> registerData = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -165,6 +165,13 @@ class _RegisterPatient3ScreenState extends State<RegisterPatient3Screen> {
                         ? 'Skip'
                         : 'Submit',
                     handlerFn: () {
+                      // add list of drug allergy to allergy key
+                      // like {'allergy': list}
+                      // ...
+                      // update to server
+                      // ...
+                      // show alertDialog
+                      // ...
                       Navigator.of(context)
                           .popUntil(ModalRoute.withName(LogInPage.routeName));
                       print('Register Done!!');

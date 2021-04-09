@@ -196,6 +196,7 @@ class _RegisterPatient2ScreenState extends State<RegisterPatient2Screen> {
 
   @override
   Widget build(BuildContext context) {
+    Map<String, dynamic> registerData = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -259,6 +260,14 @@ class _RegisterPatient2ScreenState extends State<RegisterPatient2Screen> {
                   AdaptiveRaisedButton(
                     buttonText: 'Next',
                     handlerFn: () {
+                      // Status isSmoke = Status.NotSure;
+                      // Status isDiabetes = Status.NotSure;
+                      // Status hasHighPress = Status.NotSure;
+                      registerData.addAll({
+                        'hasHighPress': hasHighPress,
+                        'isDiabetes': isDiabetes,
+                        'isSmoke': isSmoke,
+                      });
                       Navigator.of(context)
                           .pushNamed(RegisterPatient3Screen.routeName);
                     },
