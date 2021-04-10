@@ -19,12 +19,23 @@ class _RegisterPatient1ScreenState extends State<RegisterPatient1Screen> {
   final cfPswTxtCtrl = TextEditingController();
   final nameTxtCtrl = TextEditingController();
   final surnameTxtCtrl = TextEditingController();
-  Map registerData = {};
+  Map<String, dynamic> registerData = {};
   DateTime _selectedDate;
   int selectedGender = 0; // 0 as Male, 1 as Female
   var _pwsValidate = true;
   var _mailValidate = true;
   var _submitValidate = false;
+
+  @override
+    void dispose() {
+      // TODO: implement dispose
+      usrnTxtCtrl.dispose();
+      pswTxtCtrl.dispose();
+      cfPswTxtCtrl.dispose();
+      nameTxtCtrl.dispose();
+      surnameTxtCtrl.dispose();
+      super.dispose();
+    }
 
   void _presentDatePicker() {
     showDatePicker(
