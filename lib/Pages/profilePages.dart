@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../Widget/profile_patinent_body.dart';
 import '../Widget/profile_doctor_body.dart';
 import '../Provider/user-info.dart';
+import '../Models/model.dart';
 
 class ProfilePages extends StatelessWidget {
   static const routeName = '/profile';

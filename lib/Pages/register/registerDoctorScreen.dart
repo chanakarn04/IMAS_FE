@@ -192,7 +192,7 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: (_isLogin)
-          ? regiterdBody(context)
+          ? registerdBody(context)
           : Container(
               padding: EdgeInsets.only(
                 // left: 15,
@@ -625,7 +625,8 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
                     ),
                   ),
                 ],
-              )),
+              ),
+            ),
     );
   }
 }

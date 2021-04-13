@@ -34,9 +34,10 @@ class ProfileDoctorBody extends StatelessWidget {
       drName: 'dName',
       drSurname: 'dSurname',
       gender: Gender.Male,
-      citizenID: 1234567890123,
-      mdID: 'xxxxxxxxxxxxx',
-      certID: 'xxxxxxxxxxxxx',
+      citizenID: '1234567890123',
+      mdID: '1234567890123',
+      certID: '1234567890123',
+      image: 'assets/images/default_photo.png',
     );
   }
 

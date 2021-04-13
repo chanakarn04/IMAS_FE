@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../Pages/loginPage.dart';
 import '../Pages/homePages.dart';
 
-Widget regiterdBody(BuildContext context) {
+Widget registerdBody(BuildContext context) {
   return Center(
     child: Padding(
       padding: const EdgeInsets.symmetric(
@@ -44,11 +44,10 @@ Widget regiterdBody(BuildContext context) {
               Future.delayed(Duration.zero, () {
                 Navigator.of(context)
                     .popUntil(ModalRoute.withName(LogInPage.routeName));
-                    Navigator.of(context).pushReplacementNamed(HomePage.routeName);
+                    // Navigator.of(context).pushReplacementNamed(HomePage.routeName);
                 // Navigator.of(context)
                 //     .popUntil(ModalRoute.withName(HomePage.routeName));
               });
-              // Navigator.of(context).pushReplacementNamed(HomePage.routeName);
             },
             style: ElevatedButton.styleFrom(
               primary: Theme.of(context).primaryColor,
@@ -63,7 +62,7 @@ Widget regiterdBody(BuildContext context) {
               width: 200,
               alignment: Alignment.center,
               child: Text(
-                'Home',
+                'Log in',
               ),
             ),
           ),

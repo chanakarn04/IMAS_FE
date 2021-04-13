@@ -34,15 +34,17 @@ class ProfilePatientBody extends StatelessWidget {
     // ...
 
     return Patient(
-        pId: 'p0001',
-        pName: 'pName',
-        pSurname: 'pSurname',
-        dob: DateTime(1998, 4, 12),
-        gender: Gender.Female,
-        drugAllegy: ['Paracetamol'],
-        isSmoke: Status.No,
-        isDiabetes: Status.Yes,
-        hasHighPress: Status.NotSure);
+      pId: 'p0001',
+      pName: 'pName',
+      pSurname: 'pSurname',
+      dob: DateTime(1998, 4, 12),
+      gender: Gender.Female,
+      drugAllegy: ['Paracetamol'],
+      isSmoke: Status.No,
+      isDiabetes: Status.Yes,
+      hasHighPress: Status.NotSure,
+      image: 'assets/images/default_photo.png',
+    );
   }
 
   String get genderText {

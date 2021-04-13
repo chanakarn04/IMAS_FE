@@ -17,6 +17,7 @@ class Patient {
   final Status isSmoke;
   final Status isDiabetes;
   final Status hasHighPress;
+  final String image;
 
   Patient({
     @required this.pId,
@@ -28,6 +29,7 @@ class Patient {
     @required this.isSmoke,
     @required this.isDiabetes,
     @required this.hasHighPress,
+    @required this.image,
   });
 }
 
@@ -39,10 +41,11 @@ class Doctor {
   final String drName;
   final String drSurname;
   final Gender gender;
-  final int citizenID;
+  final String citizenID;
   final String mdID;
   final String certID;
   // final bool isApproved;
+  final String image;
 
   Doctor({
     @required this.drId,
@@ -53,6 +56,7 @@ class Doctor {
     @required this.citizenID,
     @required this.mdID,
     @required this.certID,
+    @required this.image,
   });
 }
 
