@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../Provider/vitalSign_Info.dart';
 import '../Widget/AdaptiveRaisedButton.dart';
 // import '../Widget/PainScoreSlider.dart';
 import '../Widget/customSliderThumbCircle.dart';
@@ -16,13 +18,13 @@ class _PainScorePageState extends State<PainScorePage> {
   double value = 0;
 
   void _uploadData(
-    Map<String, int> painScore,
+    Map<String, dynamic> data_vs_ps,
     // ... use something more
   ) {
     // upload painScore
 
     // temp
-    painScore.forEach((key, value) {
+    data_vs_ps.forEach((key, value) {
       print('$key : $value');
     });
   }
@@ -69,6 +71,7 @@ class _PainScorePageState extends State<PainScorePage> {
   Widget build(BuildContext context) {
     final routeArg =
         ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
+    final vitalSign = Provider.of<VitalSignProvider>(context, listen: false);
     int index = routeArg['index'];
     List<String> symptoms = routeArg['symptom'];
     Map<String, int> painScore = routeArg['painScore'];
@@ -243,7 +246,15 @@ class _PainScorePageState extends State<PainScorePage> {
                           } else {
                             painScore[symptoms[index]] = value.toInt();
                             // ... uploadData to server
-                            _uploadData(painScore);
+                            _uploadData({
+                              'vitalSign': {
+                                'temp': vitalSign.temp,
+                                'pulse': vitalSign.pulse,
+                                'breath': vitalSign.breath,
+                                'pressure': vitalSign.pressure,
+                              },
+                              'painScore': painScore,
+                            });
                             showDialog(
                               context: context,
                               builder: (BuildContext context) {
@@ -252,9 +263,10 @@ class _PainScorePageState extends State<PainScorePage> {
                                       borderRadius: BorderRadius.circular(8.0)),
                                   title: Text('Submit Data successfully'),
                                   actions: [
-                                    FlatButton(
+                                    TextButton(
                                       child: Text("OK"),
                                       onPressed: () {
+                                        vitalSign.clear();
                                         Navigator.of(context).popUntil(
                                             ModalRoute.withName('/home'));
                                       },

@@ -7,9 +7,28 @@ import '../../Widget/progressDot.dart';
 import '../../Widget/AdaptiveRaisedButton.dart';
 import './vs_HeartRatePage.dart';
 
-class VSBodyTempPage extends StatelessWidget {
+class VSBodyTempPage extends StatefulWidget {
   static const routeName = '/vitalSign-bodyTemp';
+
+  @override
+  _VSBodyTempPageState createState() => _VSBodyTempPageState();
+}
+
+class _VSBodyTempPageState extends State<VSBodyTempPage> {
   final textController = TextEditingController();
+  var _loadedData = false;
+
+  @override
+  void didChangeDependencies() {
+    if (!_loadedData) {
+      final _vitalSign = Provider.of<VitalSignProvider>(context);
+      if (_vitalSign.temp != null) {
+        textController.text = _vitalSign.temp.toString();
+      }
+      _loadedData = true;
+    }
+    super.didChangeDependencies();
+  }
 
   _headerBuilder(
     BuildContext context,
@@ -53,6 +72,12 @@ class VSBodyTempPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final vitalSign = Provider.of<VitalSignProvider>(context);
     // final vitalSign = ModalRoute.of(context).settings.arguments as VitalSignProvider;
+
+    // print('temp: ${vitalSign.temp}');
+    // if (tempValue != null) {
+    //   textController.text = tempValue.toString();
+    // }
+
     final appBar = AppBar(
       centerTitle: true,
       iconTheme: IconThemeData(
@@ -164,6 +189,7 @@ class VSBodyTempPage extends StatelessWidget {
                               ? (() {
                                   vitalSign.temp =
                                       double.parse(textController.text);
+                                  // tempValue = double.parse(textController.text);
                                   // print();
                                   Navigator.of(context).pushNamed(
                                     VSHeartRatePage.routeName,

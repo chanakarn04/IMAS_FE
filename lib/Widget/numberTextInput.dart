@@ -47,11 +47,14 @@ class NumberTextFieldState extends State<NumberTextField> {
   Widget build(BuildContext context) {
     return TextField(
       controller: widget.textController,
-      onSubmitted: checkTextInputData(),
+      onSubmitted: (_) {
+        checkTextInputData();
+      },
       textAlign: TextAlign.end,
       style: TextStyle(
         fontSize: 20,
       ),
+      // autofocus: true,
       decoration: InputDecoration(
         hintText: 'Type here',
         errorText: widget.textController.text.isEmpty
@@ -67,31 +70,3 @@ class NumberTextFieldState extends State<NumberTextField> {
     );
   }
 }
-
-//   Scaffold(
-//       body: Center(
-//     child: Column(
-//       mainAxisAlignment: MainAxisAlignment.center,
-//       children: <Widget>[
-//         Container(
-//             width: 280,
-//             padding: EdgeInsets.all(10.0),
-//             child: TextField(
-//               controller: textFieldHolder,
-//               autocorrect: true,
-//               decoration: InputDecoration(hintText: 'Enter Some Text Here'),
-//             )),
-//         RaisedButton(
-//           onPressed: checkTextInputData,
-//           color: Color(0xff33691E),
-//           textColor: Colors.white,
-//           padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-//           child: Text('Click Here To Check Value Is Number Or Not'),
-//         ),
-//         Padding(
-//             padding: EdgeInsets.all(8.0),
-//             child: Text("$output", style: TextStyle(fontSize: 20)))
-//       ],
-//     ),
-//   ));
-// }

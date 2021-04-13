@@ -7,9 +7,28 @@ import '../../Widget/progressDot.dart';
 import '../../Widget/AdaptiveRaisedButton.dart';
 import './vs_RespiratoryRatePage.dart';
 
-class VSHeartRatePage extends StatelessWidget {
+class VSHeartRatePage extends StatefulWidget {
   static const routeName = '/vitalSign-pulse';
+
+  @override
+  _VSHeartRatePageState createState() => _VSHeartRatePageState();
+}
+
+class _VSHeartRatePageState extends State<VSHeartRatePage> {
   final textController = TextEditingController();
+  var _loadedData = false;
+
+  @override
+  void didChangeDependencies() {
+    if (!_loadedData) {
+      final _vitalSign = Provider.of<VitalSignProvider>(context);
+      if (_vitalSign.pulse != null) {
+        textController.text = _vitalSign.pulse.toString();
+      }
+      _loadedData = true;
+    }
+    super.didChangeDependencies();
+  }
 
   _headerBuilder(
     BuildContext context,
@@ -54,6 +73,11 @@ class VSHeartRatePage extends StatelessWidget {
     // final routeArgument =
     //     ModalRoute.of(context).settings.arguments as Map<String, Object>;
     final vitalSign = Provider.of<VitalSignProvider>(context);
+
+    if (vitalSign.pulse != null) {
+      textController.text = vitalSign.pulse.toString();
+    }
+
     final appBar = AppBar(
       centerTitle: true,
       iconTheme: IconThemeData(

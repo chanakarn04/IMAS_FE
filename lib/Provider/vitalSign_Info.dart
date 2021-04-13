@@ -23,4 +23,12 @@ class VitalSignProvider with ChangeNotifier {
     print(breath);
     print('${pressure[0]}/${pressure[1]}');
   }
+
+  void clear() {
+    tpId = null;
+    temp = null;
+    pulse = null;
+    breath = null;
+    pressure = null;
+  }
 }

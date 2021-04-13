@@ -8,9 +8,28 @@ import '../../Widget/adaptiveBorderButton.dart';
 import '../../Widget/progressDot.dart';
 import './vs_BloodPressurePage.dart';
 
-class VSRespiratoryRatePage extends StatelessWidget {
+class VSRespiratoryRatePage extends StatefulWidget {
   static const routeName = '/vitalSign-breath';
+
+  @override
+  _VSRespiratoryRatePageState createState() => _VSRespiratoryRatePageState();
+}
+
+class _VSRespiratoryRatePageState extends State<VSRespiratoryRatePage> {
   final textController = TextEditingController();
+  var _loadedData = false;
+
+  @override
+  void didChangeDependencies() {
+    if (!_loadedData) {
+      final _vitalSign = Provider.of<VitalSignProvider>(context);
+      if (_vitalSign.breath != null) {
+        textController.text = _vitalSign.breath.toString();
+      }
+      _loadedData = true;
+    }
+    super.didChangeDependencies();
+  }
 
   _headerBuilder(
     BuildContext context,

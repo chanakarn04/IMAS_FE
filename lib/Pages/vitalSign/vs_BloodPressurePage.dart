@@ -10,10 +10,31 @@ import '../../Widget/progressDot.dart';
 import '../painScoreStartPage.dart';
 import '../homePages.dart';
 
-class VSBloodPressurePage extends StatelessWidget {
+class VSBloodPressurePage extends StatefulWidget {
   static const routeName = '/vitalSign-pressure';
+
+  @override
+  _VSBloodPressurePageState createState() => _VSBloodPressurePageState();
+}
+
+class _VSBloodPressurePageState extends State<VSBloodPressurePage> {
   final textControllerf = TextEditingController();
   final textControllerb = TextEditingController();
+
+  var _loadedData = false;
+
+  @override
+  void didChangeDependencies() {
+    if (!_loadedData) {
+      final _vitalSign = Provider.of<VitalSignProvider>(context);
+      if (_vitalSign.pressure != null) {
+        textControllerf.text = _vitalSign.pressure[0].toString();
+        textControllerf.text = _vitalSign.pressure[1].toString();
+      }
+      _loadedData = true;
+    }
+    super.didChangeDependencies();
+  }
 
   _headerBuilder(
     BuildContext context,
@@ -217,7 +238,7 @@ class VSBloodPressurePage extends StatelessWidget {
                                   double.parse(textControllerf.text),
                                   double.parse(textControllerb.text),
                                 ];
-                                vitalSign.uploadValue(userInfo.userId);
+                                // vitalSign.uploadValue(userInfo.userId);
                                 // print('temp:   ${routeArgument['temp']}');
                                 // print('pulse:  ${routeArgument['pulse']}');
                                 // print('breath: ${routeArgument['breath']}');
