@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:time_picker_widget/time_picker_widget.dart' as timePicker;
 
 import './adaptiveBorderButton.dart';
 import './AdaptiveRaisedButton.dart';
@@ -11,15 +12,17 @@ class CaseManagementCreateAppointment extends StatefulWidget {
   // final String pName;
   // final Function datePicker;
   // final Function timePicker;
-  DateTime date;
-  TimeOfDay time;
+  final List<Map<String, dynamic>> apt;
+  // DateTime date;
+  // TimeOfDay time;
 
   CaseManagementCreateAppointment(
     // this.pName,
     // this.datePicker,
     // this.timePicker,
-    this.date,
-    this.time,
+    this.apt,
+    // this.date,
+    // this.time,
   );
   @override
   _CaseManagementCreateAppointmentState createState() =>
@@ -28,20 +31,46 @@ class CaseManagementCreateAppointment extends StatefulWidget {
 
 class _CaseManagementCreateAppointmentState
     extends State<CaseManagementCreateAppointment> {
-  DateTime selectedDate = DateTime.now().add(Duration(days: 2));
-  TimeOfDay selectedTime = TimeOfDay.now();
+  // DateTime selectedDate = DateTime.now().add(Duration(days: 2));
+  DateTime selectedDate;
+  // TimeOfDay selectedTime = TimeOfDay.now();
+  TimeOfDay selectedTime;
+
+  List<DateTime> events = [];
+  List<DateTime> thisDayEvents = [];
+
+  var _loadData = false;
+  String test;
+
+  // @override
+  // void initState() {
+  //   selectedDate = widget.date;
+  //   selectedTime = widget.time;
+  //   super.initState();
+  // }
 
   @override
-  void initState() {
-    selectedDate = widget.date;
-    selectedTime = widget.time;
-    super.initState();
+  void didChangeDependencies() {
+    if (!_loadData) {
+      for (Map<String, dynamic> ap in this.widget.apt) {
+        events.add(ap['apDt']);
+      }
+      _loadData = true;
+    }
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+  }
+
+  void _loadEvent() {
+    for (Map<String, dynamic> ap in this.widget.apt) {
+      events.add(ap['apDt']);
+    }
   }
 
   void _presentDatePicker() async {
     final DateTime picked = await showDatePicker(
       context: context,
-      initialDate: selectedDate,
+      initialDate: DateTime.now().add(Duration(days: 2)),
       firstDate: DateTime.now(),
       lastDate: DateTime(DateTime.now().year + 1),
       // initialDate: DateTime(DateTime.now().year),
@@ -60,18 +89,64 @@ class _CaseManagementCreateAppointmentState
     );
     if (picked != null && picked != selectedDate) {
       setState(() {
+        thisDayEvents.clear();
         selectedDate = picked;
+        thisDayEvents.addAll(events
+            .where((apt) =>
+                (picked.year == apt.year) &&
+                (picked.month == apt.month) &&
+                (picked.day == apt.day))
+            .toList());
+        print('thisDayEvent: $thisDayEvents');
       });
     }
   }
 
   void _presentTimePicker() async {
-    final TimeOfDay picked = await showTimePicker(
+    final TimeOfDay picked = await timePicker.showCustomTimePicker(
       context: context,
-      // initialDate: selectedDate,
-      // firstDate: DateTime.now(),
-      // lastDate: DateTime(DateTime.now().year + 1),
-      initialTime: TimeOfDay(hour: selectedDate.hour, minute: 0),
+      onFailValidation: (context) {},
+      // selectableTimePredicate: (time) => (time.hour >= 5) && (time.minute < 50),
+      selectableTimePredicate: (time) {
+        var _b = true;
+        if (events.isNotEmpty) {
+          for (DateTime aptDt in thisDayEvents) {
+            if (aptDt.minute < 15) {
+              if ((time.hour == aptDt.hour) &&
+                  (time.minute < aptDt.minute + 15)) {
+                _b = false;
+                break;
+              } else if ((time.hour == aptDt.hour - 1) &&
+                  (time.minute > (aptDt.minute + 45))) {
+                _b = false;
+                break;
+              }
+            } else if (aptDt.minute > 45) {
+              if ((time.hour == aptDt.hour) &&
+                  (time.minute > aptDt.minute - 15)) {
+                _b = false;
+                break;
+              } else if ((time.hour == aptDt.hour + 1) &&
+                  (time.minute < (aptDt.minute - 45))) {
+                _b = false;
+                break;
+              }
+            }
+            if (time.hour == aptDt.hour) {
+              if ((time.minute > aptDt.minute - 15) &&
+                  (time.minute < aptDt.minute + 15)) {
+                _b = false;
+                break;
+              }
+            }
+          }
+        }
+        return _b;
+      },
+      initialTime: TimeOfDay(
+        hour: 0,
+        minute: 0,
+      ),
       builder: (BuildContext context, Widget child) {
         return Theme(
           data: ThemeData().copyWith(
@@ -93,8 +168,11 @@ class _CaseManagementCreateAppointmentState
   @override
   Widget build(BuildContext context) {
     final cmInfo = Provider.of<CMinfoProvider>(context);
+    // print(this.widget.apt);
+    // _loadEvent();
+    // print(events);
     return Container(
-      height: 300,
+      height: 400,
       padding: EdgeInsets.only(
         left: 30,
         right: 30,
@@ -109,91 +187,109 @@ class _CaseManagementCreateAppointmentState
             child: Text(
               'Create appointment',
               style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 32,
-                color: Theme.of(context).primaryColor,
+                // fontWeight: FontWeight.bold,
+                fontSize: 28,
+                // color: Theme.of(context).primaryColor,
+              ),
+            ),
+          ),
+          Container(
+            alignment: Alignment.centerLeft,
+            padding: EdgeInsets.only(right: 30),
+            child: Text(
+              'Specify date and time below to make an appointment with patient',
+              style: TextStyle(
+                // fontWeight: FontWeight.bold,
+                fontSize: 14,
+                color: Color.fromARGB(255, 165, 165, 165),
               ),
             ),
           ),
           SizedBox(
             height: 20,
           ),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              'with',
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.grey,
+          Row(
+            children: [
+              Icon(
+                Icons.calendar_today,
+                color: Colors.grey[400],
               ),
-            ),
+              SizedBox(
+                width: 5,
+              ),
+              Text(
+                'Date',
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.grey[400],
+                ),
+              ),
+            ],
           ),
-          Container(
-            padding: EdgeInsets.only(left: 10),
-            alignment: Alignment.centerLeft,
-            child: Text(
-              cmInfo.pName,
-              style: TextStyle(
-                fontSize: 24,
-                // color: Colors.grey,
-              ),
+          Padding(
+            padding: EdgeInsets.only(left: 10, top: 5),
+            child: Row(
+              children: [
+                TextButton(
+                  onPressed: _presentDatePicker,
+                  child: Text(
+                    // 'test',
+                    (selectedDate == null)
+                        ? 'No date select'
+                        : '${DateFormat.yMd().format(selectedDate)}',
+                    style: TextStyle(
+                      fontSize: 24,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
           SizedBox(
             height: 10,
           ),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              'on',
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.grey,
+          Row(
+            children: [
+              Icon(
+                Icons.access_time_rounded,
+                color: Colors.grey[400],
               ),
-            ),
+              SizedBox(
+                width: 5,
+              ),
+              Text(
+                'Time',
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.grey[400],
+                ),
+              ),
+            ],
           ),
           Padding(
-            padding: EdgeInsets.only(left: 10),
+            padding: EdgeInsets.only(left: 10, top: 5),
             child: Row(
               children: [
-                Text(
-                  // 'test',
-                  '${DateFormat.yMd().format(selectedDate)}',
-                  style: TextStyle(
-                    fontSize: 24,
-                  ),
-                ),
-                SizedBox(
-                  height: 35,
-                  width: 35,
-                  child: InkWell(
-                    child: Icon(
-                      Icons.calendar_today,
-                      color: Theme.of(context).primaryColor,
-                      size: 30,
-                    ),
-                    onTap: _presentDatePicker,
-                  ),
-                ),
-                Expanded(child: Container()),
-                Text(
-                  '${selectedTime.format(context)}',
-                  // '${DateFormat.jm().format(this.widget.selectedTime)}',
-                  style: TextStyle(
-                    fontSize: 24,
-                  ),
-                ),
-                SizedBox(
-                  height: 35,
-                  width: 35,
-                  child: InkWell(
-                    child: Icon(
-                      Icons.access_time_rounded,
-                      color: Theme.of(context).primaryColor,
-                      size: 30,
-                    ),
-                    onTap: _presentTimePicker,
-                  ),
+                TextButton(
+                  onPressed: (selectedDate == null) ? null : _presentTimePicker,
+                  child: (selectedDate == null)
+                      ? Text(
+                          'Select Date first',
+                          style: TextStyle(
+                            fontSize: 24,
+                            color: Colors.grey[400],
+                          ),
+                        )
+                      : Text(
+                          (selectedTime == null)
+                              ? 'No time select'
+                              : '${selectedTime.format(context)}',
+                          style: TextStyle(
+                            fontSize: 24,
+                            color: Theme.of(context).primaryColor,
+                          ),
+                        ),
                 ),
               ],
             ),
@@ -219,10 +315,10 @@ class _CaseManagementCreateAppointmentState
                 buttonText: 'Create',
                 handlerFn: () {
                   print('Create appointment');
-                  setState(() {
-                    this.widget.date = selectedDate;
-                    this.widget.time = selectedTime;
-                  });
+                  // setState(() {
+                  //   this.widget.date = selectedDate;
+                  //   this.widget.time = selectedTime;
+                  // });
                   cmInfo.createAppointment(
                     DateTime(
                       selectedDate.year,
@@ -249,8 +345,8 @@ class _CaseManagementCreateAppointmentState
                     },
                   );
                   // Not passing back for now.
-                  print('${DateFormat.yMd().format(this.widget.date)}');
-                  print('${this.widget.time.format(context)}');
+                  // print('${DateFormat.yMd().format(this.widget.date)}');
+                  // print('${this.widget.time.format(context)}');
                 },
                 height: 30,
                 width: 140,

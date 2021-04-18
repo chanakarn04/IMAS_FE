@@ -13,9 +13,127 @@ class CaseManagementTab extends StatefulWidget {
 }
 
 class _CaseManagementTabState extends State<CaseManagementTab> {
-  DateTime selectedDate = DateTime.now().add(Duration(days: 2));
-  TimeOfDay selectedTime = TimeOfDay.now();
+  // DateTime selectedDate = DateTime.now().add(Duration(days: 2));
+  // TimeOfDay selectedTime = TimeOfDay.now();
   // DateTime selectedApDt;
+
+  List<Map<String, dynamic>> _loadEvent(
+      // String userId,
+      ) {
+    // load data from server
+    // get apDt of last ap and dr Name
+
+    List<Map<String, dynamic>> data = [
+      // {
+      //   'apId': 'ap001',
+      //   'tpId': 'tp001',
+      //   'image': 'assets/images/default_photo.png',
+      //   'pName': 'Samitanan Techabunyawatthanakul',
+      //   'apDt': DateTime(2021, 2, 25, 14, 30),
+      // },
+      // {
+      //   'apId': 'ap002',
+      //   'tpId': 'tp002',
+      //   'image': 'assets/images/default_photo.png',
+      //   'pName': 'Never More',
+      //   'apDt': DateTime(2021, 2, 24, 20, 30),
+      // },
+      // {
+      //   'apId': 'ap003',
+      //   'tpId': 'tp003',
+      //   'image': 'assets/images/default_photo.png',
+      //   'pName': 'Mega Tron',
+      //   'apDt': DateTime(2021, 2, 24, 10, 30),
+      // },
+      // {
+      //   'apId': 'ap004',
+      //   'tpId': 'tp004',
+      //   'image': 'assets/images/default_photo.png',
+      //   'pName': 'Hot Rod',
+      //   'apDt': DateTime(2021, 2, 24, 9, 20),
+      // },
+      // {
+      //   'apId': 'ap005',
+      //   'tpId': 'tp005',
+      //   'image': 'assets/images/default_photo.png',
+      //   'pName': 'Manta Style',
+      //   'apDt': DateTime(2021, 2, 24, 18, 15),
+      // },
+      {
+        'apId': 'ap006',
+        'tpId': 'tp006',
+        'image': 'assets/images/default_photo.png',
+        'pName': 'Battle Fury',
+        'apDt': DateTime(
+          DateTime.now().year,
+          DateTime.now().month,
+          DateTime.now().day,
+          DateTime.now().hour,
+          15,
+        ),
+      },
+      {
+        'apId': 'ap007',
+        'tpId': 'tp007',
+        'image': 'assets/images/default_photo.png',
+        'pName': 'Nyx Azzin',
+        'apDt': DateTime(
+          DateTime.now().year,
+          DateTime.now().month,
+          DateTime.now().day + 2,
+          DateTime.now().hour,
+          15,
+        ),
+      },
+      {
+        'apId': 'ap007',
+        'tpId': 'tp007',
+        'image': 'assets/images/default_photo.png',
+        'pName': 'Nyx Azzin',
+        'apDt': DateTime(
+          DateTime.now().year,
+          DateTime.now().month,
+          DateTime.now().day + 2,
+          DateTime.now().hour + 2,
+          30,
+        ),
+      },
+      {
+        'apId': 'ap007',
+        'tpId': 'tp007',
+        'image': 'assets/images/default_photo.png',
+        'pName': 'Nyx Azzin',
+        'apDt': DateTime(
+          DateTime.now().year,
+          DateTime.now().month,
+          DateTime.now().day + 2,
+          DateTime.now().hour-8,
+          50,
+        ),
+      },
+      // {
+      //   'apId': 'ap007',
+      //   'tpId': 'tp007',
+      //   'image': 'assets/images/default_photo.png',
+      //   'pName': 'Nyx Azzin',
+      //   'apDt': DateTime(
+      //     DateTime.now().year,
+      //     DateTime.now().month,
+      //     DateTime.now().day + 2,
+      //     DateTime.now().hour + 4,
+      //     0,
+      //   ),
+      // },
+      // {
+      //   'apId': 'ap008',
+      //   'tpId': 'tp008',
+      //   'image': 'assets/images/default_photo.png',
+      //   'pName': 'Mona Lisa',
+      //   'apDt': DateTime(2021, 2, 26, 13, 0),
+      // },
+    ];
+    return data;
+  }
 
   Widget _buildBox({
     BuildContext context,
@@ -71,7 +189,7 @@ class _CaseManagementTabState extends State<CaseManagementTab> {
                   ),
                   borderRadius: BorderRadius.circular(15),
                 ),
-                child: FlatButton(
+                child: TextButton(
                   child: Text(
                     buttonTitle,
                     style: TextStyle(color: color),
@@ -168,32 +286,34 @@ class _CaseManagementTabState extends State<CaseManagementTab> {
           ),
           Expanded(
             child: _buildBox(
-                context: context,
-                color: Color.fromARGB(255, 77, 159, 206),
-                title: 'On track',
-                description:
-                    '    Close this consult and make appointment of next consult.',
-                buttonTitle: 'Create appointment',
-                buttonFn: () {
-                  showModalBottomSheet(
-                    context: context,
-                    isDismissible: false,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(20),
-                        topRight: Radius.circular(20),
-                      ),
+              context: context,
+              color: Color.fromARGB(255, 77, 159, 206),
+              title: 'On track',
+              description:
+                  '    Close this consult and make appointment of next consult.',
+              buttonTitle: 'Create appointment',
+              buttonFn: () {
+                showModalBottomSheet(
+                  context: context,
+                  isDismissible: false,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20),
                     ),
-                    builder: (context) {
-                      return CaseManagementCreateAppointment(
-                        // 'Harold Pain',
-                        selectedDate,
-                        selectedTime,
-                        // cmInfo.pName
-                      );
-                    },
-                  );
-                }),
+                  ),
+                  builder: (context) {
+                    return CaseManagementCreateAppointment(
+                      // 'Harold Pain',
+                      _loadEvent(),
+                      // selectedDate,
+                      // selectedTime,
+                      // cmInfo.pName
+                    );
+                  },
+                );
+              },
+            ),
           ),
           SizedBox(
             height: 10,
