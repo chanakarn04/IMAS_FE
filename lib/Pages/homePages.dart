@@ -7,6 +7,7 @@ import '../Widget/adaptiveRaisedButton.dart';
 import '../Widget/Logo.dart';
 import '../Widget/sideDrawer.dart';
 import '../Provider/user-info.dart';
+import '../Script/socketioScript.dart';
 
 class HomePage extends StatefulWidget {
   static const routeName = '/home';
@@ -41,6 +42,35 @@ class _HomePageState extends State<HomePage> {
             // Drawer(),
             SizedBox(
               height: mdqr.size.height * 0.35,
+              child: Row(
+                children: [
+                  TextButton(
+                    onPressed: () {
+                      print('=======> chat queue <=======');
+                      socketIO.emit('event', [
+                        {
+                          'transaction': 'chatQueue',
+                          'payload': {'role': 'doctor'},
+                        }
+                      ]);
+                    },
+                    child: Text('online'),
+                  ),
+                  SizedBox(width: 15),
+                  TextButton(
+                    onPressed: () {
+                      print('=======> delete from queue <=======');
+                      socketIO.emit('event', [
+                        {
+                          'transaction': 'deleteFromQueue',
+                          // 'payload': {'role': 'doctor'},
+                        }
+                      ]);
+                    },
+                    child: Text('offline'),
+                  ),
+                ],
+              ),
             ),
             Container(
                 height: mdqr.size.height * 0.25,
@@ -54,7 +84,8 @@ class _HomePageState extends State<HomePage> {
               child: Text(
                 (userInfo.role == Role.Patient)
                     ? 'Hi. I can help you find\nwhat’s going on.\nJust start a symptom\nassessment.'
-                    : 'Welcome ${userInfo.userFname}',
+                    : 'Welcome ${userInfo.userData['fname']}',
+                // : 'Welcome ${userInfo.userFname}',
                 style: TextStyle(
                   color: scndColor,
                   fontSize: 16,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-// import 'package:intl/intl.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../Provider/user-info.dart';
@@ -33,6 +33,7 @@ class ProfileDoctorBody extends StatelessWidget {
       namePrefix: 'Dr.',
       drName: 'dName',
       drSurname: 'dSurname',
+      dob: DateTime(1998, 3, 4),
       gender: Gender.Male,
       citizenID: '1234567890123',
       mdID: '1234567890123',
@@ -58,16 +59,17 @@ class ProfileDoctorBody extends StatelessWidget {
   Widget build(BuildContext context) {
     final userInfo = Provider.of<UserInfo>(context);
     dInfo = _loadData();
-    return Center(
-      child: Column(
+    return Container(
+      height: MediaQuery.of(context).size.height,
+      width: MediaQuery.of(context).size.width,
+      child: Stack(
         // mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
+            padding: EdgeInsets.only(
+              top: MediaQuery.of(context).padding.top + 10,
+            ),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(40),
-                bottomRight: Radius.circular(40),
-              ),
               gradient: LinearGradient(
                 colors: [
                   Theme.of(context).primaryColor,
@@ -78,172 +80,225 @@ class ProfileDoctorBody extends StatelessWidget {
               ),
             ),
             alignment: Alignment.center,
-            height: 120,
-            child: Container(
-              height: 100,
-              width: 100,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  fit: BoxFit.contain,
-                  image: AssetImage(
-                    'assets/images/default_photo.png',
+            height: 250,
+            child: Column(
+              children: [
+                Container(
+                  padding: EdgeInsets.only(left: 15),
+                  alignment: Alignment.centerLeft,
+                  child: InkWell(
+                    child: Icon(
+                      Icons.arrow_back_ios_rounded,
+                      color: Colors.white,
+                    ),
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
                   ),
                 ),
-                shape: BoxShape.circle,
-                border: Border.all(
-                  width: 2,
-                  color: Colors.white,
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 20,
+                    horizontal: 15,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        height: 80,
+                        width: 80,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            fit: BoxFit.contain,
+                            image: AssetImage(
+                              'assets/images/default_photo.png',
+                            ),
+                          ),
+                          shape: BoxShape.circle,
+
+                        ),
+                      ),
+                      SizedBox(
+                        width: 15,
+                      ),
+                      Text(
+                        '${dInfo.drName} ${dInfo.drSurname}',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
+              ],
             ),
           ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(
-                top: 8.0,
-                left: 8.0,
-                right: 8.0,
+          Positioned(
+            height: MediaQuery.of(context).size.height -
+                (MediaQuery.of(context).padding.top + 154),
+            width: MediaQuery.of(context).size.width - 40,
+            bottom: 0,
+            left: 20,
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20),
+                  topRight: Radius.circular(20),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.3),
+                    spreadRadius: 5,
+                    blurRadius: 7,
+                    offset: Offset(0, 3), // changes position of shadow
+                  ),
+                ],
               ),
               child: ListView(
                 children: [
                   headerBox(
                     context,
-                    'Basic info',
+                    'General Infomation',
                     Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'Name',
-                          style: TextStyle(
-                            color: Colors.grey,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            left: 8.0,
-                            bottom: 8.0,
-                          ),
-                          child: Text(
-                            userInfo.userFname,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 20,
+                        Row(
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Email',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: Color.fromARGB(255, 125, 125, 125),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  'Date of birth',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: Color.fromARGB(255, 125, 125, 125),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  'Gender',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: Color.fromARGB(255, 125, 125, 125),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
-                        ),
-                        Text(
-                          'Email',
-                          style: TextStyle(
-                            color: Colors.grey,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            left: 8.0,
-                            bottom: 8.0,
-                          ),
-                          child: Text(
-                            userInfo.userId,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 20,
+                            SizedBox(
+                              width: 20,
                             ),
-                          ),
-                        ),
-                        // Text(
-                        //   'Date of birth',
-                        //   style: TextStyle(
-                        //     color: Colors.grey,
-                        //   ),
-                        // ),
-                        // Padding(
-                        //   padding: const EdgeInsets.only(
-                        //     left: 8.0,
-                        //     bottom: 8.0,
-                        //   ),
-                        //   child: Text(
-                        //     DateFormat.yMMMMd().format(dInfo.),
-                        //     style: TextStyle(
-                        //       color: Colors.black,
-                        //       fontSize: 20,
-                        //     ),
-                        //   ),
-                        // ),
-                        Text(
-                          'Gender',
-                          style: TextStyle(
-                            color: Colors.grey,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            left: 8.0,
-                            bottom: 8.0,
-                          ),
-                          child: Text(
-                            genderText,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 20,
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  '${userInfo.userId}',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  DateFormat.yMMMMd().format(dInfo.dob),
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  genderText,
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                  ),
+                                )
+                              ],
                             ),
-                          ),
+                          ],
                         ),
-                        Text(
-                          'Citizen ID',
-                          style: TextStyle(
-                            color: Colors.grey,
-                          ),
+                        Container(
+                          margin: EdgeInsets.only(top: 12),
+                          height: 2,
+                          color: Colors.grey.withAlpha(100),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            left: 8.0,
-                            bottom: 8.0,
-                          ),
-                          child: Text(
-                            dInfo.citizenID.toString(),
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 20,
+                      ],
+                    ),
+                  ),
+                  headerBox(
+                    context,
+                    'Medical certification',
+                    Column(
+                      children: [
+                        Row(
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Medical ID',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: Color.fromARGB(255, 125, 125, 125),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  'Certificcate ID',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: Color.fromARGB(255, 125, 125, 125),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
-                        ),
-                        Text(
-                          'Medical ID',
-                          style: TextStyle(
-                            color: Colors.grey,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            left: 8.0,
-                            bottom: 8.0,
-                          ),
-                          child: Text(
-                            dInfo.mdID,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 20,
+                            SizedBox(
+                              width: 20,
                             ),
-                          ),
-                        ),
-                        Text(
-                          'Certificate ID',
-                          style: TextStyle(
-                            color: Colors.grey,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            left: 8.0,
-                            bottom: 8.0,
-                          ),
-                          child: Text(
-                            dInfo.certID,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 20,
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  '${dInfo.mdID}',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  '${dInfo.certID}',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
+                          ],
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top: 12),
+                          height: 2,
+                          color: Colors.grey.withAlpha(100),
                         ),
                       ],
                     ),
@@ -252,6 +307,161 @@ class ProfileDoctorBody extends StatelessWidget {
               ),
             ),
           ),
+          // Expanded(
+          //   child: Padding(
+          //     padding: const EdgeInsets.only(
+          //       top: 8.0,
+          //       left: 8.0,
+          //       right: 8.0,
+          //     ),
+          //     child: ListView(
+          //       children: [
+          //         headerBox(
+          //           context,
+          //           'Basic info',
+          //           Column(
+          //             crossAxisAlignment: CrossAxisAlignment.start,
+          //             children: [
+          //               Text(
+          //                 'Name',
+          //                 style: TextStyle(
+          //                   color: Colors.grey,
+          //                 ),
+          //               ),
+          //               Padding(
+          //                 padding: const EdgeInsets.only(
+          //                   left: 8.0,
+          //                   bottom: 8.0,
+          //                 ),
+          //                 child: Text(
+          //                   userInfo.userFname,
+          //                   style: TextStyle(
+          //                     color: Colors.black,
+          //                     fontSize: 20,
+          //                   ),
+          //                 ),
+          //               ),
+          //               Text(
+          //                 'Email',
+          //                 style: TextStyle(
+          //                   color: Colors.grey,
+          //                 ),
+          //               ),
+          //               Padding(
+          //                 padding: const EdgeInsets.only(
+          //                   left: 8.0,
+          //                   bottom: 8.0,
+          //                 ),
+          //                 child: Text(
+          //                   userInfo.userId,
+          //                   style: TextStyle(
+          //                     color: Colors.black,
+          //                     fontSize: 20,
+          //                   ),
+          //                 ),
+          //               ),
+          //               // Text(
+          //               //   'Date of birth',
+          //               //   style: TextStyle(
+          //               //     color: Colors.grey,
+          //               //   ),
+          //               // ),
+          //               // Padding(
+          //               //   padding: const EdgeInsets.only(
+          //               //     left: 8.0,
+          //               //     bottom: 8.0,
+          //               //   ),
+          //               //   child: Text(
+          //               //     DateFormat.yMMMMd().format(dInfo.),
+          //               //     style: TextStyle(
+          //               //       color: Colors.black,
+          //               //       fontSize: 20,
+          //               //     ),
+          //               //   ),
+          //               // ),
+          //               Text(
+          //                 'Gender',
+          //                 style: TextStyle(
+          //                   color: Colors.grey,
+          //                 ),
+          //               ),
+          //               Padding(
+          //                 padding: const EdgeInsets.only(
+          //                   left: 8.0,
+          //                   bottom: 8.0,
+          //                 ),
+          //                 child: Text(
+          //                   genderText,
+          //                   style: TextStyle(
+          //                     color: Colors.black,
+          //                     fontSize: 20,
+          //                   ),
+          //                 ),
+          //               ),
+          //               Text(
+          //                 'Citizen ID',
+          //                 style: TextStyle(
+          //                   color: Colors.grey,
+          //                 ),
+          //               ),
+          //               Padding(
+          //                 padding: const EdgeInsets.only(
+          //                   left: 8.0,
+          //                   bottom: 8.0,
+          //                 ),
+          //                 child: Text(
+          //                   dInfo.citizenID.toString(),
+          //                   style: TextStyle(
+          //                     color: Colors.black,
+          //                     fontSize: 20,
+          //                   ),
+          //                 ),
+          //               ),
+          //               Text(
+          //                 'Medical ID',
+          //                 style: TextStyle(
+          //                   color: Colors.grey,
+          //                 ),
+          //               ),
+          //               Padding(
+          //                 padding: const EdgeInsets.only(
+          //                   left: 8.0,
+          //                   bottom: 8.0,
+          //                 ),
+          //                 child: Text(
+          //                   dInfo.mdID,
+          //                   style: TextStyle(
+          //                     color: Colors.black,
+          //                     fontSize: 20,
+          //                   ),
+          //                 ),
+          //               ),
+          //               Text(
+          //                 'Certificate ID',
+          //                 style: TextStyle(
+          //                   color: Colors.grey,
+          //                 ),
+          //               ),
+          //               Padding(
+          //                 padding: const EdgeInsets.only(
+          //                   left: 8.0,
+          //                   bottom: 8.0,
+          //                 ),
+          //                 child: Text(
+          //                   dInfo.certID,
+          //                   style: TextStyle(
+          //                     color: Colors.black,
+          //                     fontSize: 20,
+          //                   ),
+          //                 ),
+          //               ),
+          //             ],
+          //           ),
+          //         ),
+          //       ],
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );

@@ -18,24 +18,18 @@ class RegisterPatient1Screen extends StatefulWidget {
 class _RegisterPatient1ScreenState extends State<RegisterPatient1Screen> {
   final _formKey = GlobalKey<FormState>();
 
-  // var _isLogin = false;
-
   final emailTxtCtrl = TextEditingController();
   final passwordTxtCtrl = TextEditingController();
   final cfPasswordTxtCtrl = TextEditingController();
   final fnameTxtCtrl = TextEditingController();
   final snameTxtCtrl = TextEditingController();
-  // Map<String, dynamic> registerData = {};
   String email;
   String password;
   String cfPassword;
   String fname;
   String sname;
   DateTime selectedDate;
-  int selectedGender = 0; // 0 as Male, 1 as Female
-  // var _pwsValidate = true;
-  // var _mailValidate = true;
-  // var _submitValidate = false;
+  bool selectedGender = true; // true as Male, false as Female
 
   Map<String, dynamic> registerData = {};
 
@@ -75,47 +69,11 @@ class _RegisterPatient1ScreenState extends State<RegisterPatient1Screen> {
 
   void toggleGender() {
     setState(() {
-      if (selectedGender == 0) {
-        selectedGender = 1;
-      } else {
-        selectedGender = 0;
-      }
+      selectedGender = !selectedGender;
     });
   }
 
-  // void checkCfPwd() {
-  //   if (pswTxtCtrl.text == cfPswTxtCtrl.text) {
-  //     setState(() {
-  //       _pwsValidate = true;
-  //     });
-  //   } else {
-  //     setState(() {
-  //       pswTxtCtrl.clear();
-  //       cfPswTxtCtrl.clear();
-  //       _pwsValidate = false;
-  //     });
-  //   }
-  // }
-
-  // void checkMail() {
-  //   if (RegExp(
-  //           r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-  //       .hasMatch(usrnTxtCtrl.text)) {
-  //     // print('Hi there if');
-  //     setState(() {
-  //       _mailValidate = true;
-  //     });
-  //   } else {
-  //     // print('Hi there else');
-  //     setState(() {
-  //       usrnTxtCtrl.clear();
-  //       // cfPswTxtCtrl.clear();
-  //       _mailValidate = false;
-  //     });
-  //   }
-  // }
-
-  Widget buildGenderCard(BuildContext context, int gender, String text) {
+  Widget buildGenderCard(BuildContext context, bool gender, String text) {
     if (selectedGender == gender) {
       return Container(
         height: 40,
@@ -272,6 +230,9 @@ class _RegisterPatient1ScreenState extends State<RegisterPatient1Screen> {
                                   onEditingComplete: () {
                                     FocusScope.of(context).nextFocus();
                                   },
+                                  onFieldSubmitted: (value) {
+                                    email = value;
+                                  },
                                 ),
                               ),
                               SizedBox(
@@ -370,45 +331,6 @@ class _RegisterPatient1ScreenState extends State<RegisterPatient1Screen> {
                                   ],
                                 ),
                               ),
-                              // Row(
-                              //   children: <Widget>[
-                              //     Text(
-                              //       'Date of Birth',
-                              //       style: TextStyle(
-                              //           color: Colors.grey[700], fontSize: 16),
-                              //     ),
-                              //     Expanded(
-                              //       child: Container(
-                              //         alignment: Alignment.centerRight,
-                              //         child: dob == null
-                              //             ? Text(
-                              //                 'No date chosen yet.',
-                              //                 style: TextStyle(
-                              //                   fontSize: 18,
-                              //                   color: Colors.grey,
-                              //                 ),
-                              //               )
-                              //             : Text(
-                              //                 '${DateFormat.yMd().format(dob)}',
-                              //                 style: TextStyle(
-                              //                   fontSize: 18,
-                              //                   color: Theme.of(context)
-                              //                       .primaryColor,
-                              //                   fontWeight: FontWeight.bold,
-                              //                 ),
-                              //               ),
-                              //       ),
-                              //     ),
-                              //     IconButton(
-                              //       iconSize: 36,
-                              //       icon: Icon(
-                              //         Icons.calendar_today_rounded,
-                              //         color: Theme.of(context).primaryColor,
-                              //       ),
-                              //       onPressed: _presentDatePicker,
-                              //     ),
-                              //   ],
-                              // ),
                               SizedBox(
                                 height: 50,
                                 child: Row(
@@ -421,11 +343,11 @@ class _RegisterPatient1ScreenState extends State<RegisterPatient1Screen> {
                                           fontSize: 16),
                                     ),
                                     Expanded(child: Container()),
-                                    buildGenderCard(context, 0, 'Male'),
+                                    buildGenderCard(context, true, 'Male'),
                                     SizedBox(
                                       width: 10,
                                     ),
-                                    buildGenderCard(context, 1, 'Female'),
+                                    buildGenderCard(context, false, 'Female'),
                                   ],
                                 ),
                               ),
@@ -450,11 +372,12 @@ class _RegisterPatient1ScreenState extends State<RegisterPatient1Screen> {
                                       dropdownDatePicker.day,
                                     );
                                     registerData.addAll({
-                                      'email': email,
+                                      'userRole': 'patient',
+                                      'userName': email,
                                       'password': password,
-                                      'firstName': fname,
-                                      'surName': sname,
-                                      'dob': selectedDate,
+                                      'PName': fname,
+                                      'PSurname': sname,
+                                      'DoB': selectedDate.toString(),
                                       'gender': selectedGender,
                                     });
                                     Navigator.of(context).pushNamed(

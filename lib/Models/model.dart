@@ -5,6 +5,31 @@ enum Status { Yes, No, NotSure }
 enum AptStatus { Edited, Passed, Lastest }
 enum TreatmentStatus { InProgress, Cured, Hospital, Api }
 
+Gender gernderGenerate(bool gender) {
+  switch (gender) {
+    case true:
+      return Gender.Male;
+      break;
+    case false:
+      return Gender.Female;
+      break;
+  }
+}
+
+Status statusGenerate(int status) {
+  switch (status) {
+    case 0:
+      return Status.NotSure;
+      break;
+    case 1:
+      return Status.No;
+      break;
+    case 2:
+      return Status.Yes;
+      break;
+  }
+}
+
 class Patient {
   final String pId;
   // final String userName;
@@ -40,6 +65,7 @@ class Doctor {
   final String namePrefix;
   final String drName;
   final String drSurname;
+  final DateTime dob;
   final Gender gender;
   final String citizenID;
   final String mdID;
@@ -52,6 +78,7 @@ class Doctor {
     @required this.namePrefix,
     @required this.drName,
     @required this.drSurname,
+    @required this.dob,
     @required this.gender,
     @required this.citizenID,
     @required this.mdID,

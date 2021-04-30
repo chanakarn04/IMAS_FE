@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 
-// import '../../dummy_data.dart';
-// import '../../Widget/AdaptiveRaisedButton.dart';
-// import '../../Widget/adaptiveBorderButton.dart';
 import '../../Models/model.dart';
 import '../../Widget/progressDot.dart';
 import './registerPatientScreen_3.dart';
@@ -36,6 +33,16 @@ class _RegisterPatient2ScreenState extends State<RegisterPatient2Screen> {
     setState(() {
       isSmoke = selectStatus;
     });
+  }
+
+  int statusTranslate(Status status) {
+    if (status == Status.No) {
+      return 0;
+    } else if (status == Status.NotSure) {
+      return 1;
+    } else {
+      return 2;
+    }
   }
 
   Widget buildSelectionDot(
@@ -290,9 +297,9 @@ class _RegisterPatient2ScreenState extends State<RegisterPatient2Screen> {
                     ElevatedButton(
                       onPressed: () {
                         registerData.addAll({
-                          'hasHighPress': hasHighPress,
-                          'isDiabetes': isDiabetes,
-                          'isSmoke': isSmoke,
+                          'isSmoke': statusTranslate(isSmoke),
+                          'isDiabetes': statusTranslate(isDiabetes),
+                          'hasHighPress': statusTranslate(hasHighPress),
                         });
                         Navigator.of(context)
                             .pushNamed(RegisterPatient3Screen.routeName, arguments: registerData);

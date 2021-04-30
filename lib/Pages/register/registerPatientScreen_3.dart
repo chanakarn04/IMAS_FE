@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
-
+import 'package:provider/provider.dart';
 // import '../loginPage.dart';
 // import '../../Widget/AdaptiveRaisedButton.dart';
 // import '../../Widget/adaptiveBorderButton.dart';
+// import '../../Script/socketioScript.dart' as socketIO;
+import '../../Script/socketioScript.dart';
+import '../../Provider/user-info.dart';
 import '../../Widget/progressDot.dart';
 import '../../Widget/drugAllergyListItemBox.dart';
 import '../../Widget/registeredBody.dart';
+import '../../Widget/registerError.dart';
 
 class RegisterPatient3Screen extends StatefulWidget {
   static const routeName = '/Register-patient-step3';
@@ -17,7 +21,21 @@ class RegisterPatient3Screen extends StatefulWidget {
 class _RegisterPatient3ScreenState extends State<RegisterPatient3Screen> {
   List<String> drug = [];
 
-  var _isLogIn = false;
+  var _isRegistered = false;
+  var _isRegistering = false;
+  var _isRegisterSuccess = false;
+  var _init = false;
+  String errorDescribe;
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    if (!_init) {
+      errorDescribe = '';
+      _init = !_init;
+    }
+    super.didChangeDependencies();
+  }
 
   void addDrug(String drugName) {
     drug.add(drugName);
@@ -33,11 +51,55 @@ class _RegisterPatient3ScreenState extends State<RegisterPatient3Screen> {
 
   @override
   Widget build(BuildContext context) {
+    final userInfo = Provider.of<UserInfo>(context);
     Map<String, dynamic> registerData =
         ModalRoute.of(context).settings.arguments;
     return Scaffold(
-      body: (_isLogIn)
-          ? registerdBody(context)
+      body: (_isRegistering)
+          ? (_isRegistered)
+              ? (_isRegisterSuccess)
+                  ? registerdBody(context)
+                  : registerError(
+                      context: context,
+                      title: Text(
+                        'Oops!',
+                        style: TextStyle(
+                          fontSize: 28,
+                        ),
+                      ),
+                      describe: Text(
+                        errorDescribe,
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.grey,
+                        ),
+                      ))
+              : Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        height: 80,
+                        width: 80,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 8.0,
+                          valueColor: new AlwaysStoppedAnimation<Color>(
+                              Theme.of(context).primaryColor),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Text(
+                        'Registering...',
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 20,
+                        ),
+                      )
+                    ],
+                  ),
+                )
           : SingleChildScrollView(
               child: Container(
                 padding: EdgeInsets.only(
@@ -135,13 +197,49 @@ class _RegisterPatient3ScreenState extends State<RegisterPatient3Screen> {
                               ElevatedButton(
                                 onPressed: () {
                                   registerData.addAll({
-                                    'drugAllegy': drug,
+                                    'patDrugAllergy': drug,
                                   });
+                                  print(registerData);
                                   // ... send register to server HERE
                                   // ... use RegisteredData
+                                  Map<String, String> token = {
+                                    'token': '',
+                                    'userid': '',
+                                  };
+                                  socketConnect(token).then((_) async {
+                                    await socketIO.emit('event', [
+                                      {
+                                        'transaction': 'register',
+                                        'payload': registerData
+                                      }
+                                    ]);
+                                    socketIO.on('r-register').listen((data) {
+                                      // print('On r-register: $data');
+                                      print(
+                                          'On r-register: ${data[0]['value']['payload']['message']}');
+                                      // something  more
+                                      if (data != null) {
+                                        setState(() {
+                                          _isRegistered = true;
+                                        });
+                                        if (data[0]['value']['payload']
+                                                ['message'] ==
+                                            'Register success') {
+                                          setState(() {
+                                            _isRegisterSuccess = true;
+                                          });
+                                        } else {
+                                          setState(() {
+                                            errorDescribe = data[0]['value']
+                                                ['payload']['message'];
+                                          });
+                                        }
+                                      }
+                                    });
+                                  });
                                   // ...
                                   setState(() {
-                                    _isLogIn = true;
+                                    _isRegistering = true;
                                   });
                                   // Navigator.of(context)
                                   //     .pushNamed(RegisterPatient3Screen.routeName);
@@ -173,151 +271,40 @@ class _RegisterPatient3ScreenState extends State<RegisterPatient3Screen> {
                   ],
                 ),
               ),
-
-              // Container(
-              //   padding: EdgeInsets.only(
-              //     left: 30,
-              //     right: 30,
-              //     bottom: 30,
-              //     top: 50,
-              //   ),
-              //   height: MediaQuery.of(context).size.height,
-              //   width: MediaQuery.of(context).size.width,
-              //   child: Column(
-              //     mainAxisAlignment: MainAxisAlignment.start,
-              //     crossAxisAlignment: CrossAxisAlignment.center,
-              //     children: <Widget>[
-              //       Container(
-              //         alignment: Alignment.centerLeft,
-              //         child: Text(
-              //           'Register',
-              //           style: TextStyle(
-              //             color: Theme.of(context).primaryColor,
-              //             fontSize: 36,
-              //             fontWeight: FontWeight.bold,
-              //           ),
-              //         ),
-              //       ),
-              //       SizedBox(
-              //         height: 35,
-              //       ),
-              //       Container(
-              //         alignment: Alignment.centerLeft,
-              //         child: Text(
-              //           'Do you have any drug allergy?',
-              //           style: TextStyle(fontSize: 24),
-              //         ),
-              //       ),
-              //       SizedBox(
-              //         height: 10,
-              //       ),
-              //       Expanded(
-              //         // height: (length < 7) ? 50 * length.toDouble() : 350,
-              //         // color: Colors.pink[200],
-              //         child: (length == 0)
-              //             ? Container(
-              //                 // color: Colors.amber,
-              //                 alignment: Alignment.topLeft,
-              //                 child: Text(
-              //                     'No drugs yet.\nTap add button on bottom right corner'))
-              //             : ListView.builder(
-              //                 padding: EdgeInsets.only(left: 10),
-              //                 itemBuilder: (context, index) {
-              //                   return Row(
-              //                     children: [
-              //                       Expanded(
-              //                         child: SizedBox(
-              //                           height: 50,
-              //                           child: TextField(
-              //                             controller: textControllers[index],
-              //                             decoration: InputDecoration(
-              //                                 hintText: 'e.g. Paracetamol'),
-              //                           ),
-              //                         ),
-              //                       ),
-              //                       IconButton(
-              //                         icon: Icon(
-              //                           Icons.delete_rounded,
-              //                           color: Colors.grey,
-              //                         ),
-              //                         onPressed: rmvTextField,
-              //                       )
-              //                     ],
-              //                   );
-              //                 },
-              //                 itemCount: length,
-              //               ),
-              //       ),
-              //       SizedBox(
-              //         height: 15,
-              //       ),
-              //       Align(
-              //         alignment: Alignment.centerRight,
-              //         child: Container(
-              //           height: 52,
-              //           width: 52,
-              //           decoration: BoxDecoration(
-              //             shape: BoxShape.circle,
-              //             color: Theme.of(context).primaryColor,
-              //           ),
-              //           child: IconButton(
-              //             icon: Icon(Icons.add_rounded),
-              //             color: Colors.white,
-              //             onPressed: addTextField,
-              //           ),
-              //         ),
-              //       ),
-              //       // Expanded(child: Container()),
-              //       SizedBox(
-              //         height: 15,
-              //       ),
-              //       ProgressDot(
-              //         length: 3,
-              //         markedIndex: 3,
-              //       ),
-              //       SizedBox(
-              //         height: 15,
-              //       ),
-              //       Row(
-              //         mainAxisAlignment: MainAxisAlignment.center,
-              //         children: <Widget>[
-              //           AdaptiveBorderButton(
-              //             buttonText: 'Back',
-              //             handlerFn: () {
-              //               Navigator.of(context).pop();
-              //             },
-              //             width: 130,
-              //             height: 50,
-              //           ),
-              //           SizedBox(
-              //             width: 30,
-              //           ),
-              //           AdaptiveRaisedButton(
-              //             buttonText: (length == 0) ||
-              //                     (length == 1 && textControllers[0].text.isEmpty)
-              //                 ? 'Skip'
-              //                 : 'Submit',
-              //             handlerFn: () {
-              //               // add list of drug allergy to allergy key
-              //               // like {'allergy': list}
-              //               // ...
-              //               // update to server
-              //               // ...
-              //               // show alertDialog
-              //               // ...
-              //               Navigator.of(context)
-              //                   .popUntil(ModalRoute.withName(LogInPage.routeName));
-              //               print('Register Done!!');
-              //             },
-              //             width: 120,
-              //             height: 40,
-              //           ),
-              //         ],
-              //       ),
-              //     ],
-              //   ),
-              // ),
             ),
     );
   }
 }
+
+// [
+//   {
+//     magicByte: 2,
+//     attributes: 0,
+//     timestamp: 1619595297592,
+//     offset: 34, 
+//     key: null, 
+//     value: {
+//       transaction: r-register, 
+//       passport: {token: , userid: a@b.c}, 
+//       payload: {message: Register success, socketId: VTq2MQTf7Hk_6OIYAAAB}
+//     }, 
+//     headers: {}, i
+//     sControlRecord: false, 
+//     batchContext: {
+//       firstOffset: 34, 
+//       firstTimestamp: 1619595297592, 
+//       partitionLeaderEpoch: 0, 
+//       inTransaction: false, 
+//       isControlBatch: false, 
+//       lastOffsetDelta: 0, 
+//       producerId: -1, 
+//       producerEpoch: 0, 
+//       firstSequence: 0, 
+//       maxTimestamp: 1619595297592, 
+//       timestampType: 0, 
+//       magicByte: 2
+//     }, 
+//     topic: gateway, 
+//     partition: 0,
+//   }
+// ]

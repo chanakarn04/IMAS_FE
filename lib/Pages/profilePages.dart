@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../Widget/profile_patinent_body.dart';
 import '../Widget/profile_doctor_body.dart';
 import '../Provider/user-info.dart';
-import '../Models/model.dart';
+// import '../Models/model.dart';
 
 class ProfilePages extends StatelessWidget {
   static const routeName = '/profile';
@@ -22,7 +22,7 @@ class ProfilePages extends StatelessWidget {
             Text(
               title,
               style: TextStyle(
-                color: Theme.of(context).accentColor,
+                color: Theme.of(context).primaryColor,
                 fontSize: 24,
               ),
             ),
@@ -44,22 +44,11 @@ class ProfilePages extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(
             left: 12,
-            top: 4,
-            bottom: 4,
+            top: 15,
+            bottom: 8,
             right: 8,
           ),
-          child: Container(
-            decoration: BoxDecoration(
-              border: Border.all(
-                width: 2,
-                color: Theme.of(context).accentColor,
-              ),
-              borderRadius: BorderRadius.circular(15),
-            ),
-            padding: EdgeInsets.all(15),
-            alignment: Alignment.centerLeft,
-            child: child,
-          ),
+          child:  child,
         ),
         SizedBox(
           height: 10.0,
@@ -72,33 +61,8 @@ class ProfilePages extends StatelessWidget {
   Widget build(BuildContext context) {
     final userInfo = Provider.of<UserInfo>(context, listen: false);
     return Scaffold(
-      appBar: AppBar(
-        iconTheme: IconThemeData(
-          color: Colors.white,
-        ),
-        backgroundColor: Theme.of(context).primaryColor,
-        leading: IconButton(
-            icon: Icon(Icons.arrow_back_ios_rounded),
-            onPressed: () => Navigator.of(context).pop()),
-        title: Container(
-          alignment: Alignment.center,
-          child: Text(
-            'Profile',
-            style: TextStyle(color: Colors.white),
-          ),
-        ),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(
-              Icons.menu_rounded,
-              color: Colors.transparent,
-            ),
-            onPressed: null,
-          )
-        ],
-      ),
       body: (userInfo.role == Role.Patient)
-          ? ProfilePatientBody(_buildHeaderBox)
+          ? ProfilePatientBody(_buildHeaderBox, userInfo.userId)
           : ProfileDoctorBody(_buildHeaderBox),
     );
   }

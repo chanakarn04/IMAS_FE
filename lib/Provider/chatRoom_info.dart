@@ -3,6 +3,8 @@ import 'package:flutter/foundation.dart';
 
 // import '../Models/model.dart';
 import './user-info.dart';
+import '../Script/socketioScript.dart';
+// import ;
 
 class ChatMessage {
   final String message;
@@ -22,20 +24,26 @@ class ChatRoomProvider with ChangeNotifier {
   String opUserId = '';
   String note = '';
 
-  void chatRequest() {
+  void chatRequest(Role role) {
     // in patient send userId to request
-    // ...
+    socketIO.emit('event', [
+      {
+        'transaction': 'chatQueue',
+        'payload': {'role': roleTranslate(role)}
+      }
+    ]);
 
     // in doctor trigger status to online to request
     // ...
 
     // if chat Room was create will get notification
     // NOTIFICATION??
+    
     // get chatRoomId
-    chatRoomId = 'x000yx000y';
+    // chatRoomId = 'x000yx000y';
     // get opposite User id
-    opUserId = 'x0001';
-    notifyListeners();
+    // opUserId = 'x0001';
+    // notifyListeners();
   }
 
   void chatRegistor() {

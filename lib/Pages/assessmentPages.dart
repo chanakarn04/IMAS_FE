@@ -118,25 +118,6 @@ class _AssessmentPagesState extends State<AssessmentPages> {
                         ),
                       ),
                     ),
-                    // Positioned(
-                    //   top: 70,
-                    //   // size of screen - padding - container size
-                    //   right:
-                    //       (MediaQuery.of(context).size.width - 20 - 60) * 0.5,
-                    //   height: 15,
-                    //   width: 60,
-                    //   child: Align(
-                    //     alignment: Alignment.center,
-                    //     child: InkWell(
-                    //       onTap: () {
-                    //         print('search Neck');
-                    //       },
-                    //       child: Container(
-                    //         color: Colors.red.withAlpha(55),
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
                     Positioned(
                       top: _imageHeight * 0.15,
                       // size of screen - padding - container size
@@ -152,9 +133,6 @@ class _AssessmentPagesState extends State<AssessmentPages> {
                             Navigator.of(context).pushNamed(SearchResultPages.routeName,
                               arguments: _symptomController.text);
                           },
-                          // child: Container(
-                          //   color: Colors.red.withAlpha(100),
-                          // ),
                         ),
                       ),
                     ),

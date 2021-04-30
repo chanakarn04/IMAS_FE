@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../Widget/diseaseDetailCard.dart';
+import '../Provider/symptomAssessment.dart';
+// import '../Script/socketioScript.dart';
 
 class DiseaseDetailPages extends StatelessWidget {
   static const routeName = '/disease-detail';
@@ -14,6 +17,7 @@ class DiseaseDetailPages extends StatelessWidget {
     String cid,
   ) {
     //...
+    
 
     final data = {
       'cid': 'c_255',
@@ -29,6 +33,8 @@ class DiseaseDetailPages extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cid = ModalRoute.of(context).settings.arguments as String;
+    final symptomAssessment = Provider.of<SymptomAssessmentProvider>(context);
+    symptomAssessment.getConditionDetail(cid);
     final condition = _loadData(cid);
     final appBar = AppBar(
       centerTitle: true,

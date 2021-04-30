@@ -34,6 +34,7 @@ import './Pages/appointmentPatient.dart';
 import './Pages/appointmentDoctor.dart';
 import './Pages/as_addMoreSymptom.dart';
 import './Pages/Waiting.dart';
+import './Pages/loggingOut.dart';
 
 class Routes {
   static routes() {
@@ -72,6 +73,7 @@ class Routes {
       AppointmentDoctorPage.routeName: (ctx) => AppointmentDoctorPage(),
       AddMoreSymptom.routeName: (ctx) => AddMoreSymptom(),
       WaitingPage.routeName: (ctx) => WaitingPage(),
+      LoggingOut.routeName: (ctx) => LoggingOut(),
     };
   }
 

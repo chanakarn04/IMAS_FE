@@ -2,14 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import './chatRoom.dart';
+import '../Provider/user-info.dart';
 import '../Provider/chatRoom_info.dart';
 
 class WaitingPage extends StatelessWidget {
   static const routeName = '/wait';
+
   @override
   Widget build(BuildContext context) {
     final chatProvider = Provider.of<ChatRoomProvider>(context);
     print(chatProvider.chatRoomId);
+    // chatProvider.chatRequest(Role.Patient);
     // chatProvider.chatRequest();
     return Scaffold(
       appBar: AppBar(
@@ -32,7 +35,7 @@ class WaitingPage extends StatelessWidget {
             ),
             onPressed: () {
               // test
-              chatProvider.chatRequest();
+              // chatProvider.chatRequest(Role.Patient);
             },
           )
         ],

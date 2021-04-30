@@ -28,7 +28,7 @@ class _SideDrawerState extends State<SideDrawer> {
         String text,
         Function handler,
       ) {
-        return FlatButton(
+        return TextButton(
           onPressed: handler,
           child: Row(
             children: <Widget>[
@@ -87,7 +87,7 @@ class _SideDrawerState extends State<SideDrawer> {
                       value: userInfo.online,
                       activeColor: Theme.of(context).primaryColor,
                       onChanged: (bool newValue) {
-                        userInfo.triggerOnline();
+                        userInfo.triggerDoctorOnline();
                         if (newValue) {
                           setState(() {
                             drOnlineColor = Theme.of(context).primaryColor;

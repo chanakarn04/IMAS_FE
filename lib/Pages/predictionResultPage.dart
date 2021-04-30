@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:homepage_proto/Provider/user-info.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -11,6 +12,7 @@ import '../Widget/predResDisease.dart';
 import '../Widget/predResSymptom.dart';
 import '../Widget/AdaptiveRaisedButton.dart';
 import '../Widget/adaptiveBorderButton.dart';
+import '../Provider/chatRoom_info.dart';
 import '../Provider/symptomAssessment.dart';
 
 class PredictionResultPage extends StatefulWidget {
@@ -108,6 +110,7 @@ class _PredictionResultPageState extends State<PredictionResultPage> {
 
   @override
   Widget build(BuildContext context) {
+    final chatProvider = Provider.of<ChatRoomProvider>(context);
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(
@@ -211,6 +214,7 @@ class _PredictionResultPageState extends State<PredictionResultPage> {
                             buttonText: 'Meet Doctor',
                             handlerFn: () {
                               Navigator.of(context).pushReplacementNamed(WaitingPage.routeName);
+                              chatProvider.chatRequest(Role.Patient);
                               // Navigator.of(context)
                               //     .popUntil(ModalRoute.withName('/home'));
                             },

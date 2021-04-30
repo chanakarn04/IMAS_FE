@@ -22,15 +22,18 @@ class _SearchResultPagesState extends State<SearchResultPages> {
   // String _searchText;
   var _loadedData = false;
   String phrase = 'test';
-  List symptomList = [];
+  List<Map<String, dynamic>> symptomList = [];
   // Color tempColor = Colors.red;
   // String searchText;
 
   @override
-  void didChangeDependencies() {
+  void didChangeDependencies() async {
     // print(phrase);
     if (!_loadedData) {
       phrase = ModalRoute.of(context).settings.arguments as String;
+      final symptomAssessment =
+          Provider.of<SymptomAssessmentProvider>(context, listen: false);
+      await symptomAssessment.searchSymptom(phrase);
       _symptomController.text = phrase;
       _loadedData = true;
     }
@@ -67,16 +70,16 @@ class _SearchResultPagesState extends State<SearchResultPages> {
   @override
   Widget build(BuildContext context) {
     final userInfo = Provider.of<UserInfo>(context, listen: false);
-    final symptomAssessment = Provider.of<SymptomAssessmentProvider>(context, listen: false);
+    final symptomAssessment =
+        Provider.of<SymptomAssessmentProvider>(context, listen: false);
     // String searchText = ModalRoute.of(context).settings.arguments as String;
     // _symptomController.text = searchText;
     // phrase = searchText;
 
-
     // symptomAssessment.init(userInfo.userId);
     // setState(() {
     //   _symptomController.text = phrase;
-    //   symptomList = symptomAssessment.searchSymptom(phrase);    
+    //   symptomList = symptomAssessment.searchSymptom(phrase);
     // });
 
     final appBar = AppBar(
@@ -130,7 +133,19 @@ class _SearchResultPagesState extends State<SearchResultPages> {
                       appBar.preferredSize.height -
                       MediaQuery.of(context).padding.top) *
                   0.9,
-              child: SymptomCard(symptomAssessment.searchSymptom(phrase)),
+              child: (symptomAssessment.symptomSearching)
+                  ? Center(
+                      child: SizedBox(
+                        height: 60,
+                        width: 60,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 6.0,
+                          valueColor: new AlwaysStoppedAnimation<Color>(
+                              Theme.of(context).primaryColor),
+                        ),
+                      ),
+                    )
+                  : SymptomCard(symptomAssessment.symptomSearchList),
             )
           ],
         ),

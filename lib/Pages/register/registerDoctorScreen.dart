@@ -4,7 +4,10 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../loginPage.dart';
+import '../../Provider/user-info.dart';
 import '../../Widget/registeredBody.dart';
+import '../../Widget/registerError.dart';
+import '../../Script/socketioScript.dart';
 
 class RegisterDoctorScreen extends StatefulWidget {
   static const routeName = '/Register-doctor';
@@ -16,7 +19,21 @@ class RegisterDoctorScreen extends StatefulWidget {
 class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  var _isLogin = false;
+  var _isRegistered = false;
+  var _isRegistering = false;
+  var _isRegisterSuccess = false;
+  var _init = false;
+  String errorDescribe;
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    if (!_init) {
+      errorDescribe = '';
+      _init = !_init;
+    }
+    super.didChangeDependencies();
+  }
 
   final emailTxtCtrl = new TextEditingController();
   final passwordTxtCtrl = new TextEditingController();
@@ -37,7 +54,9 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
   String medID;
   String certID;
   DateTime dob;
-  int selectedGender = 0;
+  bool selectedGender = true;
+
+  Map<String, dynamic> registerData = {};
 
   // Doctor Prefix List
   // AuD - Doctor of Audiology
@@ -117,15 +136,11 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
 
   void toggleGender() {
     setState(() {
-      if (selectedGender == 0) {
-        selectedGender = 1;
-      } else {
-        selectedGender = 0;
-      }
+      selectedGender = !selectedGender;
     });
   }
 
-  Widget buildGenderCard(BuildContext context, int gender, String text) {
+  Widget buildGenderCard(BuildContext context, bool gender, String text) {
     if (selectedGender == gender) {
       return Container(
         height: 40,
@@ -190,14 +205,55 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final userInfo = Provider.of<UserInfo>(context);
     return Scaffold(
-      body: (_isLogin)
-          ? registerdBody(context)
+      body: (_isRegistering)
+          ? (_isRegistered)
+              ? (_isRegisterSuccess)
+                  ? registerdBody(context)
+                  : registerError(
+                      context: context,
+                      title: Text(
+                        'Oops!',
+                        style: TextStyle(
+                          fontSize: 28,
+                        ),
+                      ),
+                      describe: Text(
+                        errorDescribe,
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.grey,
+                        ),
+                      ))
+              : Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        height: 80,
+                        width: 80,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 8.0,
+                          valueColor: new AlwaysStoppedAnimation<Color>(
+                              Theme.of(context).primaryColor),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Text(
+                        'Registering...',
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 20,
+                        ),
+                      )
+                    ],
+                  ),
+                )
           : Container(
               padding: EdgeInsets.only(
-                // left: 15,
-                // right: 15,
-                // bottom: 30,
                 top: MediaQuery.of(context).padding.top + 5,
               ),
               height: MediaQuery.of(context).size.height,
@@ -421,45 +477,6 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
                                       ],
                                     ),
                                   ),
-                                  // Row(
-                                  //   children: <Widget>[
-                                  //     Text(
-                                  //       'Date of Birth',
-                                  //       style: TextStyle(
-                                  //           color: Colors.grey[700], fontSize: 16),
-                                  //     ),
-                                  //     Expanded(
-                                  //       child: Container(
-                                  //         alignment: Alignment.centerRight,
-                                  //         child: dob == null
-                                  //             ? Text(
-                                  //                 'No date chosen yet.',
-                                  //                 style: TextStyle(
-                                  //                   fontSize: 18,
-                                  //                   color: Colors.grey,
-                                  //                 ),
-                                  //               )
-                                  //             : Text(
-                                  //                 '${DateFormat.yMd().format(dob)}',
-                                  //                 style: TextStyle(
-                                  //                   fontSize: 18,
-                                  //                   color: Theme.of(context)
-                                  //                       .primaryColor,
-                                  //                   fontWeight: FontWeight.bold,
-                                  //                 ),
-                                  //               ),
-                                  //       ),
-                                  //     ),
-                                  //     IconButton(
-                                  //       iconSize: 36,
-                                  //       icon: Icon(
-                                  //         Icons.calendar_today_rounded,
-                                  //         color: Theme.of(context).primaryColor,
-                                  //       ),
-                                  //       onPressed: _presentDatePicker,
-                                  //     ),
-                                  //   ],
-                                  // ),
                                   SizedBox(
                                     height: 50,
                                     child: Row(
@@ -472,11 +489,12 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
                                               fontSize: 16),
                                         ),
                                         Expanded(child: Container()),
-                                        buildGenderCard(context, 0, 'Male'),
+                                        buildGenderCard(context, true, 'Male'),
                                         SizedBox(
                                           width: 10,
                                         ),
-                                        buildGenderCard(context, 1, 'Female'),
+                                        buildGenderCard(
+                                            context, false, 'Female'),
                                       ],
                                     ),
                                   ),
@@ -549,34 +567,60 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
                                           dropdownDatePicker.month,
                                           dropdownDatePicker.day,
                                         );
-                                        print('emial:     $email');
-                                        print('password:  $password');
-                                        print('prefix:    $prefix');
-                                        print('fname:     $fname');
-                                        print('sname:     $sname');
-                                        print(
-                                            'dob:       ${DateFormat.yMd().format(dob)}');
-                                        print('gender:    $selectedGender');
-                                        print('citizID:   $citizenID');
-                                        print('medID:     $medID');
-                                        print('certID:    $certID');
-                                        // ScaffoldMessenger.of(context)
-                                        //     .showSnackBar(SnackBar(
-                                        //         content:
-                                        //             Text('Processing Data')));
-                                        // ...
-                                        // send data to register in BE
-                                        //
-                                        setState(() {
-                                          _isLogin = true;
+                                        registerData.addAll({
+                                          'userRole': 'doctor',
+                                          'userName': email,
+                                          'password': password,
+                                          'DRName': fname,
+                                          'DRSurname': sname,
+                                          'nameSuffix': prefix,
+                                          'gender': selectedGender,
+                                          'citizenID': citizenID,
+                                          'MDID': medID,
+                                          'certID': certID,
                                         });
-                                        //
-                                        // ...
-                                        // Navigator.of(context).popUntil(
-                                        //     ModalRoute.withName(
-                                        //         LogInPage.routeName));
+                                        Map<String, String> token = {
+                                          'token': '',
+                                          'userid': '',
+                                        };
+                                        socketConnect(token).then((_) async {
+                                          await socketIO.emit('event', [
+                                            {
+                                              'transaction': 'register',
+                                              'payload': registerData
+                                            }
+                                          ]);
+                                          socketIO
+                                              .on('r-register')
+                                              .listen((data) {
+                                            // print('On r-register: $data');
+                                            print(
+                                                'On r-register: ${data[0]['value']['payload']['message']}');
+                                            // something  more
+                                            if (data != null) {
+                                              setState(() {
+                                                _isRegistered = true;
+                                              });
+                                              if (data[0]['value']['payload']
+                                                      ['message'] ==
+                                                  'Register success') {
+                                                setState(() {
+                                                  _isRegisterSuccess = true;
+                                                });
+                                              } else {
+                                                setState(() {
+                                                  errorDescribe = data[0]
+                                                          ['value']['payload']
+                                                      ['message'];
+                                                });
+                                              }
+                                            }
+                                          });
+                                        });
+                                        setState(() {
+                                          _isRegistering = true;
+                                        });
                                       }
-                                      // if (password != cfPassword)
                                     },
                                     style: ElevatedButton.styleFrom(
                                       primary: Theme.of(context).primaryColor,
@@ -587,7 +631,6 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
                                       elevation: 0,
                                     ),
                                     child: Container(
-                                      // padding: EdgeInsets.all(7),
                                       height: 30,
                                       width: 120,
                                       alignment: Alignment.center,
