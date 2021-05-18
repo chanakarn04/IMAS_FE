@@ -448,8 +448,8 @@ class SymptomAssessmentProvider with ChangeNotifier {
     // }
   }
 
-  Future<void> saveResult(String role) async {
-    Map<dynamic, dynamic> tempConditoins = {};
+  Future<void> saveResult(String userId) async {
+    Map<dynamic, dynamic> tempConditions = {};
     //     {
     //       "id": "c_255",
     //       "name": "Tetanus",
@@ -483,19 +483,21 @@ class SymptomAssessmentProvider with ChangeNotifier {
     //   ],
 
     for (Map condition in conditions) {
-      tempConditoins.putIfAbsent(
+      tempConditions.putIfAbsent(
           condition['id'], () => condition['common_name']);
     }
+
+    print(tempConditions);
 
     await socketIO.emit('event', [
       {
         'transaction': 'save-from-api',
         'payload': {
-          'pid': role,
+          'pid': userId,
           'status': 3,
           'apDt': DateTime.now().toString(),
           'symptoms': selectedSymptom,
-          'conditions': tempConditoins,
+          'conditions': tempConditions,
         },
       }
     ]);
@@ -509,6 +511,7 @@ class SymptomAssessmentProvider with ChangeNotifier {
     }
     print('save data');
     // {message: Successfully save data from API, tpid: 60a1d841be47e8001ff7f47c, apid: 60a1d841be47e8001ff7f47d}
+    // {message: Successfully save data from API, tpid: 60a3a1d307d806001e92fbb2, apid: 60a3a1d307d806001e92fbb3}
   }
 
   void clear() {

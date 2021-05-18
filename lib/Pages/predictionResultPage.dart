@@ -107,7 +107,7 @@ class _PredictionResultPageState extends State<PredictionResultPage> {
         conditions = symptomAssessment.conditions;
         await symptomAssessment.sendTriage();
         // triage_level = symptomAssessment.triage['triage_level'];
-        await symptomAssessment.saveResult(roleTranslate(userInfo.role));
+        await symptomAssessment.saveResult(userInfo.userData['userName']);
       } else {
         // if it history
         // query from database

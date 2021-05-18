@@ -8,6 +8,7 @@ import './Provider/caseManagement_Info.dart';
 import './Provider/vitalSign_Info.dart';
 import './Provider/chatRoom_info.dart';
 import './Provider/symptomAssessment.dart';
+import './Provider/assessmentHistory.dart';
 
 // 12123-12121
 // KMUTT-MD2564-99
@@ -38,7 +39,11 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => ChatRoomProvider(),
         ),
-          ChangeNotifierProvider(create: (context) => SymptomAssessmentProvider(),
+        ChangeNotifierProvider(
+          create: (context) => SymptomAssessmentProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => AssessmentHistoryProvider(),
         ),
       ],
       child: MaterialApp(

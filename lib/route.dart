@@ -36,6 +36,7 @@ import './Pages/as_addMoreSymptom.dart';
 import './Pages/WaitingDoctor.dart';
 // import './Pages/WaitChatroomCreating.dart';
 import './Pages/loggingOut.dart';
+import './Pages/detailAssessHist.dart';
 
 
 class Routes {
@@ -77,6 +78,7 @@ class Routes {
       WaitingPage.routeName: (ctx) => WaitingPage(),
       // WaitChatroomCreating.routeName: (ctx) => WaitChatroomCreating(),
       LoggingOut.routeName: (ctx) => LoggingOut(),
+      DetailAssessmentHistory.routeName: (ctx) => DetailAssessmentHistory(),
     };
   }
 

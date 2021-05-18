@@ -74,6 +74,8 @@ class UserInfo with ChangeNotifier {
   var loginIn = false;
   var loginError = false;
 
+  List<Map<String, dynamic>> assessmentHistory = [];
+
   // for test
   StreamSubscription countStreamSubscription;
 
@@ -207,12 +209,12 @@ class UserInfo with ChangeNotifier {
             //     {status: 2, apdt: 2021-05-11T07:34:05.239Z, _id: 609a336dc5100400298ed476, tpid_ref: 609a336dc5100400298ed475, __v: 0}
             //   ]
             // }
-            lastApt = appointment.firstWhere((apt) =>
-                (apt['status'] == AptStatus.Waiting) &&
-                (DateTime.now()
-                        .difference(apt['aptDate'])
-                        .inMinutes <= 30), orElse: () => {},
-              );
+            lastApt = appointment.firstWhere(
+              (apt) =>
+                  (apt['status'] == AptStatus.Waiting) &&
+                  (DateTime.now().difference(apt['aptDate']).inMinutes <= 30),
+              orElse: () => {},
+            );
             break;
           }
         }
@@ -329,14 +331,6 @@ class UserInfo with ChangeNotifier {
         // role = _roleGenerater(data[0]['value']['payload']['userRole']);
       }
     }
-  }
-
-  Future<void> updateTpId () {
-    
-  }
-
-  Future<void> assessmentHistory () {
-
   }
 
   // Future<bool> register(Map<String, dynamic> payload) async {
