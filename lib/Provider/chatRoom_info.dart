@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:svg';
 
 import 'package:flutter/material.dart';
 // import 'package:socket_io_client/socket_io_client.dart';
@@ -38,6 +39,13 @@ class ChatRoomProvider with ChangeNotifier {
   String tpid = '';
   String apid = '';
   String opName = '';
+
+  int status;
+  String advice = '';
+  List<String> symptoms = [];
+  List<String> drugs = [];
+  Map<String, String> conditions = {};
+  
 
   StreamSubscription reqCreateChatNoti;
 
@@ -303,6 +311,38 @@ class ChatRoomProvider with ChangeNotifier {
       role: role,
     ));
     notifyListeners();
+  }
+
+  Future<void> saveChatRoom() async {
+
+    // Save data
+    await socketIO.emit('event', [
+      {
+        'transaction': 'save-from-chatroom',
+        'payload': {
+          'apid': apid,
+          'note': note,
+          'advice': advice,
+          'status': status,
+          'symptoms': symptoms,
+          'conditions': conditions,
+          'drugs': drugs
+        }
+      }
+    ]);
+
+    // Waiting for data return
+    await for (dynamic data in IO.socketIO.on('r-save-from-chatroom')) {
+      print('On r-save-from-chatroom: $data');
+      final payload = data[0]['value']['payload'];
+      if(data != null){
+        print(payload);
+        notifyListeners();
+      } else {
+        print('No data returned');
+      }
+    }
+
   }
 
   // void chatRequest(Role role) {

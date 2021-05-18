@@ -69,7 +69,10 @@ class UserInfo with ChangeNotifier {
 
   List<Map<String, dynamic>> treatmentPlan = [];
   List<Map<String, dynamic>> appointment = [];
+  List<Map<String, dynamic>> calendarApt = [];
   Map<String, dynamic> lastApt = {};
+
+  Map<String, dynamic> patInfo = {};
 
   var loginIn = false;
   var loginError = false;
@@ -337,6 +340,146 @@ class UserInfo with ChangeNotifier {
 
   Future<void> assessmentHistory () {
 
+  }
+
+  Future<void> getPatInfo(
+    String patId,
+    String tpid
+  ) async {
+
+    // Get patient profile
+    await IO.socketIO.emit('event', [
+      {
+        'transaction': 'getProfile',
+        'payload': {
+          'userRole': 'patient',
+          'targetUserId': patId
+        }
+      }
+    ]);
+
+    // Get patient conditions symptoms
+    await IO.socketIO.emit('event', [
+      {
+        'transaction': 'get-condition-symptom',
+        'payload': {
+          'tpid': tpid
+        }
+      }
+    ]);
+
+    // Get patient vital sign records
+    await IO.socketIO.emit('event', [
+      {
+        'transaction': 'get-vital-sign-records',
+        'payload': {
+          'tpid': tpid
+        }
+      }
+    ]);
+
+    // Get patient prescriptions
+    await IO.socketIO.emit('event', [
+      {
+        'transaction': 'get-prescription',
+        'payload': {
+          'tpid': tpid
+        }
+      }
+    ]);
+
+    // Waiting for data return
+    await for (dynamic data in IO.socketIO.on('r-getProfile')) {
+      print('On r-getProfile: $data');
+      final payload = data[0]['value']['payload'];
+      if(data != null){
+        patInfo['profile'] = data;
+        notifyListeners();
+      } else {
+        print('No data returned');
+      }
+    }
+
+    // Waiting for data return
+    await for (dynamic data in IO.socketIO.on('r-get-condition-symptom')) {
+      print('On r-get-condition-symptom: $data');
+      final payload = data[0]['value']['payload'];
+      if(data != null){
+        patInfo['conditions_symptoms'] = data;
+        notifyListeners();
+      } else {
+        print('No data returned');
+      } 
+    }
+
+    // Waiting for data return
+    await for (dynamic data in IO.socketIO.on('r-get-vital-sign-records')) {
+      print('On r-get-vital-sign-records: $data');
+      final payload = data[0]['value']['payload'];
+      if(data != null){
+        patInfo['vital_sign'] = data;
+        notifyListeners();
+      } else {
+        print('No data returned');
+      } 
+    }
+
+    // Waiting for data return
+    await for (dynamic data in IO.socketIO.on('r-get-prescription')) {
+      print('On r-get-prescription: $data');
+      final payload = data[0]['value']['payload'];
+      if(data != null){
+        patInfo['prescription'] = data;
+        notifyListeners();
+      } else {
+        print('No data returned');
+      } 
+    }
+
+  }
+
+  Future<void> calendarAppointment() async {
+
+    if(roleTranslate(role) == 'doctor') {
+      // Get appointments by time range
+      await IO.socketIO.emit('event', [
+        {
+          'transaction': 'get-calendar-appointments',
+          'payload': {
+            'tpids': treatmentPlan,
+            'start': DateTime(
+            DateTime.now().year,
+            DateTime.now().month - 1,
+            DateTime.now().day,
+            DateTime.now().hour,
+            DateTime.now().minute,
+          ).toString(),
+            'stop': DateTime(
+            DateTime.now().year,
+            DateTime.now().month + 1,
+            DateTime.now().day,
+            DateTime.now().hour,
+            DateTime.now().minute,
+          ).toString()
+          }
+        }
+      ]);
+
+      // Waiting for data return
+      await for (dynamic data in IO.socketIO.on('r-get-calendar-appointments')) {
+        print('On r-get-calendar-appointments: $data');
+        final payload = data[0]['value']['payload'];
+        if(data != null){
+          calendarApt = payload;
+          notifyListeners();
+        } else {
+          print('No data returned');
+        }
+        
+      }
+      
+    }
+    
   }
 
   // Future<bool> register(Map<String, dynamic> payload) async {
