@@ -8,43 +8,39 @@ import '../Pages/predictionResultPage.dart';
 
 // import '../Widget/adaptiveBorderButton.dart';
 
-class AnswerQuestionPages extends StatelessWidget {
+class AnswerQuestionPages extends StatefulWidget {
   static const routeName = '/QuestionSymptom';
-  // String symptom;
-  // String question;
-  // final List<String> answerList = [
-  //   'Stabbing',
-  //   'Squeezing',
-  //   'Throbbing',
-  //   'Mixed',
-  // ];
 
-  // @override
-  // void didChangeDependencies() {
-  //   print(phrase);
-  //   if (!_loadedData) {
-  //     phrase = ModalRoute.of(context).settings.arguments as String;
-  //     _symptomController.text = phrase;
-  //     _loadedData = true;
-  //   }
-  //   super.didChangeDependencies();
-  // }
+  @override
+  _AnswerQuestionPagesState createState() => _AnswerQuestionPagesState();
+}
 
-  // AnswerQuestionPages({
-  //   @required this.symptom,
-  //   @required this.question,
-  //   @required this.answerList,
-  // })
+class _AnswerQuestionPagesState extends State<AnswerQuestionPages> {
+  var _loadedData = false;
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    final symptomAssessment = Provider.of<SymptomAssessmentProvider>(context);
+    if (!_loadedData) {
+      print('_loadedData: $_loadedData');
+      symptomAssessment.sendDiagnostic();
+      _loadedData = true;
+    }
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final symptomAssessment = Provider.of<SymptomAssessmentProvider>(context, listen: false);
+    final symptomAssessment = Provider.of<SymptomAssessmentProvider>(context);
+
     // final routeArgument =
     //     ModalRoute.of(context).settings.arguments as Map<String, Object>;
-    final Map<String, dynamic> diagnosisData = symptomAssessment.sendDiagnostic();
-    final String question = diagnosisData['question']['text'];
-    final List<Map<String, dynamic>> choices_items = diagnosisData['question']['items'];
-    final bool last_word = diagnosisData['should_stop'];
+    // final Map<dynamic, dynamic> diagnosisData =
+    //     symptomAssessment.diagnosticData;
+    // final String question = diagnosisData['question']['text'];
+    // final List<dynamic> choices_items = diagnosisData['question']['items'];
+    // final bool last_word = diagnosisData['should_stop'];
     // print(diagnosisData['conditions']);
     final appBar = AppBar(
       centerTitle: true,
@@ -68,28 +64,28 @@ class AnswerQuestionPages extends StatelessWidget {
           onPressed: () {
             // for test
             // DONT FORGET TO DELETE
-            symptomAssessment.conditions = [
-              {
-                "id": "c_255",
-                "name": "Tetanus",
-                "common_name": "Tetanus",
-                "probability": 0.3118,
-                "condition_details": {
-                  "icd10_code": "A35",
-                  "category": {
-                    "id": "cc_16",
-                    "name": "Infectiology"
-                  },
-                  "prevalence": "very_rare",
-                  "severity": "severe",
-                  "acuteness": "acute",
-                  "triage_level": "emergency_ambulance",
-                  "hint": "You may need urgent medical attention! Call an ambulance."
-                }
-              },
-            ];
-            Navigator.of(context).popUntil(ModalRoute.withName(HomePage.routeName));
-            Navigator.of(context).pushNamed(PredictionResultPage.routeName, arguments: {
+            // symptomAssessment.conditions = [
+            //   {
+            //     "id": "c_255",
+            //     "name": "Tetanus",
+            //     "common_name": "Tetanus",
+            //     "probability": 0.3118,
+            //     "condition_details": {
+            //       "icd10_code": "A35",
+            //       "category": {"id": "cc_16", "name": "Infectiology"},
+            //       "prevalence": "very_rare",
+            //       "severity": "severe",
+            //       "acuteness": "acute",
+            //       "triage_level": "emergency_ambulance",
+            //       "hint":
+            //           "You may need urgent medical attention! Call an ambulance."
+            //     }
+            //   },
+            // ];
+            Navigator.of(context)
+                .popUntil(ModalRoute.withName(HomePage.routeName));
+            Navigator.of(context)
+                .pushNamed(PredictionResultPage.routeName, arguments: {
               'isHistory': false,
             });
           },
@@ -106,61 +102,60 @@ class AnswerQuestionPages extends StatelessWidget {
             left: 15,
             right: 10,
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            // color: Colors.purple,
-            // alignment: Alignment.,
-            children: <Widget>[
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Column(
-                  // mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+          child: (symptomAssessment.diagnosticLoading)
+          // child: (false)
+              ? Center(
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2.0,
+                    valueColor: new AlwaysStoppedAnimation<Color>(
+                        Theme.of(context).primaryColor),
+                  ),
+                )
+              : Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  // color: Colors.purple,
+                  // alignment: Alignment.,
                   children: <Widget>[
-                    // Container(
-                    //   height: MediaQuery.of(context).size.height * 0.06,
-                    //   child: FittedBox(
-                    //     child: Text(
-                    //       symptom,
-                    //       style: TextStyle(
-                    //         fontWeight: FontWeight.bold,
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
-                    Container(
-                      // height: MediaQuery.of(context).size.height * 0.035,
-                      // height: 60,
-                      // color: Colors.amber,
-                      // width: ,
-                      child: Text(
-                        // question,
-                        question,
-                        style: TextStyle(
-                          fontSize: 20,
-                        ),
-                        // overflow: TextOverflow.clip,
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Column(
+                        // mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Container(
+                            child: Text(
+                              // 'question',
+                              symptomAssessment.diagnosticData['question']
+                                  ['text'],
+                              style: TextStyle(
+                                fontSize: 20,
+                              ),
+                              // overflow: TextOverflow.clip,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.1,
+                    ),
+                    Container(
+                      height: MediaQuery.of(context).size.height * 0.35,
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        // child: AnswerList(answerList),
+                        child: AnswerList(
+                          symptomAssessment.diagnosticData['question']['items']
+                              [0],
+                          symptomAssessment.diagnosticData['should_stop'],
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.05,
+                    ),
                   ],
-                ),
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.1,
-              ),
-              Container(
-                height: MediaQuery.of(context).size.height * 0.35,
-                child: Align(
-                  alignment: Alignment.centerRight,
-                  // child: AnswerList(answerList),
-                  child: AnswerList(choices_items[0], last_word),
-                ),
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.05,
-              ),
-            ],
-          )
+                )
           // AdaptiveBorderButton('Squeezing', 0.025, () {
           //   print('Squeeze');
           // }),

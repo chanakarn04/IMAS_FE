@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class PredResSymptom extends StatelessWidget {
-  final List<Map<String, dynamic>> symptomList;
+  final List<dynamic> symptomList;
 
   PredResSymptom(this.symptomList);
 
@@ -9,27 +9,16 @@ class PredResSymptom extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Padding(
-          padding: EdgeInsets.all(15),
-          child: Row(
-            children: [
-              Text(
-                'Symptom',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              Expanded(
-                child: Container(
-                  color: Colors.black,
-                  height: 2,
-                ),
-              ),
-            ],
+        Container(
+          alignment: Alignment.centerLeft,
+          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+          child: Text(
+            'Detected symptom',
+            style: TextStyle(
+              fontSize: 20,
+              // fontWeight: FontWeight.bold,
+              color: Theme.of(context).primaryColor,
+            ),
           ),
         ),
         // Text(
@@ -37,17 +26,22 @@ class PredResSymptom extends StatelessWidget {
         // ),
         Container(
           padding: EdgeInsets.only(
-            left: 40,
+            left: 15,
           ),
           // color: Colors.teal[100],
-          height: (symptomList.length * 22).toDouble(),
+          alignment: Alignment.center,
+          height: (symptomList.length * 27).toDouble(),
           child: ListView.builder(
             physics: const NeverScrollableScrollPhysics(),
+            padding: EdgeInsets.all(0),
             itemBuilder: (ctx, index) {
-              return Text(
-                '\u2022 ${symptomList[index]['common_name']}',
-                style: const TextStyle(
-                  fontSize: 18,
+              return Container(
+                padding: EdgeInsets.symmetric(vertical: 2),
+                child: Text(
+                  '${symptomList[index]}',
+                  style: const TextStyle(
+                    fontSize: 18,
+                  ),
                 ),
               );
             },

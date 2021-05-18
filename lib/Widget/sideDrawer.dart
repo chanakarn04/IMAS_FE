@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:homepage_proto/Provider/chatRoom_info.dart';
 import 'package:provider/provider.dart';
 
 import './sideDrawer_patient.dart';
@@ -20,6 +21,20 @@ class _SideDrawerState extends State<SideDrawer> {
   String onlineText = 'Offline';
 
   @override
+    void didChangeDependencies() {
+      // TODO: implement didChangeDependencies
+      final chatRoomProvider = Provider.of<ChatRoomProvider>(context);
+      if(chatRoomProvider.online) {
+        drOnlineColor = Theme.of(context).primaryColor;
+        onlineText = 'Online';
+      } else {
+        drOnlineColor = Colors.red;
+        onlineText = 'Offline';
+      }
+      super.didChangeDependencies();
+    }
+
+  @override
   Widget build(BuildContext context) {
     final userInfo = Provider.of<UserInfo>(context);
     return Drawer(child: LayoutBuilder(builder: (ctx, constraints) {
@@ -30,6 +45,9 @@ class _SideDrawerState extends State<SideDrawer> {
       ) {
         return TextButton(
           onPressed: handler,
+          style: TextButton.styleFrom(
+            primary: Colors.grey[900],
+          ),
           child: Row(
             children: <Widget>[
               Icon(
@@ -83,24 +101,37 @@ class _SideDrawerState extends State<SideDrawer> {
                       ),
                     ),
                     Expanded(child: Container()),
-                    Switch(
-                      value: userInfo.online,
-                      activeColor: Theme.of(context).primaryColor,
-                      onChanged: (bool newValue) {
-                        userInfo.triggerDoctorOnline();
-                        if (newValue) {
-                          setState(() {
-                            drOnlineColor = Theme.of(context).primaryColor;
-                            onlineText = 'Online';
-                          });
-                        } else {
-                          setState(() {
-                            drOnlineColor = Colors.red;
-                            onlineText = 'Offline';
-                          });
-                        }
-                      },
-                    )
+                    Consumer<ChatRoomProvider>(
+                        builder: (context, chatRoomProvider, child) {
+                      return Switch(
+                        value: chatRoomProvider.online,
+                        activeColor: Theme.of(context).primaryColor,
+                        onChanged: (bool newValue) async {
+                          if (chatRoomProvider.online) {
+                            // online = true ==> online = false
+                            await chatRoomProvider.triggerDoctorOnline();
+                            chatRoomProvider.onReqChatRoom(
+                                start: false,
+                                userid: userInfo.userId);
+                            setState(() {
+                              drOnlineColor = Colors.red;
+                              onlineText = 'Offline';
+                            });
+                          } else {
+                            // online = true ==> online = false
+                            await chatRoomProvider.triggerDoctorOnline();
+                            chatRoomProvider.onReqChatRoom(
+                                start: true,
+                                userid: userInfo.userId);
+                            setState(() {
+                              drOnlineColor = Theme.of(context).primaryColor;
+                              onlineText = 'Online';
+                            });
+                          }
+                          // Navigator.of(context).pop();
+                        },
+                      );
+                    }),
                   ],
                 ),
               ),

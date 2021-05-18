@@ -8,6 +8,8 @@ import '../Provider/chatRoom_info.dart';
 import '../Provider/user-info.dart';
 import '../Pages/PatientInfoPage.dart';
 import '../Pages/caseMangementPage.dart';
+import '../Widget/WaitChatroomCreating.dart';
+// import '../Script/socketioScript.dart';
 
 class ChatRoom extends StatelessWidget {
   static const routeName = '/CharRoom';
@@ -25,7 +27,7 @@ class ChatRoom extends StatelessWidget {
     final userInfo = Provider.of<UserInfo>(context);
     final chatProvider = Provider.of<ChatRoomProvider>(context);
 
-    final String opName = _getOpUserName(chatProvider.opUserId);
+    // final String opName = _getOpUserName(chatProvider.opUserId);
 
     Widget _popUpMenu() {
       return PopupMenuButton(
@@ -47,14 +49,16 @@ class ChatRoom extends StatelessWidget {
           if (value == 1) {
             Navigator.of(context).pushNamed(
               PatientInfoPage.routeName,
-              arguments: chatProvider.opUserId,
+              // BUG
+              // BUGarguments: chatProvider.opUserId,
             );
           } else {
             Navigator.of(context).pushNamed(
               CaseManagementPage.routeName,
               arguments: {
-                'tpId': chatProvider.opUserId,
-                'name': opName,
+                // BUG
+                // 'tpId': chatProvider.opUserId,
+                // 'name': opName,
               },
             );
           }
@@ -109,7 +113,8 @@ class ChatRoom extends StatelessWidget {
           SizedBox(
             width: 20,
           ),
-          Text(opName),
+          Text(chatProvider.opName),
+          // Text('Doctor tester'),
         ],
       ),
       actions: 
@@ -134,7 +139,8 @@ class ChatRoom extends StatelessWidget {
 
     return Scaffold(
       appBar: appBar,
-      body: SingleChildScrollView(
+      body: (chatProvider.chatRoomRegis) 
+      ? SingleChildScrollView(
         child: SizedBox(
           height: (MediaQuery.of(context).size.height -
               appBar.preferredSize.height -
@@ -142,12 +148,15 @@ class ChatRoom extends StatelessWidget {
               MediaQuery.of(context).viewInsets.bottom),
           child: Column(
             children: <Widget>[
-              Expanded(child: ChatRoomMsgList()),
-              TextInputBar(),
+              Expanded(child: ChatRoomMsgList(
+                messageList: chatProvider.messages,
+                userRole: userInfo.role,
+              )),
+              TextInputBar(role: userInfo.role, userName: userInfo.userData['userName'],),
             ],
           ),
         ),
-      ),
+      ) : WaitChatroomCreating()
     );
   }
 }

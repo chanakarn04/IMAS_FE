@@ -7,7 +7,7 @@ import '../Pages/as_addMoreSymptom.dart';
 // import '../Models/symptom.dart';
 
 class SymptomCard extends StatelessWidget {
-  final List<Map<String, dynamic>> symptomList;
+  final List<dynamic> symptomList;
   // final Function selectSymptomHandler;
 
   SymptomCard(this.symptomList);
@@ -67,6 +67,9 @@ class SymptomCard extends StatelessWidget {
                               height: 40,
                               width: 150,
                               handlerFn: () {
+                                symptomAssessment.selectedSymptom.add(
+                                  symptomList[index]['label']
+                                );
                                 symptomAssessment.addEvidence(
                                   {
                                     'id': symptomList[index]['id'],

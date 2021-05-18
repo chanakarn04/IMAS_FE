@@ -27,9 +27,9 @@ class _VSBloodPressurePageState extends State<VSBloodPressurePage> {
   void didChangeDependencies() {
     if (!_loadedData) {
       final _vitalSign = Provider.of<VitalSignProvider>(context);
-      if (_vitalSign.pressure != null) {
-        textControllerf.text = _vitalSign.pressure[0].toString();
-        textControllerf.text = _vitalSign.pressure[1].toString();
+      if ((_vitalSign.pressurelow != null) && (_vitalSign.pressurehigh != null)) {
+        textControllerf.text = _vitalSign.pressurelow.toString();
+        textControllerb.text = _vitalSign.pressurehigh.toString();
       }
       _loadedData = true;
     }
@@ -209,7 +209,8 @@ class _VSBloodPressurePageState extends State<VSBloodPressurePage> {
                         height: 45,
                         width: 125,
                         handlerFn: () {
-                          vitalSign.pressure = null;
+                          vitalSign.pressurelow = null;
+                          vitalSign.pressurehigh = null;
                           // print('${routeArgument['temp']}');
                           // print('${routeArgument['pulse']}');
                           // print('${routeArgument['breath']}');
@@ -234,15 +235,10 @@ class _VSBloodPressurePageState extends State<VSBloodPressurePage> {
                                     null) &&
                                 (textControllerb.text.isNotEmpty)
                             ? (() {
-                                vitalSign.pressure = [
-                                  double.parse(textControllerf.text),
-                                  double.parse(textControllerb.text),
-                                ];
-                                // vitalSign.uploadValue(userInfo.userId);
-                                // print('temp:   ${routeArgument['temp']}');
-                                // print('pulse:  ${routeArgument['pulse']}');
-                                // print('breath: ${routeArgument['breath']}');
-                                // print('press:  ${routeArgument['pressure']}');
+                                vitalSign.pressurelow =
+                                    double.parse(textControllerf.text);
+                                vitalSign.pressurehigh =
+                                    double.parse(textControllerb.text);
                                 Navigator.of(context).popUntil(
                                     ModalRoute.withName(HomePage.routeName));
                                 Navigator.of(context)

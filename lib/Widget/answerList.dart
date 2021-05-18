@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../Provider/symptomAssessment.dart';
+import '../Provider/user-info.dart';
 import '../Pages/answerQuestionPages.dart';
 import '../Pages/homePages.dart';
 import '../Pages/predictionResultPage.dart';
@@ -14,7 +15,10 @@ class AnswerList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final symptomAssessment = Provider.of<SymptomAssessmentProvider>(context, listen: false);
+    final symptomAssessment =
+        Provider.of<SymptomAssessmentProvider>(context, listen: false);
+    final userInfo =
+        Provider.of<UserInfo>(context, listen: false);
     return ListView.builder(
       physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (ctx, index) {
@@ -55,18 +59,15 @@ class AnswerList extends StatelessWidget {
                   print('${map['id']}: ${map['choice_id']}');
                 }
                 if (!last_word) {
-                  Navigator.of(context).pushReplacementNamed(AnswerQuestionPages.routeName);
-                  // Navigator.of(context).popAndPushNamed(AnswerQuestionPages.routeName);
-                  // Navigator.pop(
-                  //   context,
-                  //   PageRouteBuilder(
-                  //     pageBuilder: (_, __, ___) => Screen2(),
-                  //     transitionDuration: Duration(seconds: 0),
-                  //   ),
-                  // );
+                  Navigator.of(context)
+                      .pushReplacementNamed(AnswerQuestionPages.routeName);
                 } else {
-                  Navigator.of(context).popUntil(ModalRoute.withName(HomePage.routeName));
-                  Navigator.of(context).pushNamed(PredictionResultPage.routeName);
+                  Navigator.of(context)
+                      .popUntil(ModalRoute.withName(HomePage.routeName));
+                  Navigator.of(context)
+                      .pushNamed(PredictionResultPage.routeName, arguments: {
+                    'isHistory': false,
+                  });
                 }
               },
             ),

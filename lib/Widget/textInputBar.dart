@@ -3,8 +3,15 @@ import 'package:provider/provider.dart';
 
 import '../Provider/user-info.dart';
 import '../Provider/chatRoom_info.dart';
+import '../Script/socketioScript.dart';
 
 class TextInputBar extends StatefulWidget {
+  final Role role;
+  final String userName;
+  TextInputBar({
+    this.role,
+    this.userName,
+  });
   @override
   _TextInputBarState createState() => _TextInputBarState();
 }
@@ -14,22 +21,35 @@ class _TextInputBarState extends State<TextInputBar> {
 
   @override
   Widget build(BuildContext context) {
-    final userInfo = Provider.of<UserInfo>(context);
+    // final userInfo = Provider.of<UserInfo>(context);
     final chatProvider = Provider.of<ChatRoomProvider>(context);
 
-    _sendConversation() {
-      if (_textController.text.isEmpty) {
-        return;
-      } else {
-        chatProvider.sendMessage(
-          userInfo.userId,
-          _textController.text,
-          userInfo.role,
-        );
-        _textController.clear();
-        FocusScope.of(context).unfocus();
-      }
-    }
+    // _sendConversation() async {
+    //   if (_textController.text.isEmpty) {
+    //     return;
+    //   } else {
+    //     // chatProvider.sendMessage(
+    //     //   userInfo.userId,
+    //     //   _textController.text,
+    //     //   userInfo.role,
+    //     // );
+    //     await chatSocket.emit('sendMsg', [
+    //       {
+    //         'message': _textController.text,
+    //         'chatRoomId': chatProvider.chatRoomId,
+    //         // 'chatRoomId': 'pisut.s@mail.compasit.h@mail.com',
+    //         'userId': userInfo.userData['userName'],
+    //         'role': roleTranslate(userInfo.role),
+    //       }
+    //     ]);
+    //     chatProvider.messages.add(ChatMessage(
+    //       message: _textController.text,
+    //       role: userInfo.role,
+    //     ));
+    //     _textController.clear();
+    //     FocusScope.of(context).unfocus();
+    //   }
+    // }
 
     return Container(
       alignment: Alignment.bottomCenter,
@@ -86,8 +106,15 @@ class _TextInputBarState extends State<TextInputBar> {
               Icons.send_rounded,
               color: Colors.white,
             ),
-            onPressed: () {
-              _sendConversation();
+            onPressed: () async {
+              final tempMessage = _textController.text;
+              await chatProvider.sendMessage(
+                message: tempMessage,
+                role: this.widget.role,
+                userId: this.widget.userName,
+              );
+              _textController.clear();
+              FocusScope.of(context).unfocus();
             },
           )
         ],

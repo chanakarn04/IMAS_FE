@@ -7,14 +7,14 @@ import '../Pages/diseaseDetail.dart';
 class DiseaseCard extends StatelessWidget {
   final String conditionID;
   final String name;
-  final String description;
+  // final String description;
   // final Disease disease;
   // final String servere;
 
   DiseaseCard({
     @required this.conditionID,
     @required this.name,
-    @required this.description,
+    // @required this.description,
     // @required this.disease,
     // @required this.servere,
   });
@@ -49,21 +49,21 @@ class DiseaseCard extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(
-              height: 5,
-            ),
-            Container(
-              padding: EdgeInsets.only(
-                left: 10,
-              ),
-              child: Text(
-                '\t\t\t\t' + description,
-                style: TextStyle(
-                  color: Color.fromARGB(255, 75, 75, 75),
-                  fontSize: 16,
-                ),
-              ),
-            ),
+            // SizedBox(
+            //   height: 5,
+            // ),
+            // Container(
+            //   padding: EdgeInsets.only(
+            //     left: 10,
+            //   ),
+            //   child: Text(
+            //     '\t\t\t\t' + description,
+            //     style: TextStyle(
+            //       color: Color.fromARGB(255, 75, 75, 75),
+            //       fontSize: 16,
+            //     ),
+            //   ),
+            // ),
             Expanded(child: Container()),
             Container(
               alignment: Alignment.bottomCenter,

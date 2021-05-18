@@ -342,6 +342,9 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
                                       onEditingComplete: () {
                                         FocusScope.of(context).nextFocus();
                                       },
+                                      onFieldSubmitted: (value) {
+                                        email = value;
+                                      },
                                     ),
                                   ),
                                   SizedBox(
@@ -509,6 +512,10 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
                                         if (value == null || value.isEmpty) {
                                           return 'This field must not empty';
                                         }
+                                        if (value.length > 13) {
+                                          citizenIdTxtCtrl.clear();
+                                          return 'This field must have no more than 13 charactor';
+                                        }
                                         return null;
                                       },
                                       onEditingComplete: () =>
@@ -527,6 +534,10 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
                                       validator: (value) {
                                         if (value == null || value.isEmpty) {
                                           return 'This field must not empty';
+                                        }
+                                        if (value.length > 11) {
+                                          medIdTxtCtrl.clear();
+                                          return 'This field must have no more than 11 charactor';
                                         }
                                         return null;
                                       },
@@ -547,6 +558,10 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
                                         if (value == null || value.isEmpty) {
                                           return 'This field must not empty';
                                         }
+                                        if (value.length > 20) {
+                                          certIdTxtCtrl.clear();
+                                          return 'This field must have no more than 11 charactor';
+                                        }
                                         return null;
                                       },
                                       onEditingComplete: () =>
@@ -559,9 +574,12 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
                                     height: 20,
                                   ),
                                   ElevatedButton(
-                                    onPressed: () {
+                                    onPressed: () async {
                                       // print('password: $password');
                                       if (_formKey.currentState.validate()) {
+                                        setState(() {
+                                          _isRegistering = true;
+                                        });
                                         dob = DateTime(
                                           dropdownDatePicker.year,
                                           dropdownDatePicker.month,
@@ -578,48 +596,71 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
                                           'citizenID': citizenID,
                                           'MDID': medID,
                                           'certID': certID,
+                                          // 'isApproved': false,
                                         });
-                                        Map<String, String> token = {
+                                        await regisSocketConnect({
                                           'token': '',
                                           'userid': '',
-                                        };
-                                        socketConnect(token).then((_) async {
-                                          await socketIO.emit('event', [
-                                            {
-                                              'transaction': 'register',
-                                              'payload': registerData
-                                            }
-                                          ]);
-                                          socketIO
-                                              .on('r-register')
-                                              .listen((data) {
-                                            // print('On r-register: $data');
-                                            print(
-                                                'On r-register: ${data[0]['value']['payload']['message']}');
-                                            // something  more
-                                            if (data != null) {
+                                        });
+                                        await regisSocket.emit('event', [
+                                          {
+                                            'transaction': 'register',
+                                            'payload': registerData
+                                          }
+                                        ]);
+                                        await for (dynamic data in regisSocket.on('r-register')) {
+                                          print('On r-register: ${data[0]['value']['payload']['message']}');
+                                          // something  more
+                                          if (data != null) {
+                                            setState(() {
+                                              _isRegistered = true;
+                                            });
+                                            if (data[0]['value']['payload']['message'] == 'Register success') {
                                               setState(() {
-                                                _isRegistered = true;
+                                                _isRegisterSuccess = true;
                                               });
-                                              if (data[0]['value']['payload']
-                                                      ['message'] ==
-                                                  'Register success') {
-                                                setState(() {
-                                                  _isRegisterSuccess = true;
-                                                });
-                                              } else {
-                                                setState(() {
-                                                  errorDescribe = data[0]
-                                                          ['value']['payload']
-                                                      ['message'];
-                                                });
-                                              }
+                                            } else {
+                                              setState(() {
+                                                errorDescribe = data[0]['value']['payload']['message'];
+                                              });
                                             }
-                                          });
-                                        });
-                                        setState(() {
-                                          _isRegistering = true;
-                                        });
+                                          }
+                                        }
+                                        await regisSocketDisconnect();
+                                        // socketConnect(token).then((_) async {
+                                        // await socketIO.emit('event', [
+                                        //   {
+                                        //     'transaction': 'register',
+                                        //     'payload': registerData
+                                        //   }
+                                        // ]);
+                                        //   socketIO
+                                        //       .on('r-register')
+                                        //       .listen((data) {
+                                        //     // print('On r-register: $data');
+                                        //     print(
+                                        //         'On r-register: ${data[0]['value']['payload']['message']}');
+                                        //     // something  more
+                                        //     if (data != null) {
+                                        //       setState(() {
+                                        //         _isRegistered = true;
+                                        //       });
+                                        //       if (data[0]['value']['payload']
+                                        //               ['message'] ==
+                                        //           'Register success') {
+                                        //         setState(() {
+                                        //           _isRegisterSuccess = true;
+                                        //         });
+                                        //       } else {
+                                        //         setState(() {
+                                        //           errorDescribe = data[0]
+                                        //                   ['value']['payload']
+                                        //               ['message'];
+                                        //         });
+                                        //       }
+                                        //     }
+                                        //   });
+                                        // });
                                       }
                                     },
                                     style: ElevatedButton.styleFrom(
@@ -635,7 +676,7 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
                                       width: 120,
                                       alignment: Alignment.center,
                                       child: Text(
-                                        'Sign Up',
+                                        'Submit',
                                       ),
                                     ),
                                   ),

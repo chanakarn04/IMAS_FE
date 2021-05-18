@@ -23,14 +23,12 @@ class _AssessmentPagesState extends State<AssessmentPages> {
     final symptomAssessment =
         Provider.of<SymptomAssessmentProvider>(context, listen: false);
     final size = MediaQuery.of(context).size;
-    symptomAssessment.init(userInfo.userId);
+    symptomAssessment.init(userInfo.userData['dob'], userInfo.userData['gender']);
     final _imageWidth = MediaQuery.of(context).size.width - 20;
     final _imageHeight = _imageWidth * 1.25;
     // print(MediaQuery.of(context).size.width);
     // print(MediaQuery.of(context).size.height);
     return Scaffold(
-      key: _scaffoldState,
-      endDrawer: SideDrawer(),
       appBar: AppBar(
         iconTheme: IconThemeData(
           color: Theme.of(context).primaryColor,

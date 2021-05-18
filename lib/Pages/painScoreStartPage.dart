@@ -1,36 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../Widget/AdaptiveRaisedButton.dart';
 import './painScorePage.dart';
+import '../Provider/vitalSign_Info.dart';
 
 class PainScoreStartPage extends StatelessWidget {
   static const routeName = '/painScore-start';
 
-  Map<String, dynamic> _loadData(
-      // use something
-      ) {
-    // ... load List of symptom
-
-    // expected to get
-    List<String> symptoms = [
-      'Headache',
-      'Paralysis',
-    ];
-    Map<String, int> painScore = Map<String, int>.fromIterable(
-      symptoms,
-      key: (symptom) => symptom,
-      value: (_) => 0,
-    );
-
-    return {
-      'symptoms': symptoms,
-      'painScore': painScore,
-    };
-  }
-
   @override
+
   Widget build(BuildContext context) {
-    Map<String, dynamic> data = _loadData();
+    final vitalSign = Provider.of<VitalSignProvider>(context);
     final appBar = AppBar(
       centerTitle: true,
       iconTheme: IconThemeData(
@@ -114,8 +95,7 @@ class PainScoreStartPage extends StatelessWidget {
                     PainScorePage.routeName,
                     arguments: {
                       'index': 0,
-                      'symptom': data['symptoms'],
-                      'painScore': data['painScore'],
+                      'symptom': vitalSign.symptoms,
                     },
                   );
                 }),

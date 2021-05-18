@@ -9,41 +9,12 @@ import '../Models/model.dart';
 
 class ProfileDoctorBody extends StatelessWidget {
   final Function headerBox;
+  final Map<String, dynamic> dInfo;
 
-  ProfileDoctorBody(this.headerBox);
+  ProfileDoctorBody(this.headerBox, this.dInfo);
 
-  Doctor dInfo;
-  // final Map<String, Object> data = {
-  //   'userName': 'example@mail.com',
-  //   'namePrefix': 'Dr.',
-  //   'drName': 'Samitanan',
-  //   'drSurname': 'Techabunyawatthanakul',
-  //   'dob': DateTime(1998, 4, 12),
-  //   'gender': Gender.Female,
-  //   'citizenID': '1234567890123',
-  //   'mdID': 'XXXXXXXXXXXXX',
-  //   'certID': 'XXXXXXXXXXXXX',
-  // };
-
-  Doctor _loadData() {
-    // ...
-
-    return Doctor(
-      drId: 'd0001',
-      namePrefix: 'Dr.',
-      drName: 'dName',
-      drSurname: 'dSurname',
-      dob: DateTime(1998, 3, 4),
-      gender: Gender.Male,
-      citizenID: '1234567890123',
-      mdID: '1234567890123',
-      certID: '1234567890123',
-      image: 'assets/images/default_photo.png',
-    );
-  }
-
-  String get genderText {
-    switch (dInfo.gender) {
+  String genderText(Gender gender) {
+    switch (gender) {
       case Gender.Male:
         return 'Male';
         break;
@@ -57,8 +28,8 @@ class ProfileDoctorBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final userInfo = Provider.of<UserInfo>(context);
-    dInfo = _loadData();
+    // final userInfo = Provider.of<UserInfo>(context);
+    
     return Container(
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
@@ -122,7 +93,7 @@ class ProfileDoctorBody extends StatelessWidget {
                         width: 15,
                       ),
                       Text(
-                        '${dInfo.drName} ${dInfo.drSurname}',
+                        '${dInfo['fname']} ${dInfo['surname']}',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 20,
@@ -181,16 +152,6 @@ class ProfileDoctorBody extends StatelessWidget {
                                   height: 10,
                                 ),
                                 Text(
-                                  'Date of birth',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: Color.fromARGB(255, 125, 125, 125),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Text(
                                   'Gender',
                                   style: TextStyle(
                                     fontSize: 18,
@@ -206,7 +167,7 @@ class ProfileDoctorBody extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  '${userInfo.userId}',
+                                  '${dInfo['usserName']}',
                                   style: TextStyle(
                                     fontSize: 18,
                                   ),
@@ -215,16 +176,7 @@ class ProfileDoctorBody extends StatelessWidget {
                                   height: 10,
                                 ),
                                 Text(
-                                  DateFormat.yMMMMd().format(dInfo.dob),
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Text(
-                                  genderText,
+                                  genderText(dInfo['gender']),
                                   style: TextStyle(
                                     fontSize: 18,
                                   ),
@@ -277,7 +229,7 @@ class ProfileDoctorBody extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  '${dInfo.mdID}',
+                                  '${dInfo['medID']}',
                                   style: TextStyle(
                                     fontSize: 18,
                                   ),
@@ -286,7 +238,7 @@ class ProfileDoctorBody extends StatelessWidget {
                                   height: 10,
                                 ),
                                 Text(
-                                  '${dInfo.certID}',
+                                  '${dInfo['certID']}',
                                   style: TextStyle(
                                     fontSize: 18,
                                   ),

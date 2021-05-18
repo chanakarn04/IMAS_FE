@@ -13,12 +13,24 @@ class VitalSignStartPage extends StatefulWidget {
 }
 
 class _VitalSignStartPageState extends State<VitalSignStartPage> {
+  var _loadedData = false;
+  VitalSignProvider vitalSign;
   // Map<String, Object> vitalSign = {
   //   'Temp': null,
   //   'Pulse': null,
   //   'Breath': null,
   //   'Pressure': null,
   // };
+
+  @override
+    void didChangeDependencies() {
+      if (!_loadedData) {
+        vitalSign = Provider.of<VitalSignProvider>(context);
+        vitalSign.querySymptom();
+        _loadedData = true;
+      }
+      super.didChangeDependencies();
+    }
 
   @override
   Widget build(BuildContext context) {

@@ -14,10 +14,7 @@ class LogInPage extends StatefulWidget {
 
 class _LogInPageState extends State<LogInPage> {
   final usrnTextController = TextEditingController();
-
   final pswTextController = TextEditingController();
-
-  var _tryLogin = false;
 
   @override
   Widget build(BuildContext context) {
@@ -25,9 +22,10 @@ class _LogInPageState extends State<LogInPage> {
     if (userInfo.role != Role.UnAuthen) {
       // prevent animation for prevent state/listener problem
       Future.delayed(Duration.zero, () {
-        Navigator.of(context).pushReplacementNamed(HomePage.routeName, );
+        Navigator.of(context).pushReplacementNamed(
+          HomePage.routeName,
+        );
       });
-      // Navigator.of(context).pushReplacementNamed(HomePage.routeName);
     }
     return Scaffold(
       body: SingleChildScrollView(
@@ -41,7 +39,7 @@ class _LogInPageState extends State<LogInPage> {
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           // color: Colors.amber,
-          child: (userInfo.role == Role.UnAuthen && _tryLogin)
+          child: (!userInfo.loginError && userInfo.loginIn)
               ? Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -59,7 +57,7 @@ class _LogInPageState extends State<LogInPage> {
                         height: 20,
                       ),
                       Text(
-                        'Loggin in...',
+                        'Logging in...',
                         style: TextStyle(
                           color: Colors.grey,
                           fontSize: 20,
@@ -100,8 +98,8 @@ class _LogInPageState extends State<LogInPage> {
                         ],
                       ),
                       Container(
-                        height: MediaQuery.of(context).size.width - 100,
-                        width: MediaQuery.of(context).size.width - 100,
+                        height: MediaQuery.of(context).size.width - 120,
+                        width: MediaQuery.of(context).size.width - 120,
                         decoration: BoxDecoration(
                           image: DecorationImage(
                             fit: BoxFit.contain,
@@ -119,6 +117,9 @@ class _LogInPageState extends State<LogInPage> {
                         child: TextField(
                           decoration: InputDecoration(
                             labelText: 'Email',
+                            errorText: userInfo.loginError
+                                ? 'Username or password incorrect'
+                                : null,
                           ),
                           controller: usrnTextController,
                           onEditingComplete: () =>
@@ -132,6 +133,7 @@ class _LogInPageState extends State<LogInPage> {
                         child: TextField(
                           decoration: InputDecoration(
                             labelText: 'Password',
+                            errorText: userInfo.loginError ? '' : null,
                           ),
                           controller: pswTextController,
                           onSubmitted: (_) => FocusScope.of(context).unfocus(),
@@ -146,13 +148,16 @@ class _LogInPageState extends State<LogInPage> {
                           if (usrnTextController.text.isNotEmpty &&
                               pswTextController.text.isNotEmpty) {
                             setState(() {
-                              _tryLogin = true;
+                              userInfo.loginIn = true;
+                              userInfo.loginError = false;
                             });
                             // print(_isLogin);
                             userInfo.login(
                               usrnTextController.text,
                               pswTextController.text,
                             );
+                            usrnTextController.clear();
+                            pswTextController.clear();
                           }
                         },
                         style: ElevatedButton.styleFrom(

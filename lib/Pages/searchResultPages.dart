@@ -71,7 +71,7 @@ class _SearchResultPagesState extends State<SearchResultPages> {
   Widget build(BuildContext context) {
     final userInfo = Provider.of<UserInfo>(context, listen: false);
     final symptomAssessment =
-        Provider.of<SymptomAssessmentProvider>(context, listen: false);
+        Provider.of<SymptomAssessmentProvider>(context);
     // String searchText = ModalRoute.of(context).settings.arguments as String;
     // _symptomController.text = searchText;
     // phrase = searchText;
@@ -106,8 +106,8 @@ class _SearchResultPagesState extends State<SearchResultPages> {
     );
 
     return Scaffold(
-      key: _scaffoldState,
-      endDrawer: SideDrawer(),
+      // key: _scaffoldState,
+      // endDrawer: SideDrawer(),
       appBar: appBar,
       body: SingleChildScrollView(
         child: Column(
@@ -122,6 +122,8 @@ class _SearchResultPagesState extends State<SearchResultPages> {
                 controller: _symptomController,
                 onSubmitted: (_) {
                   setState(() {
+                    symptomAssessment.symptomSearchList = [];
+                    symptomAssessment.searchSymptom(phrase);
                     phrase = _symptomController.text;
                   });
                 },

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:homepage_proto/Provider/user-info.dart';
+import '../Models/model.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -7,13 +7,16 @@ import 'package:url_launcher/url_launcher.dart';
 // import '../Models/diseaseAPI.dart';
 // import '../Models/symptom.dart';
 import './homePages.dart';
-import './Waiting.dart';
+import './WaitingDoctor.dart';
+import './vitalSignStartPages.dart';
 import '../Widget/predResDisease.dart';
 import '../Widget/predResSymptom.dart';
+import '../Widget/predResPatientInfo.dart';
 import '../Widget/AdaptiveRaisedButton.dart';
-import '../Widget/adaptiveBorderButton.dart';
 import '../Provider/chatRoom_info.dart';
 import '../Provider/symptomAssessment.dart';
+import '../Provider/user-info.dart';
+import '../Provider/vitalSign_Info.dart';
 
 class PredictionResultPage extends StatefulWidget {
   static const routeName = '/prediction-result';
@@ -24,12 +27,14 @@ class PredictionResultPage extends StatefulWidget {
 
 class _PredictionResultPageState extends State<PredictionResultPage> {
   bool isHistory = false;
-  String triage_level;
+  // String triage_level;
   // bool isMeetDoctor = false;
-  List<Map<String, dynamic>> symptoms;
-  List<Map<String, dynamic>> conditions;
+  List<dynamic> symptoms = [];
+  List<dynamic> conditions = [];
+
   var _loadedData = false;
   SymptomAssessmentProvider symptomAssessment;
+  UserInfo userInfo;
 
   void _loadData() {
     // ...
@@ -74,36 +79,40 @@ class _PredictionResultPageState extends State<PredictionResultPage> {
   }
 
   void decodeTriage(
-    List<Map<String, dynamic>> triageConditions,
+    List<dynamic> triageConditions,
     Map<String, dynamic> triage,
   ) {
     conditions = triageConditions;
-    triage_level = triage['triage_level'];
-    symptoms = triage['serious'];
+    // triage_level = triage['triage_level'];
+    // symptoms = triage['serious'];
   }
 
   @override
-  void didChangeDependencies() {
+  void didChangeDependencies() async {
     // print(phrase);
     if (!_loadedData) {
       final routeArgument =
-        ModalRoute.of(context).settings.arguments as Map<String, Object>;
-      symptomAssessment = Provider.of<SymptomAssessmentProvider>(context, listen: false);
+          ModalRoute.of(context).settings.arguments as Map<String, Object>;
+      symptomAssessment = Provider.of<SymptomAssessmentProvider>(context);
+      userInfo = Provider.of<UserInfo>(context, listen: false);
       isHistory = routeArgument['isHistory'];
+
       // isMeetDoctor = routeArgument['isMeetDoctor'];
       if (!isHistory) {
+        _loadedData = true;
         // if it prediction result / not history
         // query from api
-        symptomAssessment.sendTriage();
-        decodeTriage(symptomAssessment.conditions, symptomAssessment.triage);
+        // // save-from-API
+        symptoms = symptomAssessment.selectedSymptom;
+        conditions = symptomAssessment.conditions;
+        await symptomAssessment.sendTriage();
+        // triage_level = symptomAssessment.triage['triage_level'];
+        await symptomAssessment.saveResult(roleTranslate(userInfo.role));
       } else {
         // if it history
         // query from database
         _loadData();
-        // print(conditions);
-        // conditions = 
       }
-      _loadedData = true;
     }
     super.didChangeDependencies();
   }
@@ -111,174 +120,240 @@ class _PredictionResultPageState extends State<PredictionResultPage> {
   @override
   Widget build(BuildContext context) {
     final chatProvider = Provider.of<ChatRoomProvider>(context);
+    final vitalSignProvider =
+        Provider.of<VitalSignProvider>(context, listen: false);
+    print(symptomAssessment.triage_level);
     return Scaffold(
-      appBar: AppBar(
-        iconTheme: IconThemeData(
-          color: Theme.of(context).primaryColor,
-        ),
-        backgroundColor: Colors.white,
-        leading: IconButton(
-            icon: Icon(Icons.arrow_back_ios_rounded),
-            onPressed: () => Navigator.of(context).pop()),
-        title: Container(
-          alignment: Alignment.center,
-          child: Text('Prediction'),
-        ),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(
-              Icons.menu_rounded,
-              color: Colors.transparent,
-            ),
-            onPressed: null,
-          )
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: Container(
-          padding: EdgeInsets.all(8),
-          child: Column(
-            children: <Widget>[
-              PredResSymptom(symptoms),
-              PredResDisease(conditions),
-              SizedBox(
-                height: 15,
+      body: (!symptomAssessment.sendingTriage)
+          ? Center(
+              child: SizedBox(
+                height: MediaQuery.of(context).size.width * 0.2,
+                width: MediaQuery.of(context).size.width * 0.2,
+                child: CircularProgressIndicator(
+                  strokeWidth: 5.0,
+                  valueColor: new AlwaysStoppedAnimation<Color>(
+                      Theme.of(context).primaryColor),
+                ),
               ),
-              !isHistory
-                  ? (triage_level == 'emergency' || triage_level == 'emergency_ambulance')
-                    ? Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        AdaptiveRaisedButton(
-                          buttonText: 'Home',
-                          handlerFn: () {
-                            Navigator.of(context)
-                                .popUntil(ModalRoute.withName(HomePage.routeName));
-                          },
-                          height: 35,
-                          width: 160,
+            )
+          : Container(
+              padding: EdgeInsets.only(
+                top: MediaQuery.of(context).padding.top + 10,
+              ),
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              color: Theme.of(context).primaryColor,
+              child: Column(
+                children: [
+                  Container(
+                    padding: EdgeInsets.only(left: 15),
+                    alignment: Alignment.centerLeft,
+                    child: InkWell(
+                      child: Icon(
+                        Icons.home_rounded,
+                        color: Colors.white,
+                      ),
+                      onTap: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(left: 25),
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Result',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 30,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(left: 27),
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Detected symptoms and diseases',
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(30),
+                          topRight: Radius.circular(30),
                         ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        AdaptiveRaisedButton(
-                          buttonText: 'Emergency',
-                          handlerFn: () {
-                            print('alertDialog');
-                            showDialog(context: context, builder: (_) {
-                              return AlertDialog(
-                                title: Text('Emergency Call 1669'),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(10.0))
-                                ),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () {
-                                      launch('tel:1669');
-                                    },
-                                    child: Text(
-                                      'Call',
-                                      style: TextStyle(
-                                        color: Theme.of(context).primaryColor,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              );
-                            });
-                            // Navigator.of(context)
-                            //     .popUntil(ModalRoute.withName('/home'));
-                          },
-                          height: 35,
-                          width: 160,
-                        )
-                      ],
-                    )
-                    : (triage_level == 'consultation_24' || triage_level == 'consultation')
-                      ? Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        color: Colors.white,
+                      ),
+                      padding: EdgeInsets.only(
+                        left: 30,
+                        right: 30,
+                        top: 20,
+                      ),
+                      child: Stack(
                         children: [
-                          AdaptiveRaisedButton(
-                            buttonText: 'Home',
-                            handlerFn: () {
-                              Navigator.of(context)
-                                  .popUntil(ModalRoute.withName(HomePage.routeName));
-                            },
-                            height: 35,
-                            width: 160,
+                          Container(
+                            padding: EdgeInsets.all(8),
+                            child: ListView(
+                              padding: EdgeInsets.symmetric(
+                                vertical: 10,
+                              ),
+                              children: <Widget>[
+                                PredResPatientInfo(
+                                  genderTextGenerater(
+                                      userInfo.userData['gender']),
+                                  ageCalculate(userInfo.userData['dob'])
+                                      .toInt(),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 10,
+                                    horizontal: 15,
+                                  ),
+                                  child: Container(
+                                    height: 0.5,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                                PredResSymptom(symptoms),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 10,
+                                    horizontal: 15,
+                                  ),
+                                  child: Container(
+                                    height: 0.5,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                                PredResDisease(conditions),
+                                SizedBox(
+                                  height: 50,
+                                ),
+                                !isHistory
+                                    ? (symptomAssessment.triage_level ==
+                                                'emergency' ||
+                                            symptomAssessment.triage_level ==
+                                                'emergency_ambulance')
+                                        ? Container(
+                                            child: Center(
+                                              child: AdaptiveRaisedButton(
+                                                buttonText: 'Emergency',
+                                                handlerFn: () {
+                                                  print('alertDialog');
+                                                  showDialog(
+                                                      context: context,
+                                                      builder: (_) {
+                                                        return AlertDialog(
+                                                          title: Text(
+                                                              'Emergency Call 1669'),
+                                                          shape:
+                                                              RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .all(
+                                                              Radius.circular(
+                                                                  10.0),
+                                                            ),
+                                                          ),
+                                                          actions: [
+                                                            TextButton(
+                                                              onPressed: () {
+                                                                launch(
+                                                                    'tel:1669');
+                                                              },
+                                                              child: Text(
+                                                                'Call',
+                                                                style:
+                                                                    TextStyle(
+                                                                  color: Theme.of(
+                                                                          context)
+                                                                      .primaryColor,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        );
+                                                      });
+                                                  // Navigator.of(context)
+                                                  //     .popUntil(ModalRoute.withName('/home'));
+                                                },
+                                                height: 40,
+                                                width: 160,
+                                              ),
+                                            ),
+                                          )
+                                        : (symptomAssessment.triage_level ==
+                                                    'consultation_24' ||
+                                                symptomAssessment
+                                                        .triage_level ==
+                                                    'consultation')
+                                            ? Center(
+                                                child: AdaptiveRaisedButton(
+                                                  buttonText: 'Meet Doctor',
+                                                  handlerFn: () {
+                                                    vitalSignProvider.tpId =
+                                                        symptomAssessment.tpid;
+                                                    vitalSignProvider.apId =
+                                                        symptomAssessment.apid;
+                                                    chatProvider.patientReqChat(
+                                                      userInfo
+                                                          .userData['userName'],
+                                                      userInfo.role,
+                                                      symptomAssessment.tpid,
+                                                      symptomAssessment.apid,
+                                                    );
+                                                    Navigator.of(context)
+                                                        .pushReplacementNamed(
+                                                            VitalSignStartPage
+                                                                .routeName);
+                                                    symptomAssessment.clear();
+                                                    // Navigator.of(context).pushReplacementNamed(
+                                                    //     WaitingPage.routeName);
+                                                    // chatProvider.chatRequest(Role.Patient);
+                                                    // Navigator.of(context)
+                                                    //     .popUntil(ModalRoute.withName('/home'));
+                                                  },
+                                                  height: 40,
+                                                  width: 160,
+                                                ),
+                                              )
+                                            : Center(
+                                                child: AdaptiveRaisedButton(
+                                                  buttonText: 'Home',
+                                                  handlerFn: () {
+                                                    Navigator.of(context)
+                                                        .popUntil(ModalRoute
+                                                            .withName(HomePage
+                                                                .routeName));
+                                                  },
+                                                  height: 40,
+                                                  width: 160,
+                                                ),
+                                              )
+                                    : Container(),
+                                SizedBox(
+                                  height: 15,
+                                ),
+                              ],
+                            ),
                           ),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          AdaptiveRaisedButton(
-                            buttonText: 'Meet Doctor',
-                            handlerFn: () {
-                              Navigator.of(context).pushReplacementNamed(WaitingPage.routeName);
-                              chatProvider.chatRequest(Role.Patient);
-                              // Navigator.of(context)
-                              //     .popUntil(ModalRoute.withName('/home'));
-                            },
-                            height: 35,
-                            width: 160,
-                          )
                         ],
-                      )
-                      // ? Column(
-                      //     crossAxisAlignment: CrossAxisAlignment.center,
-                      //     children: [
-                      //       AdaptiveRaisedButton(
-                      //         buttonText: 'Meet Doctor',
-                      //         handlerFn: () {
-                      //           print('Go to wait doctor');
-                      //         },
-                      //         height: 35,
-                      //         width: 170,
-                      //       ),
-                      //       SizedBox(
-                      //         height: 10,
-                      //       ),
-                      //       Row(
-                      //         mainAxisAlignment: MainAxisAlignment.center,
-                      //         children: [
-                      //           AdaptiveBorderButton(
-                      //             buttonText: 'Home',
-                      //             handlerFn: () {
-                      //               // print('Home');
-                      //               Navigator.of(context)
-                      //                   .popUntil(ModalRoute.withName('/home'));
-                      //             },
-                      //             height: 45,
-                      //             width: 180,
-                      //           ),
-                      //           SizedBox(
-                      //             width: 15,
-                      //           ),
-                      //           AdaptiveBorderButton(
-                      //             buttonText: 'Nearby Hospital',
-                      //             handlerFn: () {
-                      //               print('Go to nearby Hospital');
-                      //             },
-                      //             height: 45,
-                      //             width: 180,
-                      //           ),
-                      //         ],
-                      //       ),
-                      //     ],
-                      //   )
-                      : AdaptiveRaisedButton(
-                          buttonText: 'Home',
-                          handlerFn: () {
-                            Navigator.of(context)
-                                .popUntil(ModalRoute.withName(HomePage.routeName));
-                          },
-                          height: 35,
-                          width: 160,
-                        )
-                  : Container(),
-            ],
-          ),
-        ),
-      ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
     );
   }
 }

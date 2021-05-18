@@ -46,9 +46,9 @@ class _NoteBottomSheetState extends State<NoteBottomSheet> {
               maxLines: 6,
               keyboardType: TextInputType.multiline,
               controller: _textController,
-              // onSubmitted: (_) {
-              //   chatRoomProvider.updateNote(_textController.text);
-              // },
+              onSubmitted: (_) {
+                chatRoomProvider.updateNote(_textController.text);
+              },
             ),
             SizedBox(
               height: 20,

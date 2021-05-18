@@ -31,7 +31,7 @@ class _DiseaseSymptomTabState extends State<DiseaseSymptomTab> {
         'note': '',
         'advises': 'Rest mak mak na',
         'apDt': DateTime.utc(2020, 12, 20),
-        'status': AptStatus.Edited,
+        'status': AptStatus.Pass,
         'symptom': [
           {'name': 'Headache', 'painScore': 6},
           {'name': 'Paralysis', 'painScore': 9},
@@ -46,7 +46,7 @@ class _DiseaseSymptomTabState extends State<DiseaseSymptomTab> {
         'note': '',
         'advises': 'Kin kwaw yer yer',
         'apDt': DateTime.utc(2020, 12, 26),
-        'status': AptStatus.Edited,
+        'status': AptStatus.Pass,
         'symptom': [
           {'name': 'Headache', 'painScore': 1},
         ],

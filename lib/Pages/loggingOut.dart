@@ -12,7 +12,8 @@ class LoggingOut extends StatelessWidget {
     if (userInfo.role == Role.UnAuthen) {
       Future.delayed(Duration.zero, () {
         Navigator.of(context).popUntil(ModalRoute.withName('/'));
-        Navigator.of(context).pushReplacementNamed(LogInPage.routeName);
+        // Navigator.of(context).pushReplacementNamed(LogInPage.routeName);
+        Navigator.of(context).pushNamed(LogInPage.routeName);
       });
     }
     return Scaffold(

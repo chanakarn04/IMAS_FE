@@ -9,33 +9,13 @@ import '../Models/model.dart';
 
 class ProfilePatientBody extends StatelessWidget {
   final Function headerBox;
-  final String userId;
+  final Map<String, dynamic> pInfo;
+  // final String userId;
 
-  ProfilePatientBody(this.headerBox, this.userId);
+  ProfilePatientBody(this.headerBox, this.pInfo);
 
-  //user data
-  Patient pInfo;
-
-  // load pInfo
-  Patient _loadData() {
-    // ...
-
-    return Patient(
-      pId: 'p0001',
-      pName: 'pName',
-      pSurname: 'pSurname',
-      dob: DateTime(1998, 4, 12),
-      gender: Gender.Female,
-      drugAllegy: ['Paracetamol'],
-      isSmoke: Status.No,
-      isDiabetes: Status.Yes,
-      hasHighPress: Status.NotSure,
-      image: 'assets/images/default_photo.png',
-    );
-  }
-
-  String get genderText {
-    switch (pInfo.gender) {
+  String genderText(Gender gender) {
+    switch (gender) {
       case Gender.Male:
         return 'Male';
         break;
@@ -47,8 +27,8 @@ class ProfilePatientBody extends StatelessWidget {
     }
   }
 
-  String get smokeText {
-    switch (pInfo.isSmoke) {
+  String smokeText (Status isSmoke) {
+    switch (isSmoke) {
       case Status.NotSure:
         return 'Not sure';
         break;
@@ -63,8 +43,8 @@ class ProfilePatientBody extends StatelessWidget {
     }
   }
 
-  String get diabeteText {
-    switch (pInfo.isDiabetes) {
+  String diabeteText(Status isDiabetes) {
+    switch (isDiabetes) {
       case Status.NotSure:
         return 'Not sure';
         break;
@@ -79,8 +59,8 @@ class ProfilePatientBody extends StatelessWidget {
     }
   }
 
-  String get highPressText {
-    switch (pInfo.hasHighPress) {
+  String highPressText (Status hasHighPress) {
+    switch (hasHighPress) {
       case Status.NotSure:
         return 'Not sure';
         break;
@@ -93,17 +73,10 @@ class ProfilePatientBody extends StatelessWidget {
       default:
         return 'Unknown';
     }
-  }
-
-  int get _getDrugAllergyLength {
-    List temp = pInfo.drugAllegy;
-    return temp.length;
   }
 
   @override
   Widget build(BuildContext context) {
-    final userInfo = Provider.of<UserInfo>(context);
-    pInfo = _loadData();
     return Container(
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
@@ -167,7 +140,7 @@ class ProfilePatientBody extends StatelessWidget {
                         width: 15,
                       ),
                       Text(
-                        '${pInfo.pName} ${pInfo.pSurname}',
+                        '${pInfo['fname']} ${pInfo['surname']}',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 20,
@@ -251,7 +224,7 @@ class ProfilePatientBody extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  userId,
+                                  pInfo['userName'],
                                   style: TextStyle(
                                     fontSize: 18,
                                   ),
@@ -260,7 +233,7 @@ class ProfilePatientBody extends StatelessWidget {
                                   height: 10,
                                 ),
                                 Text(
-                                  DateFormat.yMMMMd().format(pInfo.dob),
+                                  DateFormat.yMMMMd().format(pInfo['dob']),
                                   style: TextStyle(
                                     fontSize: 18,
                                   ),
@@ -269,7 +242,7 @@ class ProfilePatientBody extends StatelessWidget {
                                   height: 10,
                                 ),
                                 Text(
-                                  genderText,
+                                  genderText(pInfo['gender']),
                                   style: TextStyle(
                                     fontSize: 18,
                                   ),
@@ -332,7 +305,7 @@ class ProfilePatientBody extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  highPressText,
+                                  highPressText(pInfo['hasHighPress']),
                                   style: TextStyle(
                                     fontSize: 18,
                                   ),
@@ -341,7 +314,7 @@ class ProfilePatientBody extends StatelessWidget {
                                   height: 10,
                                 ),
                                 Text(
-                                  diabeteText,
+                                  diabeteText(pInfo['isDiabetes']),
                                   style: TextStyle(
                                     fontSize: 18,
                                   ),
@@ -350,7 +323,7 @@ class ProfilePatientBody extends StatelessWidget {
                                   height: 10,
                                 ),
                                 Text(
-                                  smokeText,
+                                  smokeText(pInfo['isSmoke']),
                                   style: TextStyle(
                                     fontSize: 18,
                                   ),
@@ -370,13 +343,13 @@ class ProfilePatientBody extends StatelessWidget {
                   headerBox(
                     context,
                     'Drug allergy',
-                    (_getDrugAllergyLength > 0)
+                    (pInfo['drugAllegy'].length > 0)
                         ? SizedBox(
-                            height: _getDrugAllergyLength * 30.0,
+                            height: pInfo['drugAllegy'].length * 30.0,
                             child: ListView.builder(
                               physics: NeverScrollableScrollPhysics(),
                               itemBuilder: (context, index) {
-                                List drugs = pInfo.drugAllegy;
+                                List drugs = pInfo['drugAllegy'];
                                 return Padding(
                                   padding: EdgeInsets.only(bottom: 8.0),
                                   child: Text(
@@ -388,7 +361,7 @@ class ProfilePatientBody extends StatelessWidget {
                                   ),
                                 );
                               },
-                              itemCount: _getDrugAllergyLength,
+                              itemCount: pInfo['drugAllegy'].length,
                             ),
                           )
                         : SizedBox(

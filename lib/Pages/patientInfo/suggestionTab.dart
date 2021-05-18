@@ -29,7 +29,7 @@ class _SuggestionTabState extends State<SuggestionTab> {
         // 'tpId': 'tp001',
         // 'note': '',
         'apDt': DateTime.utc(2020, 12, 20),
-        'status': AptStatus.Edited,
+        'status': AptStatus.Pass,
         'advises': 'Rest mak mak na',
         'prescription': [
           'Paracetamol',
@@ -40,7 +40,7 @@ class _SuggestionTabState extends State<SuggestionTab> {
         // 'tpId': 'tp001',
         // 'note': '',
         'apDt': DateTime.utc(2020, 12, 26),
-        'status': AptStatus.Edited,
+        'status': AptStatus.Pass,
         'advises': 'Kin Kwaw yer yer',
         'prescription': [
           'Paracetamol',

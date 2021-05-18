@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:homepage_proto/Models/model.dart';
 import 'package:provider/provider.dart';
 
 import '../Provider/vitalSign_Info.dart';
+import '../Provider/user-info.dart';
+import '../Provider/chatRoom_info.dart';
 import '../Widget/AdaptiveRaisedButton.dart';
 // import '../Widget/PainScoreSlider.dart';
 import '../Widget/customSliderThumbCircle.dart';
+import './homePages.dart';
+import './WaitingDoctor.dart';
 
 class PainScorePage extends StatefulWidget {
   static const routeName = '/painScore';
@@ -16,18 +21,6 @@ class PainScorePage extends StatefulWidget {
 
 class _PainScorePageState extends State<PainScorePage> {
   double value = 0;
-
-  void _uploadData(
-    Map<String, dynamic> data_vs_ps,
-    // ... use something more
-  ) {
-    // upload painScore
-
-    // temp
-    data_vs_ps.forEach((key, value) {
-      print('$key : $value');
-    });
-  }
 
   Widget _headerBuilder(
     BuildContext context,
@@ -72,8 +65,10 @@ class _PainScorePageState extends State<PainScorePage> {
     final routeArg =
         ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
     final vitalSign = Provider.of<VitalSignProvider>(context, listen: false);
+    // final userInfo = Provider.of<UserInfo>(context, listen: false);
+    final chatroomProvider = Provider.of<ChatRoomProvider>(context, listen: false);
     int index = routeArg['index'];
-    List<String> symptoms = routeArg['symptom'];
+    List<dynamic> symptoms = vitalSign.symptoms;
     Map<String, int> painScore = routeArg['painScore'];
     // print(routeArg['symptom']);
     final appBar = AppBar(
@@ -119,7 +114,7 @@ class _PainScorePageState extends State<PainScorePage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  _headerBuilder(context, symptoms[index]),
+                  _headerBuilder(context, (symptoms.isNotEmpty) ? symptoms[index]: ''),
                   SizedBox(
                     height: 20,
                   ),
@@ -234,9 +229,12 @@ class _PainScorePageState extends State<PainScorePage> {
                             (index < (symptoms.length - 1)) ? 'Next' : 'Submit',
                         height: 35,
                         width: MediaQuery.of(context).size.width * 0.35,
-                        handlerFn: () {
+                        handlerFn: () async {
+                          print(
+                              'symp: ${symptoms[index]} || score: ${value.toInt()}');
                           if (index < (symptoms.length - 1)) {
-                            painScore[symptoms[index]] = value.toInt();
+                            // vitalSign.painScore.putIfAbsent(symptoms[index], () => value.toInt());
+                            vitalSign.painScore[symptoms[index]] = value;
                             Navigator.of(context)
                                 .pushNamed(PainScorePage.routeName, arguments: {
                               'index': index + 1,
@@ -244,19 +242,15 @@ class _PainScorePageState extends State<PainScorePage> {
                               'painScore': painScore,
                             });
                           } else {
-                            painScore[symptoms[index]] = value.toInt();
+                            vitalSign.painScore['${symptoms[index]}'] =
+                                value.round();
                             // ... uploadData to server
-                            _uploadData({
-                              'vitalSign': {
-                                'temp': vitalSign.temp,
-                                'pulse': vitalSign.pulse,
-                                'breath': vitalSign.breath,
-                                'pressure': vitalSign.pressure,
-                              },
-                              'painScore': painScore,
-                            });
+                            // final _apt = userInfo.appointment.where((element) => element['status'] == AptStatus.Waiting).toList();
+                            // final _sortApt = _apt.sort((a,b) => b['apdt'].compareTo(a['apdt']));
+                            await vitalSign.saveVsPs();
                             showDialog(
                               context: context,
+                              barrierDismissible: false,
                               builder: (BuildContext context) {
                                 return AlertDialog(
                                   shape: RoundedRectangleBorder(
@@ -265,10 +259,19 @@ class _PainScorePageState extends State<PainScorePage> {
                                   actions: [
                                     TextButton(
                                       child: Text("OK"),
-                                      onPressed: () {
+                                      onPressed: () async {
+                                        Future.delayed(Duration.zero, () {
+                                          Navigator.of(context)
+                                              .popUntil(
+                                            ModalRoute.withName(HomePage.routeName),
+                                          );
+                                          if (chatroomProvider.online) {
+                                            Navigator.of(context).pushNamed(WaitingPage.routeName);
+                                          }
+                                        });
+                                        // Navigator.of(context).popUntil(
+                                        //     ModalRoute.withName('/home'));
                                         vitalSign.clear();
-                                        Navigator.of(context).popUntil(
-                                            ModalRoute.withName('/home'));
                                       },
                                     ),
                                   ],
@@ -276,6 +279,7 @@ class _PainScorePageState extends State<PainScorePage> {
                               },
                             );
                           }
+
                           // print('blank');
                           // print(PainScoreSlider.value)
                           // print(value.toString());

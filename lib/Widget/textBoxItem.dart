@@ -13,22 +13,38 @@ class TextBoxItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final raisedDeco = BoxDecoration(
       color: Theme.of(context).primaryColor,
-      borderRadius: BorderRadius.circular(5),
+      borderRadius: BorderRadius.only(
+        topRight: Radius.circular(15),
+        topLeft: Radius.circular(15),
+        bottomRight: Radius.circular(15),
+      ),
     );
     final borderDeco = BoxDecoration(
-      border: Border.all(
-        width: 2,
-        color: Theme.of(context).primaryColor,
+      color: Colors.grey[200],
+      borderRadius: BorderRadius.only(
+        topRight: Radius.circular(15),
+        topLeft: Radius.circular(15),
+        bottomLeft: Radius.circular(15),
       ),
-      color: Colors.transparent,
-      borderRadius: BorderRadius.circular(5),
     );
 
     return Container(
       margin: msgRole != userRole
-        ? EdgeInsets.only(left: 10)
-        :EdgeInsets.only(right: 10),
+          ? EdgeInsets.only(left: 10)
+          : EdgeInsets.only(right: 10),
       child: Card(
+        shape: RoundedRectangleBorder(
+            borderRadius: msgRole != userRole
+                ? BorderRadius.only(
+                    topRight: Radius.circular(15),
+                    topLeft: Radius.circular(15),
+                    bottomRight: Radius.circular(15),
+                  )
+                : BorderRadius.only(
+                    topRight: Radius.circular(15),
+                    topLeft: Radius.circular(15),
+                    bottomLeft: Radius.circular(15),
+                  )),
         elevation: 2,
         child: Container(
           padding: EdgeInsets.all(10),
@@ -40,7 +56,7 @@ class TextBoxItem extends StatelessWidget {
             style: TextStyle(
               color: msgRole != userRole
                   ? Colors.white
-                  : Theme.of(context).primaryColor,
+                  : Colors.black,
               fontSize: 18,
             ),
             overflow: TextOverflow.clip,

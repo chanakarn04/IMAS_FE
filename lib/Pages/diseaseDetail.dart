@@ -13,29 +13,12 @@ class DiseaseDetailPages extends StatelessWidget {
   //   this.disease,
   // });
 
-  Map _loadData(
-    String cid,
-  ) {
-    //...
-    
-
-    final data = {
-      'cid': 'c_255',
-      'dName': 'Tentanus',
-      'description': 'temporary condition description',
-      'treatment': 'temporary condtion treatment',
-      'cause': 'temporary condition cause',
-    };
-
-    return data;
-  }
-
   @override
   Widget build(BuildContext context) {
     final cid = ModalRoute.of(context).settings.arguments as String;
     final symptomAssessment = Provider.of<SymptomAssessmentProvider>(context);
-    symptomAssessment.getConditionDetail(cid);
-    final condition = _loadData(cid);
+    symptomAssessment.getMoreConditionDetail(cid);
+    // final condition = _loadData(cid);
     final appBar = AppBar(
       centerTitle: true,
       iconTheme: IconThemeData(
@@ -61,24 +44,36 @@ class DiseaseDetailPages extends StatelessWidget {
     );
     return Scaffold(
       appBar: appBar,
-      body: Container(
-        decoration: BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.centerLeft,
-                end: Alignment.centerRight,
-                colors: [
-              Theme.of(context).primaryColor,
-              Theme.of(context).accentColor
-            ])),
-        child: Center(
-          child: DiseaseDetailCard(
-            name: condition['dName'],
-            description: condition['description'],
-            cause: condition['cause'],
-            treatment: condition['treatment'],
-          ),
-        ),
-      ),
+      body: (symptomAssessment.conditionDetailLoading)
+          ? Center(
+              child: SizedBox(
+                height: MediaQuery.of(context).size.width * 0.2,
+                width: MediaQuery.of(context).size.width * 0.2,
+                child: CircularProgressIndicator(
+                  strokeWidth: 5.0,
+                  valueColor: new AlwaysStoppedAnimation<Color>(
+                      Theme.of(context).primaryColor),
+                ),
+              ),
+            )
+          : Container(
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                      colors: [
+                    Theme.of(context).primaryColor,
+                    Theme.of(context).accentColor
+                  ])),
+              child: Center(
+                // child: DiseaseDetailCard(
+                //   name: condition['dName'],
+                //   description: condition['description'],
+                //   cause: condition['cause'],
+                //   treatment: condition['treatment'],
+                // ),
+              ),
+            ),
     );
   }
 }

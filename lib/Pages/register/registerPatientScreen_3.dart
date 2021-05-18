@@ -195,52 +195,77 @@ class _RegisterPatient3ScreenState extends State<RegisterPatient3Screen> {
                                 height: 15,
                               ),
                               ElevatedButton(
-                                onPressed: () {
+                                onPressed: () async {
                                   registerData.addAll({
                                     'patDrugAllergy': drug,
                                   });
-                                  print(registerData);
-                                  // ... send register to server HERE
-                                  // ... use RegisteredData
-                                  Map<String, String> token = {
-                                    'token': '',
-                                    'userid': '',
-                                  };
-                                  socketConnect(token).then((_) async {
-                                    await socketIO.emit('event', [
-                                      {
-                                        'transaction': 'register',
-                                        'payload': registerData
-                                      }
-                                    ]);
-                                    socketIO.on('r-register').listen((data) {
-                                      // print('On r-register: $data');
-                                      print(
-                                          'On r-register: ${data[0]['value']['payload']['message']}');
-                                      // something  more
-                                      if (data != null) {
-                                        setState(() {
-                                          _isRegistered = true;
-                                        });
-                                        if (data[0]['value']['payload']
-                                                ['message'] ==
-                                            'Register success') {
-                                          setState(() {
-                                            _isRegisterSuccess = true;
-                                          });
-                                        } else {
-                                          setState(() {
-                                            errorDescribe = data[0]['value']
-                                                ['payload']['message'];
-                                          });
-                                        }
-                                      }
-                                    });
-                                  });
-                                  // ...
                                   setState(() {
                                     _isRegistering = true;
                                   });
+                                  // print(registerData);
+                                  // ... send register to server HERE
+                                  // ... use RegisteredData
+                                  await regisSocketConnect({
+                                    'token': '',
+                                    'userid': '',
+                                  });
+                                  await regisSocket.emit('event', [
+                                    {
+                                      'transaction': 'register',
+                                      'payload': registerData
+                                    }
+                                  ]);
+                                  await for (dynamic data in regisSocket.on('r-register')) {
+                                    print('On r-register: ${data[0]['value']['payload']['message']}');
+                                    // something  more
+                                    if (data != null) {
+                                      setState(() {
+                                        _isRegistered = true;
+                                      });
+                                      if (data[0]['value']['payload']['message'] == 'Register success') {
+                                        setState(() {
+                                          _isRegisterSuccess = true;
+                                        });
+                                      } else {
+                                        setState(() {
+                                          errorDescribe = data[0]['value']['payload']['message'];
+                                        });
+                                      }
+                                    }
+                                  }
+                                  await regisSocketDisconnect();
+                                  // socketConnect(token).then((_) async {
+                                  //   await socketIO.emit('event', [
+                                  //     {
+                                  //       'transaction': 'register',
+                                  //       'payload': registerData
+                                  //     }
+                                  //   ]);
+                                  //   socketIO.on('r-register').listen((data) {
+                                  //     // print('On r-register: $data');
+                                  //     print(
+                                  //         'On r-register: ${data[0]['value']['payload']['message']}');
+                                  //     // something  more
+                                  //     if (data != null) {
+                                  //       setState(() {
+                                  //         _isRegistered = true;
+                                  //       });
+                                  //       if (data[0]['value']['payload']
+                                  //               ['message'] ==
+                                  //           'Register success') {
+                                  //         setState(() {
+                                  //           _isRegisterSuccess = true;
+                                  //         });
+                                  //       } else {
+                                  //         setState(() {
+                                  //           errorDescribe = data[0]['value']
+                                  //               ['payload']['message'];
+                                  //         });
+                                  //       }
+                                  //     }
+                                  //   });
+                                  // });
+                                  // ...
                                   // Navigator.of(context)
                                   //     .pushNamed(RegisterPatient3Screen.routeName);
                                 },

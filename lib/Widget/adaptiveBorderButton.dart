@@ -11,31 +11,32 @@ class AdaptiveBorderButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: (height + 0.03),
-      width: width,
-      decoration: BoxDecoration(
+    return ElevatedButton(
+      onPressed: handlerFn,
+      style: ElevatedButton.styleFrom(
+        padding: EdgeInsets.all(0),
+        primary: Colors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.0),
+        ),
+      ),
+      child: Container(
+        decoration: BoxDecoration(
           border: Border.all(
             color: Theme.of(context).primaryColor,
             width: 1,
           ),
-          borderRadius: BorderRadius.circular(10)),
-      alignment: Alignment.center,
-      // padding: EdgeInsets.all(7),
-      child: FlatButton(
-          child: Container(
-            height: height,
-            width: width,
-            alignment: Alignment.center,
-            child: Text(
-              buttonText,
-              style: TextStyle(
-                color: Theme.of(context).primaryColor,
-                // fontSize: 20,
-              ),
-            ),
-          ),
-          onPressed: handlerFn),
+          borderRadius: BorderRadius.circular(15),
+        ),
+        padding: EdgeInsets.all(7),
+        height: height,
+        width: width,
+        alignment: Alignment.center,
+        child: Text(
+          buttonText,
+          style: TextStyle(color: Theme.of(context).primaryColor),
+        ),
+      ),
     );
   }
 }

@@ -62,8 +62,8 @@ class ProfilePages extends StatelessWidget {
     final userInfo = Provider.of<UserInfo>(context, listen: false);
     return Scaffold(
       body: (userInfo.role == Role.Patient)
-          ? ProfilePatientBody(_buildHeaderBox, userInfo.userId)
-          : ProfileDoctorBody(_buildHeaderBox),
+          ? ProfilePatientBody(_buildHeaderBox, userInfo.userData)
+          : ProfileDoctorBody(_buildHeaderBox, userInfo.userData),
     );
   }
 }
