@@ -328,6 +328,7 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
                                       decoration: InputDecoration(
                                         hintText: 'Email',
                                       ),
+                                      controller: emailTxtCtrl,
                                       validator: (value) {
                                         if (value == null || value.isEmpty) {
                                           return 'This field must not empty';
@@ -344,6 +345,7 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
                                       },
                                       onEditingComplete: () {
                                         FocusScope.of(context).nextFocus();
+                                        email = emailTxtCtrl.text;
                                       },
                                       onFieldSubmitted: (value) {
                                         email = value;
@@ -366,10 +368,11 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
                                       },
                                       onEditingComplete: () {
                                         FocusScope.of(context).nextFocus();
+                                        password = passwordTxtCtrl.text;
                                       },
-                                      onFieldSubmitted: (value) {
-                                        password = value;
-                                      },
+                                      // onFieldSubmitted: (value) {
+                                      //   // password = value;
+                                      // },
                                     ),
                                   ),
                                   SizedBox(
@@ -384,17 +387,19 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
                                         if (value == null || value.isEmpty) {
                                           return 'This field must not empty';
                                         }
-                                        // if (value != password) {
-                                        //   passwordTxtCtrl.clear();
-                                        //   cfPasswordTxtCtrl.clear();
-                                        //   return 'Password are not macthing';
-                                        // }
+                                        if (value != password) {
+                                          passwordTxtCtrl.clear();
+                                          cfPasswordTxtCtrl.clear();
+                                          return 'Password are not macthing';
+                                        }
                                         return null;
                                       },
-                                      onEditingComplete: () =>
-                                          FocusScope.of(context).nextFocus(),
-                                      onFieldSubmitted: (value) =>
-                                          cfPassword = value,
+                                      onEditingComplete: () {
+                                        FocusScope.of(context).nextFocus();
+                                        cfPassword = cfPasswordTxtCtrl.text;
+                                      }
+                                      // onFieldSubmitted: (value) =>
+                                      //     cfPassword = value,
                                     ),
                                   ),
                                   SizedBox(
@@ -444,10 +449,12 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
                                         }
                                         return null;
                                       },
-                                      onEditingComplete: () =>
-                                          FocusScope.of(context).nextFocus(),
-                                      onFieldSubmitted: (value) =>
-                                          fname = value,
+                                      onEditingComplete: () {
+                                        FocusScope.of(context).nextFocus();
+                                        fname = fnameTxtCtrl.text;
+                                      }
+                                      // onFieldSubmitted: (value) =>
+                                      //     fname = value,
                                     ),
                                   ),
                                   SizedBox(
@@ -463,10 +470,12 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
                                         }
                                         return null;
                                       },
-                                      onEditingComplete: () =>
-                                          FocusScope.of(context).nextFocus(),
-                                      onFieldSubmitted: (value) =>
-                                          sname = value,
+                                      onEditingComplete: () {
+                                        FocusScope.of(context).nextFocus();
+                                        sname = snameTxtCtrl.text;
+                                      }
+                                      // onFieldSubmitted: (value) =>
+                                      //     sname = value,
                                     ),
                                   ),
                                   SizedBox(
@@ -524,10 +533,12 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
                                         }
                                         return null;
                                       },
-                                      onEditingComplete: () =>
-                                          FocusScope.of(context).nextFocus(),
-                                      onFieldSubmitted: (value) =>
-                                          citizenID = value,
+                                      onEditingComplete: () {
+                                        FocusScope.of(context).nextFocus();
+                                        citizenID = citizenIdTxtCtrl.text;
+                                      }
+                                      // onFieldSubmitted: (value) =>
+                                      //     citizenID = value,
                                     ),
                                   ),
                                   SizedBox(
@@ -547,10 +558,12 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
                                         }
                                         return null;
                                       },
-                                      onEditingComplete: () =>
-                                          FocusScope.of(context).nextFocus(),
-                                      onFieldSubmitted: (value) =>
-                                          medID = value,
+                                      onEditingComplete: () {
+                                        FocusScope.of(context).nextFocus();
+                                        medID = medIdTxtCtrl.text;
+                                      }
+                                      // onFieldSubmitted: (value) =>
+                                      //     medID = value,
                                     ),
                                   ),
                                   SizedBox(
@@ -570,10 +583,12 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
                                         }
                                         return null;
                                       },
-                                      onEditingComplete: () =>
-                                          FocusScope.of(context).nextFocus(),
-                                      onFieldSubmitted: (value) =>
-                                          certID = value,
+                                      onEditingComplete: () {
+                                        FocusScope.of(context).nextFocus();
+                                        certID = certIdTxtCtrl.text;
+                                      }
+                                      // onFieldSubmitted: (value) =>
+                                      //     certID = value,
                                     ),
                                   ),
                                   SizedBox(
