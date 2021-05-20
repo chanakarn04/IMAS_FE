@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 // import '../../dummy_data.dart';
 import '../../Models/model.dart';
+import '../../Provider/patientInfo.dart';
 
 class BasicInfoTab extends StatelessWidget {
-  final String userId;
+  // final String userId;
 
-  // tpID from main Page
-  BasicInfoTab(this.userId);
+  // // tpID from main Page
+  // BasicInfoTab(this.userId);
 
   Map<String, dynamic> _loadData(
     String userId,
@@ -112,8 +114,18 @@ class BasicInfoTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String userId = ModalRoute.of(context).settings.arguments;
-    final data = _loadData(userId);
+    final patientInfo = Provider.of<PatientInfo>(context);
+    final Map<String, dynamic> data = patientInfo.pInfo;
+    // final String userId = ModalRoute.of(context).settings.arguments;
+    // final data = _loadData(userId);
+    // final Map<String, dynamic> data = {
+    //   'gender': Gender.Male,
+    //   'DoB': DateTime(1998, 4, 15),
+    //   'isSmoke': Status.No,
+    //   'isDiabetes': Status.NotSure,
+    //   'hasHighPress': Status.Yes,
+    //   'drugAllergy': ['Paracetamol'],
+    // };
     return Container(
       // color: Colors.orange[200],
       // height: 200,
@@ -165,7 +177,7 @@ class BasicInfoTab extends StatelessWidget {
                 children: [
                   Text(
                     // '${((DateTime.now().month - pInfo.dob.month) / 12)}',
-                    '${((DateTime.now().difference(data['DoB']).inDays) / 365).floor()}',
+                    '${((DateTime.now().difference(data['dob']).inDays) / 365).floor()}',
                     // '${((DateTime.now().difference(data['dob']).inDays) / 365).floor()}',
                     style: TextStyle(
                       fontSize: 24,

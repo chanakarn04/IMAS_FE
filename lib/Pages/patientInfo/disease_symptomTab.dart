@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:provider/provider.dart';
 
 import '../../Widget/carouselDotIndicator.dart';
 import '../../Widget/ptInfo_aptSymptomDieaseCard.dart';
 import '../../Models/model.dart';
+import '../../Provider/patientInfo.dart';
 
 class DiseaseSymptomTab extends StatefulWidget {
   // final String tpId = 'tp001';
-  final String tpId;
+  // final String tpId;
 
-  DiseaseSymptomTab(this.tpId);
+  // DiseaseSymptomTab(this.tpId);
 
   @override
   _DiseaseSymptomTabState createState() => _DiseaseSymptomTabState();
@@ -60,13 +62,17 @@ class _DiseaseSymptomTabState extends State<DiseaseSymptomTab> {
   @override
   void didChangeDependencies() {
     if (!_loadedInitData) {
-      data = _loadData(this.widget.tpId).reversed.toList();
+      final patientInfo = Provider.of<PatientInfo>(context);
+      data = patientInfo.symp_cond;
+      _loadedInitData = true;
+      // data = _loadData(this.widget.tpId).reversed.toList();
     }
     super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
+    // print('====> ${data.length}');
     return Center(
       child: Column(
         children: [
@@ -80,8 +86,6 @@ class _DiseaseSymptomTabState extends State<DiseaseSymptomTab> {
                   return AptSymptomDiseaseCard(
                     data[index],
                     (data.length - index),
-                    data[index]['symptom'],
-                    data[index]['disease'],
                   );
                 },
                 options: CarouselOptions(

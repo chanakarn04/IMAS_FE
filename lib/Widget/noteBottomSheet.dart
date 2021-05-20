@@ -57,7 +57,7 @@ class _NoteBottomSheetState extends State<NoteBottomSheet> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 AdaptiveBorderButton(
-                  buttonText: 'Cancle',
+                  buttonText: 'Cancel',
                   height: 42,
                   width: 90,
                   handlerFn: () => Navigator.of(context).pop(),

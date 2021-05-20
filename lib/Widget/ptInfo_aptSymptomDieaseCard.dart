@@ -3,15 +3,11 @@ import 'package:intl/intl.dart';
 
 class AptSymptomDiseaseCard extends StatelessWidget {
   final Map<String, dynamic> appointment;
-  final int index;
-  final List symptoms;
-  final List diseases;
+  final int indexing;
 
   AptSymptomDiseaseCard(
     this.appointment,
-    this.index,
-    this.symptoms,
-    this.diseases,
+    this.indexing,
   );
 
   Color painScoreColor(int painScore) {
@@ -70,7 +66,7 @@ class AptSymptomDiseaseCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Appointment $index',
+              'Appointment $indexing',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 24,
@@ -91,27 +87,41 @@ class AptSymptomDiseaseCard extends StatelessWidget {
                       color: Theme.of(context).primaryColor,
                     ),
                   ),
-                  Container(
-                    height: diseases.length * 25.0 + 20,
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    child: ListView.builder(
-                      physics: NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return Container(
-                          alignment: Alignment.centerLeft,
-                          padding: EdgeInsets.symmetric(vertical: 2.5),
+                  (appointment['condition'] != null)
+                      ? Container(
+                          height: appointment['condition'].length * 25.0 + 20,
+                          padding: EdgeInsets.symmetric(vertical: 10),
+                          child: ListView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              final _conditions =
+                                  appointment['condition'].values.toList();
+                              return Container(
+                                alignment: Alignment.centerLeft,
+                                padding: EdgeInsets.symmetric(vertical: 2.5),
+                                child: Text(
+                                  '\t\t\t${_conditions[index]}',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Color.fromARGB(255, 75, 75, 75),
+                                  ),
+                                ),
+                              );
+                            },
+                            itemCount: appointment['condition'].length,
+                          ),
+                        )
+                      : Container(
+                          height: 45,
+                          padding: EdgeInsets.all(10),
                           child: Text(
-                            '\t\t\t${diseases[index]}',
+                            'No disease',
                             style: TextStyle(
                               fontSize: 16,
                               color: Color.fromARGB(255, 75, 75, 75),
                             ),
                           ),
-                        );
-                      },
-                      itemCount: diseases.length,
-                    ),
-                  ),
+                        ),
                   _buildSeperator(context),
                   Text(
                     'Symptom',
@@ -121,42 +131,55 @@ class AptSymptomDiseaseCard extends StatelessWidget {
                       color: Theme.of(context).primaryColor,
                     ),
                   ),
-                  Container(
-                    height: symptoms.length * 45.0 + 20,
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    child: ListView.builder(
-                      physics: NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 2.5),
-                          child: Row(
-                            children: [
-                              Text(
-                                // '\t\t\t${symptoms.firstWhere((symptom) => symptom.id == dtdSymptom[index].stId).name}',
-                                '\t\t\t${symptoms[index]['name']}',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: Color.fromARGB(255, 75, 75, 75),
+                  (appointment['symptoms'] != null)
+                      ? Container(
+                          height: appointment['symptoms'].length * 45.0 + 20,
+                          padding: EdgeInsets.symmetric(vertical: 10),
+                          child: ListView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 2.5),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      // '\t\t\t${symptoms.firstWhere((symptom) => symptom.id == dtdSymptom[index].stId).name}',
+                                      '\t\t\t${appointment['symptoms'][index]}',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color: Color.fromARGB(255, 75, 75, 75),
+                                      ),
+                                    ),
+                                    Expanded(child: Container()),
+                                    // CircleAvatar(
+                                    //   child: Text(
+                                    //     '${appointment['symptoms'][index]['painScore']}',
+                                    //     style: TextStyle(
+                                    //         fontWeight: FontWeight.bold,
+                                    //         color: Colors.white),
+                                    //   ),
+                                    //   backgroundColor: painScoreColor(
+                                    //       appointment['symptoms'][index]['painScore']),
+                                    // ),
+                                  ],
                                 ),
-                              ),
-                              Expanded(child: Container()),
-                              CircleAvatar(
-                                child: Text(
-                                  '${symptoms[index]['painScore']}',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white),
-                                ),
-                                backgroundColor: painScoreColor(
-                                    symptoms[index]['painScore']),
-                              ),
-                            ],
+                              );
+                            },
+                            itemCount: appointment['symptoms'].length,
                           ),
-                        );
-                      },
-                      itemCount: symptoms.length,
-                    ),
-                  ),
+                        )
+                      : Container(
+                          height: 65,
+                          padding: EdgeInsets.all(10),
+                          child: Text(
+                            'No disease',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Color.fromARGB(255, 75, 75, 75),
+                            ),
+                          ),
+                        ),
                 ],
               ),
             ),

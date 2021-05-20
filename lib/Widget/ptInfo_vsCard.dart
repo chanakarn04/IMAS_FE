@@ -145,7 +145,7 @@ class VsCardWidget extends StatelessWidget {
               height: 5,
             ),
             Text(
-              DateFormat.yMMMEd().format(vitalSign['vsDt']),
+              DateFormat.yMMMEd().format(DateTime.parse(vitalSign['vsdt'])),
               style: TextStyle(
                 color: Color.fromARGB(255, 100, 100, 100),
                 fontSize: 22,
@@ -155,28 +155,35 @@ class VsCardWidget extends StatelessWidget {
               height: 20,
             ),
             buildInfoList(
-                title: 'Body Temperature',
-                unit: '°C',
-                value: vitalSign['bodyTemp']),
+              title: 'Body Temperature',
+              unit: '°C',
+              value: vitalSign['body_temp'],
+            ),
             Divider(
               color: Colors.grey[700],
             ),
             buildInfoList(
-                title: 'Heart Rate', unit: 'BPM', value: vitalSign['pulse']),
+              title: 'Heart Rate',
+              unit: 'BPM',
+              value: vitalSign['pulse'],
+            ),
             Divider(
               color: Colors.grey[700],
             ),
             buildInfoList(
-                title: 'Respiratory Rate',
-                unit: 'BPM',
-                value: vitalSign['respiratRate']),
+              title: 'Respiratory Rate',
+              unit: 'BPM',
+              value: vitalSign['respiratory_rate'],
+            ),
             Divider(
               color: Colors.grey[700],
             ),
             buildInfoList(
-                title: 'Bloodpressure',
-                unit: 'mmHg',
-                value: vitalSign['bloodPress']),
+              title: 'Bloodpressure',
+              unit: 'mmHg',
+              value: (vitalSign['blood_pressure_bottom'] != null) ?
+                  '${vitalSign['blood_pressure_bottom']}/${vitalSign['blood_pressure_top']}' : null,
+            ),
             SizedBox(
               height: 20,
             ),

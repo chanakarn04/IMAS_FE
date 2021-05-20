@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../Provider/caseManagement_Info.dart';
 import '../../Widget/caseMangementListitemBox.dart';
+import '../../Widget/caseMangementListConditionBox.dart';
 
 class CMDiseaseSymptomTab extends StatefulWidget {
   @override
@@ -25,10 +26,9 @@ class _CMDiseaseSymptomTabState extends State<CMDiseaseSymptomTab> {
           Expanded(
             child: Container(
               padding: EdgeInsets.only(left: 20),
-              child: CaseManagementListItemBox(
-                caseIndex: 'disease',
+              child: CaseManagementListConditionBox (
                 title: 'Disease',
-                items: cmInfo.condition,
+                // items: cmInfo.conditions,
               ),
             ),
           ),

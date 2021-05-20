@@ -20,10 +20,12 @@ class _SideDrawerState extends State<SideDrawer> {
   // bool onlineState = false;
   String onlineText = 'Offline';
 
+  ChatRoomProvider chatRoomProvider;
+
   @override
     void didChangeDependencies() {
       // TODO: implement didChangeDependencies
-      final chatRoomProvider = Provider.of<ChatRoomProvider>(context);
+      chatRoomProvider = Provider.of<ChatRoomProvider>(context);
       if(chatRoomProvider.online) {
         drOnlineColor = Theme.of(context).primaryColor;
         onlineText = 'Online';
@@ -135,7 +137,7 @@ class _SideDrawerState extends State<SideDrawer> {
                   ],
                 ),
               ),
-              ...buildSideDrawerDoctor(context, menuDrawerFlatButton),
+              ...buildSideDrawerDoctor(context, menuDrawerFlatButton, chatRoomProvider.chatRoomRegis,),
             ],
 
             // <Widget>[

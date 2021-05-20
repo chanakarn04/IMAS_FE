@@ -17,7 +17,7 @@ class AssessmentHistoryProvider with ChangeNotifier {
     // notifyListeners();
     List<Map<String, dynamic>> temp_tp = [];
     List<Map<String, dynamic>> info = [];
-    await socketIO.emit('event', [
+    socketIO.emit('event', [
       {
         'transaction': 'get-plan',
         'payload': {
@@ -32,6 +32,7 @@ class AssessmentHistoryProvider with ChangeNotifier {
       if (data.isNotEmpty) {
         // print('data is not Empty');
         for (dynamic tp in data) {
+          print('tp loop');
           temp_tp.add({
             'tpid': tp['_id'],
             'status': tpStatusGenerate(tp['status']),
@@ -39,8 +40,9 @@ class AssessmentHistoryProvider with ChangeNotifier {
             'drid': tp['drid'],
           });
         }
-        break;
       }
+      // notifyListeners();
+      break;
     }
 
     for (Map<String, dynamic> tp in temp_tp) {
@@ -68,12 +70,11 @@ class AssessmentHistoryProvider with ChangeNotifier {
             'symptom': aptSort[0]['pat_symptom'],
             'apts': apts,
           });
-          // payload: [{apid: 609e215bbe47e8001ff7f466, date: 2021-05-14T07:06:03.664Z, pat_symptom: [headache]}]
+          // payload: [{apid: 609e215bbe47e8001ff7f466, date: 2021-05-14T07:06:03.664Z, pat_symptom: [headache], pat_condition: {c_981: Back strain, c_30: Degenerative disc disease of the lumbar and sacral spine, c_102: Sciatica}}]
           break;
         }
       }
     }
-    await Future.delayed(Duration(seconds: 2));
     loading = false;
     print('load success');
     notifyListeners();

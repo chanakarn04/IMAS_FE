@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 // import '../dummy_data.dart';
 import '../Provider/user-info.dart';
 import './patientFollowUp/onConsultTab.dart';
 import './patientFollowUp/inCareTab.dart';
+import '../Widget/patientBox.dart';
 
 class PatientFollowUpPage extends StatefulWidget {
   static const routeName = '/patient-followUp';
@@ -14,129 +16,82 @@ class PatientFollowUpPage extends StatefulWidget {
 }
 
 class _PatientFollowUpPageState extends State<PatientFollowUpPage> {
-  int selectedPageIndex = 0;
-  List<Map<String, Object>> _pages;
+  var _loadedData = false;
+
+  List<Map<String, dynamic>> todayApt = [];
+  List<Map<String, dynamic>> otherApt = [];
 
   List<Map<String, dynamic>> _loadData(String userId) {
     // ... load all tp with drId
 
     return [
       {
-        'pName': 'Pisit',
-        'pSurname': 'Pasut',
+        'pName': 'Supanan Srichankaow',
         'imageAsset': 'assets/images/default_photo.png',
-        'apDt': DateTime.now().add(
-          new Duration(minutes: 10),
-        ),
+        'apDt': DateTime(2021, 5, 22),
         'tpId': 'tp001'
       },
       {
-        'pName': 'Mango',
-        'pSurname': 'Steen',
-        'imageAsset': '',
-        'apDt': DateTime.now().add(
-          new Duration(days: 8),
-        ),
-        'tpId': 'tp002'
+        'pName': 'Nuntanat Vanichvorasakul',
+        'imageAsset': 'assets/images/default_photo.png',
+        'apDt': DateTime(2021, 5, 19, 23, 30),
+        'tpId': 'tp001'
       },
       {
-        'pName': 'Jack',
-        'pSurname': 'Fruit',
-        'imageAsset': '',
-        'apDt': DateTime.now().add(
-          new Duration(days: 17),
-        ),
-        'tpId': 'tp003'
-      },
-      {
-        'pName': 'Ichigo',
-        'pSurname': 'Strawberry',
-        'imageAsset': '',
-        'apDt': DateTime.now().add(
-          new Duration(days: 24),
-        ),
-        'tpId': 'tp004'
-      },
-      {
-        'pName': 'Orange',
-        'pSurname': 'Joe',
-        'imageAsset': '',
-        'apDt': DateTime.now().add(
-          new Duration(days: 34),
-        ),
-        'tpId': 'tp005'
-      },
-      {
-        'pName': 'Faceless',
-        'pSurname': 'Void',
-        'imageAsset': '',
-        'apDt': DateTime.now().add(
-          new Duration(days: 36),
-        ),
-        'tpId': 'tp006'
-      },
-      {
-        'pName': 'Outworld',
-        'pSurname': 'Destroyer',
-        'imageAsset': '',
-        'apDt': DateTime.now().add(
-          new Duration(days: 38),
-        ),
-        'tpId': 'tp007'
-      },
-      {
-        'pName': 'Shadow',
-        'pSurname': 'Shaman',
-        'imageAsset': '',
-        'apDt': DateTime.now().add(
-          new Duration(days: 38),
-        ),
-        'tpId': 'tp008'
+        'pName': 'Samitanan Techabunyawatthanakul',
+        'imageAsset': 'assets/images/default_photo.png',
+        'apDt': DateTime.now(),
+        'tpId': 'tp001'
       },
     ];
   }
 
   @override
-  void initState() {
-    final userInfo = Provider.of<UserInfo>(context, listen: false);
-    final List<Map<String, dynamic>> data = _loadData(userInfo.userId);
-    print(data[0]['apDt'].difference(DateTime.now()));
-    // print(data
-    //     .where((element) =>
-    //         (DateTime.now().difference(element['apDt']).inMinutes >= 0 &&
-    //             DateTime.now().difference(element['apDt']).inMinutes <= 30))
-    //     .toList()
-    //     .length);
-    _pages = [
-      {
-        'title': 'On Consult',
-        'tab': OnConsultTab(
-          data
-              .where((element) =>
-                  (element['apDt'].difference(DateTime.now()).inMinutes >= 0 &&
-                      element['apDt'].difference(DateTime.now()).inMinutes <=
-                          30))
-              .toList(),
-        ),
-      },
-      {
-        'title': 'In Care',
-        'tab': InCareTab(
-          data,
-        )
-      },
-    ];
-    super.initState();
-  }
-
-  _selectPage(int index) {
-    setState(() {
-      selectedPageIndex = index;
-    });
+  void didChangeDependencies() async {
+    if (!_loadedData) {
+      _loadedData = true;
+      final userInfo = Provider.of<UserInfo>(context);
+      userInfo.ptFollowUpLoading = true;
+      await userInfo.calendarAppointment();
+      await userInfo.patientFollowUpInfo();
+      final List<Map<String, dynamic>> data = userInfo.ptFollowUp;
+      // final List<Map<String, dynamic>> data = [
+      //   {
+      //     'pName': 'Supanan Srichankaow',
+      //     'imageAsset': 'assets/images/default_photo.png',
+      //     'apDt': DateTime(2021, 5, 22),
+      //     'tpid': 'tp001'
+      //   },
+      //   {
+      //     'pName': 'Nuntanat Vanichvorasakul',
+      //     'imageAsset': 'assets/images/default_photo.png',
+      //     'apDt': DateTime(2021, 5, 19, 23, 30),
+      //     'tpid': 'tp001'
+      //   },
+      //   {
+      //     'pName': 'Samitanan Techabunyawatthanakul',
+      //     'imageAsset': 'assets/images/default_photo.png',
+      //     'apDt': DateTime.now(),
+      //     'tpid': 'tp001'
+      //   },
+      // ];
+      todayApt = data
+          .where((element) =>
+              element['apDt'].difference(DateTime.now()).inDays == 0)
+          .toList();
+      otherApt = data
+          .where((element) =>
+              element['apDt'].difference(DateTime.now()).inDays != 0)
+          .toList();
+      print('todayApt: $todayApt');
+      print('otherApt: $otherApt');
+    }
+    super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
+    final userInfo = Provider.of<UserInfo>(context);
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(
@@ -163,24 +118,111 @@ class _PatientFollowUpPageState extends State<PatientFollowUpPage> {
           )
         ],
       ),
-      body: _pages[selectedPageIndex]['tab'],
-      bottomNavigationBar: BottomNavigationBar(
-        // backgroundColor: Theme.of(context).primaryColor,
-        // selectedItemColor: Colors.white,
-        unselectedItemColor: Theme.of(context).primaryColor.withAlpha(150),
-        currentIndex: selectedPageIndex,
-        onTap: _selectPage,
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.chat_bubble_outline_rounded),
-            label: _pages[0]['title'],
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_box_rounded),
-            label: _pages[1]['title'],
-          ),
-        ],
-      ),
+      body: (userInfo.ptFollowUpLoading)
+          ? Center(
+              child: SizedBox(
+                height: MediaQuery.of(context).size.width * 0.2,
+                width: MediaQuery.of(context).size.width * 0.2,
+                child: CircularProgressIndicator(
+                  strokeWidth: 5.0,
+                  valueColor: new AlwaysStoppedAnimation<Color>(
+                      Theme.of(context).primaryColor),
+                ),
+              ),
+            )
+          : SingleChildScrollView(
+              child: Container(
+                // color: Colors.teal[100],
+                padding: EdgeInsets.only(
+                  top: 20,
+                  left: 15,
+                  right: 15,
+                ),
+                child: Column(
+                  children: [
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Today\'s Appointments',
+                        style: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                          fontSize: 32,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    (todayApt.length != 0)
+                        ? Container(
+                            height: (75.0 * todayApt.length) + 30,
+                            child: ListView.builder(
+                              padding: EdgeInsets.symmetric(vertical: 15),
+                              itemBuilder: (context, index) {
+                                return PatientBox(
+                                  pName: todayApt[index]['pName'],
+                                  pid: todayApt[index]['pid'],
+                                  imageAsset: todayApt[index]['imageAsset'],
+                                  aptDt: todayApt[index]['apDt'],
+                                  tpId: todayApt[index]['tpid'],
+                                );
+                              },
+                              itemCount: todayApt.length,
+                            ),
+                          )
+                        : Container(
+                            height: MediaQuery.of(context).size.height * 0.2,
+                            alignment: Alignment.center,
+                            child: Text(
+                              'No appointment today.',
+                              style: TextStyle(
+                                fontSize: 24,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Other patients',
+                        style: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                          fontSize: 32,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    (otherApt.length != 0)
+                        ? Container(
+                            height: (75.0 * otherApt.length) + 30,
+                            // color: Colors.amber[100],
+                            child: ListView.builder(
+                              padding: EdgeInsets.symmetric(vertical: 15),
+                              itemBuilder: (context, index) {
+                                return PatientBox(
+                                  pName: otherApt[index]['pName'],
+                                  pid: otherApt[index]['pid'],
+                                  imageAsset: otherApt[index]['imageAsset'],
+                                  aptDt: otherApt[index]['apDt'],
+                                  tpId: otherApt[index]['tpid'],
+                                );
+                              },
+                              itemCount: otherApt.length,
+                            ),
+                          )
+                        : Container(
+                            height: MediaQuery.of(context).size.height * 0.2,
+                            alignment: Alignment.center,
+                            child: Text(
+                              'No other patients.',
+                              style: TextStyle(
+                                fontSize: 24,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ),
+                  ],
+                ),
+              ),
+            ),
     );
   }
 }

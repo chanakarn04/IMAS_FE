@@ -39,6 +39,9 @@ class PredResSymptom extends StatelessWidget {
                 padding: EdgeInsets.symmetric(vertical: 2),
                 child: Text(
                   '${symptomList[index]}',
+                  maxLines: 1,
+                  overflow: TextOverflow.fade,
+                  softWrap: false,
                   style: const TextStyle(
                     fontSize: 18,
                   ),

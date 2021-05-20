@@ -196,49 +196,6 @@ class DetailAssessmentHistory extends StatelessWidget {
                       ),
                       Container(
                         height:
-                            (28.0 * item['apts'][0]['pat_symptom'].length) + 15,
-                        padding: EdgeInsets.only(
-                          left: 20,
-                          top: 10,
-                          bottom: 5,
-                        ),
-                        child: ListView.builder(
-                          itemBuilder: (context, index) {
-                            return Container(
-                              margin: EdgeInsets.symmetric(vertical: 1.5),
-                              alignment: Alignment.centerLeft,
-                              // color: Colors.teal[100],
-                              child: Text(
-                                '${item['apts'][0]['pat_symptom'][index]}',
-                                style: TextStyle(fontSize: 18),
-                              ),
-                            );
-                          },
-                          itemCount: item['apts'][0]['pat_symptom'].length,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Container(
-                        height: 1,
-                        color: Colors.grey,
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Symptoms',
-                          style: TextStyle(
-                            fontSize: 24,
-                            color: Theme.of(context).primaryColor,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        height:
                             (28.0 * item['apts'][0]['pat_condition'].length) +
                                 15,
                         padding: EdgeInsets.only(
@@ -266,6 +223,49 @@ class DetailAssessmentHistory extends StatelessWidget {
                             );
                           },
                           itemCount: item['apts'][0]['pat_condition'].length,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                        height: 1,
+                        color: Colors.grey,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'Symptoms',
+                          style: TextStyle(
+                            fontSize: 24,
+                            color: Theme.of(context).primaryColor,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height:
+                            (28.0 * item['apts'][0]['pat_symptom'].length) + 15,
+                        padding: EdgeInsets.only(
+                          left: 20,
+                          top: 10,
+                          bottom: 5,
+                        ),
+                        child: ListView.builder(
+                          itemBuilder: (context, index) {
+                            return Container(
+                              margin: EdgeInsets.symmetric(vertical: 1.5),
+                              alignment: Alignment.centerLeft,
+                              // color: Colors.teal[100],
+                              child: Text(
+                                '${item['apts'][0]['pat_symptom'][index]}',
+                                style: TextStyle(fontSize: 18),
+                              ),
+                            );
+                          },
+                          itemCount: item['apts'][0]['pat_symptom'].length,
                         ),
                       ),
                     ],

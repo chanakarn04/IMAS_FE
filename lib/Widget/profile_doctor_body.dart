@@ -167,7 +167,7 @@ class ProfileDoctorBody extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  '${dInfo['usserName']}',
+                                  '${dInfo['userName']}',
                                   style: TextStyle(
                                     fontSize: 18,
                                   ),

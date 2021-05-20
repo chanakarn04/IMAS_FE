@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 // import 'package:homepage_proto/dummy_data.dart';
 
-import '../Provider/caseManagement_Info.dart';
+import '../Provider/chatRoom_info.dart';
 import './caseMangementTab/cmDiseaseSymptom.dart';
 import './caseMangementTab/cmPrescription.dart';
 import './caseMangementTab/caseManagement.dart';
@@ -49,13 +49,14 @@ class _CaseManagementPageState extends State<CaseManagementPage> {
 
   @override
   Widget build(BuildContext context) {
-    final data =
-        ModalRoute.of(context).settings.arguments as Map<String, String>;
-    final cmInfo = Provider.of<CMinfoProvider>(context, listen: false);
-    cmInfo.loadCMInfo(
-      data['tpId'],
-      data['name'],
-    );
+    final chatroomProvider = Provider.of<ChatRoomProvider>(context);
+    // final data =
+    //     ModalRoute.of(context).settings.arguments as Map<String, String>;
+    // final cmInfo = Provider.of<CMinfoProvider>(context, listen: false);
+    // cmInfo.loadCMInfo(
+    //   data['tpId'],
+    //   data['name'],
+    // );
     // cmInfo.savePname(data['name']);
     return Scaffold(
       appBar: AppBar(
@@ -98,7 +99,7 @@ class _CaseManagementPageState extends State<CaseManagementPage> {
                   ),
                 ),
                 Text(
-                  data['name'],
+                  chatroomProvider.opName,
                   style: TextStyle(
                     fontSize: 14,
                   ),

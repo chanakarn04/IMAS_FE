@@ -147,6 +147,8 @@ class _AssessmentHistoryPageState extends State<AssessmentHistoryPage> {
     // assessmentHistory.updateAssessmentHistory(userInfo.role);
     // items = _loadData();
     items = assessmentHistoryProvider.assessmentHistoryData;
+    // print('===> items ${items[1][]}');
+    // print('===> ${items.length}');
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(
@@ -182,104 +184,132 @@ class _AssessmentHistoryPageState extends State<AssessmentHistoryPage> {
                 ),
               ),
             )
-          : Container(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              // color: Colors.teal[200],
-              alignment: Alignment.center,
-              child: ListView.builder(
-                itemBuilder: (context, index) {
-                  return Container(
-                    margin: (index == 0)
-                        ? EdgeInsets.only(
-                            top: 10,
-                            bottom: 3,
-                          )
-                        : (index == items.length - 1)
+          : (items.isNotEmpty)
+              ? Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  // color: Colors.teal[200],
+                  alignment: Alignment.center,
+                  child: ListView.builder(
+                    itemBuilder: (context, index) {
+                      print('index: $index');
+                      return Container(
+                        margin: (index == 0)
                             ? EdgeInsets.only(
-                                top: 3,
-                                bottom: 10,
+                                top: 10,
+                                bottom: 3,
                               )
-                            : EdgeInsets.symmetric(
-                                vertical: 3,
-                              ),
-                    padding: EdgeInsets.all(15),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        width: 2,
-                        color: Theme.of(context).primaryColor,
-                      ),
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Row(
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                            : (index == items.length - 1)
+                                ? EdgeInsets.only(
+                                    top: 3,
+                                    bottom: 10,
+                                  )
+                                : EdgeInsets.symmetric(
+                                    vertical: 3,
+                                  ),
+                        padding: EdgeInsets.all(15),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            width: 2,
+                            color: Theme.of(context).primaryColor,
+                          ),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: Row(
                           children: [
-                            Text(
-                              items[index]['symptom'][0],
-                              style: TextStyle(
-                                // fontWeight: FontWeight.bold,
-                                fontSize: 24,
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  (items[index]['symptom'] != null)
+                                  ? items[index]['symptom'][0]
+                                  : 'No symptom',
+                                  // [
+                                  //   {
+                                  //     tpid: 60a6204dd3dec9001f59863a,
+                                  //     status: TreatmentStatus.Api, 
+                                  //     date: 2021-05-20 08:39:41.958Z, 
+                                  //     symptom: [Back pain], 
+                                  //     apts: [
+                                  //       {
+                                  //         apid: 60a6204dd3dec9001f59863b, date: 2021-05-20T08:39:41.958Z, pat_symptom: [Back pain], pat_condition: {c_981: Back strain, c_577: Degenerative disc disease of the thoracic spine, c_37: Kidney stones, c_533: Bone infection, c_149: Ankylosing spondylitis}
+                                  //       }
+                                  //     ]
+                                  //   }, {tpid: 60a62c11c8854a001fc4f457, status: TreatmentStatus.Api, date: 2021-05-27 00:00:00.000Z, symptom: null, apts: [{apid: 60a62ca4c8854a001fc4f45d, date: 2021-05-27T00:00:00.000Z, pat_symptom: null, pat_condition: null}, {apid: 60a62c11c8854a001fc4f458, date: 2021-05-20T09:29:53.820Z, pat_symptom: [backsalch], pat_condition: {c_981: Back strain, c_577: Degenerative disc disease of the thoracic spine}}]}, {tpid: 60a63885c8854a001fc4f45f, status: TreatmentStatus.Api, date: 2021-05-20 10:23:01.853Z, symptom: [foot rash], apts: [{apid: 60a63885c8854a001fc4f460, date: 2021-05-20T10:23:01.853Z, pat_symptom: [foot rash], pat
+                                  style: TextStyle(
+                                    // fontWeight: FontWeight.bold,
+                                    fontSize: 24,
+                                  ),
+                                ),
+                                Text(
+                                  '${DateFormat.yMMMd().format(items[index]['date'])}   ${DateFormat.jm().format(items[index]['date'])}',
+                                  style: TextStyle(
+                                    // fontWeight: FontWeight.bold,
+                                    color: Colors.grey,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 30,
+                                ),
+                                _buildStatusBox(
+                                    context,
+                                    _statusInfo(
+                                        context, items[index]['status'])),
+                              ],
+                            ),
+                            Expanded(child: Container()),
+                            InkWell(
+                              onTap: () {
+                                Navigator.of(context).pushNamed(
+                                    DetailAssessmentHistory.routeName,
+                                    arguments: items[index]);
+                                // if (items[index]['status'] == TreatmentStatus.Api) {
+                                //   Navigator.of(context).pushNamed(
+                                //       PredictionResultPage.routeName,
+                                //       arguments: {
+                                //         'isHistory': true,
+                                //         // 'isMeetDoctor': false
+                                //       });
+                                // } else if ((items[index]['status'] ==
+                                //         TreatmentStatus.Hospital) &&
+                                //     (items[index]['tpid'] == 'tp005')) {
+                                //   // check is doctor id is null
+                                //   // if doctor id is null mean this case never talk to doctor then no suggstion to show
+                                //   // show api result instead of doctor suggestion
+                                //   Navigator.of(context).pushNamed(
+                                //       PredictionResultPage.routeName,
+                                //       arguments: {
+                                //         'isHistory': true,
+                                //         'isMeetDoctor': false
+                                //       });
+                                // } else {
+                                //   Navigator.of(context).pushNamed(
+                                //     SuggestionPage.routeName,
+                                //     arguments: items[index]['status'],
+                                //   );
+                                // }
+                              },
+                              child: Icon(
+                                Icons.arrow_forward_ios_outlined,
+                                color: Theme.of(context).primaryColor,
+                                size: 42,
                               ),
                             ),
-                            Text(
-                              '${DateFormat.yMMMd().format(items[index]['date'])}   ${DateFormat.jm().format(items[index]['date'])}',
-                              style: TextStyle(
-                                // fontWeight: FontWeight.bold,
-                                color: Colors.grey,
-                                fontSize: 14,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 30,
-                            ),
-                            _buildStatusBox(context,
-                                _statusInfo(context, items[index]['status'])),
                           ],
                         ),
-                        Expanded(child: Container()),
-                        InkWell(
-                          onTap: () {
-                            Navigator.of(context).pushNamed(DetailAssessmentHistory.routeName, arguments: items[index]);
-                            // if (items[index]['status'] == TreatmentStatus.Api) {
-                            //   Navigator.of(context).pushNamed(
-                            //       PredictionResultPage.routeName,
-                            //       arguments: {
-                            //         'isHistory': true,
-                            //         // 'isMeetDoctor': false
-                            //       });
-                            // } else if ((items[index]['status'] ==
-                            //         TreatmentStatus.Hospital) &&
-                            //     (items[index]['tpid'] == 'tp005')) {
-                            //   // check is doctor id is null
-                            //   // if doctor id is null mean this case never talk to doctor then no suggstion to show
-                            //   // show api result instead of doctor suggestion
-                            //   Navigator.of(context).pushNamed(
-                            //       PredictionResultPage.routeName,
-                            //       arguments: {
-                            //         'isHistory': true,
-                            //         'isMeetDoctor': false
-                            //       });
-                            // } else {
-                            //   Navigator.of(context).pushNamed(
-                            //     SuggestionPage.routeName,
-                            //     arguments: items[index]['status'],
-                            //   );
-                            // }
-                          },
-                          child: Icon(
-                            Icons.arrow_forward_ios_outlined,
-                            color: Theme.of(context).primaryColor,
-                            size: 42,
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-                itemCount: items.length,
-              ),
-            ),
+                      );
+                    },
+                    itemCount: items.length,
+                  ),
+                )
+              : Center(
+                  child: Text(
+                  'No assessment history',
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 18,
+                  ),
+                )),
     );
   }
 }

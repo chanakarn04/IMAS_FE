@@ -7,6 +7,8 @@ import './adaptiveBorderButton.dart';
 import './AdaptiveRaisedButton.dart';
 import '../Pages/closeCasePage.dart';
 import '../Provider/caseManagement_Info.dart';
+import '../Provider/chatRoom_info.dart';
+import '../Provider/user-info.dart';
 
 class CaseManagementCreateAppointment extends StatefulWidget {
   // final String pName;
@@ -168,6 +170,9 @@ class _CaseManagementCreateAppointmentState
   @override
   Widget build(BuildContext context) {
     final cmInfo = Provider.of<CMinfoProvider>(context);
+    final chatroom = Provider.of<ChatRoomProvider>(context);
+    print('tpid: ${chatroom.tpid}');
+    final userInfo = Provider.of<UserInfo>(context, listen: false);
     // print(this.widget.apt);
     // _loadEvent();
     // print(events);
@@ -313,13 +318,15 @@ class _CaseManagementCreateAppointmentState
               ),
               AdaptiveRaisedButton(
                 buttonText: 'Create',
-                handlerFn: () {
+                handlerFn: () async {
+                  print(chatroom.tpid);
                   print('Create appointment');
                   // setState(() {
                   //   this.widget.date = selectedDate;
                   //   this.widget.time = selectedTime;
                   // });
-                  cmInfo.createAppointment(
+                  await cmInfo.createAppointment(
+                    chatroom.tpid,
                     DateTime(
                       selectedDate.year,
                       selectedDate.month,
@@ -328,6 +335,9 @@ class _CaseManagementCreateAppointmentState
                       selectedTime.minute,
                     ),
                   );
+                  await chatroom.deleteChatroom();
+                  await cmInfo.upload(chatroom.apid, chatroom.note, 0);
+                  await userInfo.updatePlan(chatroom.tpid, 1);
                   cmInfo.cleanDispose();
                   // cmInfo.dispose();
                   Navigator.of(context).popAndPushNamed(

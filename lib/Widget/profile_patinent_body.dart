@@ -226,7 +226,7 @@ class ProfilePatientBody extends StatelessWidget {
                                 Text(
                                   pInfo['userName'],
                                   style: TextStyle(
-                                    fontSize: 18,
+                                    fontSize: 16,
                                   ),
                                 ),
                                 SizedBox(
@@ -235,7 +235,7 @@ class ProfilePatientBody extends StatelessWidget {
                                 Text(
                                   DateFormat.yMMMMd().format(pInfo['dob']),
                                   style: TextStyle(
-                                    fontSize: 18,
+                                    fontSize: 16,
                                   ),
                                 ),
                                 SizedBox(
@@ -244,7 +244,7 @@ class ProfilePatientBody extends StatelessWidget {
                                 Text(
                                   genderText(pInfo['gender']),
                                   style: TextStyle(
-                                    fontSize: 18,
+                                    fontSize: 16,
                                   ),
                                 )
                               ],
@@ -343,13 +343,14 @@ class ProfilePatientBody extends StatelessWidget {
                   headerBox(
                     context,
                     'Drug allergy',
-                    (pInfo['drugAllegy'].length > 0)
+                    // (pInfo['drugAllergy'].length > 0)
+                    (pInfo['drugAllergy'] != null)
                         ? SizedBox(
-                            height: pInfo['drugAllegy'].length * 30.0,
+                            height: pInfo['drugAllergy'].length * 30.0,
                             child: ListView.builder(
                               physics: NeverScrollableScrollPhysics(),
                               itemBuilder: (context, index) {
-                                List drugs = pInfo['drugAllegy'];
+                                List drugs = pInfo['drugAllergy'];
                                 return Padding(
                                   padding: EdgeInsets.only(bottom: 8.0),
                                   child: Text(
@@ -361,7 +362,7 @@ class ProfilePatientBody extends StatelessWidget {
                                   ),
                                 );
                               },
-                              itemCount: pInfo['drugAllegy'].length,
+                              itemCount: pInfo['drugAllergy'].length,
                             ),
                           )
                         : SizedBox(

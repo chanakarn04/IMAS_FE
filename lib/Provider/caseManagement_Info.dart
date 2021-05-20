@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 // import 'package:socket_io_client/socket_io_client.dart';
 
-// import '../Models/model.dart';
+import '../Script/socketioScript.dart';
+import '../Models/model.dart';
 
 class CMinfoProvider with ChangeNotifier {
   String pName = '';
-  String editingApId = '';
   List<String> symptoms = [];
-  List<String> condition = [];
+  Map<String, String> conditions = {};
   List<String> prescriptions = [];
   String suggestions = '';
 
-  void loadCMInfo(String tpId, String name) {
+  var search_conditions_Loaded = true;
+  List<Map<String, dynamic>> search_conditions = [];
+
+  void loadCMInfo(String name) {
     // ... load from Lastest apId
 
     // if  lastest ApId info is null
@@ -19,25 +22,46 @@ class CMinfoProvider with ChangeNotifier {
 
     // After get data
     pName = name;
-    editingApId = 'ap001';
-    symptoms = [
-      'Headache',
-      'Paralysis',
-    ];
-    condition = [
-      'Tension Headache',
-    ];
-    prescriptions = [
-      'Paraceetamol',
-      'Bakamol',
-    ];
-    suggestions = 'Norn Dai leaw Deaw Prung Ni Khao Kor Klab Mah';
+    symptoms = [];
+    conditions = {};
+    prescriptions = [];
+    suggestions = '';
     // notifyListeners();
   }
 
-  void uploadAllCMInfo() {
+  Future<void> upload(String apid, String note, int status) async {
+    // AptStatus
+    // 0 = Pass, 1 = Default, 2 = Waiting
+    // Edited, Passes, Lastest
     // ... upLoadData with apId
-    // ...
+    // Save data
+    await socketIO.emit('event', [
+      {
+        'transaction': 'save-from-chatroom',
+        'payload': {
+          'apid': apid,
+          'note': note,
+          'advice': suggestions,
+          'status': status,
+          'symptoms': symptoms,
+          'conditions': conditions,
+          'drugs': prescriptions,
+        }
+      }
+    ]);
+
+    // Waiting for data return
+    await for (dynamic data in socketIO.on('r-save-from-chatroom')) {
+      print('On r-save-from-chatroom: $data');
+      final payload = data[0]['value']['payload'];
+      if (data != null) {
+        print(payload);
+        notifyListeners();
+      } else {
+        print('No data returned');
+      }
+      break;
+    }
   }
 
   void add(String caseIndex, String value) {
@@ -45,10 +69,6 @@ class CMinfoProvider with ChangeNotifier {
       case 'symptom':
         symptoms.add(value);
         // ... upload symptom to server
-        break;
-      case 'disease':
-        condition.add(value);
-        // ... upload condition to server
         break;
       case 'prescription':
         prescriptions.add(value);
@@ -62,15 +82,16 @@ class CMinfoProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void addCondition(String cid, String name) {
+    conditions[cid] = name;
+    notifyListeners();
+  }
+
   void edit(String caseIndex, int index, String value) {
     switch (caseIndex) {
       case 'symptom':
         symptoms[index] = value;
         // ... upload symptom to server
-        break;
-      case 'disease':
-        condition[index] = value;
-        // ... upload condition to server
         break;
       case 'prescription':
         prescriptions[index] = value;
@@ -90,10 +111,6 @@ class CMinfoProvider with ChangeNotifier {
         symptoms.removeAt(index);
         // ... upload symptom to server
         break;
-      case 'disease':
-        condition.removeAt(index);
-        // ... upload condition to server
-        break;
       case 'prescription':
         prescriptions.removeAt(index);
         // ... upload prescription to server
@@ -106,25 +123,67 @@ class CMinfoProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void closeCase() {
-    // use on close case by critical and cured
-    // ... upload all infomation
-    // ...
-    // ... change apt status and tp status
-    // ...
+  void delCondition(String key) {
+    conditions.remove(key);
+    notifyListeners();
   }
 
-  void createAppointment(
+  Future<void> searchCondition(String common_name) async {
+    search_conditions_Loaded = false;
+    socketIO.emit('event', [
+      {
+        'transaction': 'search-condition',
+        'payload': {
+          'common_name': common_name,
+        },
+      }
+    ]);
+    await for (dynamic data in socketIO.on('r-search-condition')) {
+      print('On r-search-condition: ${data[0]['value']['payload']}');
+      search_conditions = List<Map<String, dynamic>>.from(data[0]['value']['payload']['conditions']);
+      search_conditions_Loaded = true;
+      notifyListeners();
+      break;
+      // payload: {
+      //   conditions: [
+      //     {
+      //       id: c_test, 
+      //       type: condition, 
+      //       name: Condition for testing, 
+      //       common_name: Condition test, 
+      //       description: This is description
+      //     }
+      //   ]
+      // }
+    }
+  }
+
+  Future<void> createAppointment(
+    String tpid,
     DateTime apDt,
-  ) {
+  ) async {
     // ... change old apt status and create new apt
-    // ...
+    socketIO.emit('event', [
+      {
+        'transaction': 'create-new-appointment',
+        'payload': {
+          // 'tpid': '608e6cc18f0f9c001e97ff97',
+          'tpid': tpid,
+          'apdt': apDt.toString(),
+        },
+      }
+    ]);
+    
+    await for (dynamic data in socketIO.on('r-create-appointment')) {
+      print('On r-create-appointment: ${data[0]['value']['payload']}');
+      break;
+    }
   }
 
   void cleanDispose() {
-    editingApId = '';
+    pName = '';
     symptoms = [];
-    condition = [];
+    conditions = {};
     prescriptions = [];
     suggestions = '';
   }

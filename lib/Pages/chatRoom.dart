@@ -49,17 +49,17 @@ class ChatRoom extends StatelessWidget {
           if (value == 1) {
             Navigator.of(context).pushNamed(
               PatientInfoPage.routeName,
+              arguments: {
+                'tpid': chatProvider.tpid,
+                'pid': chatProvider.pid,
+                'pName': chatProvider.opName,
+              },
               // BUG
               // BUGarguments: chatProvider.opUserId,
             );
           } else {
             Navigator.of(context).pushNamed(
               CaseManagementPage.routeName,
-              arguments: {
-                // BUG
-                // 'tpId': chatProvider.opUserId,
-                // 'name': opName,
-              },
             );
           }
         },
@@ -117,46 +117,50 @@ class ChatRoom extends StatelessWidget {
           // Text('Doctor tester'),
         ],
       ),
-      actions: 
-        (userInfo.role == Role.Doctor)
-        ? [Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: InkWell(
-            onTap: _noteBottomSheet,
-            child: Icon(
-              Icons.sticky_note_2_rounded,
-              color: Theme.of(context).primaryColor,
-            ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: _popUpMenu(),
-        ),
-      ]
-      : [],
+      actions: (userInfo.role == Role.Doctor)
+          ? [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: InkWell(
+                  onTap: _noteBottomSheet,
+                  child: Icon(
+                    Icons.sticky_note_2_rounded,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: _popUpMenu(),
+              ),
+            ]
+          : [],
     );
 
     return Scaffold(
-      appBar: appBar,
-      body: (chatProvider.chatRoomRegis) 
-      ? SingleChildScrollView(
-        child: SizedBox(
-          height: (MediaQuery.of(context).size.height -
-              appBar.preferredSize.height -
-              MediaQuery.of(context).padding.top -
-              MediaQuery.of(context).viewInsets.bottom),
-          child: Column(
-            children: <Widget>[
-              Expanded(child: ChatRoomMsgList(
-                messageList: chatProvider.messages,
-                userRole: userInfo.role,
-              )),
-              TextInputBar(role: userInfo.role, userName: userInfo.userData['userName'],),
-            ],
-          ),
-        ),
-      ) : WaitChatroomCreating()
-    );
+        appBar: appBar,
+        body: (chatProvider.chatRoomRegis)
+            ? SingleChildScrollView(
+                child: SizedBox(
+                  height: (MediaQuery.of(context).size.height -
+                      appBar.preferredSize.height -
+                      MediaQuery.of(context).padding.top -
+                      MediaQuery.of(context).viewInsets.bottom),
+                  child: Column(
+                    children: <Widget>[
+                      Expanded(
+                          child: ChatRoomMsgList(
+                        messageList: chatProvider.messages,
+                        userRole: userInfo.role,
+                      )),
+                      TextInputBar(
+                        role: userInfo.role,
+                        userName: userInfo.userData['userName'],
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            : WaitChatroomCreating());
   }
 }

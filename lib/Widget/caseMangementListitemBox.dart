@@ -188,7 +188,7 @@ class _CaseManagementListItemBoxState extends State<CaseManagementListItemBox> {
                                         break;
                                       case 'disease':
                                         controller.text =
-                                            '${cmInfo.condition[index]}';
+                                            '${cmInfo.conditions[index]}';
                                         break;
                                       case 'prescription':
                                         controller.text =

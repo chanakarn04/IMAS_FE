@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:provider/provider.dart';
 
 import '../../Widget/carouselDotIndicator.dart';
 import '../../Widget/ptInfo_aptSuggestCard.dart';
 import '../../Models/model.dart';
+import '../../Provider/patientInfo.dart';
 
 class SuggestionTab extends StatefulWidget {
-  final String tpId;
+  // final String tpId;
 
-  SuggestionTab(this.tpId);
+  // SuggestionTab(this.tpId);
 
   @override
   _SuggestionTabState createState() => _SuggestionTabState();
@@ -53,7 +55,10 @@ class _SuggestionTabState extends State<SuggestionTab> {
   @override
   void didChangeDependencies() {
     if (!_loadInitData) {
-      data = _loadData(this.widget.tpId);
+      final patientInfo = Provider.of<PatientInfo>(context);
+      data = patientInfo.prescrip_suggest;
+      _loadInitData = true;
+      // data = _loadData(this.widget.tpId);
       //   appointments = dummy_appointment
       //       .where((apt) =>
       //           (apt.tpId == widget.tpId) && (apt.status == AptStatus.Edited))

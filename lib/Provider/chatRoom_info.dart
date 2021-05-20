@@ -34,17 +34,16 @@ class ChatRoomProvider with ChangeNotifier {
   List<ChatMessage> messages = [];
   String pid = '';
   String drid = '';
-  String note = '';
   String tpid = '';
   String apid = '';
   String opName = '';
 
+  String note = '';
   int status;
   String advice = '';
   List<String> symptoms = [];
   List<String> drugs = [];
   Map<String, String> conditions = {};
-  
 
   StreamSubscription reqCreateChatNoti;
 
@@ -54,19 +53,19 @@ class ChatRoomProvider with ChangeNotifier {
   Future<void> initChatroom({
     String userId,
     Role role,
-    String tpid,
-    String apid,
+    String thisTpid,
+    String thisApid,
   }) async {
     await chatSocketConnect({
       'token': '',
       'userid': '',
     });
-    if ((tpid != null) && (apid != null)) {
+    if ((thisTpid != null) && (thisApid != null)) {
       await chatSocket.emit('regisChatroom', [
         {
           'userId': userId,
-          'tpid': tpid,
-          'apid': apid,
+          'tpid': thisTpid,
+          'apid': thisApid,
         }
       ]);
     } else {
@@ -78,6 +77,9 @@ class ChatRoomProvider with ChangeNotifier {
     }
     await for (dynamic data in chatSocket.on('regisChatroom')) {
       print('ChatSocket on regisChatroom:${data[0]['payload']['message']}');
+      tpid = data[0]['payload']['treatment']['tpid'];
+      apid = data[0]['payload']['treatment']['apid'];
+      print('=====> tpid : $tpid');
       Map pl;
       if (role == Role.Patient) {
         pl = {
@@ -114,6 +116,20 @@ class ChatRoomProvider with ChangeNotifier {
       chatRoomRegis = true;
       chatSearching = false;
       notifyListeners();
+      socketIO.emit('event', [
+        {
+          'transaction': 'updatePlan',
+          'payload': {
+            'tpids': tpid,
+            'status': 0,
+            'drid': userId,
+          }
+        }
+      ]);
+      await for (dynamic data in socketIO.on('r-updatePlan')) {
+        print('On r-updatePlan ${data[0]['value']['payload']}');
+        break;
+      }
       break;
       // [{
       //   "transaction":"regisChatroom",
@@ -143,6 +159,22 @@ class ChatRoomProvider with ChangeNotifier {
       //    passport: null,
       //    payload: {from: patient, message: testPt}
       // }]
+    });
+
+    chatSocket.on('deleteChat').listen((data) {
+      // print('On r-deleteChat: $data');
+      final payload = data[0]['payload'];
+      // Received arguments::[{"transaction":"deleteChat","passport":null,"payload":{"message":"Successfully remove chatroom"}}]
+      if (data != null) {
+        print(payload);
+        isConsult = false;
+        chatRoomRegis = false;
+        chatRoomId = '';
+        chatSocketDisconnect();
+        notifyListeners();
+      } else {
+        print('No data returned');
+      }
     });
     print('finish on msg');
   }
@@ -206,7 +238,9 @@ class ChatRoomProvider with ChangeNotifier {
                           chatRoomId =
                               data[0]['value']['payload']['chatRoomId'];
                           // doctor not need apid / tpid
-                          initChatroom();
+                          initChatroom(
+                            userId: userid,
+                          );
                           break;
                         }
                       }
@@ -284,8 +318,8 @@ class ChatRoomProvider with ChangeNotifier {
       initChatroom(
         userId: userId,
         role: role,
-        tpid: tpid,
-        apid: apid,
+        thisTpid: tpid,
+        thisApid: apid,
       );
       break;
     }
@@ -313,7 +347,6 @@ class ChatRoomProvider with ChangeNotifier {
   }
 
   Future<void> saveChatRoom() async {
-
     // Save data
     await socketIO.emit('event', [
       {
@@ -334,14 +367,14 @@ class ChatRoomProvider with ChangeNotifier {
     await for (dynamic data in socketIO.on('r-save-from-chatroom')) {
       print('On r-save-from-chatroom: $data');
       final payload = data[0]['value']['payload'];
-      if(data != null){
+      if (data != null) {
         print(payload);
         notifyListeners();
       } else {
         print('No data returned');
       }
+      break;
     }
-
   }
 
   // void chatRequest(Role role) {
@@ -402,20 +435,46 @@ class ChatRoomProvider with ChangeNotifier {
     this.note = newNote;
   }
 
-  // void sendMessage(
-  //   String userId,
-  //   String messageText,
-  //   Role role,
-  // ) {
-  //   ChatMessage message = ChatMessage(
-  //     // userID: userId,
-  //     message: messageText,
-  //     role: role,
-  //   );
-  //   // add message to list
-  //   messages.add(message);
-  //   // upload to server
-  //   // ...
-  //   notifyListeners();
-  // }
+  Future<void> deleteChatroom() async {
+    // Save data
+    socketIO.emit('event', [
+      {
+        'transaction': 'deleteChat',
+        'payload': {
+          'roomId': chatRoomId,
+        }
+      }
+    ]);
+    chatSocket.on('deleteChat').listen((data) {
+      // print('On r-deleteChat: $data');
+      final payload = data[0]['payload'];
+      if (data != null) {
+        print(payload);
+        chatRoomRegis = false;
+        chatRoomId = '';
+        chatSocketDisconnect();
+        notifyListeners();
+      } else {
+        print('No data returned');
+      }
+    });
+  }
+
+//   void sendMessage(
+//     String userId,
+//     String messageText,
+//     Role role,
+//   ) {
+//     ChatMessage message = ChatMessage(
+//       // userID: userId,
+//       message: messageText,
+//       role: role,
+//     );
+//     // add message to list
+//     messages.add(message);
+//     // upload to server
+//     // ...
+//     notifyListeners();
+//   }
+// }
 }

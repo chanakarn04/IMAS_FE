@@ -3,9 +3,12 @@ import 'package:provider/provider.dart';
 // import 'package:intl/intl.dart';
 
 import '../closeCasePage.dart';
+import '../../Models/model.dart';
 import '../../Widget/showMyDialog.dart';
 import '../../Widget/caseManagementCreateAppointment.dart';
 import '../../Provider/caseManagement_Info.dart';
+import '../../Provider/chatRoom_info.dart';
+import '../../Provider/user-info.dart';
 
 class CaseManagementTab extends StatefulWidget {
   @override
@@ -210,6 +213,8 @@ class _CaseManagementTabState extends State<CaseManagementTab> {
   @override
   Widget build(BuildContext context) {
     final cmInfo = Provider.of<CMinfoProvider>(context, listen: false);
+    final chatroom = Provider.of<ChatRoomProvider>(context);
+    final userInfo = Provider.of<UserInfo>(context);
     return Container(
       padding: EdgeInsets.only(
         top: 15,
@@ -232,11 +237,8 @@ class _CaseManagementTabState extends State<CaseManagementTab> {
                     'Confirm to close case as critical?',
                     'cancel',
                     'confirm',
-                    () {
+                    () async {
                       print('close case as critical');
-                      cmInfo.closeCase();
-                      cmInfo.cleanDispose();
-                      // cmInfo.dispose();
                       Navigator.of(context).popAndPushNamed(
                         CloseCasePage.routneName,
                         arguments: {
@@ -244,6 +246,12 @@ class _CaseManagementTabState extends State<CaseManagementTab> {
                           'closeCase': true,
                         },
                       );
+                      // close chatroom 
+                      await cmInfo.upload(chatroom.apid, chatroom.note, 0);
+                      await userInfo.updatePlan(chatroom.tpid, 3);
+                      cmInfo.cleanDispose();
+                      await chatroom.deleteChatroom();
+                      // cmInfo.dispose();
                     },
                   );
                 }),
@@ -265,11 +273,7 @@ class _CaseManagementTabState extends State<CaseManagementTab> {
                     'Confirm to close case as cured?',
                     'cancel',
                     'confirm',
-                    () {
-                      print('close case as Cured');
-                      cmInfo.closeCase();
-                      cmInfo.cleanDispose();
-                      // cmInfo.dispose();
+                    () async {
                       Navigator.of(context).popAndPushNamed(
                         CloseCasePage.routneName,
                         arguments: {
@@ -277,6 +281,12 @@ class _CaseManagementTabState extends State<CaseManagementTab> {
                           'closeCase': true,
                         },
                       );
+                      print('close case as Cured');
+                      await cmInfo.upload(chatroom.apid, chatroom.note, 0);
+                      await userInfo.updatePlan(chatroom.tpid, 2);
+                      cmInfo.cleanDispose();
+                      await chatroom.deleteChatroom();
+                      // cmInfo.dispose();
                     },
                   );
                 }),
@@ -304,11 +314,8 @@ class _CaseManagementTabState extends State<CaseManagementTab> {
                   ),
                   builder: (context) {
                     return CaseManagementCreateAppointment(
-                      // 'Harold Pain',
-                      _loadEvent(),
-                      // selectedDate,
-                      // selectedTime,
-                      // cmInfo.pName
+                      // _loadEvent(),
+                      []
                     );
                   },
                 );

@@ -116,7 +116,7 @@ class _CaseManagementAdviseBoxState extends State<CaseManagementAdviseBox> {
             child: SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: Text(
-                '    \u2022 ${cmInfo.suggestions}',
+                '${cmInfo.suggestions}',
                 style: TextStyle(
                   fontSize: 18,
                 ),

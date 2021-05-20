@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../Models/model.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
+// import 'package:url_launcher/url_launcher.dart';
 
 // import '../Models/disease.dart';
 // import '../Models/diseaseAPI.dart';
@@ -154,6 +154,7 @@ class _PredictionResultPageState extends State<PredictionResultPage> {
                         color: Colors.white,
                       ),
                       onTap: () {
+                        symptomAssessment.clear();
                         Navigator.of(context).pop();
                       },
                     ),
@@ -268,8 +269,7 @@ class _PredictionResultPageState extends State<PredictionResultPage> {
                                                           actions: [
                                                             TextButton(
                                                               onPressed: () {
-                                                                launch(
-                                                                    'tel:1669');
+                                                                Navigator.of(context).pop();
                                                               },
                                                               child: Text(
                                                                 'Call',
@@ -331,6 +331,7 @@ class _PredictionResultPageState extends State<PredictionResultPage> {
                                                 child: AdaptiveRaisedButton(
                                                   buttonText: 'Home',
                                                   handlerFn: () {
+                                                    symptomAssessment.clear();
                                                     Navigator.of(context)
                                                         .popUntil(ModalRoute
                                                             .withName(HomePage

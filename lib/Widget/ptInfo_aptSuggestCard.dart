@@ -84,31 +84,43 @@ class AptSuggestCard extends StatelessWidget {
                       color: Theme.of(context).primaryColor,
                     ),
                   ),
-                  Container(
-                    height: prescription.length * 25.0 + 20,
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    child: ListView.builder(
-                      physics: NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return Column(
-                          children: [
-                            Container(
-                              alignment: Alignment.centerLeft,
-                              padding: EdgeInsets.symmetric(vertical: 2.5),
-                              child: Text(
-                                '\t\t\t${prescription[index]}',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: Color.fromARGB(255, 75, 75, 75),
-                                ),
-                              ),
+                  (prescription != null)
+                      ? Container(
+                          height: prescription.length * 25.0 + 20,
+                          padding: EdgeInsets.symmetric(vertical: 10),
+                          child: ListView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              return Column(
+                                children: [
+                                  Container(
+                                    alignment: Alignment.centerLeft,
+                                    padding:
+                                        EdgeInsets.symmetric(vertical: 2.5),
+                                    child: Text(
+                                      '\t\t\t${prescription[index]}',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color: Color.fromARGB(255, 75, 75, 75),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              );
+                            },
+                            itemCount: prescription.length,
+                          ),
+                        )
+                      : Container(
+                        padding: EdgeInsets.all(10),
+                          child: Text(
+                            'No drug suggestion',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Color.fromARGB(255, 75, 75, 75),
                             ),
-                          ],
-                        );
-                      },
-                      itemCount: prescription.length,
-                    ),
-                  ),
+                          ),
+                        ),
                   _buildSeperator(context),
                   Text(
                     'Suggestion',
@@ -125,7 +137,7 @@ class AptSuggestCard extends StatelessWidget {
                       alignment: Alignment.centerLeft,
                       padding: EdgeInsets.symmetric(vertical: 2.5),
                       child: Text(
-                        '    $suggestion',
+                        (suggestion != null) ? '    $suggestion' : '    No sugesstion',
                         style: TextStyle(
                           fontSize: 16,
                           color: Color.fromARGB(255, 75, 75, 75),

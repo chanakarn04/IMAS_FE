@@ -97,7 +97,7 @@ Future<Map<String, dynamic>> loginSocketConnect(token) async {
   });
 }
 
-Future<Map<String, dynamic>> regisSocketConnect(token) async {
+Future<Map<String, dynamic>> regisSocketConnect(Map<String, String> token) async {
   regisSocket = await manager.createInstance(SocketOptions(
     //Socket IO server URI
     'http://35.186.150.220:3000/',

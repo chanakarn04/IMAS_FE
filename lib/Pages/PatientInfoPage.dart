@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
+import '../Provider/user-info.dart';
+import '../Provider/patientInfo.dart';
 import './patientInfo/basicInfoTab.dart';
 import './patientInfo/disease_symptomTab.dart';
 import './patientInfo/vitalSignTab.dart';
@@ -15,11 +18,15 @@ class PatientInfoPage extends StatefulWidget {
 
 class _PatientInfoPageState extends State<PatientInfoPage> {
   // GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
+  var _loadedData = false;
   ScrollController _scrollController;
   bool sliverCollapsed = false;
   String appBarTitle = '';
   String pFullName = '';
   Map<String, dynamic> data;
+
+  PatientInfo patientInfo;
+  Map<String, dynamic> routeArg;
 
   // get treatmentPlan id from  route argument
   // get username, apDt with apStatus.lastest
@@ -29,7 +36,6 @@ class _PatientInfoPageState extends State<PatientInfoPage> {
 
     // assign pName for sliver header
     // pName + pSurname
-    pFullName = 'pName pSurname';
 
     return {
       'userId': 'p0001',
@@ -74,8 +80,27 @@ class _PatientInfoPageState extends State<PatientInfoPage> {
   // }
 
   @override
-  void didChangeDependencies() {
+  void didChangeDependencies() async {
     _scrollController = ScrollController();
+
+    if (!_loadedData) {
+      // {
+      //   'tpid': 'tp0001',
+      //   'pid': 'pisut.s@mail.com',
+      //   'pName': 'Pisut Suntronkiti',
+      // }
+      _loadedData = true;
+      routeArg = ModalRoute.of(context).settings.arguments;
+      pFullName = routeArg['pName'];
+      patientInfo = Provider.of<PatientInfo>(context);
+      patientInfo.pInfoLoad = false;
+      patientInfo.symp_condLoad = false;
+      patientInfo.vital_painLoad = false;
+      patientInfo.prescrip_suggestLoad = false;
+      print('==> PtInfo Start Loading');
+      print('routeArg: $routeArg');
+      await patientInfo.getPatInfo(routeArg['pid'], routeArg['tpid']);
+    }
 
     _scrollController.addListener(
       () {
@@ -108,9 +133,9 @@ class _PatientInfoPageState extends State<PatientInfoPage> {
 
   @override
   Widget build(BuildContext context) {
-    final String tpId = ModalRoute.of(context).settings.arguments;
+    // final String tpId = ModalRoute.of(context).settings.arguments;
     final Map<String, dynamic> data = _loadData(
-      tpId,
+      routeArg['tpid'],
     );
     final appBar = SliverAppBar(
       title: Text(
@@ -183,7 +208,7 @@ class _PatientInfoPageState extends State<PatientInfoPage> {
                     height: 25,
                     child: FittedBox(
                       child: Text(
-                        '${data['pName']} ${data['pSurname']}',
+                        '${routeArg['pName']}',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
@@ -191,20 +216,20 @@ class _PatientInfoPageState extends State<PatientInfoPage> {
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Container(
-                    height: 15,
-                    child: FittedBox(
-                      child: Text(
-                        'Next Appointment : ${DateFormat.yMMMEd().format(data['apDt'])}',
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
+                  // SizedBox(
+                  //   height: 5,
+                  // ),
+                  // Container(
+                  //   height: 15,
+                  //   child: FittedBox(
+                  //     child: Text(
+                  //       'Next Appointment : ${DateFormat.yMMMEd().format(data['apDt'])}',
+                  //       style: TextStyle(
+                  //         color: Colors.white,
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                   SizedBox(height: 45),
                 ],
               ),
@@ -251,24 +276,43 @@ class _PatientInfoPageState extends State<PatientInfoPage> {
       ),
     );
     return Scaffold(
-      body: DefaultTabController(
-        length: 4,
-        child: NestedScrollView(
-          controller: _scrollController,
-          headerSliverBuilder: (context, value) {
-            return [appBar];
-          },
-          body: TabBarView(
-            physics: const NeverScrollableScrollPhysics(),
-            children: <Widget>[
-              BasicInfoTab(data['userId']),
-              DiseaseSymptomTab(tpId),
-              VitalSignTab(tpId),
-              SuggestionTab(tpId),
-            ],
-          ),
-        ),
-      ),
+      body: (patientInfo.pInfoLoad &&
+              patientInfo.symp_condLoad &&
+              patientInfo.vital_painLoad &&
+              patientInfo.prescrip_suggestLoad)
+          ? DefaultTabController(
+              length: 4,
+              child: NestedScrollView(
+                controller: _scrollController,
+                headerSliverBuilder: (context, value) {
+                  return [appBar];
+                },
+                body: TabBarView(
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: <Widget>[
+                    BasicInfoTab(),
+                    DiseaseSymptomTab(),
+                    VitalSignTab(),
+                    SuggestionTab(),
+                    // BasicInfoTab(data['userId']),
+                    // DiseaseSymptomTab(routeArg['tpid']),
+                    // VitalSignTab(routeArg['tpid']),
+                    // SuggestionTab(routeArg['tpid']),
+                  ],
+                ),
+              ),
+            )
+          : Center(
+              child: SizedBox(
+                height: MediaQuery.of(context).size.width * 0.2,
+                width: MediaQuery.of(context).size.width * 0.2,
+                child: CircularProgressIndicator(
+                  strokeWidth: 5.0,
+                  valueColor: new AlwaysStoppedAnimation<Color>(
+                      Theme.of(context).primaryColor),
+                ),
+              ),
+            ),
     );
   }
 }

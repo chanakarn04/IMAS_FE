@@ -5,18 +5,27 @@ import '../Provider/user-info.dart';
 import '../Pages/profilePages.dart';
 import '../Pages/appointmentDoctor.dart';
 import '../Pages/patientFollowUpPage.dart';
+import '../Pages/chatRoom.dart';
 // import '../Pages/settingPages.dart';
 import '../Pages/loggingOut.dart';
 
 List<Widget> buildSideDrawerDoctor(
   BuildContext context,
   Function menuDrawerFlatButton,
+  var chatRegis,
 ) {
   return [
     menuDrawerFlatButton(Icons.account_circle_outlined, 'Profile', (() {
       Navigator.of(context).pop();
       Navigator.of(context).pushNamed(
         ProfilePages.routeName,
+      );
+    })),
+    if (chatRegis)
+      menuDrawerFlatButton(Icons.chat_bubble_outline_rounded, 'Chatroom', (() {
+      Navigator.of(context).pop();
+      Navigator.of(context).pushNamed(
+        ChatRoom.routeName,
       );
     })),
     // menuDrawerFlatButton(Icons.analytics_outlined, 'Assessment', (() {

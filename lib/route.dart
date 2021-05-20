@@ -37,6 +37,7 @@ import './Pages/WaitingDoctor.dart';
 // import './Pages/WaitChatroomCreating.dart';
 import './Pages/loggingOut.dart';
 import './Pages/detailAssessHist.dart';
+import './Pages/caseMangeConditionSearch.dart';
 
 
 class Routes {
@@ -79,6 +80,7 @@ class Routes {
       // WaitChatroomCreating.routeName: (ctx) => WaitChatroomCreating(),
       LoggingOut.routeName: (ctx) => LoggingOut(),
       DetailAssessmentHistory.routeName: (ctx) => DetailAssessmentHistory(),
+      CaseManagementConditionSearch.routeName: (ctx) => CaseManagementConditionSearch(),
     };
   }
 

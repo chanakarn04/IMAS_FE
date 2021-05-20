@@ -337,6 +337,9 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
                                             .hasMatch(value)) {
                                           return 'Mail is not valid';
                                         }
+                                        if (value.length > 50) {
+                                          return 'email is too long (50 characters)';
+                                        }
                                         return null;
                                       },
                                       onEditingComplete: () {
@@ -369,28 +372,31 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
                                       },
                                     ),
                                   ),
-                                  SizedBox(
-                                    height: 50,
-                                    child: TextFormField(
-                                      decoration: InputDecoration(
-                                        hintText: 'Confirm Password',
-                                      ),
-                                      controller: cfPasswordTxtCtrl,
-                                      obscureText: true,
-                                      validator: (value) {
-                                        if (value != password) {
-                                          passwordTxtCtrl.clear();
-                                          cfPasswordTxtCtrl.clear();
-                                          return 'Password are not macthing';
-                                        }
-                                        return null;
-                                      },
-                                      onEditingComplete: () =>
-                                          FocusScope.of(context).nextFocus(),
-                                      onFieldSubmitted: (value) =>
-                                          cfPassword = value,
-                                    ),
-                                  ),
+                                  // SizedBox(
+                                  //   height: 50,
+                                  //   child: TextFormField(
+                                  //     decoration: InputDecoration(
+                                  //       hintText: 'Confirm Password',
+                                  //     ),
+                                  //     controller: cfPasswordTxtCtrl,
+                                  //     obscureText: true,
+                                  //     validator: (value) {
+                                  //       if (value == null || value.isEmpty) {
+                                  //         return 'This field must not empty';
+                                  //       }
+                                  //       // if (value != password) {
+                                  //       //   passwordTxtCtrl.clear();
+                                  //       //   cfPasswordTxtCtrl.clear();
+                                  //       //   return 'Password are not macthing';
+                                  //       // }
+                                  //       return null;
+                                  //     },
+                                  //     onEditingComplete: () =>
+                                  //         FocusScope.of(context).nextFocus(),
+                                  //     onFieldSubmitted: (value) =>
+                                  //         cfPassword = value,
+                                  //   ),
+                                  // ),
                                   SizedBox(
                                     height: 50,
                                     child: Row(
@@ -577,6 +583,7 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
                                     onPressed: () async {
                                       // print('password: $password');
                                       if (_formKey.currentState.validate()) {
+                                        print(email);
                                         setState(() {
                                           _isRegistering = true;
                                         });
@@ -600,7 +607,7 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
                                         });
                                         await regisSocketConnect({
                                           'token': '',
-                                          'userid': '',
+                                          'userid': email,
                                         });
                                         await regisSocket.emit('event', [
                                           {
@@ -608,25 +615,31 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
                                             'payload': registerData
                                           }
                                         ]);
-                                        await for (dynamic data in regisSocket.on('r-register')) {
-                                          print('On r-register: ${data[0]['value']['payload']['message']}');
+                                        await for (dynamic data
+                                            in regisSocket.on('r-register')) {
+                                          print(
+                                              'On r-register: ${data[0]['value']['payload']['message']}');
                                           // something  more
                                           if (data != null) {
                                             setState(() {
                                               _isRegistered = true;
                                             });
-                                            if (data[0]['value']['payload']['message'] == 'Register success') {
+                                            if (data[0]['value']['payload']
+                                                    ['message'] ==
+                                                'Register success') {
                                               setState(() {
                                                 _isRegisterSuccess = true;
                                               });
                                             } else {
                                               setState(() {
-                                                errorDescribe = data[0]['value']['payload']['message'];
+                                                errorDescribe = data[0]['value']
+                                                    ['payload']['message'];
                                               });
                                             }
                                           }
                                         }
                                         await regisSocketDisconnect();
+
                                         // socketConnect(token).then((_) async {
                                         // await socketIO.emit('event', [
                                         //   {

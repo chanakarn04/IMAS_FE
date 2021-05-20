@@ -69,10 +69,15 @@ class UserInfo with ChangeNotifier {
 
   List<Map<String, dynamic>> treatmentPlan = [];
   List<Map<String, dynamic>> appointment = [];
-  List<Map<String, dynamic>> calendarApt = [];
   Map<String, dynamic> lastApt = {};
 
   Map<String, dynamic> patInfo = {};
+
+  List<Map<String, dynamic>> calendarApt = [];
+  var calendarAptloading = false;
+
+  List<Map<String, dynamic>> ptFollowUp = [];
+  var ptFollowUpLoading = false;
 
   var loginIn = false;
   var loginError = false;
@@ -106,14 +111,13 @@ class UserInfo with ChangeNotifier {
     await for (dynamic data in IO.socketIO.on('r-getProfile')) {
       final tempData = data[0]['value']['payload'];
       if (role == Role.Patient) {
-        final tempDoB = tempData['DoB'].split('-');
+        // final tempDoB = tempData['DoB'].split('-');
         userData = {
           'id': tempData['PID'],
           'userName': tempData['userName'],
           'fname': tempData['PName'],
           'surname': tempData['PSurname'],
-          'dob': DateTime(int.parse(tempDoB[0]), int.parse(tempDoB[1]),
-              int.parse(tempDoB[2])),
+          'dob': DateTime.parse(tempData['DoB']),
           'gender': gernderGenerate(tempData['gender']),
           'isSmoke': statusGenerate(tempData['isSmoke']),
           'isDiabetes': statusGenerate(tempData['isDiabetes']),
@@ -154,7 +158,7 @@ class UserInfo with ChangeNotifier {
   }
 
   Future<void> getTpApt() async {
-    await IO.socketIO.emit('event', [
+    IO.socketIO.emit('event', [
       {
         'transaction': 'get-plan',
         'payload': {
@@ -178,8 +182,14 @@ class UserInfo with ChangeNotifier {
           });
         }
 
-        final _lastTpid = treatmentPlan.firstWhere(
-            (element) => element['status'] == TreatmentStatus.InProgress);
+        Map<String, dynamic> _lastTpid;
+
+        if (treatmentPlan.isEmpty) {
+          _lastTpid = null;
+        } else {
+          _lastTpid = treatmentPlan.firstWhere(
+            (element) => element['status'] == TreatmentStatus.InProgress, orElse: () => null);
+        }
 
         if (_lastTpid != null) {
           await IO.socketIO.emit('event', [
@@ -336,163 +346,249 @@ class UserInfo with ChangeNotifier {
     }
   }
 
-  Future<void> getPatInfo(
-    String patId,
-    String tpid
-  ) async {
+  // Future<void> getPatInfo(String patId, String tpid) async {
+  //   // Get patient profile
+  //   await IO.socketIO.emit('event', [
+  //     {
+  //       'transaction': 'getProfile',
+  //       'payload': {'userRole': 'patient', 'targetUserId': patId}
+  //     }
+  //   ]);
 
-    // Get patient profile
-    await IO.socketIO.emit('event', [
-      {
-        'transaction': 'getProfile',
-        'payload': {
-          'userRole': 'patient',
-          'targetUserId': patId
-        }
-      }
-    ]);
+  //   // Waiting getProfile return
+  //   await for (dynamic data in IO.socketIO.on('r-getProfile')) {
+  //     print('On r-getProfile: $data');
+  //     final payload = data[0]['value']['payload'];
+  //     if (data != null) {
+  //       patInfo['profile'] = data;
+  //       notifyListeners();
+  //     } else {
+  //       print('No data returned');
+  //     }
+  //   }
 
-    // Get patient conditions symptoms
-    await IO.socketIO.emit('event', [
-      {
-        'transaction': 'get-condition-symptom',
-        'payload': {
-          'tpid': tpid
-        }
-      }
-    ]);
+  //   // Get patient conditions symptoms
+  //   await IO.socketIO.emit('event', [
+  //     {
+  //       'transaction': 'get-condition-symptom',
+  //       'payload': {'tpid': tpid}
+  //     }
+  //   ]);
 
-    // Get patient vital sign records
-    await IO.socketIO.emit('event', [
-      {
-        'transaction': 'get-vital-sign-records',
-        'payload': {
-          'tpid': tpid
-        }
-      }
-    ]);
+  //   // Waiting for data return
+  //   await for (dynamic data in IO.socketIO.on('r-get-condition-symptom')) {
+  //     print('On r-get-condition-symptom: $data');
+  //     final payload = data[0]['value']['payload'];
+  //     if (data != null) {
+  //       patInfo['conditions_symptoms'] = data;
+  //       notifyListeners();
+  //     } else {
+  //       print('No data returned');
+  //     }
+  //   }
 
-    // Get patient prescriptions
-    await IO.socketIO.emit('event', [
-      {
-        'transaction': 'get-prescription',
-        'payload': {
-          'tpid': tpid
-        }
-      }
-    ]);
+  //   // Get patient vital sign records
+  //   await IO.socketIO.emit('event', [
+  //     {
+  //       'transaction': 'get-vital-sign-records',
+  //       'payload': {'tpid': tpid}
+  //     }
+  //   ]);
 
-    // Waiting for data return
-    await for (dynamic data in IO.socketIO.on('r-getProfile')) {
-      print('On r-getProfile: $data');
-      final payload = data[0]['value']['payload'];
-      if(data != null){
-        patInfo['profile'] = data;
-        notifyListeners();
-      } else {
-        print('No data returned');
-      }
-    }
+  //   // Waiting for data return
+  //   await for (dynamic data in IO.socketIO.on('r-get-vital-sign-records')) {
+  //     print('On r-get-vital-sign-records: $data');
+  //     final payload = data[0]['value']['payload'];
+  //     if (data != null) {
+  //       patInfo['vital_sign'] = data;
+  //       notifyListeners();
+  //     } else {
+  //       print('No data returned');
+  //     }
+  //   }
 
-    // Waiting for data return
-    await for (dynamic data in IO.socketIO.on('r-get-condition-symptom')) {
-      print('On r-get-condition-symptom: $data');
-      final payload = data[0]['value']['payload'];
-      if(data != null){
-        patInfo['conditions_symptoms'] = data;
-        notifyListeners();
-      } else {
-        print('No data returned');
-      } 
-    }
+  //   // Get patient prescriptions
+  //   await IO.socketIO.emit('event', [
+  //     {
+  //       'transaction': 'get-prescription',
+  //       'payload': {'tpid': tpid}
+  //     }
+  //   ]);
 
-    // Waiting for data return
-    await for (dynamic data in IO.socketIO.on('r-get-vital-sign-records')) {
-      print('On r-get-vital-sign-records: $data');
-      final payload = data[0]['value']['payload'];
-      if(data != null){
-        patInfo['vital_sign'] = data;
-        notifyListeners();
-      } else {
-        print('No data returned');
-      } 
-    }
-
-    // Waiting for data return
-    await for (dynamic data in IO.socketIO.on('r-get-prescription')) {
-      print('On r-get-prescription: $data');
-      final payload = data[0]['value']['payload'];
-      if(data != null){
-        patInfo['prescription'] = data;
-        notifyListeners();
-      } else {
-        print('No data returned');
-      } 
-    }
-  }
+  //   // Waiting for data return
+  //   await for (dynamic data in IO.socketIO.on('r-get-prescription')) {
+  //     print('On r-get-prescription: $data');
+  //     final payload = data[0]['value']['payload'];
+  //     if (data != null) {
+  //       patInfo['prescription'] = data;
+  //       notifyListeners();
+  //     } else {
+  //       print('No data returned');
+  //     }
+  //   }
+  // }
 
   Future<void> calendarAppointment() async {
+    ptFollowUp = [];
+    List<Map<String, dynamic>> _pNameOfTreatment = [];
 
-    if(roleTranslate(role) == 'doctor') {
-      // Get appointments by time range
+    List<String> _treatmentPlans = [];
+
+    IO.socketIO.emit('event', [
+      {
+        'transaction': 'get-plan',
+        'payload': {
+          'role': roleTranslate(role),
+          'status': [0, 1, 2, 3],
+        }
+      }
+    ]);
+    await for (dynamic event in IO.socketIO.on('r-get-plan')) {
+      print(event[0]['value']['payload']);
+      final data = List.from(event[0]['value']['payload']);
+      // [{status: 0, _id: 609a336dc5100400298ed475, pid: pisut.s@mail.com, __v: 0, drid: pasit.h@mail.com}]
+      if (data.isNotEmpty) {
+        // print('data is not Empty');
+        for (dynamic tp in data) {
+          treatmentPlan.add({
+            'tpid': tp['_id'],
+            'status': tpStatusGenerate(tp['status']),
+            'pid': tp['pid'],
+            'drid': tp['drid'],
+          });
+        }
+      }
+      break;
+    }
+
+    for (Map<String, dynamic> tp in treatmentPlan) {
+      // change pattern for use in get-calendar-apt
+      _treatmentPlans.add(tp['tpid']);
+
+      // get name of patient of tpid
       await IO.socketIO.emit('event', [
+        {
+          'transaction': 'getProfile',
+          'payload': {
+            'userRole': roleTranslate(Role.Patient),
+            'targetUserId': tp['pid'],
+          },
+        }
+      ]);
+      await for (dynamic data in IO.socketIO.on('r-getProfile')) {
+        final tempData = data[0]['value']['payload'];
+        _pNameOfTreatment.add({
+          'tpid': tp['tpid'],
+          'pname': '${tempData['PName']} ${tempData['PSurname']}',
+          'pid': tp['pid'],
+        });
+        break;
+      }
+    }
+
+    if (role == Role.Doctor) {
+      // Waiting for data return
+      // IO.socketIO.on('r-get-calendar-appointments').listen((data) {
+      //   print('On r-get-calendar-appointments: $data');
+      //   for (Map<String, dynamic> apt in data[0]['value']['payload']) {
+      //     calendarApt.add({
+      //       'tpid': apt['tpid_ref'],
+      //       'apid': apt['_id'],
+      //       'apDt': DateTime.parse(apt['apdt']),
+      //       'status': apt['status'],
+      //       'image': 'assets/images/default_photo.png',
+      //       'pName': _pNameOfTreatment.firstWhere(
+      //           (element) => element['tpid'] == apt['tpid_ref'])['pname'],
+      //     });
+      //   }
+      //   calendarAptloading = false;
+      //   notifyListeners();
+      // });
+      // {
+      //   "_id" : "609a336dc5100400298ed476",
+      //   "status" : 2,
+      //   "apdt" : "2021-05-11T07:34:05.239Z",
+      //   "tpid_ref" : "609a336dc5100400298ed475",
+      //   "__v" : 0
+      // },
+
+      // Get appointments by time range
+      IO.socketIO.emit('event', [
         {
           'transaction': 'get-calendar-appointments',
           'payload': {
-            'tpids': treatmentPlan,
+            'tpids': _treatmentPlans,
             'start': DateTime(
-            DateTime.now().year,
-            DateTime.now().month - 1,
-            DateTime.now().day,
-            DateTime.now().hour,
-            DateTime.now().minute,
-          ).toString(),
+              DateTime.now().year,
+              DateTime.now().month - 1,
+            ).toString(),
             'stop': DateTime(
-            DateTime.now().year,
-            DateTime.now().month + 1,
-            DateTime.now().day,
-            DateTime.now().hour,
-            DateTime.now().minute,
-          ).toString()
+              DateTime.now().year,
+              DateTime.now().month + 2,
+              0,
+            ).toString()
           }
         }
       ]);
 
-      // Waiting for data return
+      // print('start on');
       await for (dynamic data in IO.socketIO.on('r-get-calendar-appointments')) {
         print('On r-get-calendar-appointments: $data');
-        final payload = data[0]['value']['payload'];
-        if(data != null){
-          calendarApt = payload;
-          notifyListeners();
-        } else {
-          print('No data returned');
+        for (Map<String, dynamic> apt in data[0]['value']['payload']) {
+          calendarApt.add({
+            'tpid': apt['tpid_ref'],
+            'apid': apt['_id'],
+            'apDt': DateTime.parse(apt['apdt']),
+            'status': apt['status'],
+            'image': 'assets/images/default_photo.png',
+            'pName': _pNameOfTreatment.firstWhere(
+                (element) => element['tpid'] == apt['tpid_ref'])['pname'],
+            'pid': _pNameOfTreatment.firstWhere(
+                (element) => element['tpid'] == apt['tpid_ref'])['pid'],
+          });
         }
-        
+        calendarAptloading = false;
+        notifyListeners();
+        break;
       }
-      
+      // print('off on');
+
     }
-    
   }
 
-  // Future<bool> register(Map<String, dynamic> payload) async {
-  //   IO.socketConnect({
-  //     'token': '',
-  //     'userid': '',
-  //   }).then((_) async {
-  //     await IO.socketIO.emit('event', [
-  //       {
-  //         'transaction': 'register',
-  //         'payload': payload,
-  //       }
-  //     ]);
-  //     IO.socketIO.on('r-register').listen((data) {
-  //       print('On r-register: $data');
-  //       // something  more
-  //       return true;
-  //     });
-  //   });
-  // }
+  Future<void> patientFollowUpInfo() async {
+    await Future.delayed(Duration(seconds: 2));
+    // print('wait complete');
+    List<Map<String, dynamic>> _tempApt;
+    
+    // calendarApt
+    for (Map<String, dynamic> tp in treatmentPlan) {
+      // print('tp test');
+      _tempApt = calendarApt.where((element) => element['tpid'] == tp['tpid']).toList();
+      _tempApt.sort((a,b) => b['apDt'].compareTo(a['apDt']));
+      // print('tempS : $_tempApt');
+      ptFollowUp.add(_tempApt[0]);
+    }
+    ptFollowUpLoading = false;
+    notifyListeners();
+  }
+
+  Future<void> updatePlan(String thisTpid, int tpStatus) async {
+    await IO.socketIO.emit('event', [
+        {
+          'transaction': 'updatePlan',
+          'payload': {
+            'tpids': thisTpid,
+            'status': tpStatus,
+            'drid': userId,
+          }
+        }
+      ]);
+    await for (dynamic data in IO.socketIO.on('r-updatePlan')) {
+      print('On r-updatePlan ${data[0]['value']['payload']}');
+      break;
+    }
+  }
 
   Future<void> logout() async {
     // ===> No connect test <===

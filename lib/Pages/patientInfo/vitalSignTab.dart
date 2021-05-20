@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:provider/provider.dart';
 
 // import '../../dummy_data.dart';
 import '../../Widget/carouselDotIndicator.dart';
 import '../../Widget/ptInfo_vsCard.dart';
+import '../../Provider/patientInfo.dart';
 
 class VitalSignTab extends StatefulWidget {
-  final String tpId;
+  // final String tpId;
 
-  VitalSignTab(this.tpId);
+  // VitalSignTab(this.tpId);
 
   @override
   _VitalSignTabState createState() => _VitalSignTabState();
@@ -60,7 +62,10 @@ class _VitalSignTabState extends State<VitalSignTab> {
   @override
   void didChangeDependencies() {
     if (!_loadInitData) {
-      data = _loadData(this.widget.tpId);
+      final patientInfo = Provider.of<PatientInfo>(context);
+      data = patientInfo.vital_pain;
+      _loadInitData = true;
+      // data = _loadData(this.widget.tpId);
       // vitalSigns = [];
       // appointments = dummy_appointment
       //     .where((apt) =>

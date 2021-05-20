@@ -205,10 +205,11 @@ class _RegisterPatient3ScreenState extends State<RegisterPatient3Screen> {
                                   // print(registerData);
                                   // ... send register to server HERE
                                   // ... use RegisteredData
-                                  await regisSocketConnect({
+                                  Map<String, String> token = {
                                     'token': '',
-                                    'userid': '',
-                                  });
+                                    'userid': registerData['userName'],
+                                  };
+                                  await regisSocketConnect(token);
                                   await regisSocket.emit('event', [
                                     {
                                       'transaction': 'register',
