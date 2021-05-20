@@ -372,31 +372,31 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
                                       },
                                     ),
                                   ),
-                                  // SizedBox(
-                                  //   height: 50,
-                                  //   child: TextFormField(
-                                  //     decoration: InputDecoration(
-                                  //       hintText: 'Confirm Password',
-                                  //     ),
-                                  //     controller: cfPasswordTxtCtrl,
-                                  //     obscureText: true,
-                                  //     validator: (value) {
-                                  //       if (value == null || value.isEmpty) {
-                                  //         return 'This field must not empty';
-                                  //       }
-                                  //       // if (value != password) {
-                                  //       //   passwordTxtCtrl.clear();
-                                  //       //   cfPasswordTxtCtrl.clear();
-                                  //       //   return 'Password are not macthing';
-                                  //       // }
-                                  //       return null;
-                                  //     },
-                                  //     onEditingComplete: () =>
-                                  //         FocusScope.of(context).nextFocus(),
-                                  //     onFieldSubmitted: (value) =>
-                                  //         cfPassword = value,
-                                  //   ),
-                                  // ),
+                                  SizedBox(
+                                    height: 50,
+                                    child: TextFormField(
+                                      decoration: InputDecoration(
+                                        hintText: 'Confirm Password',
+                                      ),
+                                      controller: cfPasswordTxtCtrl,
+                                      obscureText: true,
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return 'This field must not empty';
+                                        }
+                                        // if (value != password) {
+                                        //   passwordTxtCtrl.clear();
+                                        //   cfPasswordTxtCtrl.clear();
+                                        //   return 'Password are not macthing';
+                                        // }
+                                        return null;
+                                      },
+                                      onEditingComplete: () =>
+                                          FocusScope.of(context).nextFocus(),
+                                      onFieldSubmitted: (value) =>
+                                          cfPassword = value,
+                                    ),
+                                  ),
                                   SizedBox(
                                     height: 50,
                                     child: Row(

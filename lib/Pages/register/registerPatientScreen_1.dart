@@ -260,28 +260,28 @@ class _RegisterPatient1ScreenState extends State<RegisterPatient1Screen> {
                                   },
                                 ),
                               ),
-                              // SizedBox(
-                              //   height: 50,
-                              //   child: TextFormField(
-                              //     decoration: InputDecoration(
-                              //       hintText: 'Confirm Password',
-                              //     ),
-                              //     controller: cfPasswordTxtCtrl,
-                              //     obscureText: true,
-                              //     validator: (value) {
-                              //       if (value != password) {
-                              //         passwordTxtCtrl.clear();
-                              //         cfPasswordTxtCtrl.clear();
-                              //         return 'Password are not macthing';
-                              //       }
-                              //       return null;
-                              //     },
-                              //     onEditingComplete: () =>
-                              //         FocusScope.of(context).nextFocus(),
-                              //     onFieldSubmitted: (value) =>
-                              //         cfPassword = value,
-                              //   ),
-                              // ),
+                              SizedBox(
+                                height: 50,
+                                child: TextFormField(
+                                  decoration: InputDecoration(
+                                    hintText: 'Confirm Password',
+                                  ),
+                                  controller: cfPasswordTxtCtrl,
+                                  obscureText: true,
+                                  validator: (value) {
+                                    if (value != password) {
+                                      passwordTxtCtrl.clear();
+                                      cfPasswordTxtCtrl.clear();
+                                      return 'Password are not macthing';
+                                    }
+                                    return null;
+                                  },
+                                  onEditingComplete: () =>
+                                      FocusScope.of(context).nextFocus(),
+                                  onFieldSubmitted: (value) =>
+                                      cfPassword = value,
+                                ),
+                              ),
                               SizedBox(
                                 height: 50,
                                 child: TextFormField(
