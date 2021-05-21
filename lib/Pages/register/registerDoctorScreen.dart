@@ -343,13 +343,15 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
                                         }
                                         return null;
                                       },
-                                      onEditingComplete: () {
-                                        FocusScope.of(context).nextFocus();
+                                      onChanged: (_) {
                                         email = emailTxtCtrl.text;
                                       },
-                                      onFieldSubmitted: (value) {
-                                        email = value;
-                                      },
+                                      // onEditingComplete: () {
+                                      //   FocusScope.of(context).nextFocus();
+                                      // },
+                                      // onFieldSubmitted: (value) {
+                                      //   email = value;
+                                      // },
                                     ),
                                   ),
                                   SizedBox(
@@ -366,10 +368,12 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
                                         }
                                         return null;
                                       },
-                                      onEditingComplete: () {
-                                        FocusScope.of(context).nextFocus();
+                                      onChanged: (_) {
                                         password = passwordTxtCtrl.text;
                                       },
+                                      // onEditingComplete: () {
+                                      //   FocusScope.of(context).nextFocus();
+                                      // },
                                       // onFieldSubmitted: (value) {
                                       //   // password = value;
                                       // },
@@ -394,10 +398,12 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
                                         }
                                         return null;
                                       },
-                                      onEditingComplete: () {
-                                        FocusScope.of(context).nextFocus();
+                                      onChanged: (_) {
                                         cfPassword = cfPasswordTxtCtrl.text;
-                                      }
+                                      },
+                                      // onEditingComplete: () {
+                                      //   FocusScope.of(context).nextFocus();
+                                      // }
                                       // onFieldSubmitted: (value) =>
                                       //     cfPassword = value,
                                     ),
@@ -449,10 +455,12 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
                                         }
                                         return null;
                                       },
-                                      onEditingComplete: () {
-                                        FocusScope.of(context).nextFocus();
+                                      onChanged: (_) {
                                         fname = fnameTxtCtrl.text;
-                                      }
+                                      },
+                                      // onEditingComplete: () {
+                                      //   FocusScope.of(context).nextFocus();
+                                      // }
                                       // onFieldSubmitted: (value) =>
                                       //     fname = value,
                                     ),
@@ -470,10 +478,12 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
                                         }
                                         return null;
                                       },
-                                      onEditingComplete: () {
-                                        FocusScope.of(context).nextFocus();
+                                      onChanged: (_) {
                                         sname = snameTxtCtrl.text;
-                                      }
+                                      },
+                                      // onEditingComplete: () {
+                                      //   FocusScope.of(context).nextFocus();
+                                      // }
                                       // onFieldSubmitted: (value) =>
                                       //     sname = value,
                                     ),
@@ -533,10 +543,12 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
                                         }
                                         return null;
                                       },
-                                      onEditingComplete: () {
-                                        FocusScope.of(context).nextFocus();
+                                      onChanged: (_) {
                                         citizenID = citizenIdTxtCtrl.text;
-                                      }
+                                      },
+                                      // onEditingComplete: () {
+                                      //   FocusScope.of(context).nextFocus();
+                                      // }
                                       // onFieldSubmitted: (value) =>
                                       //     citizenID = value,
                                     ),
@@ -558,10 +570,12 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
                                         }
                                         return null;
                                       },
-                                      onEditingComplete: () {
-                                        FocusScope.of(context).nextFocus();
+                                      onChanged: (_) {                          
                                         medID = medIdTxtCtrl.text;
-                                      }
+                                      },
+                                      // onEditingComplete: () {
+                                      //   FocusScope.of(context).nextFocus();
+                                      // }
                                       // onFieldSubmitted: (value) =>
                                       //     medID = value,
                                     ),
@@ -583,10 +597,12 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
                                         }
                                         return null;
                                       },
-                                      onEditingComplete: () {
-                                        FocusScope.of(context).nextFocus();
+                                      onChanged: (_) {
                                         certID = certIdTxtCtrl.text;
-                                      }
+                                      },
+                                      // onEditingComplete: () {
+                                      //   FocusScope.of(context).nextFocus();
+                                      // }
                                       // onFieldSubmitted: (value) =>
                                       //     certID = value,
                                     ),

@@ -231,8 +231,7 @@ class _RegisterPatient1ScreenState extends State<RegisterPatient1Screen> {
                                     }
                                     return null;
                                   },
-                                  onEditingComplete: () {
-                                    FocusScope.of(context).nextFocus();
+                                  onChanged: (_) {
                                     email = emailTxtCtrl.text;
                                   },
                                   // onFieldSubmitted: (value) {
@@ -254,10 +253,12 @@ class _RegisterPatient1ScreenState extends State<RegisterPatient1Screen> {
                                     }
                                     return null;
                                   },
-                                  onEditingComplete: () {
-                                    FocusScope.of(context).nextFocus();
+                                  onChanged: (_) {
                                     password = passwordTxtCtrl.text;
                                   },
+                                  // onEditingComplete: () {
+                                  //   FocusScope.of(context).nextFocus();
+                                  // },
                                   // onFieldSubmitted: (value) {
                                   //   // password = value;
                                   // },
@@ -281,10 +282,12 @@ class _RegisterPatient1ScreenState extends State<RegisterPatient1Screen> {
                                     }
                                     return null;
                                   },
-                                  onEditingComplete: () {
-                                    FocusScope.of(context).nextFocus();
+                                  onChanged: (_) {
                                     cfPassword = cfPasswordTxtCtrl.text;
-                                  }
+                                  },
+                                  // onEditingComplete: () {
+                                  //   FocusScope.of(context).nextFocus(); 
+                                  // }
                                   // onFieldSubmitted: (value) =>
                                   //     cfPassword = value,
                                 ),
@@ -302,10 +305,9 @@ class _RegisterPatient1ScreenState extends State<RegisterPatient1Screen> {
                                     }
                                     return null;
                                   },
-                                  onEditingComplete: () {
-                                    FocusScope.of(context).nextFocus();
+                                  onChanged: (_) {
                                     fname = fnameTxtCtrl.text;
-                                  }
+                                  },
                                   // onFieldSubmitted: (value) => fname = value,
                                 ),
                               ),
@@ -322,10 +324,9 @@ class _RegisterPatient1ScreenState extends State<RegisterPatient1Screen> {
                                     }
                                     return null;
                                   },
-                                  onEditingComplete: () {
-                                    FocusScope.of(context).nextFocus();
+                                  onChanged: (_) {
                                     sname = snameTxtCtrl.text;
-                                  }
+                                  },
                                   // onFieldSubmitted: (value) => sname = value,
                                 ),
                               ),
