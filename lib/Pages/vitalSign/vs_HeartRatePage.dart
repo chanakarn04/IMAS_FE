@@ -84,9 +84,9 @@ class _VSHeartRatePageState extends State<VSHeartRatePage> {
         color: Theme.of(context).primaryColor,
       ),
       backgroundColor: Colors.white,
-      leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_rounded),
-          onPressed: () => Navigator.of(context).pop()),
+      // leading: IconButton(
+      //     icon: Icon(Icons.arrow_back_ios_rounded),
+      //     onPressed: () => Navigator.of(context).pop()),
       title: Container(
         alignment: Alignment.center,
         child: Text('IMAS'),
@@ -102,122 +102,125 @@ class _VSHeartRatePageState extends State<VSHeartRatePage> {
       ],
     );
 
-    return Scaffold(
-      appBar: appBar,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              height: (MediaQuery.of(context).size.height -
-                      appBar.preferredSize.height -
-                      MediaQuery.of(context).padding.top) *
-                  0.6,
-              padding: EdgeInsets.only(
-                top: 120,
-                left: 15,
-                right: 15,
-                bottom: 40,
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        appBar: appBar,
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                height: (MediaQuery.of(context).size.height -
+                        appBar.preferredSize.height -
+                        MediaQuery.of(context).padding.top) *
+                    0.6,
+                padding: EdgeInsets.only(
+                  top: 120,
+                  left: 15,
+                  right: 15,
+                  bottom: 40,
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    _headerBuilder(context, 'Heart rate'),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    _descriptionBuilder(context,
+                        'Place your pointer and middle fingers on the inside of your opposite wrist just below the thumb. Once you can feel your pulse, count how many beats you feel in 60 second'),
+                  ],
+                ),
               ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  _headerBuilder(context, 'Heart rate'),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  _descriptionBuilder(context,
-                      'Place your pointer and middle fingers on the inside of your opposite wrist just below the thumb. Once you can feel your pulse, count how many beats you feel in 60 second'),
-                ],
-              ),
-            ),
-            Container(
-              height: (MediaQuery.of(context).size.height -
-                      appBar.preferredSize.height -
-                      MediaQuery.of(context).padding.top) *
-                  0.4,
-              padding: EdgeInsets.only(
-                top: 15,
-                left: 15,
-                right: 15,
-                bottom: 40,
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Container(
-                        // color: Colors.teal[100],
-                        width: 120,
-                        child: NumberTextField(
-                          textController: textController,
+              Container(
+                height: (MediaQuery.of(context).size.height -
+                        appBar.preferredSize.height -
+                        MediaQuery.of(context).padding.top) *
+                    0.4,
+                padding: EdgeInsets.only(
+                  top: 15,
+                  left: 15,
+                  right: 15,
+                  bottom: 40,
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Container(
+                          // color: Colors.teal[100],
+                          width: 120,
+                          child: NumberTextField(
+                            textController: textController,
+                          ),
                         ),
-                      ),
-                      SizedBox(
-                        width: 3,
-                      ),
-                      Column(
-                        // mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text(
-                            'BPM',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 26,
-                              fontWeight: FontWeight.bold,
+                        SizedBox(
+                          width: 3,
+                        ),
+                        Column(
+                          // mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text(
+                              'BPM',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 26,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          ),
-                          Text(
-                            '(Beat Per Minute)',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 9,
-                              // fontWeight: FontWeight.bold,
+                            Text(
+                              '(Beat Per Minute)',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 9,
+                                // fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Align(
+                      alignment: Alignment.center,
+                      child: ProgressDot(
+                        length: 4,
+                        markedIndex: 2,
                       ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Align(
-                    alignment: Alignment.center,
-                    child: ProgressDot(
-                      length: 4,
-                      markedIndex: 2,
                     ),
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Align(
-                    alignment: Alignment.center,
-                    child: AdaptiveRaisedButton(
-                      buttonText: 'Next',
-                      height: 35,
-                      width: 125,
-                      handlerFn:
-                          (double.tryParse(textController.text) != null) &&
-                                  (textController.text.isNotEmpty)
-                              ? (() {
-                                  vitalSign.pulse =
-                                      double.parse(textController.text);
-                                  Navigator.of(context).pushNamed(
-                                    VSRespiratoryRatePage.routeName,
-                                  );
-                                })
-                              : null,
+                    SizedBox(
+                      height: 15,
                     ),
-                  ),
-                ],
+                    Align(
+                      alignment: Alignment.center,
+                      child: AdaptiveRaisedButton(
+                        buttonText: 'Next',
+                        height: 35,
+                        width: 125,
+                        handlerFn:
+                            (double.tryParse(textController.text) != null) &&
+                                    (textController.text.isNotEmpty)
+                                ? (() {
+                                    vitalSign.pulse =
+                                        double.parse(textController.text);
+                                    Navigator.of(context).pushNamed(
+                                      VSRespiratoryRatePage.routeName,
+                                    );
+                                  })
+                                : null,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

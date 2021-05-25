@@ -84,9 +84,9 @@ class _VSBodyTempPageState extends State<VSBodyTempPage> {
         color: Theme.of(context).primaryColor,
       ),
       backgroundColor: Colors.white,
-      leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_rounded),
-          onPressed: () => Navigator.of(context).pop()),
+      // leading: IconButton(
+      //     icon: Icon(Icons.arrow_back_ios_rounded),
+      //     onPressed: () => Navigator.of(context).pop()),
       title: Container(
         alignment: Alignment.center,
         child: Text('IMAS'),
@@ -102,106 +102,109 @@ class _VSBodyTempPageState extends State<VSBodyTempPage> {
       ],
     );
 
-    return Scaffold(
-      appBar: appBar,
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            Container(
-              height: (MediaQuery.of(context).size.height -
-                      appBar.preferredSize.height -
-                      MediaQuery.of(context).padding.top) *
-                  0.6,
-              padding: EdgeInsets.only(
-                top: 120,
-                left: 15,
-                right: 15,
-                bottom: 40,
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  _headerBuilder(context, 'Body Temperature'),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  _descriptionBuilder(context,
-                      'Use thermometer to measure yourself and select your temperature'),
-                ],
-              ),
-            ),
-            Container(
-              height: (MediaQuery.of(context).size.height -
-                      appBar.preferredSize.height -
-                      MediaQuery.of(context).padding.top) *
-                  0.4,
-              padding: EdgeInsets.only(
-                top: 15,
-                left: 15,
-                right: 15,
-                bottom: 40,
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Container(
-                        width: 120,
-                        child: NumberTextField(
-                          textController: textController,
-                        ),
-                      ),
-                      Text(
-                        '°C',
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Align(
-                    alignment: Alignment.center,
-                    child: ProgressDot(
-                      length: 4,
-                      markedIndex: 1,
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        appBar: appBar,
+        body: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              Container(
+                height: (MediaQuery.of(context).size.height -
+                        appBar.preferredSize.height -
+                        MediaQuery.of(context).padding.top) *
+                    0.6,
+                padding: EdgeInsets.only(
+                  top: 120,
+                  left: 15,
+                  right: 15,
+                  bottom: 40,
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    _headerBuilder(context, 'Body Temperature'),
+                    SizedBox(
+                      height: 20,
                     ),
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Align(
-                    alignment: Alignment.center,
-                    child: AdaptiveRaisedButton(
-                      buttonText: 'Next',
-                      height: 35,
-                      width: 125,
-                      handlerFn:
-                          (double.tryParse(textController.text) != null) &&
-                                  (textController.text.isNotEmpty)
-                              ? (() {
-                                  vitalSign.temp =
-                                      double.parse(textController.text);
-                                  // tempValue = double.parse(textController.text);
-                                  // print();
-                                  Navigator.of(context).pushNamed(
-                                    VSHeartRatePage.routeName,
-                                  );
-                                })
-                              : null,
-                    ),
-                  )
-                ],
+                    _descriptionBuilder(context,
+                        'Use thermometer to measure yourself and select your temperature'),
+                  ],
+                ),
               ),
-            ),
-          ],
+              Container(
+                height: (MediaQuery.of(context).size.height -
+                        appBar.preferredSize.height -
+                        MediaQuery.of(context).padding.top) *
+                    0.4,
+                padding: EdgeInsets.only(
+                  top: 15,
+                  left: 15,
+                  right: 15,
+                  bottom: 40,
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Container(
+                          width: 120,
+                          child: NumberTextField(
+                            textController: textController,
+                          ),
+                        ),
+                        Text(
+                          '°C',
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Align(
+                      alignment: Alignment.center,
+                      child: ProgressDot(
+                        length: 4,
+                        markedIndex: 1,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Align(
+                      alignment: Alignment.center,
+                      child: AdaptiveRaisedButton(
+                        buttonText: 'Next',
+                        height: 35,
+                        width: 125,
+                        handlerFn:
+                            (double.tryParse(textController.text) != null) &&
+                                    (textController.text.isNotEmpty)
+                                ? (() {
+                                    vitalSign.temp =
+                                        double.parse(textController.text);
+                                    // tempValue = double.parse(textController.text);
+                                    // print();
+                                    Navigator.of(context).pushNamed(
+                                      VSHeartRatePage.routeName,
+                                    );
+                                  })
+                                : null,
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

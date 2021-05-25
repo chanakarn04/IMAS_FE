@@ -107,14 +107,16 @@ class _TextInputBarState extends State<TextInputBar> {
               color: Colors.white,
             ),
             onPressed: () async {
-              final tempMessage = _textController.text;
-              await chatProvider.sendMessage(
-                message: tempMessage,
-                role: this.widget.role,
-                userId: this.widget.userName,
-              );
-              _textController.clear();
-              FocusScope.of(context).unfocus();
+              if (_textController.text.isNotEmpty) {
+                final tempMessage = _textController.text;
+                await chatProvider.sendMessage(
+                  message: tempMessage,
+                  role: this.widget.role,
+                  userId: this.widget.userName,
+                );
+                _textController.clear();
+                FocusScope.of(context).unfocus();
+              }
             },
           )
         ],

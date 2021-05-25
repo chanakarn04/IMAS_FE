@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-// import 'package:provider/provider.dart';
 
 import './homePages.dart';
 import './chatRoom.dart';
-import '../Provider/vitalSign_Info.dart';
-import '../Script/socketioScript.dart';
 import '../Provider/user-info.dart';
+import '../Provider/chatRoom_info.dart';
 
 class AppointmentPatientPage extends StatelessWidget {
   static const routeName = '/appointment-Patient';
@@ -31,7 +29,7 @@ class AppointmentPatientPage extends StatelessWidget {
   // }
 
   Widget _buildNoapt(BuildContext context) {
-    final vitalSign = Provider.of<VitalSignProvider>(context);
+    // final vitalSign = Provider.of<VitalSignProvider>(context);
     return Column(
       children: [
         Expanded(
@@ -77,7 +75,9 @@ class AppointmentPatientPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userInfo = Provider.of<UserInfo>(context);
+    final chatroom = Provider.of<ChatRoomProvider>(context);
     final apt = userInfo.lastApt;
+    print(apt);
     // print(
     //     '=====================> ${DateTime.now().difference(apt['aptDate']).inMinutes}');
     //     '=====================> ${apt['aptDate'].difference(DateTime.now()).inMinutes}');
@@ -184,36 +184,37 @@ class AppointmentPatientPage extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      child: ((DateTime.now()
-                                      .difference(apt['aptDate'])
-                                      .inMinutes >=
-                                  0) &&
-                              (DateTime.now()
-                                      .difference(apt['aptDate'])
-                                      .inMinutes <=
-                                  30))
-                          ? InkWell(
-                              onTap: () {
-                                Navigator.of(context)
-                                    .popAndPushNamed(ChatRoom.routeName);
-                              },
-                              child: Container(
-                                height: 50,
-                                width: 150,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(25),
-                                ),
-                                alignment: Alignment.center,
-                                child: Text(
-                                  'Chatroom',
-                                  style: TextStyle(
-                                    color: Theme.of(context).accentColor,
-                                    fontSize: 20,
+                      child: ((DateTime.parse(apt['aptDate'].toString()).difference(DateTime.now()).inMinutes - 390 >= 0) &&
+                                                (DateTime.parse(apt['aptDate'].toString()).difference(DateTime.now()).inMinutes - 390 <= 30))
+                          ? (chatroom.chatRoomRegis)
+                              ? InkWell(
+                                  onTap: () {
+                                    Navigator.of(context)
+                                        .popAndPushNamed(ChatRoom.routeName);
+                                  },
+                                  child: Container(
+                                    height: 50,
+                                    width: 150,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(25),
+                                    ),
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      'Chatroom',
+                                      style: TextStyle(
+                                        color: Theme.of(context).accentColor,
+                                        fontSize: 20,
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
-                            )
+                                )
+                              : Text(
+                                  'Doctor has not open chat yet.',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                )
                           : Text(
                               'It not the appointment time yet.',
                               style: TextStyle(

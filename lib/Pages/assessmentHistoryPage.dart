@@ -11,7 +11,6 @@ import '../Models/model.dart';
 
 class AssessmentHistoryPage extends StatefulWidget {
   static const routeName = '/assessment history';
-
   // [
   //     {
   //       'tpId': 'tp001',
@@ -147,6 +146,15 @@ class _AssessmentHistoryPageState extends State<AssessmentHistoryPage> {
     // assessmentHistory.updateAssessmentHistory(userInfo.role);
     // items = _loadData();
     items = assessmentHistoryProvider.assessmentHistoryData;
+    // for (Map<String, dynamic> item in items) {
+    //   print('===> ITEMS <===');
+    //   print('tpid:     ${item['tpid']}');
+    //   print('tpStatus: ${item['tpStatus']}');
+    //   print('date:     ${item['date']}');
+    //   print('apStatus: ${item['apStatus']}');
+    //   print('symptom:  ${item['symptom']}');
+    //   // print('apts: ${item['apts']}');
+    // } 
     // print('===> items ${items[1][]}');
     // print('===> ${items.length}');
     return Scaffold(
@@ -191,7 +199,7 @@ class _AssessmentHistoryPageState extends State<AssessmentHistoryPage> {
                   alignment: Alignment.center,
                   child: ListView.builder(
                     itemBuilder: (context, index) {
-                      print('index: $index');
+                      // print('index: $index');
                       return Container(
                         margin: (index == 0)
                             ? EdgeInsets.only(
@@ -221,14 +229,16 @@ class _AssessmentHistoryPageState extends State<AssessmentHistoryPage> {
                               children: [
                                 Text(
                                   (items[index]['symptom'] != null)
-                                  ? items[index]['symptom'][0]
-                                  : 'No symptom',
+                                      ? items[index]['symptom'].isNotEmpty
+                                          ? items[index]['symptom'][0]
+                                          : 'No symptom'
+                                      : 'No symptom',
                                   // [
                                   //   {
                                   //     tpid: 60a6204dd3dec9001f59863a,
-                                  //     status: TreatmentStatus.Api, 
-                                  //     date: 2021-05-20 08:39:41.958Z, 
-                                  //     symptom: [Back pain], 
+                                  //     status: TreatmentStatus.Api,
+                                  //     date: 2021-05-20 08:39:41.958Z,
+                                  //     symptom: [Back pain],
                                   //     apts: [
                                   //       {
                                   //         apid: 60a6204dd3dec9001f59863b, date: 2021-05-20T08:39:41.958Z, pat_symptom: [Back pain], pat_condition: {c_981: Back strain, c_577: Degenerative disc disease of the thoracic spine, c_37: Kidney stones, c_533: Bone infection, c_149: Ankylosing spondylitis}
@@ -254,7 +264,7 @@ class _AssessmentHistoryPageState extends State<AssessmentHistoryPage> {
                                 _buildStatusBox(
                                     context,
                                     _statusInfo(
-                                        context, items[index]['status'])),
+                                        context, items[index]['tpStatus'])),
                               ],
                             ),
                             Expanded(child: Container()),

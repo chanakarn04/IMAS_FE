@@ -191,8 +191,9 @@ class _SuggestionPageState extends State<SuggestionPage> {
                         height: double.infinity,
                         width: MediaQuery.of(context).size.width * 0.75,
                         child: Center(
-                          child:
-                              SuggestionCardContent(data: data, index: index),
+                          child: 
+                            Container(),
+                              // SuggestionCardContent(data: data, index: index),
                         ),
                       );
                     },

@@ -32,7 +32,8 @@ class VitalSignProvider with ChangeNotifier {
       print('On r-get-condition-symptom: $event');
       // final data = Map<String, dynamic>.from(event[0]['value']['payload']);
       final _apts = List<dynamic>.from(event[0]['value']['payload']);
-      final _currentApt = _apts.firstWhere((element) => element['apid'] == apId);
+      final _currentApt = _apts.firstWhere((element) => element['apid'] == apId, orElse: () => _apts[0]);
+      // final _currentApt = _apts[0];
       symptoms = _currentApt['pat_symptom'];
       // payload: [{
       //   apid: 60a2323cbe47e8001ff7f4bb, 

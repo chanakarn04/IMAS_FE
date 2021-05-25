@@ -337,7 +337,8 @@ class _CaseManagementCreateAppointmentState
                   );
                   await chatroom.deleteChatroom();
                   await cmInfo.upload(chatroom.apid, chatroom.note, 0);
-                  await userInfo.updatePlan(chatroom.tpid, 1);
+                  await userInfo.updatePlan(chatroom.tpid, 0);
+                  chatroom.closeChat();
                   cmInfo.cleanDispose();
                   // cmInfo.dispose();
                   Navigator.of(context).popAndPushNamed(

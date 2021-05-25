@@ -42,9 +42,9 @@ class _VitalSignStartPageState extends State<VitalSignStartPage> {
         color: Theme.of(context).primaryColor,
       ),
       backgroundColor: Colors.white,
-      leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_rounded),
-          onPressed: () => Navigator.of(context).pop()),
+      // leading: IconButton(
+      //     icon: Icon(Icons.arrow_back_ios_rounded),
+      //     onPressed: () => Navigator.of(context).pop()),
       title: Container(
         alignment: Alignment.center,
         child: Text('IMAS'),
@@ -61,73 +61,76 @@ class _VitalSignStartPageState extends State<VitalSignStartPage> {
     );
     return Provider(
       create: (context) => VitalSignProvider(),
-      child: Scaffold(
-        appBar: appBar,
-        body: Container(
-          padding: EdgeInsets.only(
-            top: 15,
-            left: 15,
-            right: 15,
-            bottom: 40,
-          ),
-          // alignment: Alignment.bottomCenter,
-          child: Column(
-            // mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Container(
-                constraints: BoxConstraints(
-                    maxWidth: MediaQuery.of(context).size.width * 0.7),
-                child: Text('Vital Sign Measurement',
-                    style: TextStyle(
-                      fontSize: 38,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    overflow: TextOverflow.clip),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Align(
-                alignment: Alignment.centerRight,
-                // color: Colors.deepPurple,
-                child: Container(
+      child: WillPopScope(
+        onWillPop: () async => false,
+        child: Scaffold(
+          appBar: appBar,
+          body: Container(
+            padding: EdgeInsets.only(
+              top: 15,
+              left: 15,
+              right: 15,
+              bottom: 40,
+            ),
+            // alignment: Alignment.bottomCenter,
+            child: Column(
+              // mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Container(
                   constraints: BoxConstraints(
                       maxWidth: MediaQuery.of(context).size.width * 0.7),
-                  child: Text(
-                    'We want to gather some information from you. That can help in diaganosis',
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 75, 75, 75),
-                      fontSize: 18,
+                  child: Text('Vital Sign Measurement',
+                      style: TextStyle(
+                        fontSize: 38,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      overflow: TextOverflow.clip),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  // color: Colors.deepPurple,
+                  child: Container(
+                    constraints: BoxConstraints(
+                        maxWidth: MediaQuery.of(context).size.width * 0.7),
+                    child: Text(
+                      'We want to gather some information from you. That can help in diaganosis',
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 75, 75, 75),
+                        fontSize: 18,
+                      ),
+                      textAlign: TextAlign.end,
+                      overflow: TextOverflow.clip,
                     ),
-                    textAlign: TextAlign.end,
-                    overflow: TextOverflow.clip,
                   ),
                 ),
-              ),
-              SizedBox(
-                height: 240,
-              ),
-              Align(
-                alignment: Alignment.center,
-                child: AdaptiveRaisedButton(
-                  buttonText: 'Start',
-                  height: 35,
-                  width: MediaQuery.of(context).size.width * 0.35,
-                  handlerFn: (() {
-                    Navigator.of(context).pushNamed(
-                      VSBodyTempPage.routeName,
-                      arguments: vitalSign,
-                    );
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(builder: (context) => VSBodyTempPage()),
-                    // );
-                  }),
+                SizedBox(
+                  height: 240,
                 ),
-              )
-            ],
+                Align(
+                  alignment: Alignment.center,
+                  child: AdaptiveRaisedButton(
+                    buttonText: 'Start',
+                    height: 35,
+                    width: MediaQuery.of(context).size.width * 0.35,
+                    handlerFn: (() {
+                      Navigator.of(context).pushNamed(
+                        VSBodyTempPage.routeName,
+                        arguments: vitalSign,
+                      );
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(builder: (context) => VSBodyTempPage()),
+                      // );
+                    }),
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),

@@ -64,7 +64,7 @@ class WaitingPage extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             Expanded(child: Container()),
-            if (chatProvider.chatRoomId != '')
+            (chatProvider.chatRoomId != '') ?
               InkWell(
                 onTap: () {
                   // ...
@@ -82,6 +82,29 @@ class WaitingPage extends StatelessWidget {
                   ),
                   child: Text(
                     'Meet Doctor',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ) : InkWell(
+                onTap: () {
+                  // ...
+                  chatProvider.patientDeleteQueue();
+                  Navigator.of(context).pop();
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).primaryColor,
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  padding: EdgeInsets.symmetric(
+                    vertical: 10,
+                    horizontal: 15,
+                  ),
+                  child: Text(
+                    'Cancel',
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,

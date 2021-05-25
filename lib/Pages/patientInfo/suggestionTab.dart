@@ -85,8 +85,8 @@ class _SuggestionTabState extends State<SuggestionTab> {
                 itemCount: data.length,
                 itemBuilder: (context, index, _) => AptSuggestCard(
                   data[index]['apDt'],
-                  data[index]['prescription'],
-                  data[index]['advises'],
+                  (data[index]['prescription'] != null) ? List<String>.from(data[index]['prescription']) : null,
+                  (data[index]['advises'] != null) ? data[index]['advises'] : null,
                   (data.length - index),
                 ),
                 options: CarouselOptions(

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 // import 'package:socket_io_client/socket_io_client.dart';
 import '../Script/socketioScript.dart';
@@ -21,6 +23,11 @@ class PatientInfo with ChangeNotifier {
   var vital_painLoad = false;
   var prescrip_suggestLoad = false;
 
+  StreamSubscription r_getProfile;
+  StreamSubscription r_get_condition_symptom;
+  StreamSubscription r_get_vital_sign_records;
+  StreamSubscription r_get_prescription;
+
   Future<void> getPatInfo(String pId, String tpId) async {
     pid = pId;
     tpid = tpId;
@@ -29,8 +36,7 @@ class PatientInfo with ChangeNotifier {
     vital_pain = [];
     prescrip_suggest =[];
 
-
-    socketIO.on('r-getProfile').listen((data) {
+    r_getProfile = socketIO.on('r-getProfile').listen((data) {
       print('On r-getProfile: $data');
       final payload = data[0]['value']['payload'];
       if (data != null) {
@@ -47,6 +53,7 @@ class PatientInfo with ChangeNotifier {
           'drugAllergy': payload['patDrugAllergy']
         };
         pInfoLoad = true;
+        r_getProfile.cancel();
         notifyListeners();
       } else {
         print('No data returned');
@@ -66,7 +73,7 @@ class PatientInfo with ChangeNotifier {
     //   "patDrugAllergy":["Vitamin C","Heroin"]
     // }
 
-    socketIO.on('r-get-condition-symptom').listen((data) {
+    r_get_condition_symptom = socketIO.on('r-get-condition-symptom').listen((data) {
       print('On r-get-condition-symptom: $data');
       final payload = data[0]['value']['payload'];
       if (data != null) {
@@ -83,6 +90,7 @@ class PatientInfo with ChangeNotifier {
           });
         }
         symp_condLoad = true;
+        r_get_condition_symptom.cancel();
         notifyListeners();
       } else {
         print('No data returned');
@@ -118,7 +126,7 @@ class PatientInfo with ChangeNotifier {
     //   itemCount: item['apts'][0]['pat_condition'].length,
     // ),
 
-    socketIO.on('r-get-vital-sign-records').listen((data) {
+    r_get_vital_sign_records = socketIO.on('r-get-vital-sign-records').listen((data) {
       print('On r-get-vital-sign-records: $data');
       final payload = data[0]['value']['payload'];
       if (data != null) {
@@ -126,6 +134,7 @@ class PatientInfo with ChangeNotifier {
           vital_pain.add(item);
         }
         vital_painLoad = true;
+        r_get_vital_sign_records.cancel();
         notifyListeners();
       } else {
         print('No data returned');
@@ -148,7 +157,7 @@ class PatientInfo with ChangeNotifier {
     // ]
     // "payload":[]
 
-    socketIO.on('r-get-prescription').listen((data) {
+    r_get_prescription = socketIO.on('r-get-prescription').listen((data) {
       print('On r-get-prescription: $data');
       final payload = data[0]['value']['payload'];
       if (data != null) {
@@ -157,6 +166,7 @@ class PatientInfo with ChangeNotifier {
           prescrip_suggest[index]['advice'] = payload[index]['advice'];
         }
         prescrip_suggestLoad = true;
+        r_get_prescription.cancel();
         notifyListeners();
       } else {
         print('No data returned');

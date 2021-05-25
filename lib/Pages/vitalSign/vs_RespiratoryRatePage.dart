@@ -80,9 +80,9 @@ class _VSRespiratoryRatePageState extends State<VSRespiratoryRatePage> {
         color: Theme.of(context).primaryColor,
       ),
       backgroundColor: Colors.white,
-      leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_rounded),
-          onPressed: () => Navigator.of(context).pop()),
+      // leading: IconButton(
+      //     icon: Icon(Icons.arrow_back_ios_rounded),
+      //     onPressed: () => Navigator.of(context).pop()),
       title: Container(
         alignment: Alignment.center,
         child: Text('IMAS'),
@@ -98,153 +98,156 @@ class _VSRespiratoryRatePageState extends State<VSRespiratoryRatePage> {
       ],
     );
 
-    return Scaffold(
-      appBar: appBar,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              height: (MediaQuery.of(context).size.height -
-                      appBar.preferredSize.height -
-                      MediaQuery.of(context).padding.top) *
-                  0.6,
-              padding: EdgeInsets.only(
-                top: 120,
-                left: 15,
-                right: 15,
-                bottom: 40,
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  _headerBuilder(context, 'Respiratory rate'),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  _descriptionBuilder(
-                      context, 'Count how many time you breath in 60 seconds'),
-                ],
-              ),
-            ),
-            Container(
-              height: (MediaQuery.of(context).size.height -
-                      appBar.preferredSize.height -
-                      MediaQuery.of(context).padding.top) *
-                  0.4,
-              padding: EdgeInsets.only(
-                top: 15,
-                left: 15,
-                right: 15,
-                bottom: 40,
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Container(
-                        width: 120,
-                        child: NumberTextField(
-                          textController: textController,
-                        ),
-                      ),
-                      SizedBox(
-                        width: 3,
-                      ),
-                      Column(
-                        // mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text(
-                            'BPM',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 26,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            '(Breath Per Minute)',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 9,
-                              // fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Align(
-                    alignment: Alignment.center,
-                    child: ProgressDot(
-                      length: 4,
-                      markedIndex: 3,
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        appBar: appBar,
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                height: (MediaQuery.of(context).size.height -
+                        appBar.preferredSize.height -
+                        MediaQuery.of(context).padding.top) *
+                    0.6,
+                padding: EdgeInsets.only(
+                  top: 120,
+                  left: 15,
+                  right: 15,
+                  bottom: 40,
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    _headerBuilder(context, 'Respiratory rate'),
+                    SizedBox(
+                      height: 20,
                     ),
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      AdaptiveBorderButton(
-                        buttonText: 'Skip',
-                        height: 45,
-                        width: 125,
-                        handlerFn: () {
-                          vitalSign.breath = null;
-                          Navigator.of(context).pushNamed(
-                            VSBloodPressurePage.routeName,
-                          );
-                          // routeArgument['breath'] = null;
-                          // Navigator.of(context).pushNamed(
-                          //     VSBloodPressurePage.routeName,
-                          //     arguments: routeArgument);
-                        },
-                      ),
-                      SizedBox(
-                        width: 15,
-                      ),
-                      AdaptiveRaisedButton(
-                        buttonText: 'Next',
-                        height: 35,
-                        width: 125,
-                        handlerFn:
-                            (double.tryParse(textController.text) != null) &&
-                                    (textController.text.isNotEmpty)
-                                ? (() {
-                                    vitalSign.breath =
-                                        double.parse(textController.text);
-                                    Navigator.of(context).pushNamed(
-                                      VSBloodPressurePage.routeName,
-                                    );
-                                  })
-                                : null,
-                      ),
-                    ],
-                  ),
-                ],
+                    _descriptionBuilder(
+                        context, 'Count how many time you breath in 60 seconds'),
+                  ],
+                ),
               ),
-            ),
-          ],
+              Container(
+                height: (MediaQuery.of(context).size.height -
+                        appBar.preferredSize.height -
+                        MediaQuery.of(context).padding.top) *
+                    0.4,
+                padding: EdgeInsets.only(
+                  top: 15,
+                  left: 15,
+                  right: 15,
+                  bottom: 40,
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Container(
+                          width: 120,
+                          child: NumberTextField(
+                            textController: textController,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 3,
+                        ),
+                        Column(
+                          // mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text(
+                              'BPM',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 26,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              '(Breath Per Minute)',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 9,
+                                // fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Align(
+                      alignment: Alignment.center,
+                      child: ProgressDot(
+                        length: 4,
+                        markedIndex: 3,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        AdaptiveBorderButton(
+                          buttonText: 'Skip',
+                          height: 45,
+                          width: 125,
+                          handlerFn: () {
+                            vitalSign.breath = null;
+                            Navigator.of(context).pushNamed(
+                              VSBloodPressurePage.routeName,
+                            );
+                            // routeArgument['breath'] = null;
+                            // Navigator.of(context).pushNamed(
+                            //     VSBloodPressurePage.routeName,
+                            //     arguments: routeArgument);
+                          },
+                        ),
+                        SizedBox(
+                          width: 15,
+                        ),
+                        AdaptiveRaisedButton(
+                          buttonText: 'Next',
+                          height: 35,
+                          width: 125,
+                          handlerFn:
+                              (double.tryParse(textController.text) != null) &&
+                                      (textController.text.isNotEmpty)
+                                  ? (() {
+                                      vitalSign.breath =
+                                          double.parse(textController.text);
+                                      Navigator.of(context).pushNamed(
+                                        VSBloodPressurePage.routeName,
+                                      );
+                                    })
+                                  : null,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
+
+        // Center(
+        //   // color: Colors.white,
+        //   child: Column(
+        //     children: [
+        //       Text('Respiratory'),
+
+        //     ],
+        //   ),
+        // ),
       ),
-
-      // Center(
-      //   // color: Colors.white,
-      //   child: Column(
-      //     children: [
-      //       Text('Respiratory'),
-
-      //     ],
-      //   ),
-      // ),
     );
   }
 }

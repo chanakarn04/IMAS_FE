@@ -225,7 +225,7 @@ class UserInfo with ChangeNotifier {
             lastApt = appointment.firstWhere(
               (apt) =>
                   (apt['status'] == AptStatus.Waiting) &&
-                  (DateTime.now().difference(apt['aptDate']).inMinutes <= 30),
+                  (DateTime.parse(apt['aptDate'].toString()).difference(DateTime.now()).inMinutes - 390 <= 30),
               orElse: () => {},
             );
             break;
@@ -538,7 +538,7 @@ class UserInfo with ChangeNotifier {
           calendarApt.add({
             'tpid': apt['tpid_ref'],
             'apid': apt['_id'],
-            'apDt': DateTime.parse(apt['apdt']),
+            'apDt': DateTime.parse(apt['apdt']).add(const Duration(hours: 7)),
             'status': apt['status'],
             'image': 'assets/images/default_photo.png',
             'pName': _pNameOfTreatment.firstWhere(
@@ -557,7 +557,7 @@ class UserInfo with ChangeNotifier {
   }
 
   Future<void> patientFollowUpInfo() async {
-    await Future.delayed(Duration(seconds: 2));
+    // await Future.delayed(Duration(seconds: 2));
     // print('wait complete');
     List<Map<String, dynamic>> _tempApt;
     
@@ -578,7 +578,7 @@ class UserInfo with ChangeNotifier {
         {
           'transaction': 'updatePlan',
           'payload': {
-            'tpids': thisTpid,
+            'tpid': thisTpid,
             'status': tpStatus,
             'drid': userId,
           }
@@ -611,6 +611,7 @@ class UserInfo with ChangeNotifier {
       print('On r-logout: $data');
       if (data != null) {
         IO.socketDisconnect();
+        IO.chatSocketDisconnect();
         userToken = '';
         userId = '';
         userData = {};

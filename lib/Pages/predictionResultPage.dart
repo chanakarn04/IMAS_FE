@@ -269,7 +269,9 @@ class _PredictionResultPageState extends State<PredictionResultPage> {
                                                           actions: [
                                                             TextButton(
                                                               onPressed: () {
-                                                                Navigator.of(context).pop();
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop();
                                                               },
                                                               child: Text(
                                                                 'Call',
@@ -301,22 +303,61 @@ class _PredictionResultPageState extends State<PredictionResultPage> {
                                                 child: AdaptiveRaisedButton(
                                                   buttonText: 'Meet Doctor',
                                                   handlerFn: () {
-                                                    vitalSignProvider.tpId =
-                                                        symptomAssessment.tpid;
-                                                    vitalSignProvider.apId =
-                                                        symptomAssessment.apid;
-                                                    chatProvider.patientReqChat(
-                                                      userInfo
-                                                          .userData['userName'],
-                                                      userInfo.role,
-                                                      symptomAssessment.tpid,
-                                                      symptomAssessment.apid,
-                                                    );
-                                                    Navigator.of(context)
-                                                        .pushReplacementNamed(
-                                                            VitalSignStartPage
-                                                                .routeName);
-                                                    symptomAssessment.clear();
+                                                    if (chatProvider
+                                                        .isConsult) {
+                                                      showDialog(
+                                                          context: context,
+                                                          builder: (context) {
+                                                            return AlertDialog(
+                                                              title: Text(
+                                                                  'You are now consulting'),
+                                                              content: Text(
+                                                                  'You cannot have another consult.'),
+                                                              actions: [
+                                                                TextButton(
+                                                                  onPressed:
+                                                                      () {
+                                                                    symptomAssessment
+                                                                        .clear();
+                                                                    Navigator.of(
+                                                                            context)
+                                                                        .popUntil(
+                                                                            ModalRoute.withName(HomePage.routeName));
+                                                                  },
+                                                                  child: Text(
+                                                                    'Home',
+                                                                    style:
+                                                                        TextStyle(
+                                                                      color: Theme.of(
+                                                                              context)
+                                                                          .primaryColor,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            );
+                                                          });
+                                                    } else {
+                                                      vitalSignProvider.tpId =
+                                                          symptomAssessment
+                                                              .tpid;
+                                                      vitalSignProvider.apId =
+                                                          symptomAssessment
+                                                              .apid;
+                                                      chatProvider
+                                                          .patientReqChat(
+                                                        userInfo.userData[
+                                                            'userName'],
+                                                        userInfo.role,
+                                                        symptomAssessment.tpid,
+                                                        symptomAssessment.apid,
+                                                      );
+                                                      Navigator.of(context)
+                                                          .pushReplacementNamed(
+                                                              VitalSignStartPage
+                                                                  .routeName);
+                                                      symptomAssessment.clear();
+                                                    }
                                                     // Navigator.of(context).pushReplacementNamed(
                                                     //     WaitingPage.routeName);
                                                     // chatProvider.chatRequest(Role.Patient);

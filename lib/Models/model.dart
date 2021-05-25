@@ -3,10 +3,13 @@ import 'package:flutter/foundation.dart';
 enum Gender { Male, Female }
 enum Status { Yes, No, NotSure }
 
-// 0 = Pass, 1 = Default, 2 = Waiting
+// 0 = Pass, 1 = Cancel, 2 = Waiting
 // Edited, Passes, Lastest
-enum AptStatus { Pass, Default, Waiting }
-// 0 = InProgress, 1 = Healed, 2 = Hospital, 3 = Api
+enum AptStatus { Pass, Cancel, Waiting }
+// 0 = InProgress, 
+// 1 = Healed, 
+// 2 = Hospital, 
+// 3 = Api 
 enum TreatmentStatus { InProgress, Healed, Hospital, Api }
 
 Gender gernderGenerate(bool gender) {
@@ -40,7 +43,7 @@ AptStatus aptStatusGenerate(int status) {
       return AptStatus.Pass;
       break;
     case 1:
-      return AptStatus.Default;
+      return AptStatus.Cancel;
       break;
     case 2:
       return AptStatus.Waiting;

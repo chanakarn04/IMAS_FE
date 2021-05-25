@@ -247,10 +247,11 @@ class _CaseManagementTabState extends State<CaseManagementTab> {
                         },
                       );
                       // close chatroom 
-                      await cmInfo.upload(chatroom.apid, chatroom.note, 0);
-                      await userInfo.updatePlan(chatroom.tpid, 3);
-                      cmInfo.cleanDispose();
                       await chatroom.deleteChatroom();
+                      await cmInfo.upload(chatroom.apid, chatroom.note, 0);
+                      await userInfo.updatePlan(chatroom.tpid, 2);
+                      chatroom.closeChat();
+                      cmInfo.cleanDispose();
                       // cmInfo.dispose();
                     },
                   );
@@ -282,10 +283,11 @@ class _CaseManagementTabState extends State<CaseManagementTab> {
                         },
                       );
                       print('close case as Cured');
-                      await cmInfo.upload(chatroom.apid, chatroom.note, 0);
-                      await userInfo.updatePlan(chatroom.tpid, 2);
-                      cmInfo.cleanDispose();
                       await chatroom.deleteChatroom();
+                      await cmInfo.upload(chatroom.apid, chatroom.note, 0);
+                      await userInfo.updatePlan(chatroom.tpid, 1);
+                      chatroom.closeChat();
+                      cmInfo.cleanDispose();
                       // cmInfo.dispose();
                     },
                   );

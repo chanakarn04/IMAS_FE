@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import './chatRoom.dart';
 import './PatientInfoPage.dart';
 import '../Provider/user-info.dart';
+import '../Provider/chatRoom_info.dart';
 
 class AppointmentDoctorPage extends StatefulWidget {
   static const routeName = '/appointment-doctor';
@@ -142,6 +143,8 @@ class _AppointmentDoctorPageState extends State<AppointmentDoctorPage> {
     if (!_loadedData) {
       final userInfo = Provider.of<UserInfo>(context);
       userInfo.calendarAptloading = true;
+      userInfo.calendarApt = [];
+      userInfo.treatmentPlan = [];
       await userInfo.calendarAppointment();
       _loadedData = true;
       data = userInfo.calendarApt;
@@ -199,6 +202,7 @@ class _AppointmentDoctorPageState extends State<AppointmentDoctorPage> {
   @override
   Widget build(BuildContext context) {
     final userInfo = Provider.of<UserInfo>(context);
+    final chatroom = Provider.of<ChatRoomProvider>(context);
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(
@@ -313,6 +317,26 @@ class _AppointmentDoctorPageState extends State<AppointmentDoctorPage> {
                         child: (_selectedEvent.isNotEmpty)
                             ? ListView.builder(
                                 itemBuilder: (context, index) {
+                                  DateTime now = DateTime.now();
+                                  DateTime tempDt = DateTime(
+                                    now.year,
+                                    now.month,
+                                    now.day,
+                                    now.hour,
+                                    now.minute + 5
+                                  );
+                                  print('event => ${_selectedEvent[index]}');
+                                  print('aptDt => ${_selectedEvent[index]['apDt'].runtimeType}');
+                                  print('aptDt => ${_selectedEvent[index]['apDt']}');
+                                  print('nowDt => ${DateTime.now().runtimeType}');
+                                  print('nowDt => ${DateTime.now()}');
+                                  print('temDt => ${tempDt.runtimeType}');
+                                  print('temDt => $tempDt');
+                                  // print('diffenrece => ${_selectedEvent[index]['apDt'].difference(DateTime.now()).inMinutes - 420}');
+                                  print('diffenrece => ${DateTime.parse(_selectedEvent[index]['apDt'].toString()).difference(DateTime.now()).inMinutes - 390}');
+                                  print('Test diffenrece => ${now.difference(tempDt).inMinutes}');
+                                    // ((DateTime.now().difference(_selectedEvent[index]['apDt']).inMinutes >= 0) &&
+                                    //             (DateTime.now().difference(_selectedEvent[index]['apDt']).inMinutes <=30))
                                   return Padding(
                                     padding: const EdgeInsets.only(
                                       top: 5,
@@ -370,18 +394,8 @@ class _AppointmentDoctorPageState extends State<AppointmentDoctorPage> {
                                           //   fontSize: 20,
                                           // ),
                                         ),
-                                        trailing: ((DateTime.now()
-                                                        .difference(
-                                                            _selectedEvent[
-                                                                index]['apDt'])
-                                                        .inMinutes >=
-                                                    0) &&
-                                                (DateTime.now()
-                                                        .difference(
-                                                            _selectedEvent[
-                                                                index]['apDt'])
-                                                        .inMinutes <=
-                                                    30))
+                                        trailing: ((DateTime.parse(_selectedEvent[index]['apDt'].toString()).difference(DateTime.now()).inMinutes - 390 >= 0) &&
+                                                (DateTime.parse(_selectedEvent[index]['apDt'].toString()).difference(DateTime.now()).inMinutes - 390 <= 30))
                                             ? SizedBox(
                                                 height: 35,
                                                 width: 35,
@@ -394,9 +408,18 @@ class _AppointmentDoctorPageState extends State<AppointmentDoctorPage> {
                                                     size: 30,
                                                   ),
                                                   onTap: () {
+                                                    if (!chatroom
+                                                        .chatRoomRegis) {
+                                                      chatroom
+                                                          .aptDoctorCreateChat(
+                                                              Role.Doctor);
+                                                    }
                                                     Navigator.of(context)
                                                         .pushNamed(
                                                             ChatRoom.routeName);
+                                                    // Navigator.of(context)
+                                                    //     .pushNamed(
+                                                    //         ChatRoom.routeName);
                                                   },
                                                 ),
                                               )

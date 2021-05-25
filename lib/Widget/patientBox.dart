@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 import '../Pages/PatientInfoPage.dart';
 import '../Pages/chatRoom.dart';
+import '../Provider/chatRoom_info.dart';
+import '../Provider/user-info.dart';
 
 class PatientBox extends StatelessWidget {
   final String pName;
@@ -30,6 +33,7 @@ class PatientBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final chatroom = Provider.of<ChatRoomProvider>(context);
     var todayApt;
     Color boxColor;
     Color mainTextColor;
@@ -95,23 +99,29 @@ class PatientBox extends StatelessWidget {
             width: 12,
           ),
           InkWell(
-              child: Icon(
-                (todayApt)
-                    ? Icons.chat_bubble_outline_rounded
-                    : Icons.arrow_forward_ios_rounded,
-                color: (todayApt) ? mainTextColor : Colors.grey,
-                size: 28,
-              ),
-              onTap: () {
-                (todayApt)
-                    ? Navigator.of(context).pushNamed(ChatRoom.routeName)
-                    : Navigator.of(context)
+            child: Icon(
+              (todayApt)
+                  ? Icons.chat_bubble_outline_rounded
+                  : Icons.arrow_forward_ios_rounded,
+              color: (todayApt) ? mainTextColor : Colors.grey,
+              size: 28,
+            ),
+            onTap: (todayApt)
+                ? () {
+                    if(!chatroom.chatRoomRegis) {
+                      chatroom.aptDoctorCreateChat(Role.Doctor);
+                    }
+                    Navigator.of(context).pushNamed(ChatRoom.routeName);
+                  }
+                : () {
+                    Navigator.of(context)
                         .pushNamed(PatientInfoPage.routeName, arguments: {
-                          'tpid': tpId,
-                          'pid': pid,
-                          'pName': pName,
-                        });
-              }),
+                      'tpid': tpId,
+                      'pid': pid,
+                      'pName': pName,
+                    });
+                  },
+          ),
         ],
       ),
     );

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:homepage_proto/Script/socketioScript.dart';
 import 'package:provider/provider.dart';
 
 import '../Pages/homePages.dart';
 import './registerPage.dart';
 import '../Provider/user-info.dart';
+import '../Provider/chatRoom_info.dart';
 
 class LogInPage extends StatefulWidget {
   static const routeName = '/login';
@@ -19,6 +21,7 @@ class _LogInPageState extends State<LogInPage> {
   @override
   Widget build(BuildContext context) {
     final userInfo = Provider.of<UserInfo>(context);
+    final chatroom = Provider.of<ChatRoomProvider>(context);
     if (userInfo.role != Role.UnAuthen) {
       // prevent animation for prevent state/listener problem
       Future.delayed(Duration.zero, () {
@@ -144,7 +147,7 @@ class _LogInPageState extends State<LogInPage> {
                         height: 20,
                       ),
                       ElevatedButton(
-                        onPressed: () {
+                        onPressed: () async {
                           if (usrnTextController.text.isNotEmpty &&
                               pswTextController.text.isNotEmpty) {
                             setState(() {
@@ -152,10 +155,20 @@ class _LogInPageState extends State<LogInPage> {
                               userInfo.loginError = false;
                             });
                             // print(_isLogin);
-                            userInfo.login(
+                            await userInfo.login(
                               usrnTextController.text,
                               pswTextController.text,
                             );
+                            if (userInfo.role == Role.Doctor) {
+                              await chatroom.loadChatState(
+                                userId: userInfo.userId,
+                              );
+                            } else {
+                              await chatroom.loadChatState(
+                                userId: userInfo.userId,
+                                role: Role.Patient,
+                              );
+                            }
                             usrnTextController.clear();
                             pswTextController.clear();
                           }

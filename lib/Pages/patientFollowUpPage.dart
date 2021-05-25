@@ -52,6 +52,9 @@ class _PatientFollowUpPageState extends State<PatientFollowUpPage> {
       _loadedData = true;
       final userInfo = Provider.of<UserInfo>(context);
       userInfo.ptFollowUpLoading = true;
+      userInfo.calendarApt = [];
+      userInfo.ptFollowUp = [];
+      userInfo.treatmentPlan = [];
       await userInfo.calendarAppointment();
       await userInfo.patientFollowUpInfo();
       final List<Map<String, dynamic>> data = userInfo.ptFollowUp;
@@ -75,13 +78,15 @@ class _PatientFollowUpPageState extends State<PatientFollowUpPage> {
       //     'tpid': 'tp001'
       //   },
       // ];
+      DateTime now = DateTime.now();
       todayApt = data
-          .where((element) =>
-              element['apDt'].difference(DateTime.now()).inDays == 0)
+          .where((elm) =>
+              DateTime(elm['apDt'].year, elm['apDt'].month, elm['apDt'].day).difference(DateTime(now.year, now.month, now.day)).inDays == 0)
+              // elm['apDt'].difference(DateTime.now()).inDays == 0)
           .toList();
       otherApt = data
-          .where((element) =>
-              element['apDt'].difference(DateTime.now()).inDays != 0)
+          .where((elm) =>
+            DateTime(elm['apDt'].year, elm['apDt'].month, elm['apDt'].day).difference(DateTime(now.year, now.month, now.day)).inDays != 0)
           .toList();
       print('todayApt: $todayApt');
       print('otherApt: $otherApt');
