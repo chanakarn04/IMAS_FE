@@ -188,7 +188,8 @@ class UserInfo with ChangeNotifier {
           _lastTpid = null;
         } else {
           _lastTpid = treatmentPlan.firstWhere(
-            (element) => element['status'] == TreatmentStatus.InProgress, orElse: () => null);
+              (element) => element['status'] == TreatmentStatus.InProgress,
+              orElse: () => null);
         }
 
         if (_lastTpid != null) {
@@ -225,7 +226,11 @@ class UserInfo with ChangeNotifier {
             lastApt = appointment.firstWhere(
               (apt) =>
                   (apt['status'] == AptStatus.Waiting) &&
-                  (DateTime.parse(apt['aptDate'].toString()).difference(DateTime.now()).inMinutes - 390 <= 30),
+                  (DateTime.parse(apt['aptDate'].toString())
+                              .difference(DateTime.now())
+                              .inMinutes -
+                          390 <=
+                      30),
               orElse: () => {},
             );
             break;
@@ -343,6 +348,84 @@ class UserInfo with ChangeNotifier {
         // userId = data[0]['value']['passport']['userid'];
         // role = _roleGenerater(data[0]['value']['payload']['userRole']);
       }
+    }
+  }
+
+  Future<void> updatePatientLastApt() async {
+    print('===> update lastApt');
+    Map<String, dynamic> _lastTpid;
+
+    IO.socketIO.emit('event', [
+      {
+        'transaction': 'get-plan',
+        'payload': {
+          'role': roleTranslate(role),
+          'status': [0, 1, 2, 3],
+        }
+      }
+    ]);
+    await for (dynamic event in IO.socketIO.on('r-get-plan')) {
+      print('On r-get-plan ${event[0]['value']['payload']}');
+      final data = List.from(event[0]['value']['payload']);
+      // [{status: 0, _id: 609a336dc5100400298ed475, pid: pisut.s@mail.com, __v: 0, drid: pasit.h@mail.com}]
+      if (data.isNotEmpty) {
+        // print('data is not Empty');
+        for (dynamic tp in data) {
+          treatmentPlan.add({
+            'tpid': tp['_id'],
+            'status': tpStatusGenerate(tp['status']),
+            'pid': tp['pid'],
+            'drid': tp['drid'],
+          });
+        }
+      }
+      break;
+    }
+
+    if (treatmentPlan.isEmpty) {
+      _lastTpid = null;
+    } else {
+      _lastTpid = treatmentPlan.firstWhere(
+          (element) => element['status'] == TreatmentStatus.InProgress,
+          orElse: () => null);
+    }
+
+    if (_lastTpid != null) {
+      await IO.socketIO.emit('event', [
+        {
+          'transaction': 'get-appointments',
+          'payload': {
+            'tpid': _lastTpid['tpid'],
+          },
+        }
+      ]);
+      await for (dynamic data in IO.socketIO.on('r-get-appointments')) {
+        print('On r-get-appointments: ${data[0]['value']['payload']}');
+        for (dynamic apt in data[0]['value']['payload']['appointment']) {
+          appointment.add({
+            'apid': apt['_id'],
+            'tpid': apt['tpid_ref'],
+            'aptDate': DateTime.parse(apt['apdt']).add(Duration(hours: 7)),
+            'status': aptStatusGenerate(apt['status']),
+          });
+        }
+        print(appointment[0]['aptDate'].runtimeType);
+        print(appointment[0]['status'] == AptStatus.Waiting);
+        print(appointment[0]['aptDate']);
+        // print(appointment[0]['aptDate'].difference(DateTime.now()).inDays - 390 <= 30);
+        print(appointment[0]['aptDate'].difference(DateTime.now()).inDays >= 0);
+        lastApt = appointment.firstWhere(
+          (apt) =>
+              (apt['status'] == AptStatus.Waiting) &&
+              (apt['aptDate']
+                          .difference(DateTime.now())
+                          .inDays >= 0),
+          orElse: () => {},
+        );
+        print('lastApt: $lastApt');
+        break;
+      }
+      notifyListeners();
     }
   }
 
@@ -532,7 +615,8 @@ class UserInfo with ChangeNotifier {
       ]);
 
       // print('start on');
-      await for (dynamic data in IO.socketIO.on('r-get-calendar-appointments')) {
+      await for (dynamic data
+          in IO.socketIO.on('r-get-calendar-appointments')) {
         print('On r-get-calendar-appointments: $data');
         for (Map<String, dynamic> apt in data[0]['value']['payload']) {
           calendarApt.add({
@@ -560,12 +644,14 @@ class UserInfo with ChangeNotifier {
     // await Future.delayed(Duration(seconds: 2));
     // print('wait complete');
     List<Map<String, dynamic>> _tempApt;
-    
+
     // calendarApt
     for (Map<String, dynamic> tp in treatmentPlan) {
       // print('tp test');
-      _tempApt = calendarApt.where((element) => element['tpid'] == tp['tpid']).toList();
-      _tempApt.sort((a,b) => b['apDt'].compareTo(a['apDt']));
+      _tempApt = calendarApt
+          .where((element) => element['tpid'] == tp['tpid'])
+          .toList();
+      _tempApt.sort((a, b) => b['apDt'].compareTo(a['apDt']));
       // print('tempS : $_tempApt');
       ptFollowUp.add(_tempApt[0]);
     }
@@ -575,15 +661,15 @@ class UserInfo with ChangeNotifier {
 
   Future<void> updatePlan(String thisTpid, int tpStatus) async {
     await IO.socketIO.emit('event', [
-        {
-          'transaction': 'updatePlan',
-          'payload': {
-            'tpid': thisTpid,
-            'status': tpStatus,
-            'drid': userId,
-          }
+      {
+        'transaction': 'updatePlan',
+        'payload': {
+          'tpid': thisTpid,
+          'status': tpStatus,
+          'drid': userId,
         }
-      ]);
+      }
+    ]);
     await for (dynamic data in IO.socketIO.on('r-updatePlan')) {
       print('On r-updatePlan ${data[0]['value']['payload']}');
       break;

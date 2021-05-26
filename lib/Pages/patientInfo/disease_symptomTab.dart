@@ -72,6 +72,7 @@ class _DiseaseSymptomTabState extends State<DiseaseSymptomTab> {
 
   @override
   Widget build(BuildContext context) {
+    print(data);
     // print('====> ${data.length}');
     return Center(
       child: Column(

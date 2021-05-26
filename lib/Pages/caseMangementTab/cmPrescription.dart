@@ -17,105 +17,40 @@ class CMPrescriptionTab extends StatefulWidget {
 }
 
 class _CMPrescriptionTabState extends State<CMPrescriptionTab> {
-  // var _loadedInitData = false;
-  // List<Appointment> appointments;
-  // final controller = TextEditingController();
-  // String temp;
-
-  // _setAdd() {
-  //   setState(() {
-  //     temp = controller.text;
-  //   });
-  //   controller.clear();
-  //   print('Add as $temp');
-  //   Navigator.of(context).pop();
-  //   showDialog(
-  //     context: context,
-  //     builder: (context) => AlertDialog(
-  //       title: Text('Data added'),
-  //       actions: [
-  //         FlatButton(
-  //           onPressed: () {
-  //             Navigator.of(context).pop();
-  //           },
-  //           child: Text('OK'),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
-
-  // _setEdit() {
-  //   setState(() {
-  //     temp = controller.text;
-  //   });
-  //   controller.clear();
-  //   print('Edit as $temp');
-  //   Navigator.of(context).pop();
-  //   showDialog(
-  //     context: context,
-  //     builder: (context) => AlertDialog(
-  //       title: Text('Data added'),
-  //       actions: [
-  //         FlatButton(
-  //           onPressed: () {
-  //             Navigator.of(context).pop();
-  //           },
-  //           child: Text('OK'),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
-
-  // @override
-  // void didChangeDependencies() {
-  //   if (!_loadedInitData) {
-  //     appointments = dummy_appointment
-  //         .where((apt) =>
-  //             (apt.tpId == widget.tpId) && (apt.status != AptStatus.Lastest))
-  //         .toList();
-  //     appointments.sort((a, b) => b.apDt.compareTo(a.apDt));
-  //   }
-  //   super.didChangeDependencies();
-  // }
-
-  // List<String> get _getPrescription {
-  //   Prescription tempPs;
-  //   List<String> temp = new List();
-  //   tempPs =
-  //       dummy_prescriptions.firstWhere((ps) => ps.apId == appointments[0].apId);
-  //   // print('${tempPs.psId}');
-  //   for (Drug drug
-  //       in dummy_drug.where((drug) => drug.psId == tempPs.psId).toList()) {
-  //     temp.add(drug.drugDetail);
-  //   }
-  //   return temp;
-  // }
-
-  // String get _getAdvise {
-  //   // print('${appointments[0].apId}');
-  //   // print('${appointments[0].advises}');
-  //   return appointments[0].advises;
-  // }
-
   @override
   Widget build(BuildContext context) {
     final cmInfo = Provider.of<CMinfoProvider>(context);
     return Container(
       padding: EdgeInsets.only(
-        top: 15,
+        top: MediaQuery.of(context).padding.top + 15,
         // left: 20,
         // bottom: 20,
       ),
       child: Column(
         children: [
+          Container(
+            padding: EdgeInsets.only(left: 10),
+            alignment: Alignment.centerLeft,
+            child: InkWell(
+              child: Icon(
+                Icons.arrow_back_ios_rounded,
+                color: Theme.of(context).primaryColor,
+              ),
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
           Expanded(
             child: Container(
               padding: EdgeInsets.only(left: 20),
               child: CaseManagementListItemBox(
                 caseIndex: 'prescription',
                 title: 'Perscription',
+                description: 'Medicines that patient should take',
                 items: cmInfo.prescriptions,
               ),
             ),
@@ -129,6 +64,7 @@ class _CMPrescriptionTabState extends State<CMPrescriptionTab> {
               child: CaseManagementAdviseBox(
                 caseIndex: 'suggestion',
                 title: 'Treatment',
+                description: 'Guideline for patient self-treatment',
                 item: 'test test 1 2 4',
                 // cmInfo: cmInfo,
                 // editFn: () {
@@ -146,11 +82,11 @@ class _CMPrescriptionTabState extends State<CMPrescriptionTab> {
           SizedBox(
             height: 10,
           ),
-          Container(
-            width: double.infinity,
-            height: 2,
-            color: Theme.of(context).primaryColor,
-          )
+          // Container(
+          //   width: double.infinity,
+          //   height: 2,
+          //   color: Theme.of(context).primaryColor,
+          // )
         ],
       ),
     );

@@ -162,7 +162,6 @@ class CMinfoProvider with ChangeNotifier {
     String tpid,
     DateTime apDt,
   ) async {
-    // ... change old apt status and create new apt
     socketIO.emit('event', [
       {
         'transaction': 'create-new-appointment',

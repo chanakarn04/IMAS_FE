@@ -8,6 +8,7 @@ import './showMyDialog.dart';
 class CaseManagementListItemBox extends StatefulWidget {
   final String caseIndex;
   final String title;
+  final String description;
   final List<String> items;
   // final Function addFn;
   // final Function editFn;
@@ -16,6 +17,7 @@ class CaseManagementListItemBox extends StatefulWidget {
   CaseManagementListItemBox({
     this.caseIndex,
     this.title,
+    this.description,
     this.items,
     // this.addFn,
     // this.editFn,
@@ -106,12 +108,29 @@ class _CaseManagementListItemBoxState extends State<CaseManagementListItemBox> {
       children: [
         Row(
           children: [
-            Text(
-              this.widget.title,
-              style: TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.bold,
-                color: Theme.of(context).primaryColor,
+            Padding(
+              padding: EdgeInsets.only(left: 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    this.widget.title,
+                    style: TextStyle(
+                      fontSize: 28,
+                      // fontWeight: FontWeight.bold,
+                      // color: Theme.of(context).primaryColor,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    this.widget.description,
+                    style: TextStyle(
+                      color: Colors.grey
+                    ),
+                  ),
+                ],
               ),
             ),
             Expanded(child: Container()),
@@ -140,23 +159,28 @@ class _CaseManagementListItemBoxState extends State<CaseManagementListItemBox> {
                   // onPressed: () => print('add'),
                   ),
             ),
+            SizedBox(
+              width: 25,
+            ),
           ],
         ),
         SizedBox(height: 10),
         Expanded(
           child: Container(
-            margin: EdgeInsets.only(left: 20),
+            margin: EdgeInsets.only(left: 10, right: 30),
             // width: double.infinity,
-            decoration: BoxDecoration(
-                border: Border.all(
-                  width: 2,
-                  color: Theme.of(context).primaryColor,
-                ),
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(15),
-                  topLeft: Radius.circular(15),
-                )),
-            child: ListView.builder(
+            // color: Colors.pink[50],
+            // decoration: BoxDecoration(
+            //     border: Border.all(
+            //       width: 2,
+            //       color: Theme.of(context).primaryColor,
+            //     ),
+            //     borderRadius: BorderRadius.only(
+            //       bottomLeft: Radius.circular(15),
+            //       topLeft: Radius.circular(15),
+            //     )),
+            child: (this.widget.items.length > 0) ? ListView.builder(
+              padding: EdgeInsets.all(0),
               itemBuilder: (context, index) {
                 return Column(
                   children: [
@@ -177,6 +201,7 @@ class _CaseManagementListItemBoxState extends State<CaseManagementListItemBox> {
                                   child: Icon(
                                     Icons.edit_outlined,
                                     size: 24,
+                                    color: Colors.grey[700],
                                   ),
                                   onTap: () {
                                     // print('Edit as ${cmInfo.condition[index]}');
@@ -220,6 +245,7 @@ class _CaseManagementListItemBoxState extends State<CaseManagementListItemBox> {
                                 child: Icon(
                                   Icons.delete_outline_outlined,
                                   size: 24,
+                                  color: Colors.grey[700],
                                 ),
                                 // onTap: this.widget.delFn,
                                 onTap: () {
@@ -236,13 +262,15 @@ class _CaseManagementListItemBoxState extends State<CaseManagementListItemBox> {
                     ),
                     Container(
                       height: 1,
-                      color: Colors.grey,
+                      color: Colors.grey[700],
                     )
                   ],
                 );
               },
               itemCount: this.widget.items.length,
-            ),
+            ) : Center(
+              child: Text('There is no ${this.widget.caseIndex} record. You can add it by tapping at the above plus icon', style: TextStyle(color: Colors.grey),),
+            )
           ),
         ),
       ],

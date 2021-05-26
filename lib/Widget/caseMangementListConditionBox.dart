@@ -9,6 +9,7 @@ import './showMyDialog.dart';
 class CaseManagementListConditionBox extends StatefulWidget {
   final String caseIndex = 'disease';
   final String title;
+  final String description;
   // final List<String> items;
   // final Function addFn;
   // final Function editFn;
@@ -17,6 +18,7 @@ class CaseManagementListConditionBox extends StatefulWidget {
   CaseManagementListConditionBox({
     // this.caseIndex,
     this.title,
+    this.description,
     // this.items,
     // this.addFn,
     // this.editFn,
@@ -89,18 +91,21 @@ class _CaseManagementListConditionBoxState
                   child: (cmInfo.search_conditions_Loaded)
                       ? (cmInfo.search_conditions.length != 0)
                           ? ListView.builder(
-                              padding: EdgeInsets.all(5),
+                              padding: EdgeInsets.all(0),
                               itemBuilder: (context, index) {
                                 return InkWell(
-                                    child: Card(
-                                      child: Text(
-                                        cmInfo.search_conditions[index]
-                                            ['common_name'],
-                                        style: TextStyle(
-                                          fontSize: 20,
+                                    child: Container(
+                                        // color: Colors.amber,
+                                        // padding: EdgeInsets.all(10),
+                                        // child: Text(
+                                        //   cmInfo.search_conditions[index]
+                                        //       ['common_name'],
+                                        //   style: TextStyle(
+                                        //     // fontSize: 28,
+                                        //     color: Colors.red,
+                                        //   ),
+                                        // ),
                                         ),
-                                      ),
-                                    ),
                                     onTap: () {
                                       cmInfo.addCondition(
                                           cmInfo.search_conditions[index]['id'],
@@ -176,12 +181,27 @@ class _CaseManagementListConditionBoxState
       children: [
         Row(
           children: [
-            Text(
-              this.widget.title,
-              style: TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.bold,
-                color: Theme.of(context).primaryColor,
+            Padding(
+              padding: EdgeInsets.only(left: 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    this.widget.title,
+                    style: TextStyle(
+                      fontSize: 28,
+                      // fontWeight: FontWeight.bold,
+                      // color: Theme.of(context).primaryColor,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    this.widget.description,
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                ],
               ),
             ),
             Expanded(child: Container()),
@@ -199,74 +219,90 @@ class _CaseManagementListConditionBoxState
                     cmInfo.search_conditions_Loaded = true;
                     cmInfo.search_conditions = [];
                     // print('Edit as ${cmInfo.condition[index]}');
-                    Navigator.of(context).pushNamed(CaseManagementConditionSearch.routeName,);
+                    Navigator.of(context).pushNamed(
+                      CaseManagementConditionSearch.routeName,
+                    );
                   }
                   // onPressed: () => print('add'),
                   ),
             ),
+            SizedBox(
+              width: 25,
+            )
           ],
         ),
         SizedBox(height: 10),
         Expanded(
           child: Container(
-            margin: EdgeInsets.only(left: 20),
+            margin: EdgeInsets.only(left: 10, right: 30),
+            // color: Colors.pink[50],
             // width: double.infinity,
-            decoration: BoxDecoration(
-                border: Border.all(
-                  width: 2,
-                  color: Theme.of(context).primaryColor,
-                ),
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(15),
-                  topLeft: Radius.circular(15),
-                )),
-            child: ListView.builder(
-              itemBuilder: (context, index) {
-                final _conditionsList = cmInfo.conditions.values.toList();
-                final _conditionsKeyList = cmInfo.conditions.keys.toList();
-                return Column(
-                  children: [
-                    Container(
-                      height: 40,
-                      // alignment: Alignment.center,
-                      // color: Colors.pink[300],
-                      child: ListTile(
-                        title: Text(_conditionsList[index]),
-                        trailing: Row(
-                          // crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            SizedBox(
-                              height: 40,
-                              width: 40,
-                              child: InkWell(
-                                child: Icon(
-                                  Icons.delete_outline_outlined,
-                                  size: 24,
-                                ),
-                                // onTap: this.widget.delFn,
-                                onTap: () {
-                                  cmInfo
-                                      .delCondition(_conditionsKeyList[index]);
-                                },
+            // decoration: BoxDecoration(
+            //     border: Border.all(
+            //       width: 2,
+            //       color: Theme.of(context).primaryColor,
+            //     ),
+            //     borderRadius: BorderRadius.only(
+            //       bottomLeft: Radius.circular(15),
+            //       topLeft: Radius.circular(15),
+            //     )),
+            child: (cmInfo.conditions.length != 0)
+                ? ListView.builder(
+                    padding: EdgeInsets.all(0),
+                    itemBuilder: (context, index) {
+                      final _conditionsList = cmInfo.conditions.values.toList();
+                      final _conditionsKeyList =
+                          cmInfo.conditions.keys.toList();
+                      return Column(
+                        children: [
+                          Container(
+                            height: 40,
+                            // alignment: Alignment.center,
+                            // color: Colors.pink[300],
+                            child: ListTile(
+                              title: Text(_conditionsList[index]),
+                              trailing: Row(
+                                // crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  SizedBox(
+                                    height: 40,
+                                    width: 40,
+                                    child: InkWell(
+                                      child: Icon(
+                                        Icons.delete_outline_outlined,
+                                        size: 24,
+                                        color: Colors.grey[700],
+                                      ),
+                                      // onTap: this.widget.delFn,
+                                      onTap: () {
+                                        cmInfo.delCondition(
+                                            _conditionsKeyList[index]);
+                                      },
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                          ],
-                        ),
-                      ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Container(
+                            height: 1,
+                            color: Colors.grey[700],
+                          )
+                        ],
+                      );
+                    },
+                    itemCount: cmInfo.conditions.length,
+                  )
+                : Center(
+                    child: Text(
+                      'There is no detected disease record. You can add it by tapping at the above plus icon',
+                      style: TextStyle(color: Colors.grey),
                     ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Container(
-                      height: 1,
-                      color: Colors.grey,
-                    )
-                  ],
-                );
-              },
-              itemCount: cmInfo.conditions.length,
-            ),
+                  ),
           ),
         ),
       ],

@@ -7,26 +7,26 @@ import './chatRoom.dart';
 import '../Provider/user-info.dart';
 import '../Provider/chatRoom_info.dart';
 
-class AppointmentPatientPage extends StatelessWidget {
+class AppointmentPatientPage extends StatefulWidget {
   static const routeName = '/appointment-Patient';
 
-  // Map data = {};
+  @override
+  _AppointmentPatientPageState createState() => _AppointmentPatientPageState();
+}
 
-  // Map _loadData(
-  //     // String userId,
-  //     ) {
-  //   // get treatment plan from userId
-  //   // load data from server
-  //   // get apDt of last ap and dr Name
+class _AppointmentPatientPageState extends State<AppointmentPatientPage> {
+  var _loadedData = false;
+  Map<String, dynamic> apt;
 
-  //   Map data = {
-  //     // 'apDt': DateTime(2021, 9, 20, 14, 30),
-  //     'apDt': DateTime.now(),
-  //     'drName': 'dName dSurname',
-  //     'namePrefix': 'Dr.',
-  //   };
-  //   return data;
-  // }
+  @override
+  void didChangeDependencies() {
+    if (!_loadedData) {
+      final userInfo = Provider.of<UserInfo>(context);
+      userInfo.updatePatientLastApt();
+      _loadedData = true;
+    }
+    super.didChangeDependencies();
+  }
 
   Widget _buildNoapt(BuildContext context) {
     // final vitalSign = Provider.of<VitalSignProvider>(context);
@@ -76,7 +76,7 @@ class AppointmentPatientPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final userInfo = Provider.of<UserInfo>(context);
     final chatroom = Provider.of<ChatRoomProvider>(context);
-    final apt = userInfo.lastApt;
+    apt = userInfo.lastApt;
     print(apt);
     // print(
     //     '=====================> ${DateTime.now().difference(apt['aptDate']).inMinutes}');

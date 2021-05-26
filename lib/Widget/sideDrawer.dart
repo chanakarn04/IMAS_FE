@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import './sideDrawer_patient.dart';
 import './sideDrawer_doctor.dart';
 import '../Provider/user-info.dart';
+import '../Script/socketioScript.dart' as IO;
 
 class SideDrawer extends StatefulWidget {
   @override
@@ -23,18 +24,18 @@ class _SideDrawerState extends State<SideDrawer> {
   ChatRoomProvider chatRoomProvider;
 
   @override
-    void didChangeDependencies() {
-      // TODO: implement didChangeDependencies
-      chatRoomProvider = Provider.of<ChatRoomProvider>(context);
-      if(chatRoomProvider.online) {
-        drOnlineColor = Theme.of(context).primaryColor;
-        onlineText = 'Online';
-      } else {
-        drOnlineColor = Colors.red;
-        onlineText = 'Offline';
-      }
-      super.didChangeDependencies();
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    chatRoomProvider = Provider.of<ChatRoomProvider>(context);
+    if (chatRoomProvider.online) {
+      drOnlineColor = Theme.of(context).primaryColor;
+      onlineText = 'Online';
+    } else {
+      drOnlineColor = Colors.red;
+      onlineText = 'Offline';
     }
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -113,8 +114,7 @@ class _SideDrawerState extends State<SideDrawer> {
                             // online = true ==> online = false
                             await chatRoomProvider.triggerDoctorOnline();
                             chatRoomProvider.onReqChatRoom(
-                                start: false,
-                                userid: userInfo.userId);
+                                start: false, userid: userInfo.userId);
                             setState(() {
                               drOnlineColor = Colors.red;
                               onlineText = 'Offline';
@@ -123,8 +123,7 @@ class _SideDrawerState extends State<SideDrawer> {
                             // online = true ==> online = false
                             await chatRoomProvider.triggerDoctorOnline();
                             chatRoomProvider.onReqChatRoom(
-                                start: true,
-                                userid: userInfo.userId);
+                                start: true, userid: userInfo.userId);
                             setState(() {
                               drOnlineColor = Theme.of(context).primaryColor;
                               onlineText = 'Online';
@@ -137,7 +136,11 @@ class _SideDrawerState extends State<SideDrawer> {
                   ],
                 ),
               ),
-              ...buildSideDrawerDoctor(context, menuDrawerFlatButton, chatRoomProvider.chatRoomRegis,),
+              ...buildSideDrawerDoctor(
+                context,
+                menuDrawerFlatButton,
+                chatRoomProvider.chatRoomRegis,
+              ),
             ],
 
             // <Widget>[
@@ -234,12 +237,103 @@ class _SideDrawerState extends State<SideDrawer> {
               padding: EdgeInsets.all(10),
               alignment: Alignment.centerRight,
               child: IconButton(
-                  icon: Icon(
-                    Icons.close_rounded,
-                    size: constraints.maxHeight * 0.05,
-                    color: Colors.grey,
-                  ),
-                  onPressed: () => Navigator.of(context).pop()),
+                icon: Icon(
+                  Icons.close_rounded,
+                  size: constraints.maxHeight * 0.05,
+                  color: Colors.grey,
+                ),
+                // onPressed: () => Navigator.of(context).pop(),
+                onPressed: () async {
+                  String tpid;
+                  String apid;
+                  await IO.socketIO.emit('event', [
+                    {
+                      'transaction': 'save-from-api',
+                      'payload': {
+                        'pid': 'patApt1@mail.com',
+                        'status': 3,
+                        'apDt': DateTime.now().toString(),
+                        'symptoms': ['Back Pain'],
+                        'conditions': {
+                          'c_test1': 'Conditioner 1',
+                          'c_test2': 'Conditioner 2'
+                        },
+                      },
+                    }
+                  ]);
+                  await for (dynamic data
+                      in IO.socketIO.on('r-save-from-api')) {
+                    print('On r-save-from-api: ${data[0]['value']['payload']}');
+                    if (data != null) {
+                      tpid = data[0]['value']['payload']['tpid'];
+                      apid = data[0]['value']['payload']['apid'];
+                      break;
+                    }
+                  }
+                  await IO.socketIO.emit('event', [
+                    {
+                      'transaction': 'updatePlan',
+                      'payload': {
+                        'tpid': tpid,
+                        'status': 0,
+                        'drid': 'docApt1@mail.com'
+                      },
+                    }
+                  ]);
+                  // appointment
+                  IO.socketIO.emit('event', [
+                      {
+                        'transaction': 'create-new-appointment',
+                        'payload': {
+                          // 'tpid': '608e6cc18f0f9c001e97ff97',
+                          'tpid': tpid,
+                          'apdt': DateTime(
+                            DateTime.now().year,
+                            DateTime.now().month,
+                            DateTime.now().day,
+                            DateTime.now().hour,
+                            DateTime.now().minute + 3,
+                          ).toString(),
+                        },
+                      }
+                    ]);
+                    await for (dynamic data in IO.socketIO.on('r-create-appointment')) {
+                      print('On r-create-appointment: ${data[0]['value']['payload']}');
+                      break;
+                    }
+                    // viatal
+                  // await IO.socketIO.emit('event', [
+                  //   {
+                  //     'transaction': 'save-vital-pain',
+                  //     'payload': {
+                  //       // 'vsid': ,
+                  //       'tpid': tpid,
+                  //       'apid': apid,
+                  //       'pain_score': {'Back pain': 10},
+                  //       'vsdt': DateTime(
+                  //         DateTime.now().year,
+                  //         DateTime.now().month,
+                  //         DateTime.now().day,
+                  //         DateTime.now().hour,
+                  //         DateTime.now().minute,
+                  //       ).toString(),
+                  //       'body_temp': 42.5,
+                  //       'pulse': 254,
+                  //       'blood_pressure_top': 200,
+                  //       'blood_pressure_bottom': 10,
+                  //       'respiratory_rate': 164,
+                  //     },
+                  //   }
+                  // ]);
+                  // await for (dynamic data
+                  //     in IO.socketIO.on('r-save-vital-pain')) {
+                  //   print('On r-save-vital-pain: $data');
+                  //   if (data != null) {
+                  //     break;
+                  //   }
+                  // }
+                },
+              ),
             )
           ]);
     }));

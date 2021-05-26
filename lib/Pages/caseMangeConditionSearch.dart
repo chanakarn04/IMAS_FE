@@ -39,9 +39,20 @@ class _CaseManagementConditionSearchState
               child: Text(
                 'Add disease',
                 style: TextStyle(
-                  fontWeight: FontWeight.bold,
+                  // fontWeight: FontWeight.bold,
                   fontSize: 32,
-                  color: Theme.of(context).primaryColor,
+                  // color: Theme.of(context).primaryColor,
+                ),
+              ),
+            ),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                'Enter name of disease in field to search',
+                style: TextStyle(
+                  // fontWeight: FontWeight.bold,
+                  // fontSize: 32,
+                  color: Colors.grey,
                 ),
               ),
             ),
@@ -58,23 +69,40 @@ class _CaseManagementConditionSearchState
                       ? ListView.builder(
                           padding: EdgeInsets.all(5),
                           itemBuilder: (context, index) {
-                            return InkWell(
-                                child: Card(
-                                  child: Text(
-                                    cmInfo.search_conditions[index]
-                                        ['common_name'],
-                                    style: TextStyle(
-                                      fontSize: 20,
+                            return Padding(
+                              padding: EdgeInsets.symmetric(
+                                vertical: 5,
+                              ),
+                              child: InkWell(
+                                  child: Container(
+                                    // margin: EdgeInsets.all(5),
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        width: 1,
+                                        color: Colors.grey,
+                                      ),
+                                      borderRadius: BorderRadius.circular(15)
+                                    ),
+                                    // color: ,
+                                    child: Padding(
+                                      padding: EdgeInsets.all(10),
+                                      child: Text(
+                                        cmInfo.search_conditions[index]
+                                            ['common_name'],
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                ),
-                                onTap: () {
-                                  cmInfo.addCondition(
-                                      cmInfo.search_conditions[index]['id'],
-                                      cmInfo.search_conditions[index]
-                                          ['common_name']);
-                                  Navigator.of(context).pop();
-                                });
+                                  onTap: () {
+                                    cmInfo.addCondition(
+                                        cmInfo.search_conditions[index]['id'],
+                                        cmInfo.search_conditions[index]
+                                            ['common_name']);
+                                    Navigator.of(context).pop();
+                                  }),
+                            );
                           },
                           itemCount: cmInfo.search_conditions.length,
                         )

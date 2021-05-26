@@ -49,15 +49,16 @@ class AssessmentHistoryProvider with ChangeNotifier {
     print('temp_tp: ${temp_tp.length}');
 
     for (int index = 0; index < temp_tp.length; index++) {
-      if (temp_tp[index]['tpid'] == '60ab58f36aefba001e67219e' || temp_tp[index]['tpid'] == '60a77aa5623465001e8b5234') {
+      if (temp_tp[index]['tpid'] == '60ab58f36aefba001e67219e' ||
+          temp_tp[index]['tpid'] == '60a77aa5623465001e8b5234') {
         assessmentHistoryData.add({
-            'tpid': temp_tp[index]['tpid'],
-            'tpStatus': temp_tp[index]['status'],
-            'date': DateTime.now(),
-            'apStatus': 2,
-            'symptom': [],
-            'apts': [],
-          });
+          'tpid': temp_tp[index]['tpid'],
+          'tpStatus': temp_tp[index]['status'],
+          'date': DateTime.now(),
+          'apStatus': 2,
+          'symptom': [],
+          'apts': [],
+        });
         continue;
       } else {
         await socketIO.emit('event', [
@@ -69,10 +70,10 @@ class AssessmentHistoryProvider with ChangeNotifier {
         ]);
         await for (dynamic event in socketIO.on('r-get-condition-symptom')) {
           print('On r-get-condition-symptom: $event');
-          final _apts_Filter =
+          final _apts =
               List<Map<String, dynamic>>.from(event[0]['value']['payload']);
-          _apts_Filter.removeWhere((element) =>
-              DateTime.parse(element['date']).isAfter(DateTime.now()));
+          // _apts_Filter.removeWhere((element) =>
+          //     DateTime.parse(element['date']).isAfter(DateTime.now()));
           final _apt_Filter_Sort =
               List<Map<String, dynamic>>.from(event[0]['value']['payload']);
           _apt_Filter_Sort.removeWhere((element) =>
@@ -86,7 +87,7 @@ class AssessmentHistoryProvider with ChangeNotifier {
                 .add(const Duration(hours: 7)),
             'apStatus': _apt_Filter_Sort[0]['status'],
             'symptom': _apt_Filter_Sort[0]['pat_symptom'],
-            'apts': _apts_Filter,
+            'apts': _apts,
           });
           // payload: [
           //   {
@@ -104,6 +105,12 @@ class AssessmentHistoryProvider with ChangeNotifier {
           //   }
           // ]
           break;
+        }
+      }
+
+      for (Map<String, dynamic> assHist in assessmentHistoryData) {
+        for (Map<String, dynamic> apt in assHist['apts']) {
+          apt['date'] = DateTime.parse(apt['date']).add(Duration(hours: 7));
         }
       }
 

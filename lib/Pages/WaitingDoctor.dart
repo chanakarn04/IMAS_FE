@@ -49,14 +49,18 @@ class WaitingPage extends StatelessWidget {
               ),
             ),
             Text(
-              !(chatProvider.chatRoomId != '') ? 'You\'re in queue' : 'Found doctor for you',
+              !(chatProvider.chatRoomId != '')
+                  ? 'You\'re in queue'
+                  : 'Found doctor for you',
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
               ),
             ),
             Text(
-              !(chatProvider.chatRoomId != '') ? 'We have sent your request to the doctor' : '',
+              !(chatProvider.chatRoomId != '')
+                  ? 'We have sent your request to the doctor'
+                  : '',
               style: TextStyle(
                 fontSize: 18,
                 color: Colors.grey,
@@ -64,54 +68,84 @@ class WaitingPage extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             Expanded(child: Container()),
-            (chatProvider.chatRoomId != '') ?
-              InkWell(
-                onTap: () {
-                  // ...
-                  Navigator.of(context)
-                      .pushReplacementNamed(ChatRoom.routeName);
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).primaryColor,
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  padding: EdgeInsets.symmetric(
-                    vertical: 10,
-                    horizontal: 15,
-                  ),
-                  child: Text(
-                    'Meet Doctor',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
+            (chatProvider.chatRoomId != '')
+                ? InkWell(
+                    onTap: () {
+                      // ...
+                      Navigator.of(context)
+                          .pushReplacementNamed(ChatRoom.routeName);
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).primaryColor,
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      padding: EdgeInsets.symmetric(
+                        vertical: 10,
+                        horizontal: 15,
+                      ),
+                      child: Text(
+                        'Meet Doctor',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  )
+                : InkWell(
+                    onTap: () {
+                      // ...
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: Text('Are you sure to cancel queue?'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text(
+                                    'No',
+                                    style: TextStyle(
+                                        color: Theme.of(context).primaryColor),
+                                  ),
+                                ),
+                                 TextButton(
+                                  onPressed: () {
+                                    chatProvider.patientDeleteQueue();
+                                    Navigator.of(context).pop();
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text(
+                                    'Yes',
+                                    style: TextStyle(
+                                        color: Theme.of(context).primaryColor),
+                                  ),
+                                ),
+                              ],
+                            );
+                          });
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).primaryColor,
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      padding: EdgeInsets.symmetric(
+                        vertical: 10,
+                        horizontal: 15,
+                      ),
+                      child: Text(
+                        'Cancel',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ) : InkWell(
-                onTap: () {
-                  // ...
-                  chatProvider.patientDeleteQueue();
-                  Navigator.of(context).pop();
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).primaryColor,
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  padding: EdgeInsets.symmetric(
-                    vertical: 10,
-                    horizontal: 15,
-                  ),
-                  child: Text(
-                    'Cancel',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
             SizedBox(
               height: 30,
             ),

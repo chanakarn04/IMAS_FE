@@ -96,12 +96,14 @@ class _DetailAssessmentHistoryState extends State<DetailAssessmentHistory> {
     final assessmentHistoryProvider =
         Provider.of<AssessmentHistoryProvider>(context);
     Map<String, dynamic> item = ModalRoute.of(context).settings.arguments;
+    print('====>>> item: $item');
     if (item['apts'][0]['pat_symptom'] != null) {
       item['apts'][0]['pat_symptom'] =
           item['apts'][0]['pat_symptom'].toSet().toList();
     }
-    print('====>>> item: $item');
-    // print('${item['apts'][0]['pat_condition']}');
+    List<Map<String, dynamic>> temp_apts = List<Map<String, dynamic>>.from(item['apts']);
+    temp_apts.removeWhere((element) => (element['date'].difference(DateTime.now()).inDays > 0));
+    item['apts'] = temp_apts;
 
     // test
     // final test_item = [

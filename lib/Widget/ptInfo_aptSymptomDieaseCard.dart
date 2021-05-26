@@ -51,7 +51,7 @@ class AptSymptomDiseaseCard extends StatelessWidget {
         horizontal: 20,
         vertical: 15,
       ),
-      color: Theme.of(context).primaryColor,
+      color: Colors.grey[100],
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       child: Container(
         decoration: BoxDecoration(
@@ -101,6 +101,9 @@ class AptSymptomDiseaseCard extends StatelessWidget {
                                 padding: EdgeInsets.symmetric(vertical: 2.5),
                                 child: Text(
                                   '\t\t\t${_conditions[index]}',
+                                  maxLines: 1,
+                                  softWrap: false,
+                                  overflow: TextOverflow.fade,
                                   style: TextStyle(
                                     fontSize: 16,
                                     color: Color.fromARGB(255, 75, 75, 75),

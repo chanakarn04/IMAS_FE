@@ -17,17 +17,34 @@ class _CMDiseaseSymptomTabState extends State<CMDiseaseSymptomTab> {
 
     return Container(
       padding: EdgeInsets.only(
-        top: 15,
+        top: MediaQuery.of(context).padding.top + 15,
         // left: 20,
         // bottom: 20,
       ),
       child: Column(
         children: [
+          Container(
+            padding: EdgeInsets.only(left: 10),
+            alignment: Alignment.centerLeft,
+            child: InkWell(
+              child: Icon(
+                Icons.arrow_back_ios_rounded,
+                color: Theme.of(context).primaryColor,
+              ),
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
           Expanded(
             child: Container(
               padding: EdgeInsets.only(left: 20),
-              child: CaseManagementListConditionBox (
+              child: CaseManagementListConditionBox(
                 title: 'Disease',
+                description: 'Detected diseases',
                 // items: cmInfo.conditions,
               ),
             ),
@@ -41,6 +58,7 @@ class _CMDiseaseSymptomTabState extends State<CMDiseaseSymptomTab> {
               child: CaseManagementListItemBox(
                 caseIndex: 'symptom',
                 title: 'Symptom',
+                description: 'Detected symptoms',
                 items: cmInfo.symptoms,
               ),
             ),
@@ -48,11 +66,6 @@ class _CMDiseaseSymptomTabState extends State<CMDiseaseSymptomTab> {
           SizedBox(
             height: 10,
           ),
-          Container(
-            width: double.infinity,
-            height: 2,
-            color: Theme.of(context).primaryColor,
-          )
         ],
       ),
     );

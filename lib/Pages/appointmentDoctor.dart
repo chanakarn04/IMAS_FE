@@ -304,9 +304,9 @@ class _AppointmentDoctorPageState extends State<AppointmentDoctorPage> {
                         child: Text(
                           '${DateFormat.yMMMMd().format(_selectedDate)}',
                           style: TextStyle(
-                            color: Theme.of(context).primaryColor,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 28,
+                            // color: Theme.of(context).primaryColor,
+                            // fontWeight: FontWeight.bold,
+                            fontSize: 24,
                           ),
                         ),
                       ),
@@ -319,48 +319,46 @@ class _AppointmentDoctorPageState extends State<AppointmentDoctorPage> {
                                 itemBuilder: (context, index) {
                                   DateTime now = DateTime.now();
                                   DateTime tempDt = DateTime(
-                                    now.year,
-                                    now.month,
-                                    now.day,
-                                    now.hour,
-                                    now.minute + 5
-                                  );
+                                      now.year,
+                                      now.month,
+                                      now.day,
+                                      now.hour,
+                                      now.minute + 5);
                                   print('event => ${_selectedEvent[index]}');
-                                  print('aptDt => ${_selectedEvent[index]['apDt'].runtimeType}');
-                                  print('aptDt => ${_selectedEvent[index]['apDt']}');
-                                  print('nowDt => ${DateTime.now().runtimeType}');
+                                  print(
+                                      'aptDt => ${_selectedEvent[index]['apDt'].runtimeType}');
+                                  print(
+                                      'aptDt => ${_selectedEvent[index]['apDt']}');
+                                  print(
+                                      'nowDt => ${DateTime.now().runtimeType}');
                                   print('nowDt => ${DateTime.now()}');
                                   print('temDt => ${tempDt.runtimeType}');
                                   print('temDt => $tempDt');
                                   // print('diffenrece => ${_selectedEvent[index]['apDt'].difference(DateTime.now()).inMinutes - 420}');
-                                  print('diffenrece => ${DateTime.parse(_selectedEvent[index]['apDt'].toString()).difference(DateTime.now()).inMinutes - 390}');
-                                  print('Test diffenrece => ${now.difference(tempDt).inMinutes}');
-                                    // ((DateTime.now().difference(_selectedEvent[index]['apDt']).inMinutes >= 0) &&
-                                    //             (DateTime.now().difference(_selectedEvent[index]['apDt']).inMinutes <=30))
+                                  print(
+                                      'diffenrece => ${DateTime.parse(_selectedEvent[index]['apDt'].toString()).difference(DateTime.now()).inMinutes - 390}');
+                                  print(
+                                      'Test diffenrece => ${now.difference(tempDt).inMinutes}');
+                                  // ((DateTime.now().difference(_selectedEvent[index]['apDt']).inMinutes >= 0) &&
+                                  //             (DateTime.now().difference(_selectedEvent[index]['apDt']).inMinutes <=30))
                                   return Padding(
                                     padding: const EdgeInsets.only(
-                                      top: 5,
-                                      bottom: 5,
-                                      left: 20,
-                                    ),
+                                        top: 5, bottom: 5, left: 20, right: 20),
                                     child: Container(
                                       // height: 40,
                                       // width: ,
-                                      padding: EdgeInsets.all(10),
+                                      // padding: EdgeInsets.all(0),
                                       decoration: BoxDecoration(
-                                          border: Border.all(
-                                            width: 3,
-                                            color:
-                                                Theme.of(context).primaryColor,
-                                          ),
-                                          borderRadius: BorderRadius.only(
-                                            topLeft: Radius.circular(15),
-                                            bottomLeft: Radius.circular(15),
-                                          )),
+                                        border: Border.all(
+                                          // width: 3,
+                                          color: Theme.of(context).primaryColor,
+                                        ),
+                                        borderRadius: BorderRadius.circular(15),
+                                      ),
                                       child: ListTile(
                                         leading: Container(
-                                          height: 50,
-                                          width: 50,
+                                          height: 40,
+                                          width: 40,
                                           decoration: BoxDecoration(
                                             image: DecorationImage(
                                               fit: BoxFit.contain,
@@ -383,7 +381,7 @@ class _AppointmentDoctorPageState extends State<AppointmentDoctorPage> {
                                           style: TextStyle(
                                             color:
                                                 Theme.of(context).primaryColor,
-                                            fontSize: 20,
+                                            fontSize: 18,
                                           ),
                                         ),
                                         subtitle: Text(
@@ -394,35 +392,85 @@ class _AppointmentDoctorPageState extends State<AppointmentDoctorPage> {
                                           //   fontSize: 20,
                                           // ),
                                         ),
-                                        trailing: ((DateTime.parse(_selectedEvent[index]['apDt'].toString()).difference(DateTime.now()).inMinutes - 390 >= 0) &&
-                                                (DateTime.parse(_selectedEvent[index]['apDt'].toString()).difference(DateTime.now()).inMinutes - 390 <= 30))
-                                            ? SizedBox(
-                                                height: 35,
-                                                width: 35,
-                                                child: InkWell(
-                                                  child: Icon(
-                                                    Icons
-                                                        .chat_bubble_outline_rounded,
-                                                    color: Theme.of(context)
-                                                        .primaryColor,
-                                                    size: 30,
-                                                  ),
-                                                  onTap: () {
-                                                    if (!chatroom
-                                                        .chatRoomRegis) {
-                                                      chatroom
-                                                          .aptDoctorCreateChat(
-                                                              Role.Doctor);
-                                                    }
-                                                    Navigator.of(context)
-                                                        .pushNamed(
-                                                            ChatRoom.routeName);
-                                                    // Navigator.of(context)
-                                                    //     .pushNamed(
-                                                    //         ChatRoom.routeName);
-                                                  },
-                                                ),
-                                              )
+                                        trailing: (_selectedEvent[index]
+                                                    ['status'] ==
+                                                2)
+                                            ? ((DateTime.parse(_selectedEvent[
+                                                                            index]
+                                                                        ['apDt']
+                                                                    .toString())
+                                                                .difference(
+                                                                    DateTime
+                                                                        .now())
+                                                                .inMinutes -
+                                                            390 >=
+                                                        0) &&
+                                                    (DateTime.parse(_selectedEvent[
+                                                                            index]
+                                                                        ['apDt']
+                                                                    .toString())
+                                                                .difference(
+                                                                    DateTime
+                                                                        .now())
+                                                                .inMinutes -
+                                                            390 <=
+                                                        30))
+                                                ? SizedBox(
+                                                    height: 35,
+                                                    width: 35,
+                                                    child: InkWell(
+                                                      child: Icon(
+                                                        Icons
+                                                            .chat_bubble_outline_rounded,
+                                                        color: Theme.of(context)
+                                                            .primaryColor,
+                                                        size: 30,
+                                                      ),
+                                                      onTap: () {
+                                                        if (!chatroom
+                                                            .chatRoomRegis) {
+                                                          chatroom
+                                                              .aptDoctorCreateChat(
+                                                                  Role.Doctor);
+                                                        }
+                                                        Navigator.of(context)
+                                                            .pushNamed(ChatRoom
+                                                                .routeName);
+                                                        // Navigator.of(context)
+                                                        //     .pushNamed(
+                                                        //         ChatRoom.routeName);
+                                                      },
+                                                    ),
+                                                  )
+                                                : SizedBox(
+                                                    height: 35,
+                                                    width: 35,
+                                                    child: InkWell(
+                                                      child: Icon(
+                                                        Icons
+                                                            .arrow_forward_ios_rounded,
+                                                        color: Theme.of(context)
+                                                            .primaryColor,
+                                                        size: 30,
+                                                      ),
+                                                      onTap: () {
+                                                        Navigator.of(context)
+                                                            .pushNamed(
+                                                                PatientInfoPage
+                                                                    .routeName,
+                                                                arguments: {
+                                                              'tpid':
+                                                                  data[index]
+                                                                      ['tpid'],
+                                                              'pid': data[index]
+                                                                  ['pid'],
+                                                              'pName':
+                                                                  data[index]
+                                                                      ['pName'],
+                                                            });
+                                                      },
+                                                    ),
+                                                  )
                                             : SizedBox(
                                                 height: 35,
                                                 width: 35,

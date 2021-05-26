@@ -128,7 +128,8 @@ class VsCardWidget extends StatelessWidget {
         horizontal: 20,
         vertical: 15,
       ),
-      color: Theme.of(context).primaryColor,
+      // color: Theme.of(context).primaryColor,
+      color: Colors.grey[100],
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       child: Container(
         decoration: BoxDecoration(
@@ -149,6 +150,13 @@ class VsCardWidget extends StatelessWidget {
               style: TextStyle(
                 color: Color.fromARGB(255, 100, 100, 100),
                 fontSize: 22,
+              ),
+            ),
+            Text(
+              DateFormat.jm().format(DateTime.parse(vitalSign['vsdt'])),
+              style: TextStyle(
+                color: Colors.grey,
+                // fontSize: ,
               ),
             ),
             SizedBox(

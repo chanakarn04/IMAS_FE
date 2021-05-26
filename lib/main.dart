@@ -52,6 +52,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         // key: scaffoldKey,
+        debugShowCheckedModeBanner: false,
         title: 'IMAS',
         theme: ThemeData(
           primaryColor: Color.fromARGB(255, 81, 195, 169),

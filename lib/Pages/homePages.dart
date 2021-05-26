@@ -14,6 +14,7 @@ import '../Widget/sideDrawer.dart';
 import '../Provider/user-info.dart';
 import '../Provider/chatRoom_info.dart';
 import '../Script/socketioScript.dart' as IO;
+import './caseMangementPage.dart';
 
 class HomePage extends StatefulWidget {
   static const routeName = '/home';
@@ -49,193 +50,94 @@ class _HomePageState extends State<HomePage> {
             // Drawer(),
             SizedBox(
               height: mdqr.size.height * 0.35,
-              // child: InkWell(
-              //   onTap: () {
-              //     IO.socketIO.emit('event', [
-              //       {
-              //         'transaction': 'insert-condition-data',
-              //         'payload': {
-              //           'conditions': [
-              //             {
-              //               'id': 'c_981',
-              //               'type': 'condition',
-              //               'name': 'Mechanical back pain',
-              //               'common_name': 'Back strain',
-              //               'description': 'Mechanical back pain description',
-              //             },
-              //             {
-              //               'id': 'c_149',
-              //               'type': 'condition',
-              //               'name': 'Ankylosing spondylitis',
-              //               'common_name': 'Ankylosing spondylitis',
-              //               'description': 'Ankylosing spondylitis description',
-              //             },
-              //             {
-              //               'id': 'c_37',
-              //               'type': 'condition',
-              //               'name': 'Nephrolithiasis',
-              //               'common_name': 'Kidney stones',
-              //               'description': 'Kidney stones description',
-              //             },
-              //             {
-              //               'id': 'c_49',
-              //               'type': 'condition',
-              //               'name': 'Migraine',
-              //               'common_name': 'Migraine',
-              //               'description': 'Migraine description',
-              //             },
-              //             {
-              //               'id': 'c_815',
-              //               'type': 'condition',
-              //               'name': 'Functional dyspepsia',
-              //               'common_name': 'Indigestion',
-              //               'description': 'Indigestion description',
-              //             },
-              //             {
-              //               'id': 'c_670',
-              //               'type': 'condition',
-              //               'name': 'Contact dermatitis',
-              //               'common_name': 'Contact dermatitis',
-              //               'description': 'Contact dermatitis description',
-              //             },
-              //             {
-              //               'id': 'c_268',
-              //               'type': 'condition',
-              //               'name': 'Wiskott-Aldrich syndrome',
-              //               'common_name': 'Wiskott-Aldrich syndrome',
-              //               'description': 'Wiskott-Aldrich syndrome description',
-              //             },
-              //             {
-              //               'id': 'c_316',
-              //               'type': 'condition',
-              //               'name': 'Vasculitis',
-              //               'common_name': 'Vasculitis',
-              //               'description': 'Vasculitis description',
-              //             },
-              //             {
-              //               'id': 'c_453',
-              //               'type': 'condition',
-              //               'name': 'Seborrheic dermatitis',
-              //               'common_name': 'Seborrheic dermatitis',
-              //               'description': 'Seborrheic dermatitis description',
-              //             },
-              //             {
-              //               'id': 'c_2',
-              //               'type': 'condition',
-              //               'name': 'Atopic dermatitis',
-              //               'common_name': 'Eczema',
-              //               'description': 'Eczema description',
-              //             },
-              //             {
-              //               'id': 'c_786',
-              //               'type': 'condition',
-              //               'name': 'Tinea versicolor',
-              //               'common_name': 'Tinea versicolor',
-              //               'description': 'Tinea versicolor description',
-              //             },
-              //             {
-              //               'id': 'c_42',
-              //               'type': 'condition',
-              //               'name': 'Impetigo',
-              //               'common_name': 'Impetigo',
-              //               'description': 'Impetigo description',
-              //             },
-              //             {
-              //               'id': 'c_589',
-              //               'type': 'condition',
-              //               'name': 'Scabies',
-              //               'common_name': 'Scabies',
-              //               'description': 'Scabies description',
-              //             },
-              //             {
-              //               'id': 'c_1105',
-              //               'type': 'condition',
-              //               'name': 'COVID-19',
-              //               'common_name': 'COVID-19',
-              //               'description': 'COVID-19 description',
-              //             },
-              //             {
-              //               'id': 'c_309',
-              //               'type': 'condition',
-              //               'name': 'Postpartum depression',
-              //               'common_name': 'Postpartum depression',
-              //               'description': 'Postpartum depression description',
-              //             },
-              //             {
-              //               'id': 'c_117',
-              //               'type': 'condition',
-              //               'name': 'Anxiety disorder',
-              //               'common_name': 'Anxiety disorder',
-              //               'description': 'Anxiety disorder description',
-              //             },
-              //             // {
-              //             //   'id': 'c_test',
-              //             //   'type': 'condition',
-              //             //   'name': 'condName',
-              //             //   'common_name': 'condComName',
-              //             //   'description': 'condComName description',
-              //             // },
-              //           ],
-              //         }
-              //       }
-              //     ]);
-              //     IO.socketIO.on('r-insert-condition-data').listen((event) {
-              //       print('On r-insert-condition-data: ${event[0]['value']['payload']}');
-              //     });
-              //   },
-              //   child: Container(
-              //     alignment: Alignment.center,
-              //     height: 50,
-              //     width: 100,
-              //     decoration: BoxDecoration(
-              //       borderRadius: BorderRadius.circular(45),
-              //       color: Colors.deepPurple[400],
-              //     ),
-              //     child: Text('Add Condition', style: TextStyle(color: Colors.white),),
-              //   ),
-              // ),
-              //
-              // =====> BREAK <=====
-              //
               // child: TextButton(
-              //   onPressed: () async {
-              //     String tpid;
-              //     String apid;
-              //     await IO.socketIO.emit('event', [
-              //       {
-              //         'transaction': 'save-from-api',
-              //         'payload': {
-              //           'pid': userInfo.userId,
-              //           'status': 3,
-              //           'apDt': DateTime.now().toString(),
-              //           'symptoms': ['Back Pain'],
-              //           'conditions': {
-              //             'c_test1': 'Conditioner 1',
-              //             'c_test2': 'Condtioner 2'
-              //           },
-              //         },
-              //       }
-              //     ]);
-              //     await for (dynamic data
-              //         in IO.socketIO.on('r-save-from-api')) {
-              //       print('On r-save-from-api: ${data[0]['value']['payload']}');
-              //       if (data != null) {
-              //         tpid = data[0]['value']['payload']['tpid'];
-              //         apid = data[0]['value']['payload']['apid'];
-              //         break;
-              //       }
-              //     }
-              //     await IO.socketIO.emit('event', [
-              //       {
-              //         'transaction': 'updatePlan',
-              //         'payload': {
-              //           'tpid': tpid,
-              //           'status': 0,
-              //           'drid': 'doctor01@mail.com'
-              //         },
-              //       }
-              //     ]);
-              // ==== >> Test Appointment
+              //     onPressed: () {
+              //       Navigator.of(context)
+              //           .pushNamed(CaseManagementPage.routeName);
+              //     },
+              //     child: Container(
+              //       height: 50,
+              //       width: 50,
+              //       color: Colors.teal,
+              //     )),
+            ),
+            // child: InkWell(
+            //   onTap: () {
+                
+            //   },
+            //   child: Container(
+            //     alignment: Alignment.center,
+            //     height: 50,
+            //     width: 100,
+            //     decoration: BoxDecoration(
+            //       borderRadius: BorderRadius.circular(45),
+            //       color: Colors.deepPurple[400],
+            //     ),
+            //     child: Text('Add Condition', style: TextStyle(color: Colors.white),),
+            //   ),
+            // ),
+            //
+            // =====> BREAK <=====
+            //
+            // Container(
+            //   height: 10,
+            //   width: 10,
+            //   color: Colors.pink,
+            //   child: TextButton(
+            //     onPressed: () async {
+            //       String tpid;
+            //       String apid;
+            //       await IO.socketIO.emit('event', [
+            //         {
+            //           'transaction': 'save-from-api',
+            //           'payload': {
+            //             'pid': userInfo.userId,
+            //             'status': 3,
+            //             'apDt': DateTime.now().toString(),
+            //             'symptoms': ['Back Pain'],
+            //             'conditions': {
+            //               'c_test1': 'Conditioner 1',
+            //               'c_test2': 'Condtioner 2'
+            //             },
+            //           },
+            //         }
+            //       ]);
+            //       await for (dynamic data
+            //           in IO.socketIO.on('r-save-from-api')) {
+            //         print('On r-save-from-api: ${data[0]['value']['payload']}');
+            //         if (data != null) {
+            //           tpid = data[0]['value']['payload']['tpid'];
+            //           apid = data[0]['value']['payload']['apid'];
+            //           break;
+            //         }
+            //       }
+            //       await IO.socketIO.emit('event', [
+            //         {
+            //           'transaction': 'updatePlan',
+            //           'payload': {
+            //             'tpid': tpid,
+            //             'status': 0,
+            //             'drid': 'doctor01@mail.com'
+            //           },
+            //         }
+            //       ]);
+            //       chatProvider.patientReqChat(
+            //         userInfo.userData['userName'],
+            //         userInfo.role,
+            //         tpid,
+            //         apid,
+            //       );
+            //     },
+            //     child: Text(
+            //       'chat',
+            //       style: TextStyle(
+            //         color: Colors.teal,
+            //         // fontSize: 24,
+            //       ),
+            //     ),
+            //   ),
+            // ),
+            //       // ==== >> Test Appointment
                   // IO.socketIO.emit('event', [
                   //     {
                   //       'transaction': 'create-new-appointment',
@@ -256,56 +158,56 @@ class _HomePageState extends State<HomePage> {
                   //     print('On r-create-appointment: ${data[0]['value']['payload']}');
                   //     break;
                   //   }
-                  //  ==== >> Vital Sign Test
-                  // await IO.socketIO.emit('event', [
-                  //   {
-                  //     'transaction': 'save-vital-pain',
-                  //     'payload': {
-                  //       // 'vsid': ,
-                  //       'tpid': tpid,
-                  //       'apid': apid,
-                  //       'pain_score': {'Back pain': 10},
-                  //       'vsdt': DateTime(
-                  //         DateTime.now().year,
-                  //         DateTime.now().month,
-                  //         DateTime.now().day,
-                  //         DateTime.now().hour,
-                  //         DateTime.now().minute,
-                  //       ).toString(),
-                  //       'body_temp': 42.5,
-                  //       'pulse': 254,
-                  //       'blood_pressure_top': 200,
-                  //       'blood_pressure_bottom': 10,
-                  //       'respiratory_rate': 164,
-                  //     },
-                  //   }
-                  // ]);
-                  // await for (dynamic data
-                  //     in IO.socketIO.on('r-save-vital-pain')) {
-                  //   print('On r-save-vital-pain: $data');
-                  //   if (data != null) {
-                  //     break;
-                  //   }
-                  // }
-                  // ==== >> Chat test
-                  // chatProvider.patientReqChat(
-                  //   userInfo.userData['userName'],
-                  //   userInfo.role,
-                  //   tpid,
-                  //   apid,
-                  // );
-                // },
-                // child: Text(
-                //   'chat',
-                //   style: TextStyle(
-                //     color: Colors.teal,
-                //     fontSize: 24,
-                //   ),
-                // ),
+            //       //  ==== >> Vital Sign Test
+            //       // await IO.socketIO.emit('event', [
+            //       //   {
+            //       //     'transaction': 'save-vital-pain',
+            //       //     'payload': {
+            //       //       // 'vsid': ,
+            //       //       'tpid': tpid,
+            //       //       'apid': apid,
+            //       //       'pain_score': {'Back pain': 10},
+            //       //       'vsdt': DateTime(
+            //       //         DateTime.now().year,
+            //       //         DateTime.now().month,
+            //       //         DateTime.now().day,
+            //       //         DateTime.now().hour,
+            //       //         DateTime.now().minute,
+            //       //       ).toString(),
+            //       //       'body_temp': 42.5,
+            //       //       'pulse': 254,
+            //       //       'blood_pressure_top': 200,
+            //       //       'blood_pressure_bottom': 10,
+            //       //       'respiratory_rate': 164,
+            //       //     },
+            //       //   }
+            //       // ]);
+            //       // await for (dynamic data
+            //       //     in IO.socketIO.on('r-save-vital-pain')) {
+            //       //   print('On r-save-vital-pain: $data');
+            //       //   if (data != null) {
+            //       //     break;
+            //       //   }
+            //       // }
+            //       // ==== >> Chat test
+              //     chatProvider.patientReqChat(
+              //       userInfo.userData['userName'],
+              //       userInfo.role,
+              //       tpid,
+              //       apid,
+              //     );
+              //   },
+              //   child: Text(
+              //     'chat',
+              //     style: TextStyle(
+              //       color: Colors.teal,
+              //       // fontSize: 24,
+              //     ),
+              //   ),
               // ),
-              // 
-              // ====> BREAK <===
-            ),
+            //   //
+            //   // ====> BREAK <===
+            // ),
             Container(
                 height: mdqr.size.height * 0.25,
                 child: FittedBox(child: Logo())),

@@ -80,15 +80,16 @@ class PatientInfo with ChangeNotifier {
         for (Map<String, dynamic> item in payload) {
           symp_cond.add({
             'apid': item['apid'],
-            'apDt': DateTime.parse(item['date']),
+            'apDt': DateTime.parse(item['date']).add(Duration(hours: 7)),
             'symptoms': item['pat_symptom'],
             'condition': item['pat_condition'],
           });
           prescrip_suggest.add({
             'apid': item['apid'],
-            'apDt': DateTime.parse(item['date']),
+            'apDt': DateTime.parse(item['date']).add(Duration(hours: 7)),
           });
         }
+        symp_cond.removeWhere((element) => (element['apDt'].difference(DateTime.now()).inDays > 0));
         symp_condLoad = true;
         r_get_condition_symptom.cancel();
         notifyListeners();
@@ -165,6 +166,7 @@ class PatientInfo with ChangeNotifier {
           prescrip_suggest[index]['prescription'] = payload[index]['prescription'];
           prescrip_suggest[index]['advice'] = payload[index]['advice'];
         }
+        prescrip_suggest.removeWhere((element) => (element['apDt'].difference(DateTime.now()).inDays > 0));
         prescrip_suggestLoad = true;
         r_get_prescription.cancel();
         notifyListeners();
@@ -174,7 +176,7 @@ class PatientInfo with ChangeNotifier {
     });
     // "payload":[{"prescription": ["drug1", "drug2", "drug3"],"advice":"this is advice"}]
     // "payload":[]
-
+    print('FINISH0');
     // Get patient profile
     await socketIO.emit('event', [
       {
@@ -185,6 +187,7 @@ class PatientInfo with ChangeNotifier {
         }
       }
     ]);
+    print('FINISH1');
     // Waiting getProfile return
     // await for (dynamic data in socketIO.on('r-getProfile')) {
     //   print('On r-getProfile: $data');
@@ -204,6 +207,7 @@ class PatientInfo with ChangeNotifier {
         'payload': {'tpid': tpid}
       }
     ]);
+    print('FINISH2');
 
     // Waiting for data return
     // await for (dynamic data in socketIO.on('r-get-condition-symptom')) {
@@ -224,6 +228,7 @@ class PatientInfo with ChangeNotifier {
         'payload': {'tpid': tpid}
       }
     ]);
+    print('FINISH3');
 
     // Waiting for data return
     // await for (dynamic data in socketIO.on('r-get-vital-sign-records')) {
@@ -256,5 +261,6 @@ class PatientInfo with ChangeNotifier {
     //     print('No data returned');
     //   }
     // }
+    print('FINISH4');
   }
 }

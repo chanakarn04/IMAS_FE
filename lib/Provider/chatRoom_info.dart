@@ -51,7 +51,7 @@ class ChatRoomProvider with ChangeNotifier {
   var online = false;
   var isConsult = false;
 
-  Future<bool> initChatroom({
+  Future<void> initChatroom({
     String userId,
     Role role,
     String thisTpid,
@@ -80,9 +80,6 @@ class ChatRoomProvider with ChangeNotifier {
     }
     await for (dynamic data in chatSocket.on('regisChatroom')) {
       print('ChatSocket on regisChatroom:${data[0]['payload']['message']}');
-      if (data[0]['payload']['treatment']['tpid'] == null) {
-        return false;
-      } else {
         tpid = data[0]['payload']['treatment']['tpid'];
         apid = data[0]['payload']['treatment']['apid'];
         print('=====> tpid : $tpid');
@@ -105,6 +102,7 @@ class ChatRoomProvider with ChangeNotifier {
           }
         ]);
         await for (dynamic data in socketIO.on('r-getProfile')) {
+          print('On r-getProfile $data');
           if (data != null) {
             if (role == Role.Patient) {
               opName =
@@ -136,8 +134,8 @@ class ChatRoomProvider with ChangeNotifier {
           print('On r-updatePlan ${data[0]['value']['payload']}');
           break;
         }
-        return true;
-      }
+        break;
+        // return true;
 
       // [{
       //   "transaction":"regisChatroom",
@@ -164,6 +162,7 @@ class ChatRoomProvider with ChangeNotifier {
     });
 
     chatSocket.on('deleteChat').listen((data) {
+      print('On deleteChat: $data');
       final payload = data[0]['payload'];
       // Received arguments::[{"transaction":"deleteChat","passport":null,"payload":{"message":"Successfully remove chatroom"}}]
       if (data != null) {
@@ -254,7 +253,7 @@ class ChatRoomProvider with ChangeNotifier {
                       print('Accept');
                       Navigator.of(context).pop();
                       Navigator.of(context).pushNamed(ChatRoom.routeName);
-                      await socketIO.emit('event', [
+                      socketIO.emit('event', [
                         {
                           'transaction': 'createChat',
                           'payload': {
@@ -269,25 +268,30 @@ class ChatRoomProvider with ChangeNotifier {
                           chatRoomId =
                               data[0]['value']['payload']['chatRoomId'];
                           // doctor not need apid / tpid
-                          init = await initChatroom(
+                          await initChatroom(
                             userId: userid,
                           );
                           break;
                         }
                       }
-                      if (init) {
-                        print('init chatroom');
-                        reqCreateChatNoti.cancel();
-                        online = false;
-                        isConsult = true;
-                        notifyListeners();
-                      } else {
-                        print('cancel chatroom');
-                        Navigator.of(context).pop();
-                        reqCreateChatNoti.cancel();
-                        online = false;
-                        notifyListeners();
-                      }
+                      print('init chatroom');
+                      reqCreateChatNoti.cancel();
+                      online = false;
+                      isConsult = true;
+                      notifyListeners();
+                      // if (init) {
+                      // print('init chatroom');
+                      //   reqCreateChatNoti.cancel();
+                      //   online = false;
+                      //   isConsult = true;
+                      //   notifyListeners();
+                      // } else {
+                      //   print('cancel chatroom');
+                      //   Navigator.of(context).pop();
+                      //   reqCreateChatNoti.cancel();
+                      //   online = false;
+                      //   notifyListeners();
+                      // }
                       // Navigator.of(context)
                       //     .pushNamed(WaitChatroomCreating.routeName);
                     },
@@ -366,8 +370,7 @@ class ChatRoomProvider with ChangeNotifier {
   }
 
   // for doctor to createChat from appointment
-  Future<void> aptCreateChat(
-  ) async {
+  Future<void> aptCreateChat() async {
     await socketIO.emit('event', [
       {
         'transaction': 'createChat',
@@ -388,7 +391,10 @@ class ChatRoomProvider with ChangeNotifier {
   }
 
   // use for createChat from appointment
-  Future<void> rCreateChat(String userId, Role role,) async {
+  Future<void> rCreateChat(
+    String userId,
+    Role role,
+  ) async {
     await for (dynamic data in socketIO.on('r-createChat')) {
       isConsult = true;
       chatRoomId = data[0]['value']['payload']['chatRoomId'];
@@ -411,6 +417,7 @@ class ChatRoomProvider with ChangeNotifier {
         // 'payload': {}
       }
     ]);
+    chatSearching = false;
     online = false;
     notifyListeners();
   }
@@ -436,36 +443,36 @@ class ChatRoomProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> saveChatRoom() async {
-    // Save data
-    await socketIO.emit('event', [
-      {
-        'transaction': 'save-from-chatroom',
-        'payload': {
-          'apid': apid,
-          'note': note,
-          'advice': advice,
-          'status': status,
-          'symptoms': symptoms,
-          'conditions': conditions,
-          'drugs': drugs
-        }
-      }
-    ]);
+  // Future<void> saveChatRoom() async {
+  //   // Save data
+  //   await socketIO.emit('event', [
+  //     {
+  //       'transaction': 'save-from-chatroom',
+  //       'payload': {
+  //         'apid': apid,
+  //         'note': note,
+  //         'advice': advice,
+  //         'status': 2,
+  //         'symptoms': symptoms,
+  //         'conditions': conditions,
+  //         'drugs': drugs
+  //       }
+  //     }
+  //   ]);
 
-    // Waiting for data return
-    await for (dynamic data in socketIO.on('r-save-from-chatroom')) {
-      print('On r-save-from-chatroom: $data');
-      final payload = data[0]['value']['payload'];
-      if (data != null) {
-        print(payload);
-        notifyListeners();
-      } else {
-        print('No data returned');
-      }
-      break;
-    }
-  }
+  //   // Waiting for data return
+  //   await for (dynamic data in socketIO.on('r-save-from-chatroom')) {
+  //     print('On r-save-from-chatroom: $data');
+  //     final payload = data[0]['value']['payload'];
+  //     if (data != null) {
+  //       print(payload);
+  //       notifyListeners();
+  //     } else {
+  //       print('No data returned');
+  //     }
+  //     break;
+  //   }
+  // }
 
   // void chatRequest(Role role) {
   //   // in patient send userId to request

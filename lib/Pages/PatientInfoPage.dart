@@ -100,6 +100,10 @@ class _PatientInfoPageState extends State<PatientInfoPage> {
       print('==> PtInfo Start Loading');
       print('routeArg: $routeArg');
       await patientInfo.getPatInfo(routeArg['pid'], routeArg['tpid']);
+      print('==> TESTTT');
+      print(patientInfo.symp_cond[0]['apDt']);
+      // patientInfo.symp_cond.removeWhere((element) => (element['apDt'].difference(DateTime.now()).inDays >= 0));
+      // patientInfo.prescrip_suggest.removeWhere((element) => (element['apDt'].difference(DateTime.now()).inDays >= 0));
     }
 
     _scrollController.addListener(

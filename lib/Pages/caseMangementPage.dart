@@ -59,56 +59,6 @@ class _CaseManagementPageState extends State<CaseManagementPage> {
     // );
     // cmInfo.savePname(data['name']);
     return Scaffold(
-      appBar: AppBar(
-        iconTheme: IconThemeData(
-          color: Theme.of(context).primaryColor,
-        ),
-        backgroundColor: Colors.white,
-        leading: IconButton(
-            icon: Icon(Icons.arrow_back_ios_rounded),
-            onPressed: () => Navigator.of(context).pop()),
-        title: Row(
-          children: [
-            Container(
-              height: 40,
-              width: 40,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  fit: BoxFit.contain,
-                  image: AssetImage('assets/images/default_photo.png'),
-                ),
-                shape: BoxShape.circle,
-                border: Border.all(
-                  width: 1,
-                  color: Theme.of(context).primaryColor,
-                ),
-              ),
-            ),
-            SizedBox(
-              width: 10,
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Case management',
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                    color: Theme.of(context).primaryColor,
-                  ),
-                ),
-                Text(
-                  chatroomProvider.opName,
-                  style: TextStyle(
-                    fontSize: 14,
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
       body: _pages[selectedPageIndex]['tab'],
       bottomNavigationBar: BottomNavigationBar(
         unselectedItemColor: Theme.of(context).primaryColor.withAlpha(150),

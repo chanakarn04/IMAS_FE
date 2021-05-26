@@ -45,7 +45,8 @@ class AptSuggestCard extends StatelessWidget {
         horizontal: 20,
         vertical: 15,
       ),
-      color: Theme.of(context).primaryColor,
+      color: Colors.grey[100],
+      // color: Theme.of(context).primaryColor,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       child: Container(
         decoration: BoxDecoration(
