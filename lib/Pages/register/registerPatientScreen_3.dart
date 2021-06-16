@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-// import '../loginPage.dart';
-// import '../../Widget/AdaptiveRaisedButton.dart';
-// import '../../Widget/adaptiveBorderButton.dart';
-// import '../../Script/socketioScript.dart' as socketIO;
+
 import '../../Script/socketioScript.dart';
 import '../../Provider/user-info.dart';
 import '../../Widget/progressDot.dart';
@@ -29,7 +26,6 @@ class _RegisterPatient3ScreenState extends State<RegisterPatient3Screen> {
 
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     if (!_init) {
       errorDescribe = '';
       _init = !_init;
@@ -51,9 +47,7 @@ class _RegisterPatient3ScreenState extends State<RegisterPatient3Screen> {
 
   @override
   Widget build(BuildContext context) {
-    final userInfo = Provider.of<UserInfo>(context);
-    Map<String, dynamic> registerData =
-        ModalRoute.of(context).settings.arguments;
+    Map<String, dynamic> registerData =ModalRoute.of(context).settings.arguments;
     return Scaffold(
       body: (_isRegistering)
           ? (_isRegistered)
@@ -63,9 +57,7 @@ class _RegisterPatient3ScreenState extends State<RegisterPatient3Screen> {
                       context: context,
                       title: Text(
                         'Oops!',
-                        style: TextStyle(
-                          fontSize: 28,
-                        ),
+                        style: TextStyle(fontSize: 28),
                       ),
                       describe: Text(
                         errorDescribe,
@@ -83,8 +75,7 @@ class _RegisterPatient3ScreenState extends State<RegisterPatient3Screen> {
                         width: 80,
                         child: CircularProgressIndicator(
                           strokeWidth: 8.0,
-                          valueColor: new AlwaysStoppedAnimation<Color>(
-                              Theme.of(context).primaryColor),
+                          valueColor: new AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),
                         ),
                       ),
                       SizedBox(
@@ -123,9 +114,7 @@ class _RegisterPatient3ScreenState extends State<RegisterPatient3Screen> {
                         },
                       ),
                     ),
-                    SizedBox(
-                      height: 5,
-                    ),
+                    SizedBox(height: 5),
                     Container(
                       padding: EdgeInsets.only(left: 25),
                       alignment: Alignment.centerLeft,
@@ -147,9 +136,7 @@ class _RegisterPatient3ScreenState extends State<RegisterPatient3Screen> {
                         ),
                       ),
                     ),
-                    SizedBox(
-                      height: 10,
-                    ),
+                    SizedBox(height: 10),
                     Expanded(
                       child: Container(
                         decoration: BoxDecoration(
@@ -171,9 +158,7 @@ class _RegisterPatient3ScreenState extends State<RegisterPatient3Screen> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
-                              SizedBox(
-                                height: 20,
-                              ),
+                              SizedBox(height: 20),
                               Expanded(
                                   child: DrugAllergyListItemBox(
                                 drug: drug,
@@ -181,19 +166,12 @@ class _RegisterPatient3ScreenState extends State<RegisterPatient3Screen> {
                                 edit: editDrug,
                                 remove: removeDrug,
                               )),
-                              SizedBox(
-                                height: 15,
-                              ),
-                              SizedBox(
-                                height: 15,
-                              ),
+                              SizedBox(height: 30),
                               ProgressDot(
                                 length: 3,
                                 markedIndex: 3,
                               ),
-                              SizedBox(
-                                height: 15,
-                              ),
+                              SizedBox(height: 15),
                               ElevatedButton(
                                 onPressed: () async {
                                   registerData.addAll({
@@ -202,9 +180,6 @@ class _RegisterPatient3ScreenState extends State<RegisterPatient3Screen> {
                                   setState(() {
                                     _isRegistering = true;
                                   });
-                                  // print(registerData);
-                                  // ... send register to server HERE
-                                  // ... use RegisteredData
                                   Map<String, String> token = {
                                     'token': '',
                                     'userid': registerData['userName'],
@@ -217,8 +192,6 @@ class _RegisterPatient3ScreenState extends State<RegisterPatient3Screen> {
                                     }
                                   ]);
                                   await for (dynamic data in regisSocket.on('r-register')) {
-                                    print('On r-register: ${data[0]['value']['payload']['message']}');
-                                    // something  more
                                     if (data != null) {
                                       setState(() {
                                         _isRegistered = true;
@@ -235,40 +208,6 @@ class _RegisterPatient3ScreenState extends State<RegisterPatient3Screen> {
                                     }
                                   }
                                   await regisSocketDisconnect();
-                                  // socketConnect(token).then((_) async {
-                                  //   await socketIO.emit('event', [
-                                  //     {
-                                  //       'transaction': 'register',
-                                  //       'payload': registerData
-                                  //     }
-                                  //   ]);
-                                  //   socketIO.on('r-register').listen((data) {
-                                  //     // print('On r-register: $data');
-                                  //     print(
-                                  //         'On r-register: ${data[0]['value']['payload']['message']}');
-                                  //     // something  more
-                                  //     if (data != null) {
-                                  //       setState(() {
-                                  //         _isRegistered = true;
-                                  //       });
-                                  //       if (data[0]['value']['payload']
-                                  //               ['message'] ==
-                                  //           'Register success') {
-                                  //         setState(() {
-                                  //           _isRegisterSuccess = true;
-                                  //         });
-                                  //       } else {
-                                  //         setState(() {
-                                  //           errorDescribe = data[0]['value']
-                                  //               ['payload']['message'];
-                                  //         });
-                                  //       }
-                                  //     }
-                                  //   });
-                                  // });
-                                  // ...
-                                  // Navigator.of(context)
-                                  //     .pushNamed(RegisterPatient3Screen.routeName);
                                 },
                                 style: ElevatedButton.styleFrom(
                                   primary: Theme.of(context).primaryColor,
@@ -286,9 +225,7 @@ class _RegisterPatient3ScreenState extends State<RegisterPatient3Screen> {
                                   ),
                                 ),
                               ),
-                              SizedBox(
-                                height: 20,
-                              ),
+                              SizedBox(height: 20),
                             ],
                           ),
                         ),
@@ -301,36 +238,3 @@ class _RegisterPatient3ScreenState extends State<RegisterPatient3Screen> {
     );
   }
 }
-
-// [
-//   {
-//     magicByte: 2,
-//     attributes: 0,
-//     timestamp: 1619595297592,
-//     offset: 34, 
-//     key: null, 
-//     value: {
-//       transaction: r-register, 
-//       passport: {token: , userid: a@b.c}, 
-//       payload: {message: Register success, socketId: VTq2MQTf7Hk_6OIYAAAB}
-//     }, 
-//     headers: {}, i
-//     sControlRecord: false, 
-//     batchContext: {
-//       firstOffset: 34, 
-//       firstTimestamp: 1619595297592, 
-//       partitionLeaderEpoch: 0, 
-//       inTransaction: false, 
-//       isControlBatch: false, 
-//       lastOffsetDelta: 0, 
-//       producerId: -1, 
-//       producerEpoch: 0, 
-//       firstSequence: 0, 
-//       maxTimestamp: 1619595297592, 
-//       timestampType: 0, 
-//       magicByte: 2
-//     }, 
-//     topic: gateway, 
-//     partition: 0,
-//   }
-// ]

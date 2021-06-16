@@ -1,17 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-// import '../../dummy_data.dart';
-// import '../../Widget/showMyDialog.dart';
-// import '../../Widget/caseManagementEditBottomSheet.dart';
 import '../../Provider/caseManagement_Info.dart';
 import '../../Widget/caseMangementListitemBox.dart';
 import '../../Widget/caseManagementAdviseBox.dart';
-// import '../../Widget/caseManagementAdviseEdit.dart';
 
 class CMPrescriptionTab extends StatefulWidget {
-  // final String tpId = 'tp001';
-
   @override
   _CMPrescriptionTabState createState() => _CMPrescriptionTabState();
 }
@@ -23,8 +17,6 @@ class _CMPrescriptionTabState extends State<CMPrescriptionTab> {
     return Container(
       padding: EdgeInsets.only(
         top: MediaQuery.of(context).padding.top + 15,
-        // left: 20,
-        // bottom: 20,
       ),
       child: Column(
         children: [
@@ -66,27 +58,12 @@ class _CMPrescriptionTabState extends State<CMPrescriptionTab> {
                 title: 'Treatment',
                 description: 'Guideline for patient self-treatment',
                 item: 'test test 1 2 4',
-                // cmInfo: cmInfo,
-                // editFn: () {
-                // caseManagementAdviseEdit(
-                //   context,
-                //   'Edit treatment',
-                //   controller,
-                //   'Edit',
-                //   // _setEdit,
-                // );
-                // },
               ),
             ),
           ),
           SizedBox(
             height: 10,
           ),
-          // Container(
-          //   width: double.infinity,
-          //   height: 2,
-          //   color: Theme.of(context).primaryColor,
-          // )
         ],
       ),
     );

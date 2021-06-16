@@ -39,6 +39,7 @@ class _SideDrawerState extends State<SideDrawer> {
 
   @override
   Widget build(BuildContext context) {
+    final chatroom = Provider.of<ChatRoomProvider>(context);
     final userInfo = Provider.of<UserInfo>(context);
     return Drawer(child: LayoutBuilder(builder: (ctx, constraints) {
       Widget menuDrawerFlatButton(
@@ -242,65 +243,74 @@ class _SideDrawerState extends State<SideDrawer> {
                   size: constraints.maxHeight * 0.05,
                   color: Colors.grey,
                 ),
-                // onPressed: () => Navigator.of(context).pop(),
-                onPressed: () async {
-                  String tpid;
-                  String apid;
-                  await IO.socketIO.emit('event', [
-                    {
-                      'transaction': 'save-from-api',
-                      'payload': {
-                        'pid': 'patApt1@mail.com',
-                        'status': 3,
-                        'apDt': DateTime.now().toString(),
-                        'symptoms': ['Back Pain'],
-                        'conditions': {
-                          'c_test1': 'Conditioner 1',
-                          'c_test2': 'Conditioner 2'
-                        },
-                      },
-                    }
-                  ]);
-                  await for (dynamic data
-                      in IO.socketIO.on('r-save-from-api')) {
-                    print('On r-save-from-api: ${data[0]['value']['payload']}');
-                    if (data != null) {
-                      tpid = data[0]['value']['payload']['tpid'];
-                      apid = data[0]['value']['payload']['apid'];
-                      break;
-                    }
-                  }
-                  await IO.socketIO.emit('event', [
-                    {
-                      'transaction': 'updatePlan',
-                      'payload': {
-                        'tpid': tpid,
-                        'status': 0,
-                        'drid': 'docApt1@mail.com'
-                      },
-                    }
-                  ]);
-                  // appointment
-                  IO.socketIO.emit('event', [
-                      {
-                        'transaction': 'create-new-appointment',
-                        'payload': {
-                          // 'tpid': '608e6cc18f0f9c001e97ff97',
-                          'tpid': tpid,
-                          'apdt': DateTime(
-                            DateTime.now().year,
-                            DateTime.now().month,
-                            DateTime.now().day,
-                            DateTime.now().hour,
-                            DateTime.now().minute + 3,
-                          ).toString(),
-                        },
-                      }
-                    ]);
-                    await for (dynamic data in IO.socketIO.on('r-create-appointment')) {
-                      print('On r-create-appointment: ${data[0]['value']['payload']}');
-                      break;
-                    }
+                onPressed: () => Navigator.of(context).pop(),
+              
+                // onPressed: () async {
+                //   String tpid;
+                //   String apid;
+                //   await IO.socketIO.emit('event', [
+                //     {
+                //       'transaction': 'save-from-api',
+                //       'payload': {
+                //         'pid': 'patApt1@mail.com',
+                //         // 'pid': 'chanakarn.s@mail.com',
+                //         'status': 3,
+                //         'apDt': DateTime.now().toString(),
+                //         'symptoms': ['Back Pain'],
+                //         'conditions': {
+                //           'c_test1': 'Conditioner 1',
+                //           'c_test2': 'Conditioner 2'
+                //         },
+                //       },
+                //     }
+                //   ]);
+                //   await for (dynamic data
+                //       in IO.socketIO.on('r-save-from-api')) {
+                //     print('On r-save-from-api: ${data[0]['value']['payload']}');
+                //     if (data != null) {
+                //       tpid = data[0]['value']['payload']['tpid'];
+                //       apid = data[0]['value']['payload']['apid'];
+                //       break;
+                //     }
+                //   }
+                //   await IO.socketIO.emit('event', [
+                //     {
+                //       'transaction': 'updatePlan',
+                //       'payload': {
+                //         'tpid': tpid,
+                //         'status': 0,
+                //         // 'drid': 'phawinphat.ben@gmail.com'
+                //         'drid': 'docApt1@mail.com'
+                //       },
+                //     }
+                //   ]);
+                //   chatroom.patientReqChat(
+                //     userInfo.userData['userName'],
+                //     userInfo.role,
+                //     tpid,
+                //     apid,
+                //   );
+                //   // appointment
+                //   IO.socketIO.emit('event', [
+                //       {
+                //         'transaction': 'create-new-appointment',
+                //         'payload': {
+                //           // 'tpid': '608e6cc18f0f9c001e97ff97',
+                //           'tpid': tpid,
+                //           'apdt': DateTime(
+                //             DateTime.now().year,
+                //             DateTime.now().month,
+                //             DateTime.now().day,
+                //             DateTime.now().hour,
+                //             DateTime.now().minute + 3,
+                //           ).toString(),
+                //         },
+                //       }
+                //     ]);
+                //     await for (dynamic data in IO.socketIO.on('r-create-appointment')) {
+                //       print('On r-create-appointment: ${data[0]['value']['payload']}');
+                //       break;
+                //     }
                     // viatal
                   // await IO.socketIO.emit('event', [
                   //   {
@@ -332,7 +342,7 @@ class _SideDrawerState extends State<SideDrawer> {
                   //     break;
                   //   }
                   // }
-                },
+                // },
               ),
             )
           ]);

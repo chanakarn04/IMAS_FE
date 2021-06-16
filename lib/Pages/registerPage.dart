@@ -32,9 +32,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   Icons.arrow_back_ios_rounded,
                   color: Theme.of(context).primaryColor,
                 ),
-                onTap: () {
-                  Navigator.of(context).pop();
-                },
+                onTap: () => Navigator.of(context).pop(),
               ),
             ),
             Expanded(
@@ -50,9 +48,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       alignment: Alignment.centerLeft,
                       child: Text(
                         'Register',
-                        style: TextStyle(
-                          fontSize: 32,
-                        ),
+                        style: TextStyle(fontSize: 32),
                       ),
                     ),
                     Container(
@@ -61,9 +57,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       decoration: BoxDecoration(
                         image: DecorationImage(
                           fit: BoxFit.contain,
-                          image: AssetImage(
-                            'assets/images/registerImage.png',
-                          ),
+                          image: AssetImage('assets/images/registerImage.png'),
                         ),
                       ),
                     ),
@@ -90,20 +84,16 @@ class _RegisterPageState extends State<RegisterPage> {
                               role = newValue;
                             });
                           },
-                          items: <String>[
-                            'Patient',
-                            'Doctor',
-                          ].map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
+                          items: <String>['Patient','Doctor']
+                            .map<DropdownMenuItem<String>>((String value) =>
+                            DropdownMenuItem<String>(
                               value: value,
                               child: Text(
                                 value,
-                                style: TextStyle(
-                                  fontSize: 22,
-                                ),
+                                style: TextStyle(fontSize: 22),
                               ),
-                            );
-                          }).toList(),
+                            ),
+                          ).toList(),
                         ),
                       ),
                     ),
@@ -118,20 +108,15 @@ class _RegisterPageState extends State<RegisterPage> {
             ElevatedButton(
               onPressed: () {
                 if (role == 'Patient') {
-                  // print('to patient register');
-                  Navigator.of(context)
-                      .pushNamed(RegisterPatient1Screen.routeName);
+                  Navigator.of(context).pushNamed(RegisterPatient1Screen.routeName);
                 } else {
-                  // print('to doctor registor');
-                  Navigator.of(context)
-                      .pushNamed(RegisterDoctorScreen.routeName);
+                  Navigator.of(context).pushNamed(RegisterDoctorScreen.routeName);
                 }
               },
               style: ElevatedButton.styleFrom(
                 primary: Theme.of(context).primaryColor,
                 padding: EdgeInsets.all(5),
-                shape: new RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20)),
+                shape: new RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                 elevation: 0,
               ),
               child: Container(
@@ -139,9 +124,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 height: 30,
                 width: 200,
                 alignment: Alignment.center,
-                child: Text(
-                  'Next',
-                ),
+                child: Text('Next'),
               ),
             ),
           ],

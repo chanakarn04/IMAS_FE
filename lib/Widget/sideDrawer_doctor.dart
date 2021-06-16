@@ -22,7 +22,7 @@ List<Widget> buildSideDrawerDoctor(
         ProfilePages.routeName,
       );
     })),
-    if (chatRegis)
+    // if (chatRegis)
       menuDrawerFlatButton(Icons.chat_bubble_outline_rounded, 'Chatroom', (() {
         Navigator.of(context).pop();
         Navigator.of(context).pushNamed(

@@ -70,8 +70,6 @@ class _VSHeartRatePageState extends State<VSHeartRatePage> {
 
   @override
   Widget build(BuildContext context) {
-    // final routeArgument =
-    //     ModalRoute.of(context).settings.arguments as Map<String, Object>;
     final vitalSign = Provider.of<VitalSignProvider>(context);
 
     if (vitalSign.pulse != null) {
@@ -84,9 +82,6 @@ class _VSHeartRatePageState extends State<VSHeartRatePage> {
         color: Theme.of(context).primaryColor,
       ),
       backgroundColor: Colors.white,
-      // leading: IconButton(
-      //     icon: Icon(Icons.arrow_back_ios_rounded),
-      //     onPressed: () => Navigator.of(context).pop()),
       title: Container(
         alignment: Alignment.center,
         child: Text('IMAS'),
@@ -112,8 +107,7 @@ class _VSHeartRatePageState extends State<VSHeartRatePage> {
               Container(
                 height: (MediaQuery.of(context).size.height -
                         appBar.preferredSize.height -
-                        MediaQuery.of(context).padding.top) *
-                    0.6,
+                        MediaQuery.of(context).padding.top) * 0.6,
                 padding: EdgeInsets.only(
                   top: 120,
                   left: 15,
@@ -125,19 +119,15 @@ class _VSHeartRatePageState extends State<VSHeartRatePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     _headerBuilder(context, 'Heart rate'),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    _descriptionBuilder(context,
-                        'Place your pointer and middle fingers on the inside of your opposite wrist just below the thumb. Once you can feel your pulse, count how many beats you feel in 60 second'),
+                    SizedBox(height: 20),
+                    _descriptionBuilder(context, 'Place your pointer and middle fingers on the inside of your opposite wrist just below the thumb. Once you can feel your pulse, count how many beats you feel in 60 second'),
                   ],
                 ),
               ),
               Container(
                 height: (MediaQuery.of(context).size.height -
                         appBar.preferredSize.height -
-                        MediaQuery.of(context).padding.top) *
-                    0.4,
+                        MediaQuery.of(context).padding.top) * 0.4,
                 padding: EdgeInsets.only(
                   top: 15,
                   left: 15,
@@ -152,17 +142,13 @@ class _VSHeartRatePageState extends State<VSHeartRatePage> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Container(
-                          // color: Colors.teal[100],
                           width: 120,
                           child: NumberTextField(
                             textController: textController,
                           ),
                         ),
-                        SizedBox(
-                          width: 3,
-                        ),
+                        SizedBox(height: 3),
                         Column(
-                          // mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             Text(
                               'BPM',
@@ -175,18 +161,13 @@ class _VSHeartRatePageState extends State<VSHeartRatePage> {
                             Text(
                               '(Beat Per Minute)',
                               textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 9,
-                                // fontWeight: FontWeight.bold,
-                              ),
+                              style: TextStyle(fontSize: 9),
                             ),
                           ],
                         ),
                       ],
                     ),
-                    SizedBox(
-                      height: 15,
-                    ),
+                    SizedBox(height: 15),
                     Align(
                       alignment: Alignment.center,
                       child: ProgressDot(
@@ -194,9 +175,7 @@ class _VSHeartRatePageState extends State<VSHeartRatePage> {
                         markedIndex: 2,
                       ),
                     ),
-                    SizedBox(
-                      height: 15,
-                    ),
+                    SizedBox(height: 15),
                     Align(
                       alignment: Alignment.center,
                       child: AdaptiveRaisedButton(
@@ -204,14 +183,10 @@ class _VSHeartRatePageState extends State<VSHeartRatePage> {
                         height: 35,
                         width: 125,
                         handlerFn:
-                            (double.tryParse(textController.text) != null) &&
-                                    (textController.text.isNotEmpty)
+                            (double.tryParse(textController.text) != null) && (textController.text.isNotEmpty)
                                 ? (() {
-                                    vitalSign.pulse =
-                                        double.parse(textController.text);
-                                    Navigator.of(context).pushNamed(
-                                      VSRespiratoryRatePage.routeName,
-                                    );
+                                    vitalSign.pulse = double.parse(textController.text);
+                                    Navigator.of(context).pushNamed(VSRespiratoryRatePage.routeName);
                                   })
                                 : null,
                       ),

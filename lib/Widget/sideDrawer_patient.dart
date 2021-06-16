@@ -11,6 +11,7 @@ import '../Pages/vitalSignStartPages.dart';
 import '../Pages/chatRoom.dart';
 import '../Pages/answerQuestionPages.dart';
 import '../Pages/WaitingDoctor.dart';
+import '../Pages/predictionResultPage.dart';
 // import '../Pages/nearbyHospitalPages.dart';
 // import '../Pages/settingPages.dart';
 // import '../Pages/loginPage.dart';
@@ -21,6 +22,12 @@ List<Widget> buildSideDrawerPatient(
   // var chatroomSearching,
 ) {
   return [
+    menuDrawerFlatButton(Icons.account_circle_outlined, 'Rsult', (() {
+      Navigator.of(context).pop();
+      Navigator.of(context).pushNamed(
+        PredictionResultPage.routeName,
+      );
+    })),
     menuDrawerFlatButton(Icons.account_circle_outlined, 'Profile', (() {
       Navigator.of(context).pop();
       Navigator.of(context).pushNamed(

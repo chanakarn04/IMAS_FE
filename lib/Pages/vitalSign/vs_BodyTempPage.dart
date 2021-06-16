@@ -71,12 +71,6 @@ class _VSBodyTempPageState extends State<VSBodyTempPage> {
   @override
   Widget build(BuildContext context) {
     final vitalSign = Provider.of<VitalSignProvider>(context);
-    // final vitalSign = ModalRoute.of(context).settings.arguments as VitalSignProvider;
-
-    // print('temp: ${vitalSign.temp}');
-    // if (tempValue != null) {
-    //   textController.text = tempValue.toString();
-    // }
 
     final appBar = AppBar(
       centerTitle: true,
@@ -84,9 +78,6 @@ class _VSBodyTempPageState extends State<VSBodyTempPage> {
         color: Theme.of(context).primaryColor,
       ),
       backgroundColor: Colors.white,
-      // leading: IconButton(
-      //     icon: Icon(Icons.arrow_back_ios_rounded),
-      //     onPressed: () => Navigator.of(context).pop()),
       title: Container(
         alignment: Alignment.center,
         child: Text('IMAS'),
@@ -112,8 +103,7 @@ class _VSBodyTempPageState extends State<VSBodyTempPage> {
               Container(
                 height: (MediaQuery.of(context).size.height -
                         appBar.preferredSize.height -
-                        MediaQuery.of(context).padding.top) *
-                    0.6,
+                        MediaQuery.of(context).padding.top) * 0.6,
                 padding: EdgeInsets.only(
                   top: 120,
                   left: 15,
@@ -125,19 +115,15 @@ class _VSBodyTempPageState extends State<VSBodyTempPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     _headerBuilder(context, 'Body Temperature'),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    _descriptionBuilder(context,
-                        'Use thermometer to measure yourself and select your temperature'),
+                    SizedBox(height: 20),
+                    _descriptionBuilder(context, 'Use thermometer to measure yourself and select your temperature'),
                   ],
                 ),
               ),
               Container(
                 height: (MediaQuery.of(context).size.height -
                         appBar.preferredSize.height -
-                        MediaQuery.of(context).padding.top) *
-                    0.4,
+                        MediaQuery.of(context).padding.top) * 0.4,
                 padding: EdgeInsets.only(
                   top: 15,
                   left: 15,
@@ -166,9 +152,7 @@ class _VSBodyTempPageState extends State<VSBodyTempPage> {
                         ),
                       ],
                     ),
-                    SizedBox(
-                      height: 15,
-                    ),
+                    SizedBox(height: 15),
                     Align(
                       alignment: Alignment.center,
                       child: ProgressDot(
@@ -176,9 +160,7 @@ class _VSBodyTempPageState extends State<VSBodyTempPage> {
                         markedIndex: 1,
                       ),
                     ),
-                    SizedBox(
-                      height: 15,
-                    ),
+                    SizedBox(height: 15),
                     Align(
                       alignment: Alignment.center,
                       child: AdaptiveRaisedButton(
@@ -186,16 +168,10 @@ class _VSBodyTempPageState extends State<VSBodyTempPage> {
                         height: 35,
                         width: 125,
                         handlerFn:
-                            (double.tryParse(textController.text) != null) &&
-                                    (textController.text.isNotEmpty)
+                            (double.tryParse(textController.text) != null) &&(textController.text.isNotEmpty)
                                 ? (() {
-                                    vitalSign.temp =
-                                        double.parse(textController.text);
-                                    // tempValue = double.parse(textController.text);
-                                    // print();
-                                    Navigator.of(context).pushNamed(
-                                      VSHeartRatePage.routeName,
-                                    );
+                                    vitalSign.temp = double.parse(textController.text);
+                                    Navigator.of(context).pushNamed(VSHeartRatePage.routeName);
                                   })
                                 : null,
                       ),

@@ -6,13 +6,6 @@ import '../Widget/AdaptiveRaisedButton.dart';
 
 class CloseCasePage extends StatelessWidget {
   static const routneName = '/CloseCase';
-  // final String pName;
-  // final bool closeCase;
-
-  // CloseCasePage(
-  //   this.pName,
-  //   this.closeCase,
-  // );
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +23,7 @@ class CloseCasePage extends StatelessWidget {
                 color: Theme.of(context).primaryColor,
                 size: 120,
               ),
-              SizedBox(
-                height: 15,
-              ),
+              SizedBox(height: 15),
               if (routeArg['closeCase'])
                 Text(
                   '${routeArg['name']} case\nhave successful close',
@@ -44,7 +35,6 @@ class CloseCasePage extends StatelessWidget {
                 ),
               if (!routeArg['closeCase'])
                 Text(
-                  // 'test',
                   'Create Appointment\nwith ${routeArg['name']}\non ${DateFormat.yMd().add_jm().format(routeArg['date'])}',
                   textAlign: TextAlign.center,
                   style: TextStyle(
@@ -57,14 +47,9 @@ class CloseCasePage extends StatelessWidget {
                 buttonText: 'Home',
                 height: 30,
                 width: 140,
-                handlerFn: () {
-                  Navigator.of(context)
-                      .popUntil(ModalRoute.withName(HomePage.routeName));
-                },
+                handlerFn: () => Navigator.of(context).popUntil(ModalRoute.withName(HomePage.routeName)),
               ),
-              SizedBox(
-                height: 15,
-              ),
+              SizedBox(height: 15),
             ],
           ),
         ),

@@ -14,13 +14,8 @@ class PainScoreStartPage extends StatelessWidget {
     final vitalSign = Provider.of<VitalSignProvider>(context);
     final appBar = AppBar(
       centerTitle: true,
-      iconTheme: IconThemeData(
-        color: Theme.of(context).primaryColor,
-      ),
+      iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
       backgroundColor: Colors.white,
-      // leading: IconButton(
-      //     icon: Icon(Icons.arrow_back_ios_rounded),
-      //     onPressed: () => Navigator.of(context).pop()),
       title: Container(
         alignment: Alignment.center,
         child: Text('IMAS'),
@@ -46,31 +41,26 @@ class PainScoreStartPage extends StatelessWidget {
             right: 15,
             bottom: 40,
           ),
-          // alignment: Alignment.bottomCenter,
           child: Column(
-            // mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Container(
-                constraints: BoxConstraints(
-                    maxWidth: MediaQuery.of(context).size.width * 0.7),
-                child: Text('Pain score',
-                    style: TextStyle(
-                      fontSize: 38,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    overflow: TextOverflow.clip),
+                constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.7),
+                child: Text(
+                  'Pain score',
+                  style: TextStyle(
+                    fontSize: 38,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  overflow: TextOverflow.clip,
+                ),
               ),
-              SizedBox(
-                height: 20,
-              ),
+              SizedBox(height: 20),
               Align(
                 alignment: Alignment.centerRight,
-                // color: Colors.deepPurple,
                 child: Container(
-                  constraints: BoxConstraints(
-                      maxWidth: MediaQuery.of(context).size.width * 0.7),
+                  constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.7),
                   child: Text(
                     'We want you to help us determine pain level of your symptom',
                     style: TextStyle(
@@ -82,25 +72,22 @@ class PainScoreStartPage extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(
-                height: 240,
-              ),
+              SizedBox(height: 240),
               Align(
                 alignment: Alignment.center,
                 child: AdaptiveRaisedButton(
                   buttonText: 'Start',
                   height: 35,
                   width: MediaQuery.of(context).size.width * 0.35,
-                  handlerFn: (() {
-                    // print('JaJa');
+                  handlerFn: (() =>
                     Navigator.of(context).pushNamed(
                       PainScorePage.routeName,
                       arguments: {
                         'index': 0,
                         'symptom': vitalSign.symptoms,
                       },
-                    );
-                  }),
+                    )
+                  ),
                 ),
               )
             ],

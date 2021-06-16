@@ -1,33 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-// import '../../dummy_data.dart';
 import '../../Models/model.dart';
 import '../../Provider/patientInfo.dart';
 
 class BasicInfoTab extends StatelessWidget {
-  // final String userId;
-
-  // // tpID from main Page
-  // BasicInfoTab(this.userId);
-
-  Map<String, dynamic> _loadData(
-    String userId,
-  ) {
-    // ... use tpId to get data
-
-    return {
-      'gender': Gender.Male,
-      'DoB': DateTime(1998, 4, 15),
-      'isSmoke': Status.No,
-      'isDiabetes': Status.NotSure,
-      'hasHighPress': Status.Yes,
-      'drugAllergy': ['Paracetamol'],
-    };
-  }
-
-  // final pInfo = dummy_Patient;
-
   String genderText(gender) {
     switch (gender) {
       case Gender.Male:
@@ -116,19 +93,7 @@ class BasicInfoTab extends StatelessWidget {
   Widget build(BuildContext context) {
     final patientInfo = Provider.of<PatientInfo>(context);
     final Map<String, dynamic> data = patientInfo.pInfo;
-    // final String userId = ModalRoute.of(context).settings.arguments;
-    // final data = _loadData(userId);
-    // final Map<String, dynamic> data = {
-    //   'gender': Gender.Male,
-    //   'DoB': DateTime(1998, 4, 15),
-    //   'isSmoke': Status.No,
-    //   'isDiabetes': Status.NotSure,
-    //   'hasHighPress': Status.Yes,
-    //   'drugAllergy': ['Paracetamol'],
-    // };
-    return Container(
-      // color: Colors.orange[200],
-      // height: 200,
+    return Padding(
       padding: EdgeInsets.only(
         top: 30,
         left: 10,
@@ -176,9 +141,7 @@ class BasicInfoTab extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    // '${((DateTime.now().month - pInfo.dob.month) / 12)}',
                     '${((DateTime.now().difference(data['dob']).inDays) / 365).floor()}',
-                    // '${((DateTime.now().difference(data['dob']).inDays) / 365).floor()}',
                     style: TextStyle(
                       fontSize: 24,
                     ),

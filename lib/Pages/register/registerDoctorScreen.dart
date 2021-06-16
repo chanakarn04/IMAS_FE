@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dropdown_date_picker/dropdown_date_picker.dart' as ddp;
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-import '../loginPage.dart';
 import '../../Provider/user-info.dart';
 import '../../Widget/registeredBody.dart';
 import '../../Widget/registerError.dart';
@@ -27,7 +25,6 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
 
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     if (!_init) {
       errorDescribe = '';
       _init = !_init;
@@ -58,24 +55,6 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
 
   Map<String, dynamic> registerData = {};
 
-  // Doctor Prefix List
-  // AuD - Doctor of Audiology
-  // DC - Doctor of Chiropractic
-  // DDS - Doctor of Dental Surgery, Doctor of Dental Science
-  // DMD - Doctor of Dental Medicine, Doctor of Medical Dentistry
-  // DO or OD - Doctor of Optometry, Doctor of Osteopathic Medicine
-  // DPM - Doctor of Podiatric Medicine
-  // DPT - Doctor of Physical Therapy
-  // DScPT - Doctor of Science in Physical Therapy
-  // DSN - Doctor of Science in Nursing
-  // DVM - Doctor of Veterinary Medicine
-  // ENT - Ear, nose and throat specialist
-  // GP - General Practitioner
-  // GYN - Gynecologist
-  // MD - Doctor of Medicine
-  // MS - Master of Surgery
-  // OB/GYN - Obstetrician and Gynecologist
-  // PharmD - Doctor of Pharmacy
   final prefixList = [
     'AuD',
     'DC',
@@ -107,7 +86,6 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
     citizenIdTxtCtrl.dispose();
     medIdTxtCtrl.dispose();
     certIdTxtCtrl.dispose();
-    // TODO: implement dispose
     super.dispose();
   }
 
@@ -333,9 +311,7 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
                                         if (value == null || value.isEmpty) {
                                           return 'This field must not empty';
                                         }
-                                        if (!RegExp(
-                                                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                            .hasMatch(value)) {
+                                        if (!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(value)) {
                                           return 'Mail is not valid';
                                         }
                                         if (value.length > 50) {
@@ -346,12 +322,6 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
                                       onChanged: (_) {
                                         email = emailTxtCtrl.text;
                                       },
-                                      // onEditingComplete: () {
-                                      //   FocusScope.of(context).nextFocus();
-                                      // },
-                                      // onFieldSubmitted: (value) {
-                                      //   email = value;
-                                      // },
                                     ),
                                   ),
                                   SizedBox(
@@ -371,12 +341,6 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
                                       onChanged: (_) {
                                         password = passwordTxtCtrl.text;
                                       },
-                                      // onEditingComplete: () {
-                                      //   FocusScope.of(context).nextFocus();
-                                      // },
-                                      // onFieldSubmitted: (value) {
-                                      //   // password = value;
-                                      // },
                                     ),
                                   ),
                                   SizedBox(
@@ -401,11 +365,6 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
                                       onChanged: (_) {
                                         cfPassword = cfPasswordTxtCtrl.text;
                                       },
-                                      // onEditingComplete: () {
-                                      //   FocusScope.of(context).nextFocus();
-                                      // }
-                                      // onFieldSubmitted: (value) =>
-                                      //     cfPassword = value,
                                     ),
                                   ),
                                   SizedBox(
@@ -428,9 +387,7 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
                                               prefix = newValue;
                                             });
                                           },
-                                          items: prefixList
-                                              .map<DropdownMenuItem<String>>(
-                                                  (String value) {
+                                          items: prefixList.map<DropdownMenuItem<String>>((String value) {
                                             return DropdownMenuItem<String>(
                                               value: value,
                                               child: Text(
@@ -458,11 +415,6 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
                                       onChanged: (_) {
                                         fname = fnameTxtCtrl.text;
                                       },
-                                      // onEditingComplete: () {
-                                      //   FocusScope.of(context).nextFocus();
-                                      // }
-                                      // onFieldSubmitted: (value) =>
-                                      //     fname = value,
                                     ),
                                   ),
                                   SizedBox(
@@ -481,11 +433,6 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
                                       onChanged: (_) {
                                         sname = snameTxtCtrl.text;
                                       },
-                                      // onEditingComplete: () {
-                                      //   FocusScope.of(context).nextFocus();
-                                      // }
-                                      // onFieldSubmitted: (value) =>
-                                      //     sname = value,
                                     ),
                                   ),
                                   SizedBox(
@@ -512,8 +459,7 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
                                         Text(
                                           'Gender',
                                           style: TextStyle(
-                                              color: Color.fromARGB(
-                                                  255, 81, 81, 81),
+                                              color: Color.fromARGB(255, 81, 81, 81),
                                               fontSize: 16),
                                         ),
                                         Expanded(child: Container()),
@@ -546,11 +492,6 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
                                       onChanged: (_) {
                                         citizenID = citizenIdTxtCtrl.text;
                                       },
-                                      // onEditingComplete: () {
-                                      //   FocusScope.of(context).nextFocus();
-                                      // }
-                                      // onFieldSubmitted: (value) =>
-                                      //     citizenID = value,
                                     ),
                                   ),
                                   SizedBox(
@@ -573,11 +514,6 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
                                       onChanged: (_) {                          
                                         medID = medIdTxtCtrl.text;
                                       },
-                                      // onEditingComplete: () {
-                                      //   FocusScope.of(context).nextFocus();
-                                      // }
-                                      // onFieldSubmitted: (value) =>
-                                      //     medID = value,
                                     ),
                                   ),
                                   SizedBox(
@@ -600,11 +536,6 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
                                       onChanged: (_) {
                                         certID = certIdTxtCtrl.text;
                                       },
-                                      // onEditingComplete: () {
-                                      //   FocusScope.of(context).nextFocus();
-                                      // }
-                                      // onFieldSubmitted: (value) =>
-                                      //     certID = value,
                                     ),
                                   ),
                                   SizedBox(
@@ -612,9 +543,7 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
                                   ),
                                   ElevatedButton(
                                     onPressed: () async {
-                                      // print('password: $password');
                                       if (_formKey.currentState.validate()) {
-                                        print(email);
                                         setState(() {
                                           _isRegistering = true;
                                         });
@@ -634,7 +563,6 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
                                           'citizenID': citizenID,
                                           'MDID': medID,
                                           'certID': certID,
-                                          // 'isApproved': false,
                                         });
                                         await regisSocketConnect({
                                           'token': '',
@@ -646,87 +574,39 @@ class _RegisterDoctorScreenState extends State<RegisterDoctorScreen> {
                                             'payload': registerData
                                           }
                                         ]);
-                                        await for (dynamic data
-                                            in regisSocket.on('r-register')) {
-                                          print(
-                                              'On r-register: ${data[0]['value']['payload']['message']}');
-                                          // something  more
+                                        await for (dynamic data in regisSocket.on('r-register')) {
                                           if (data != null) {
                                             setState(() {
                                               _isRegistered = true;
                                             });
-                                            if (data[0]['value']['payload']
-                                                    ['message'] ==
-                                                'Register success') {
+                                            if (data[0]['value']['payload']['message'] == 'Register success') {
                                               setState(() {
                                                 _isRegisterSuccess = true;
                                               });
                                             } else {
                                               setState(() {
-                                                errorDescribe = data[0]['value']
-                                                    ['payload']['message'];
+                                                errorDescribe = data[0]['value']['payload']['message'];
                                               });
                                             }
                                           }
                                         }
                                         await regisSocketDisconnect();
-
-                                        // socketConnect(token).then((_) async {
-                                        // await socketIO.emit('event', [
-                                        //   {
-                                        //     'transaction': 'register',
-                                        //     'payload': registerData
-                                        //   }
-                                        // ]);
-                                        //   socketIO
-                                        //       .on('r-register')
-                                        //       .listen((data) {
-                                        //     // print('On r-register: $data');
-                                        //     print(
-                                        //         'On r-register: ${data[0]['value']['payload']['message']}');
-                                        //     // something  more
-                                        //     if (data != null) {
-                                        //       setState(() {
-                                        //         _isRegistered = true;
-                                        //       });
-                                        //       if (data[0]['value']['payload']
-                                        //               ['message'] ==
-                                        //           'Register success') {
-                                        //         setState(() {
-                                        //           _isRegisterSuccess = true;
-                                        //         });
-                                        //       } else {
-                                        //         setState(() {
-                                        //           errorDescribe = data[0]
-                                        //                   ['value']['payload']
-                                        //               ['message'];
-                                        //         });
-                                        //       }
-                                        //     }
-                                        //   });
-                                        // });
                                       }
                                     },
                                     style: ElevatedButton.styleFrom(
                                       primary: Theme.of(context).primaryColor,
                                       padding: EdgeInsets.all(5),
-                                      shape: new RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(20)),
+                                      shape: new RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                                       elevation: 0,
                                     ),
                                     child: Container(
                                       height: 30,
                                       width: 120,
                                       alignment: Alignment.center,
-                                      child: Text(
-                                        'Submit',
-                                      ),
+                                      child: Text('Submit'),
                                     ),
                                   ),
-                                  SizedBox(
-                                    height: 40,
-                                  ),
+                                  SizedBox(height: 40),
                                 ],
                               ),
                             ),

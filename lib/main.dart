@@ -11,11 +11,7 @@ import './Provider/symptomAssessment.dart';
 import './Provider/assessmentHistory.dart';
 import './Provider/patientInfo.dart';
 
-// 12123-12121
-// KMUTT-MD2564-99
-
-FlutterLocalNotificationsPlugin notificationsPlugin =
-    FlutterLocalNotificationsPlugin();
+FlutterLocalNotificationsPlugin notificationsPlugin = FlutterLocalNotificationsPlugin();
 
  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -51,7 +47,6 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
-        // key: scaffoldKey,
         debugShowCheckedModeBanner: false,
         title: 'IMAS',
         theme: ThemeData(
@@ -60,7 +55,6 @@ class MyApp extends StatelessWidget {
           primaryColorLight: Color.fromARGB(255, 133, 255, 226),
           accentColor: Color.fromARGB(255, 77, 159, 206),
         ),
-        // home: HomePage(),
         color: Color.fromARGB(255, 255, 255, 255),
         initialRoute: Routes.initPageRoute(),
         routes: Routes.routes(),

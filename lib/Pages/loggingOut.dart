@@ -12,7 +12,6 @@ class LoggingOut extends StatelessWidget {
     if (userInfo.role == Role.UnAuthen) {
       Future.delayed(Duration.zero, () {
         Navigator.of(context).popUntil(ModalRoute.withName('/'));
-        // Navigator.of(context).pushReplacementNamed(LogInPage.routeName);
         Navigator.of(context).pushNamed(LogInPage.routeName);
       });
     }
@@ -26,13 +25,10 @@ class LoggingOut extends StatelessWidget {
               width: 80,
               child: CircularProgressIndicator(
                 strokeWidth: 8.0,
-                valueColor: new AlwaysStoppedAnimation<Color>(
-                    Theme.of(context).primaryColor),
+                valueColor: new AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),
               ),
             ),
-            SizedBox(
-              height: 20,
-            ),
+            SizedBox(height: 20),
             Text(
               'Logging out...',
               style: TextStyle(

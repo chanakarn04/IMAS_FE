@@ -9,25 +9,14 @@ import '../Provider/user-info.dart';
 import '../Pages/PatientInfoPage.dart';
 import '../Pages/caseMangementPage.dart';
 import '../Widget/WaitChatroomCreating.dart';
-// import '../Script/socketioScript.dart';
 
 class ChatRoom extends StatelessWidget {
   static const routeName = '/CharRoom';
-
-  String _getOpUserName(
-    String opUserId,
-  ) {
-    // request for opposite user name
-    final String opUserName = 'Name Surname';
-    return opUserName;
-  }
 
   @override
   Widget build(BuildContext context) {
     final userInfo = Provider.of<UserInfo>(context);
     final chatProvider = Provider.of<ChatRoomProvider>(context);
-
-    // final String opName = _getOpUserName(chatProvider.opUserId);
 
     Widget _popUpMenu() {
       return PopupMenuButton(
@@ -54,8 +43,6 @@ class ChatRoom extends StatelessWidget {
                 'pid': chatProvider.pid,
                 'pName': chatProvider.opName,
               },
-              // BUG
-              // BUGarguments: chatProvider.opUserId,
             );
           } else {
             Navigator.of(context).pushNamed(
@@ -87,9 +74,7 @@ class ChatRoom extends StatelessWidget {
     }
 
     final appBar = AppBar(
-      iconTheme: IconThemeData(
-        color: Theme.of(context).primaryColor,
-      ),
+      iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
       backgroundColor: Colors.white,
       leading: IconButton(
           icon: Icon(Icons.arrow_back_ios_rounded),
@@ -110,11 +95,15 @@ class ChatRoom extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(
-            width: 20,
+          SizedBox(width: 20),
+          Expanded(
+            child: Text(
+              chatProvider.opName,
+              maxLines: 1,
+              overflow: TextOverflow.fade,
+            ),
           ),
-          Text(chatProvider.opName),
-          // Text('Doctor tester'),
+          SizedBox(width: 20),
         ],
       ),
       actions: (userInfo.role == Role.Doctor)

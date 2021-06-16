@@ -29,7 +29,6 @@ class _AppointmentPatientPageState extends State<AppointmentPatientPage> {
   }
 
   Widget _buildNoapt(BuildContext context) {
-    // final vitalSign = Provider.of<VitalSignProvider>(context);
     return Column(
       children: [
         Expanded(
@@ -45,9 +44,7 @@ class _AppointmentPatientPageState extends State<AppointmentPatientPage> {
           ),
         ),
         InkWell(
-          onTap: () {
-            Navigator.of(context).pushReplacementNamed(HomePage.routeName);
-          },
+          onTap: () => Navigator.of(context).pushReplacementNamed(HomePage.routeName),
           child: Container(
             height: 50,
             width: 150,
@@ -65,9 +62,7 @@ class _AppointmentPatientPageState extends State<AppointmentPatientPage> {
             ),
           ),
         ),
-        SizedBox(
-          height: 15,
-        ),
+        SizedBox(height: 15),
       ],
     );
   }
@@ -77,19 +72,9 @@ class _AppointmentPatientPageState extends State<AppointmentPatientPage> {
     final userInfo = Provider.of<UserInfo>(context);
     final chatroom = Provider.of<ChatRoomProvider>(context);
     apt = userInfo.lastApt;
-    print(apt);
-    // print(
-    //     '=====================> ${DateTime.now().difference(apt['aptDate']).inMinutes}');
-    //     '=====================> ${apt['aptDate'].difference(DateTime.now()).inMinutes}');
-    // final userInfo = Provider.of<UserInfo>(context);
-    // final Map data = _loadData(
-    //     // userInfo.userId
-    //     );
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(
-          color: Theme.of(context).primaryColor,
-        ),
+        iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
         backgroundColor: Colors.white,
         leading: IconButton(
             icon: Icon(Icons.arrow_back_ios_rounded),
@@ -151,9 +136,7 @@ class _AppointmentPatientPageState extends State<AppointmentPatientPage> {
                                 ),
                               ),
                             ),
-                            SizedBox(
-                              height: 5,
-                            ),
+                            SizedBox(height: 5),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
@@ -176,21 +159,18 @@ class _AppointmentPatientPageState extends State<AppointmentPatientPage> {
                                 ),
                               ],
                             ),
-                            SizedBox(
-                              height: 15,
-                            ),
+                            SizedBox(height: 15),
                           ],
                         ),
                       ),
                     ),
                     Container(
                       child: ((DateTime.parse(apt['aptDate'].toString()).difference(DateTime.now()).inMinutes - 390 >= 0) &&
-                                                (DateTime.parse(apt['aptDate'].toString()).difference(DateTime.now()).inMinutes - 390 <= 30))
+                              (DateTime.parse(apt['aptDate'].toString()).difference(DateTime.now()).inMinutes - 390 <= 30))
                           ? (chatroom.chatRoomRegis)
                               ? InkWell(
                                   onTap: () {
-                                    Navigator.of(context)
-                                        .popAndPushNamed(ChatRoom.routeName);
+                                    Navigator.of(context).popAndPushNamed(ChatRoom.routeName);
                                   },
                                   child: Container(
                                     height: 50,
@@ -211,20 +191,14 @@ class _AppointmentPatientPageState extends State<AppointmentPatientPage> {
                                 )
                               : Text(
                                   'Doctor has not open chat yet.',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                  ),
+                                  style: TextStyle(color: Colors.white),
                                 )
                           : Text(
                               'It not the appointment time yet.',
-                              style: TextStyle(
-                                color: Colors.white,
-                              ),
+                              style: TextStyle(color: Colors.white),
                             ),
                     ),
-                    SizedBox(
-                      height: 15,
-                    ),
+                    SizedBox(height: 15),
                   ],
                 )
               : _buildNoapt(context),

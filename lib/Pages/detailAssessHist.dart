@@ -1,10 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
-import 'package:carousel_slider/utils.dart';
 
-import '../Provider/assessmentHistory.dart';
 import '../Models/model.dart';
 import '../Widget/SuggestionCardContent.dart';
 import '../Widget/carouselDotIndicator.dart';
@@ -93,34 +90,16 @@ class _DetailAssessmentHistoryState extends State<DetailAssessmentHistory> {
 
   @override
   Widget build(BuildContext context) {
-    final assessmentHistoryProvider =
-        Provider.of<AssessmentHistoryProvider>(context);
     Map<String, dynamic> item = ModalRoute.of(context).settings.arguments;
-    print('====>>> item: $item');
     if (item['apts'][0]['pat_symptom'] != null) {
-      item['apts'][0]['pat_symptom'] =
-          item['apts'][0]['pat_symptom'].toSet().toList();
+      item['apts'][0]['pat_symptom'] = item['apts'][0]['pat_symptom'].toSet().toList();
     }
     List<Map<String, dynamic>> temp_apts = List<Map<String, dynamic>>.from(item['apts']);
     temp_apts.removeWhere((element) => (element['date'].difference(DateTime.now()).inDays > 0));
     item['apts'] = temp_apts;
 
-    // test
-    // final test_item = [
-    //   {
-    //     'symp': ['symptom1'],
-    //     'cond': ['disease1'],
-    //   },
-    //   {
-    //     'symp': ['symptom2'],
-    //     'cond': ['disease2'],
-    //   },
-    // ];
-
     final appBar = AppBar(
-      iconTheme: IconThemeData(
-        color: Theme.of(context).primaryColor,
-      ),
+      iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
       backgroundColor: Theme.of(context).primaryColor,
       leading: IconButton(
           icon: Icon(
@@ -131,9 +110,7 @@ class _DetailAssessmentHistoryState extends State<DetailAssessmentHistory> {
       title: Container(
         child: Text(
           'Assessment history',
-          style: TextStyle(
-            color: Colors.white,
-          ),
+          style: TextStyle(color: Colors.white),
         ),
       ),
       actions: <Widget>[
@@ -148,8 +125,7 @@ class _DetailAssessmentHistoryState extends State<DetailAssessmentHistory> {
     );
     return Scaffold(
       appBar: appBar,
-      body: Container(
-        // color: Colors.teal[100],
+      body: Padding(
         padding: EdgeInsets.only(
           top: 15,
           left: 10,
@@ -176,9 +152,7 @@ class _DetailAssessmentHistoryState extends State<DetailAssessmentHistory> {
                           color: Colors.black,
                         ),
                       ),
-                      SizedBox(
-                        height: 5,
-                      ),
+                      SizedBox(height: 5),
                       Text(
                         DateFormat.yMMMd().add_jm().format(item['date']),
                         style: TextStyle(
@@ -193,28 +167,20 @@ class _DetailAssessmentHistoryState extends State<DetailAssessmentHistory> {
                 ],
               ),
             ),
-            SizedBox(
-              height: 5,
-            ),
+            SizedBox(height: 5),
             Expanded(
               child: Stack(
                 children: [
                   Positioned.fill(
                     child: Container(
-                      // color: Colors.amber,
-                      // alignment: Alignment.bottomCenter,
                       child: CarouselSlider.builder(
                         itemCount: item['apts'].length,
-                        // itemCount: test_item.length,
                         itemBuilder: (context, index, _) {
-                          // print('length: ${item['apts'].length}');
                           List diseaseList;
                           List symptomList;
                           List prescriptionList;
                           if (item['apts'][index]['pat_condition'] != null) {
-                            diseaseList = item['apts'][index]['pat_condition']
-                                .values
-                                .toList();
+                            diseaseList = item['apts'][index]['pat_condition'].values.toList();
                           } else {
                             diseaseList = [];
                           }
@@ -224,8 +190,7 @@ class _DetailAssessmentHistoryState extends State<DetailAssessmentHistory> {
                             symptomList = [];
                           }
                           if (item['apts'][index]['prescription'] != null) {
-                            prescriptionList =
-                                item['apts'][index]['prescription'];
+                            prescriptionList = item['apts'][index]['prescription'];
                           } else {
                             prescriptionList = [];
                           }
@@ -240,8 +205,7 @@ class _DetailAssessmentHistoryState extends State<DetailAssessmentHistory> {
                                     color: Colors.grey.withOpacity(0.5),
                                     spreadRadius: 5,
                                     blurRadius: 7,
-                                    offset: Offset(
-                                        0, 3), // changes position of shadow
+                                    offset: Offset(0, 3),
                                   ),
                                 ],
                                 borderRadius: BorderRadius.circular(30),
@@ -249,30 +213,23 @@ class _DetailAssessmentHistoryState extends State<DetailAssessmentHistory> {
                               ),
                               child: (item['tpStatus'] == TreatmentStatus.Api)
                                   ? SuggestionCardContent(
-                                      conditions:
-                                          List<String>.from(diseaseList),
+                                      conditions: List<String>.from(diseaseList),
                                       symptoms: List<String>.from(symptomList),
-                                      // conditions: test_item[index]['cond'],
-                                      // symptoms: test_item[index]['symp'],
                                     )
                                   : SuggestionCardContent(
-                                      appointmentIndex:
-                                          item['apts'].length - index,
+                                      appointmentIndex: item['apts'].length - index,
                                       apdt: item['date'],
                                       tpStatus: item['tpStatus'],
-                                      conditions:
-                                          List<String>.from(diseaseList),
+                                      conditions: List<String>.from(diseaseList),
                                       symptoms: List<String>.from(symptomList),
-                                      prescriptions:
-                                          List<String>.from(prescriptionList),
+                                      prescriptions: List<String>.from(prescriptionList),
                                       suggestion: item['apts'][index]['advice'],
                                     ));
                         },
                         options: CarouselOptions(
                           height: MediaQuery.of(context).size.height -
                               appBar.preferredSize.height -
-                              MediaQuery.of(context).padding.top -
-                              130,
+                              MediaQuery.of(context).padding.top - 130,
                           enlargeCenterPage: true,
                           initialPage: carouselIndex,
                           enableInfiniteScroll: false,
@@ -287,7 +244,6 @@ class _DetailAssessmentHistoryState extends State<DetailAssessmentHistory> {
                   ),
                   if (item['apts'].length > 1)
                     Positioned(
-                      // top: 0,
                       bottom: 30,
                       right: 0,
                       left: 0,
@@ -295,7 +251,6 @@ class _DetailAssessmentHistoryState extends State<DetailAssessmentHistory> {
                         alignment: Alignment.center,
                         child: CarouselDotIndicator(
                           length: item['apts'].length,
-                          // length: test_item.length,
                           ctrlIndex: carouselIndex,
                           selectedColor: Theme.of(context).primaryColor,
                           unSelectedColor: Colors.grey,
@@ -305,119 +260,6 @@ class _DetailAssessmentHistoryState extends State<DetailAssessmentHistory> {
                 ],
               ),
             ),
-            // Expanded(
-            // child: Container(
-            //   decoration: BoxDecoration(
-            //     boxShadow: [
-            //       BoxShadow(
-            //         color: Colors.grey.withOpacity(0.5),
-            //         spreadRadius: 5,
-            //         blurRadius: 7,
-            //         offset: Offset(0, 3), // changes position of shadow
-            //       ),
-            //     ],
-            //     borderRadius: BorderRadius.only(
-            //       topLeft: Radius.circular(30),
-            //       topRight: Radius.circular(30),
-            //     ),
-            //     color: Colors.white,
-            //   ),
-            //   child: Container(
-            //     padding: EdgeInsets.symmetric(
-            //       vertical: 25,
-            //       horizontal: 30,
-            //     ),
-            //     child: Column(
-            //       children: [
-            //         Align(
-            //           alignment: Alignment.centerLeft,
-            //           child: Text(
-            //             'Diseases',
-            //             style: TextStyle(
-            //               fontSize: 24,
-            //               color: Theme.of(context).primaryColor,
-            //             ),
-            //           ),
-            //         ),
-            //         Container(
-            //           height:
-            //               (28.0 * item['apts'][0]['pat_condition'].length) +
-            //                   15,
-            //           padding: EdgeInsets.only(
-            //             left: 20,
-            //             top: 10,
-            //             bottom: 5,
-            //           ),
-            //           child: ListView.builder(
-            //             itemBuilder: (context, index) {
-            //               final _diseaseList = item['apts'][0]
-            //                       ['pat_condition']
-            //                   .values
-            //                   .toList();
-            //               return Container(
-            //                 alignment: Alignment.centerLeft,
-            //                 margin: EdgeInsets.symmetric(vertical: 1.5),
-            //                 // color: Colors.teal[100],
-            //                 child: Text(
-            //                   '${_diseaseList[index]}',
-            //                   maxLines: 1,
-            //                   overflow: TextOverflow.fade,
-            //                   softWrap: false,
-            //                   style: TextStyle(fontSize: 18),
-            //                 ),
-            //               );
-            //             },
-            //             itemCount: item['apts'][0]['pat_condition'].length,
-            //           ),
-            //         ),
-            //         SizedBox(
-            //           height: 10,
-            //         ),
-            //         Container(
-            //           height: 1,
-            //           color: Colors.grey,
-            //         ),
-            //         SizedBox(
-            //           height: 10,
-            //         ),
-            //         Align(
-            //           alignment: Alignment.centerLeft,
-            //           child: Text(
-            //             'Symptoms',
-            //             style: TextStyle(
-            //               fontSize: 24,
-            //               color: Theme.of(context).primaryColor,
-            //             ),
-            //           ),
-            //         ),
-            //         Container(
-            //           height:
-            //               (28.0 * item['apts'][0]['pat_symptom'].length) + 15,
-            //           padding: EdgeInsets.only(
-            //             left: 20,
-            //             top: 10,
-            //             bottom: 5,
-            //           ),
-            //           child: ListView.builder(
-            //             itemBuilder: (context, index) {
-            //               return Container(
-            //                 margin: EdgeInsets.symmetric(vertical: 1.5),
-            //                 alignment: Alignment.centerLeft,
-            //                 // color: Colors.teal[100],
-            //                 child: Text(
-            //                   '${item['apts'][0]['pat_symptom'][index]}',
-            //                   style: TextStyle(fontSize: 18),
-            //                 ),
-            //               );
-            //             },
-            //             itemCount: item['apts'][0]['pat_symptom'].length,
-            //           ),
-            //         ),
-            //       ],
-            //     ),
-            //   ),
-            // ),
-            // ),
           ],
         ),
       ),

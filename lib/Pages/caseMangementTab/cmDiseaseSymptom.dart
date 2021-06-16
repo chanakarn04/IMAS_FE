@@ -15,11 +15,9 @@ class _CMDiseaseSymptomTabState extends State<CMDiseaseSymptomTab> {
   Widget build(BuildContext context) {
     final cmInfo = Provider.of<CMinfoProvider>(context);
 
-    return Container(
+    return Padding(
       padding: EdgeInsets.only(
         top: MediaQuery.of(context).padding.top + 15,
-        // left: 20,
-        // bottom: 20,
       ),
       child: Column(
         children: [
@@ -45,7 +43,6 @@ class _CMDiseaseSymptomTabState extends State<CMDiseaseSymptomTab> {
               child: CaseManagementListConditionBox(
                 title: 'Disease',
                 description: 'Detected diseases',
-                // items: cmInfo.conditions,
               ),
             ),
           ),

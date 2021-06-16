@@ -80,10 +80,8 @@ class _RegisterPatient2ScreenState extends State<RegisterPatient2Screen> {
           padding: EdgeInsets.all(5),
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            // color: Colors.white,
             border: Border.all(
               width: 2,
-              // color: Theme.of(context).primaryColor,
               color: Colors.grey,
             ),
           ),
@@ -92,9 +90,7 @@ class _RegisterPatient2ScreenState extends State<RegisterPatient2Screen> {
             text,
             textAlign: TextAlign.center,
             style: TextStyle(
-              // color: Theme.of(context).primaryColor,
               color: Colors.grey,
-              // fontWeight: FontWeight.bold,
               fontSize: 16,
             ),
           ),
@@ -229,9 +225,7 @@ class _RegisterPatient2ScreenState extends State<RegisterPatient2Screen> {
                 },
               ),
             ),
-            SizedBox(
-              height: 5,
-            ),
+            SizedBox(height: 5),
             Container(
               padding: EdgeInsets.only(left: 25),
               alignment: Alignment.centerLeft,
@@ -253,9 +247,7 @@ class _RegisterPatient2ScreenState extends State<RegisterPatient2Screen> {
                 ),
               ),
             ),
-            SizedBox(
-              height: 10,
-            ),
+            SizedBox(height: 10),
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
@@ -274,9 +266,7 @@ class _RegisterPatient2ScreenState extends State<RegisterPatient2Screen> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    SizedBox(
-                      height: 20,
-                    ),
+                    SizedBox(height: 20),
                     buildSelectionRow('Do you have high blood pressure?', 0),
                     SizedBox(
                       height: 35,
@@ -301,28 +291,22 @@ class _RegisterPatient2ScreenState extends State<RegisterPatient2Screen> {
                           'isDiabetes': statusTranslate(isDiabetes),
                           'hasHighPress': statusTranslate(hasHighPress),
                         });
-                        Navigator.of(context)
-                            .pushNamed(RegisterPatient3Screen.routeName, arguments: registerData);
+                        Navigator.of(context).pushNamed(RegisterPatient3Screen.routeName, arguments: registerData);
                       },
                       style: ElevatedButton.styleFrom(
                         primary: Theme.of(context).primaryColor,
                         padding: EdgeInsets.all(5),
-                        shape: new RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20)),
+                        shape: new RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                         elevation: 0,
                       ),
                       child: Container(
                         height: 30,
                         width: 120,
                         alignment: Alignment.center,
-                        child: Text(
-                          'Next',
-                        ),
+                        child: Text('Next'),
                       ),
                     ),
-                    SizedBox(
-                      height: 20,
-                    ),
+                    SizedBox(height: 20),
                   ],
                 ),
               ),

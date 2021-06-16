@@ -38,12 +38,14 @@ class _VSRespiratoryRatePageState extends State<VSRespiratoryRatePage> {
     return Container(
       constraints:
           BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.9),
-      child: Text(header,
-          style: TextStyle(
-            fontSize: 38,
-            fontWeight: FontWeight.bold,
-          ),
-          overflow: TextOverflow.clip),
+      child: Text(
+        header,
+        style: TextStyle(
+          fontSize: 38,
+          fontWeight: FontWeight.bold,
+        ),
+        overflow: TextOverflow.clip,
+      ),
     );
   }
 
@@ -71,8 +73,6 @@ class _VSRespiratoryRatePageState extends State<VSRespiratoryRatePage> {
 
   @override
   Widget build(BuildContext context) {
-    // final routeArgument =
-    //     ModalRoute.of(context).settings.arguments as Map<String, Object>;
     final vitalSign = Provider.of<VitalSignProvider>(context);
     final appBar = AppBar(
       centerTitle: true,
@@ -80,9 +80,6 @@ class _VSRespiratoryRatePageState extends State<VSRespiratoryRatePage> {
         color: Theme.of(context).primaryColor,
       ),
       backgroundColor: Colors.white,
-      // leading: IconButton(
-      //     icon: Icon(Icons.arrow_back_ios_rounded),
-      //     onPressed: () => Navigator.of(context).pop()),
       title: Container(
         alignment: Alignment.center,
         child: Text('IMAS'),
@@ -108,8 +105,7 @@ class _VSRespiratoryRatePageState extends State<VSRespiratoryRatePage> {
               Container(
                 height: (MediaQuery.of(context).size.height -
                         appBar.preferredSize.height -
-                        MediaQuery.of(context).padding.top) *
-                    0.6,
+                        MediaQuery.of(context).padding.top) * 0.6,
                 padding: EdgeInsets.only(
                   top: 120,
                   left: 15,
@@ -121,19 +117,15 @@ class _VSRespiratoryRatePageState extends State<VSRespiratoryRatePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     _headerBuilder(context, 'Respiratory rate'),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    _descriptionBuilder(
-                        context, 'Count how many time you breath in 60 seconds'),
+                    SizedBox(height: 20),
+                    _descriptionBuilder(context, 'Count how many time you breath in 60 seconds'),
                   ],
                 ),
               ),
               Container(
                 height: (MediaQuery.of(context).size.height -
                         appBar.preferredSize.height -
-                        MediaQuery.of(context).padding.top) *
-                    0.4,
+                        MediaQuery.of(context).padding.top) * 0.4,
                 padding: EdgeInsets.only(
                   top: 15,
                   left: 15,
@@ -153,11 +145,8 @@ class _VSRespiratoryRatePageState extends State<VSRespiratoryRatePage> {
                             textController: textController,
                           ),
                         ),
-                        SizedBox(
-                          width: 3,
-                        ),
+                        SizedBox(height: 3),
                         Column(
-                          // mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             Text(
                               'BPM',
@@ -170,18 +159,13 @@ class _VSRespiratoryRatePageState extends State<VSRespiratoryRatePage> {
                             Text(
                               '(Breath Per Minute)',
                               textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 9,
-                                // fontWeight: FontWeight.bold,
-                              ),
+                              style: TextStyle(fontSize: 9),
                             ),
                           ],
                         ),
                       ],
                     ),
-                    SizedBox(
-                      height: 15,
-                    ),
+                    SizedBox(height: 15),
                     Align(
                       alignment: Alignment.center,
                       child: ProgressDot(
@@ -189,9 +173,7 @@ class _VSRespiratoryRatePageState extends State<VSRespiratoryRatePage> {
                         markedIndex: 3,
                       ),
                     ),
-                    SizedBox(
-                      height: 15,
-                    ),
+                    SizedBox(height: 15),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -201,31 +183,19 @@ class _VSRespiratoryRatePageState extends State<VSRespiratoryRatePage> {
                           width: 125,
                           handlerFn: () {
                             vitalSign.breath = null;
-                            Navigator.of(context).pushNamed(
-                              VSBloodPressurePage.routeName,
-                            );
-                            // routeArgument['breath'] = null;
-                            // Navigator.of(context).pushNamed(
-                            //     VSBloodPressurePage.routeName,
-                            //     arguments: routeArgument);
+                            Navigator.of(context).pushNamed(VSBloodPressurePage.routeName);
                           },
                         ),
-                        SizedBox(
-                          width: 15,
-                        ),
+                        SizedBox(width: 15),
                         AdaptiveRaisedButton(
                           buttonText: 'Next',
                           height: 35,
                           width: 125,
                           handlerFn:
-                              (double.tryParse(textController.text) != null) &&
-                                      (textController.text.isNotEmpty)
+                              (double.tryParse(textController.text) != null) &&(textController.text.isNotEmpty)
                                   ? (() {
-                                      vitalSign.breath =
-                                          double.parse(textController.text);
-                                      Navigator.of(context).pushNamed(
-                                        VSBloodPressurePage.routeName,
-                                      );
+                                      vitalSign.breath = double.parse(textController.text);
+                                      Navigator.of(context).pushNamed(VSBloodPressurePage.routeName,);
                                     })
                                   : null,
                         ),
@@ -237,16 +207,6 @@ class _VSRespiratoryRatePageState extends State<VSRespiratoryRatePage> {
             ],
           ),
         ),
-
-        // Center(
-        //   // color: Colors.white,
-        //   child: Column(
-        //     children: [
-        //       Text('Respiratory'),
-
-        //     ],
-        //   ),
-        // ),
       ),
     );
   }

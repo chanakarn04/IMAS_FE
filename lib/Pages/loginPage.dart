@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:homepage_proto/Script/socketioScript.dart';
 import 'package:provider/provider.dart';
 
 import '../Pages/homePages.dart';
@@ -23,12 +22,9 @@ class _LogInPageState extends State<LogInPage> {
     final userInfo = Provider.of<UserInfo>(context);
     final chatroom = Provider.of<ChatRoomProvider>(context);
     if (userInfo.role != Role.UnAuthen) {
-      // prevent animation for prevent state/listener problem
-      Future.delayed(Duration.zero, () {
-        Navigator.of(context).pushReplacementNamed(
-          HomePage.routeName,
-        );
-      });
+      Future.delayed(Duration.zero, () =>
+        Navigator.of(context).pushReplacementNamed(HomePage.routeName),
+      );
     }
     return Scaffold(
       body: SingleChildScrollView(
@@ -41,7 +37,6 @@ class _LogInPageState extends State<LogInPage> {
           ),
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
-          // color: Colors.amber,
           child: (!userInfo.loginError && userInfo.loginIn)
               ? Center(
                   child: Column(
@@ -52,13 +47,10 @@ class _LogInPageState extends State<LogInPage> {
                         width: 80,
                         child: CircularProgressIndicator(
                           strokeWidth: 8.0,
-                          valueColor: new AlwaysStoppedAnimation<Color>(
-                              Theme.of(context).primaryColor),
+                          valueColor: new AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor)
                         ),
                       ),
-                      SizedBox(
-                        height: 20,
-                      ),
+                      SizedBox(height: 20),
                       Text(
                         'Logging in...',
                         style: TextStyle(
@@ -70,7 +62,6 @@ class _LogInPageState extends State<LogInPage> {
                   ),
                 )
               : Container(
-                  // color: Colors.amberAccent,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
@@ -82,22 +73,16 @@ class _LogInPageState extends State<LogInPage> {
                         alignment: Alignment.centerLeft,
                         child: Text(
                           'Welcome',
-                          style: TextStyle(
-                            fontSize: 32,
-                          ),
+                          style: TextStyle(fontSize: 32),
                         ),
                       ),
                       Row(
                         children: [
                           Text(
                             'Intelligent ',
-                            style: TextStyle(
-                              color: Theme.of(context).primaryColor,
-                            ),
+                            style: TextStyle(color: Theme.of(context).primaryColor),
                           ),
-                          Text(
-                            'Medical Assisstant System',
-                          ),
+                          Text('Medical Assisstant System'),
                         ],
                       ),
                       Container(
@@ -106,9 +91,7 @@ class _LogInPageState extends State<LogInPage> {
                         decoration: BoxDecoration(
                           image: DecorationImage(
                             fit: BoxFit.contain,
-                            image: AssetImage(
-                              'assets/images/loginImage.png',
-                            ),
+                            image: AssetImage('assets/images/loginImage.png'),
                           ),
                         ),
                       ),
@@ -125,13 +108,10 @@ class _LogInPageState extends State<LogInPage> {
                                 : null,
                           ),
                           controller: usrnTextController,
-                          onEditingComplete: () =>
-                              FocusScope.of(context).nextFocus(),
+                          onEditingComplete: () => FocusScope.of(context).nextFocus(),
                         ),
                       ),
-                      SizedBox(
-                        height: 10,
-                      ),
+                      SizedBox(height: 10),
                       Container(
                         child: TextField(
                           decoration: InputDecoration(
@@ -143,9 +123,7 @@ class _LogInPageState extends State<LogInPage> {
                           obscureText: true,
                         ),
                       ),
-                      SizedBox(
-                        height: 20,
-                      ),
+                      SizedBox(height: 20),
                       ElevatedButton(
                         onPressed: () async {
                           if (usrnTextController.text.isNotEmpty &&
@@ -154,15 +132,12 @@ class _LogInPageState extends State<LogInPage> {
                               userInfo.loginIn = true;
                               userInfo.loginError = false;
                             });
-                            // print(_isLogin);
                             await userInfo.login(
                               usrnTextController.text,
                               pswTextController.text,
                             );
                             if (userInfo.role == Role.Doctor) {
-                              await chatroom.loadChatState(
-                                userId: userInfo.userId,
-                              );
+                              await chatroom.loadChatState(userId: userInfo.userId);
                             } else {
                               await chatroom.loadChatState(
                                 userId: userInfo.userId,
@@ -176,8 +151,7 @@ class _LogInPageState extends State<LogInPage> {
                         style: ElevatedButton.styleFrom(
                           primary: Theme.of(context).primaryColor,
                           padding: EdgeInsets.all(5),
-                          shape: new RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20)),
+                          shape: new RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                           elevation: 0,
                         ),
                         child: Container(
@@ -185,27 +159,19 @@ class _LogInPageState extends State<LogInPage> {
                           height: 30,
                           width: 200,
                           alignment: Alignment.center,
-                          child: Text(
-                            'Login',
-                          ),
+                          child: Text('Login'),
                         ),
                       ),
                       Container(
-                        // color: Colors.red,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Text(
                               'Don\u0027t have an account? ',
-                              style: TextStyle(
-                                color: Color.fromARGB(255, 165, 165, 165),
-                              ),
+                              style: TextStyle(color: Color.fromARGB(255, 165, 165, 165)),
                             ),
                             TextButton(
-                              onPressed: () {
-                                Navigator.of(context)
-                                    .pushNamed(RegisterPage.routeName);
-                              },
+                              onPressed: () => Navigator.of(context).pushNamed(RegisterPage.routeName),
                               child: Text(
                                 'Sign Up',
                                 style: TextStyle(color: Colors.black),

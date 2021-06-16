@@ -1,19 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:homepage_proto/Models/model.dart';
 import 'package:provider/provider.dart';
 
 import '../Provider/vitalSign_Info.dart';
-import '../Provider/user-info.dart';
 import '../Provider/chatRoom_info.dart';
 import '../Widget/AdaptiveRaisedButton.dart';
-// import '../Widget/PainScoreSlider.dart';
 import '../Widget/customSliderThumbCircle.dart';
 import './homePages.dart';
 import './WaitingDoctor.dart';
 
 class PainScorePage extends StatefulWidget {
   static const routeName = '/painScore';
-  // final double value;
 
   @override
   _PainScorePageState createState() => _PainScorePageState();
@@ -45,8 +41,7 @@ class _PainScorePageState extends State<PainScorePage> {
     return Align(
       alignment: Alignment.centerRight,
       child: Container(
-        constraints:
-            BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.9),
+        constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.9),
         child: Text(
           description,
           style: TextStyle(
@@ -62,24 +57,23 @@ class _PainScorePageState extends State<PainScorePage> {
 
   @override
   Widget build(BuildContext context) {
-    final routeArg =
-        ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
+    final routeArg = ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
     final vitalSign = Provider.of<VitalSignProvider>(context, listen: false);
-    // final userInfo = Provider.of<UserInfo>(context, listen: false);
     final chatroomProvider = Provider.of<ChatRoomProvider>(context, listen: false);
     int index = routeArg['index'];
     List<dynamic> symptoms = vitalSign.symptoms;
     Map<String, int> painScore = routeArg['painScore'];
-    // print(routeArg['symptom']);
     final appBar = AppBar(
       centerTitle: true,
-      iconTheme: IconThemeData(
-        color: Theme.of(context).primaryColor,
-      ),
+      iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
       backgroundColor: Colors.white,
-      // leading: IconButton(
-      //     icon: Icon(Icons.arrow_back_ios_rounded),
-      //     onPressed: () => Navigator.of(context).pop()),
+      leading: IconButton(
+        icon: Icon(
+          Icons.arrow_back_ios_rounded,
+          color: Colors.transparent,
+        ),
+        onPressed: () {},
+      ),
       title: Container(
         alignment: Alignment.center,
         child: Text('IMAS'),
@@ -90,7 +84,7 @@ class _PainScorePageState extends State<PainScorePage> {
             Icons.menu_rounded,
             color: Colors.transparent,
           ),
-          onPressed: null,
+          onPressed: () => Navigator.of(context).pop(),
         )
       ],
     );
@@ -104,8 +98,7 @@ class _PainScorePageState extends State<PainScorePage> {
               Container(
                 height: (MediaQuery.of(context).size.height -
                         appBar.preferredSize.height -
-                        MediaQuery.of(context).padding.top) *
-                    0.6,
+                        MediaQuery.of(context).padding.top) * 0.6,
                 padding: EdgeInsets.only(
                   top: 120,
                   left: 15,
@@ -116,20 +109,16 @@ class _PainScorePageState extends State<PainScorePage> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    _headerBuilder(context, (symptoms.isNotEmpty) ? symptoms[index]: ''),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    _descriptionBuilder(context,
-                        'Determine your pain score from 0 to 10 (No effect to Can\'t stand)'),
+                    _headerBuilder(context, (symptoms.isNotEmpty) ? symptoms[index] : ''),
+                    SizedBox(height: 20),
+                    _descriptionBuilder(context, 'Determine your pain score from 0 to 10 (No effect to Can\'t stand)'),
                   ],
                 ),
               ),
               Container(
                 height: (MediaQuery.of(context).size.height -
                         appBar.preferredSize.height -
-                        MediaQuery.of(context).padding.top) *
-                    0.4,
+                        MediaQuery.of(context).padding.top) * 0.4,
                 padding: EdgeInsets.only(
                   top: 15,
                   left: 15,
@@ -140,9 +129,6 @@ class _PainScorePageState extends State<PainScorePage> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    // PainScoreSlider(
-                    //   value: this.widget.value,
-                    // ),
                     Container(
                       height: 50,
                       width: double.infinity,
@@ -173,9 +159,7 @@ class _PainScorePageState extends State<PainScorePage> {
                               color: Colors.white,
                             ),
                           ),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.02,
-                          ),
+                          SizedBox(width: MediaQuery.of(context).size.width * 0.02),
                           Expanded(
                             child: SliderTheme(
                               data: SliderTheme.of(context).copyWith(
@@ -183,14 +167,12 @@ class _PainScorePageState extends State<PainScorePage> {
                                 inactiveTrackColor: Colors.white,
                                 tickMarkShape: RoundSliderTickMarkShape(),
                                 activeTickMarkColor: Colors.white,
-                                inactiveTickMarkColor:
-                                    Colors.white.withAlpha(100),
+                                inactiveTickMarkColor: Colors.white.withAlpha(100),
                                 thumbColor: Theme.of(context).primaryColor,
                                 showValueIndicator: ShowValueIndicator.never,
                                 trackShape: RoundedRectSliderTrackShape(),
                                 trackHeight: 50 / 6,
-                                thumbShape: CustomSliderThumbCircle(
-                                    thumbRadius: 50 / 2.5, max: 10, min: 0),
+                                thumbShape: CustomSliderThumbCircle(thumbRadius: 50 / 2.5, max: 10, min: 0),
                               ),
                               child: Slider(
                                 min: 0.toDouble(),
@@ -206,9 +188,7 @@ class _PainScorePageState extends State<PainScorePage> {
                               ),
                             ),
                           ),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.02,
-                          ),
+                          SizedBox(width: MediaQuery.of(context).size.width * 0.02),
                           Text(
                             10.toString(),
                             textAlign: TextAlign.center,
@@ -221,34 +201,27 @@ class _PainScorePageState extends State<PainScorePage> {
                         ],
                       ),
                     ),
-                    SizedBox(
-                      height: 45,
-                    ),
+                    SizedBox(height: 45),
                     Align(
                       alignment: Alignment.center,
                       child: AdaptiveRaisedButton(
-                          buttonText:
-                              (index < (symptoms.length - 1)) ? 'Next' : 'Submit',
+                          buttonText: (index < (symptoms.length - 1))
+                              ? 'Next'
+                              : 'Submit',
                           height: 35,
                           width: MediaQuery.of(context).size.width * 0.35,
                           handlerFn: () async {
-                            print(
-                                'symp: ${symptoms[index]} || score: ${value.toInt()}');
                             if (index < (symptoms.length - 1)) {
-                              // vitalSign.painScore.putIfAbsent(symptoms[index], () => value.toInt());
                               vitalSign.painScore[symptoms[index]] = value;
-                              Navigator.of(context)
-                                  .pushNamed(PainScorePage.routeName, arguments: {
-                                'index': index + 1,
-                                'symptom': symptoms,
-                                'painScore': painScore,
-                              });
+                              Navigator.of(context).pushNamed(
+                                  PainScorePage.routeName,
+                                  arguments: {
+                                    'index': index + 1,
+                                    'symptom': symptoms,
+                                    'painScore': painScore,
+                                  });
                             } else {
-                              vitalSign.painScore['${symptoms[index]}'] =
-                                  value.round();
-                              // ... uploadData to server
-                              // final _apt = userInfo.appointment.where((element) => element['status'] == AptStatus.Waiting).toList();
-                              // final _sortApt = _apt.sort((a,b) => b['apdt'].compareTo(a['apdt']));
+                              vitalSign.painScore['${symptoms[index]}'] = value.round();
                               await vitalSign.saveVsPs();
                               showDialog(
                                 context: context,
@@ -256,23 +229,19 @@ class _PainScorePageState extends State<PainScorePage> {
                                 builder: (BuildContext context) {
                                   return AlertDialog(
                                     shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(8.0)),
+                                      borderRadius: BorderRadius.circular(8.0),
+                                    ),
                                     title: Text('Submit Data successfully'),
                                     actions: [
                                       TextButton(
                                         child: Text("OK"),
                                         onPressed: () async {
                                           Future.delayed(Duration.zero, () {
-                                            Navigator.of(context)
-                                                .popUntil(
-                                              ModalRoute.withName(HomePage.routeName),
-                                            );
+                                            Navigator.of(context).popUntil(ModalRoute.withName(HomePage.routeName));
                                             if (chatroomProvider.online) {
                                               Navigator.of(context).pushNamed(WaitingPage.routeName);
                                             }
                                           });
-                                          // Navigator.of(context).popUntil(
-                                          //     ModalRoute.withName('/home'));
                                           vitalSign.clear();
                                         },
                                       ),
@@ -281,10 +250,6 @@ class _PainScorePageState extends State<PainScorePage> {
                                 },
                               );
                             }
-
-                            // print('blank');
-                            // print(PainScoreSlider.value)
-                            // print(value.toString());
                           }),
                     )
                   ],

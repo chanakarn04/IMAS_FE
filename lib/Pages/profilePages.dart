@@ -4,15 +4,9 @@ import 'package:provider/provider.dart';
 import '../Widget/profile_patinent_body.dart';
 import '../Widget/profile_doctor_body.dart';
 import '../Provider/user-info.dart';
-// import '../Models/model.dart';
 
 class ProfilePages extends StatelessWidget {
   static const routeName = '/profile';
-
-  // role of user
-  //  0 = patient
-  //  1 = doctor
-  // final int role = 1;
 
   Widget _buildHeaderBox(BuildContext context, String title, Widget child) {
     return Column(
@@ -27,18 +21,6 @@ class ProfilePages extends StatelessWidget {
               ),
             ),
             Expanded(child: Container()),
-            // SizedBox(
-            //   height: 40,
-            //   width: 40,
-            //   child: InkWell(
-            //     onTap: () {},
-            //     child: Icon(
-            //       Icons.edit_outlined,
-            //       color: Theme.of(context).accentColor,
-            //       size: 30,
-            //     ),
-            //   ),
-            // )
           ],
         ),
         Padding(
@@ -50,9 +32,7 @@ class ProfilePages extends StatelessWidget {
           ),
           child:  child,
         ),
-        SizedBox(
-          height: 10.0,
-        ),
+        SizedBox(height: 10),
       ],
     );
   }

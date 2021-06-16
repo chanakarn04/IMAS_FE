@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
-// import '../dummy_data.dart';
 import '../Provider/user-info.dart';
-import './patientFollowUp/onConsultTab.dart';
-import './patientFollowUp/inCareTab.dart';
 import '../Widget/patientBox.dart';
 
 class PatientFollowUpPage extends StatefulWidget {
@@ -21,31 +18,6 @@ class _PatientFollowUpPageState extends State<PatientFollowUpPage> {
   List<Map<String, dynamic>> todayApt = [];
   List<Map<String, dynamic>> otherApt = [];
 
-  List<Map<String, dynamic>> _loadData(String userId) {
-    // ... load all tp with drId
-
-    return [
-      {
-        'pName': 'Supanan Srichankaow',
-        'imageAsset': 'assets/images/default_photo.png',
-        'apDt': DateTime(2021, 5, 22),
-        'tpId': 'tp001'
-      },
-      {
-        'pName': 'Nuntanat Vanichvorasakul',
-        'imageAsset': 'assets/images/default_photo.png',
-        'apDt': DateTime(2021, 5, 19, 23, 30),
-        'tpId': 'tp001'
-      },
-      {
-        'pName': 'Samitanan Techabunyawatthanakul',
-        'imageAsset': 'assets/images/default_photo.png',
-        'apDt': DateTime.now(),
-        'tpId': 'tp001'
-      },
-    ];
-  }
-
   @override
   void didChangeDependencies() async {
     if (!_loadedData) {
@@ -58,38 +30,15 @@ class _PatientFollowUpPageState extends State<PatientFollowUpPage> {
       await userInfo.calendarAppointment();
       await userInfo.patientFollowUpInfo();
       final List<Map<String, dynamic>> data = userInfo.ptFollowUp;
-      // final List<Map<String, dynamic>> data = [
-      //   {
-      //     'pName': 'Supanan Srichankaow',
-      //     'imageAsset': 'assets/images/default_photo.png',
-      //     'apDt': DateTime(2021, 5, 22),
-      //     'tpid': 'tp001'
-      //   },
-      //   {
-      //     'pName': 'Nuntanat Vanichvorasakul',
-      //     'imageAsset': 'assets/images/default_photo.png',
-      //     'apDt': DateTime(2021, 5, 19, 23, 30),
-      //     'tpid': 'tp001'
-      //   },
-      //   {
-      //     'pName': 'Samitanan Techabunyawatthanakul',
-      //     'imageAsset': 'assets/images/default_photo.png',
-      //     'apDt': DateTime.now(),
-      //     'tpid': 'tp001'
-      //   },
-      // ];
       DateTime now = DateTime.now();
-      todayApt = data
-          .where((elm) =>
-              DateTime(elm['apDt'].year, elm['apDt'].month, elm['apDt'].day).difference(DateTime(now.year, now.month, now.day)).inDays == 0)
-              // elm['apDt'].difference(DateTime.now()).inDays == 0)
-          .toList();
-      otherApt = data
-          .where((elm) =>
-            DateTime(elm['apDt'].year, elm['apDt'].month, elm['apDt'].day).difference(DateTime(now.year, now.month, now.day)).inDays != 0)
-          .toList();
-      print('todayApt: $todayApt');
-      print('otherApt: $otherApt');
+      todayApt = data.where((elm) =>
+              DateTime(elm['apDt'].year, elm['apDt'].month, elm['apDt'].day)
+                  .difference(DateTime(now.year, now.month, now.day))
+                  .inDays == 0).toList();
+      otherApt = data.where((elm) =>
+              DateTime(elm['apDt'].year, elm['apDt'].month, elm['apDt'].day)
+                  .difference(DateTime(now.year, now.month, now.day))
+                  .inDays != 0).toList();
     }
     super.didChangeDependencies();
   }
@@ -99,9 +48,7 @@ class _PatientFollowUpPageState extends State<PatientFollowUpPage> {
     final userInfo = Provider.of<UserInfo>(context);
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(
-          color: Theme.of(context).primaryColor,
-        ),
+        iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
         backgroundColor: Colors.white,
         leading: IconButton(
             icon: Icon(Icons.arrow_back_ios_rounded),
@@ -130,14 +77,12 @@ class _PatientFollowUpPageState extends State<PatientFollowUpPage> {
                 width: MediaQuery.of(context).size.width * 0.2,
                 child: CircularProgressIndicator(
                   strokeWidth: 5.0,
-                  valueColor: new AlwaysStoppedAnimation<Color>(
-                      Theme.of(context).primaryColor),
+                  valueColor: new AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),
                 ),
               ),
             )
           : SingleChildScrollView(
               child: Container(
-                // color: Colors.teal[100],
                 padding: EdgeInsets.only(
                   top: 20,
                   left: 15,
@@ -198,7 +143,6 @@ class _PatientFollowUpPageState extends State<PatientFollowUpPage> {
                     (otherApt.length != 0)
                         ? Container(
                             height: (75.0 * otherApt.length) + 30,
-                            // color: Colors.amber[100],
                             child: ListView.builder(
                               padding: EdgeInsets.symmetric(vertical: 15),
                               itemBuilder: (context, index) {

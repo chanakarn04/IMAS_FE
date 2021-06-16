@@ -8,49 +8,14 @@ import '../../Models/model.dart';
 import '../../Provider/patientInfo.dart';
 
 class SuggestionTab extends StatefulWidget {
-  // final String tpId;
-
-  // SuggestionTab(this.tpId);
-
   @override
   _SuggestionTabState createState() => _SuggestionTabState();
 }
 
 class _SuggestionTabState extends State<SuggestionTab> {
-  // List<Appointment> appointments;
   List<Map<String, dynamic>> data;
   var _loadInitData = false;
   int carouselIndex = 0;
-
-  List<Map<String, dynamic>> _loadData(String tpId) {
-    // ... use tp id to get data
-
-    return [
-      {
-        'apId': 'ap001',
-        // 'tpId': 'tp001',
-        // 'note': '',
-        'apDt': DateTime.utc(2020, 12, 20),
-        'status': AptStatus.Pass,
-        'advises': 'Rest mak mak na',
-        'prescription': [
-          'Paracetamol',
-        ],
-      },
-      {
-        'apId': 'ap002',
-        // 'tpId': 'tp001',
-        // 'note': '',
-        'apDt': DateTime.utc(2020, 12, 26),
-        'status': AptStatus.Pass,
-        'advises': 'Kin Kwaw yer yer',
-        'prescription': [
-          'Paracetamol',
-          'Bakamol',
-        ],
-      },
-    ];
-  }
 
   @override
   void didChangeDependencies() {
@@ -58,14 +23,6 @@ class _SuggestionTabState extends State<SuggestionTab> {
       final patientInfo = Provider.of<PatientInfo>(context);
       data = patientInfo.prescrip_suggest;
       _loadInitData = true;
-      // data = _loadData(this.widget.tpId);
-      //   appointments = dummy_appointment
-      //       .where((apt) =>
-      //           (apt.tpId == widget.tpId) && (apt.status == AptStatus.Edited))
-      //       .toList()
-      //       .reversed
-      //       .toList();
-      // }
       super.didChangeDependencies();
     }
   }
@@ -76,30 +33,24 @@ class _SuggestionTabState extends State<SuggestionTab> {
       child: Column(
         children: [
           Expanded(
-            child: Container(
-              // height: (MediaQuery.of(context).size.height
-              // MediaQuery.of(context).padding.top -
-              // MediaQuery.of(context).padding.bottom -
-              // this.widget.appBarSize
-              child: CarouselSlider.builder(
-                itemCount: data.length,
-                itemBuilder: (context, index, _) => AptSuggestCard(
-                  data[index]['apDt'],
-                  (data[index]['prescription'] != null) ? List<String>.from(data[index]['prescription']) : null,
-                  (data[index]['advises'] != null) ? data[index]['advises'] : null,
-                  (data.length - index),
-                ),
-                options: CarouselOptions(
-                  height: 500,
-                  enlargeCenterPage: true,
-                  initialPage: carouselIndex,
-                  enableInfiniteScroll: false,
-                  onPageChanged: (index, _) {
-                    setState(() {
-                      carouselIndex = index;
-                    });
-                  },
-                ),
+            child: CarouselSlider.builder(
+              itemCount: data.length,
+              itemBuilder: (context, index, _) => AptSuggestCard(
+                data[index]['apDt'],
+                (data[index]['prescription'] != null) ? List<String>.from(data[index]['prescription']) : null,
+                (data[index]['advises'] != null) ? data[index]['advises'] : null,
+                (data.length - index),
+              ),
+              options: CarouselOptions(
+                height: 500,
+                enlargeCenterPage: true,
+                initialPage: carouselIndex,
+                enableInfiniteScroll: false,
+                onPageChanged: (index, _) {
+                  setState(() {
+                    carouselIndex = index;
+                  });
+                },
               ),
             ),
           ),

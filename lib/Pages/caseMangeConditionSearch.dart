@@ -7,23 +7,16 @@ import '../Provider/caseManagement_Info.dart';
 
 class CaseManagementConditionSearch extends StatefulWidget {
   static const routeName = 'caseManagement_conditionSearch';
-  // final String title;
-  // final String buttonText;
-  // CaseManagementConditionSearch(
-  //   this.title,
-  //   this.buttonText,
-  // );
+
   @override
   _CaseManagementConditionSearchState createState() =>
       _CaseManagementConditionSearchState();
 }
 
-class _CaseManagementConditionSearchState
-    extends State<CaseManagementConditionSearch> {
+class _CaseManagementConditionSearchState extends State<CaseManagementConditionSearch> {
   final controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    // final title = ModalRoute.of(context).settings.arguments as String;
     final cmInfo = Provider.of<CMinfoProvider>(context);
     return Scaffold(
       body: Container(
@@ -38,22 +31,14 @@ class _CaseManagementConditionSearchState
               alignment: Alignment.centerLeft,
               child: Text(
                 'Add disease',
-                style: TextStyle(
-                  // fontWeight: FontWeight.bold,
-                  fontSize: 32,
-                  // color: Theme.of(context).primaryColor,
-                ),
+                style: TextStyle(fontSize: 32),
               ),
             ),
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
                 'Enter name of disease in field to search',
-                style: TextStyle(
-                  // fontWeight: FontWeight.bold,
-                  // fontSize: 32,
-                  color: Colors.grey,
-                ),
+                style: TextStyle(color: Colors.grey),
               ),
             ),
             TextField(
@@ -75,7 +60,6 @@ class _CaseManagementConditionSearchState
                               ),
                               child: InkWell(
                                   child: Container(
-                                    // margin: EdgeInsets.all(5),
                                     decoration: BoxDecoration(
                                       border: Border.all(
                                         width: 1,
@@ -83,23 +67,18 @@ class _CaseManagementConditionSearchState
                                       ),
                                       borderRadius: BorderRadius.circular(15)
                                     ),
-                                    // color: ,
                                     child: Padding(
                                       padding: EdgeInsets.all(10),
                                       child: Text(
-                                        cmInfo.search_conditions[index]
-                                            ['common_name'],
-                                        style: TextStyle(
-                                          fontSize: 20,
-                                        ),
+                                        cmInfo.search_conditions[index]['common_name'],
+                                        style: TextStyle(fontSize: 20),
                                       ),
                                     ),
                                   ),
                                   onTap: () {
                                     cmInfo.addCondition(
                                         cmInfo.search_conditions[index]['id'],
-                                        cmInfo.search_conditions[index]
-                                            ['common_name']);
+                                        cmInfo.search_conditions[index]['common_name']);
                                     Navigator.of(context).pop();
                                   }),
                             );
@@ -120,8 +99,7 @@ class _CaseManagementConditionSearchState
                         width: 30,
                         child: CircularProgressIndicator(
                           strokeWidth: 3.0,
-                          valueColor: new AlwaysStoppedAnimation<Color>(
-                              Theme.of(context).primaryColor),
+                          valueColor: new AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),
                         ),
                       ),
                     ),
@@ -129,7 +107,6 @@ class _CaseManagementConditionSearchState
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                // Expanded(child: Container()),
                 AdaptiveBorderButton(
                   buttonText: 'Cancel',
                   handlerFn: () {
@@ -139,7 +116,6 @@ class _CaseManagementConditionSearchState
                   height: 40,
                   width: 150,
                 ),
-                // Expanded(child: Container()),
               ],
             ),
           ],

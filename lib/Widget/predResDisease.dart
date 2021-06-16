@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../Pages/diseaseDetail.dart';
 
 class PredResDisease extends StatelessWidget {
   final List<dynamic> conditions;

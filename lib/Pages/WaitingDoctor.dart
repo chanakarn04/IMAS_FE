@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'chatRoom.dart';
-import '../Provider/user-info.dart';
 import '../Provider/chatRoom_info.dart';
 
 class WaitingPage extends StatelessWidget {
@@ -11,9 +10,6 @@ class WaitingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final chatProvider = Provider.of<ChatRoomProvider>(context);
-    print(chatProvider.chatRoomId);
-    // chatProvider.chatRequest(Role.Patient);
-    // chatProvider.chatRequest();
     return Scaffold(
       body: Container(
         padding: EdgeInsets.symmetric(
@@ -30,9 +26,7 @@ class WaitingPage extends StatelessWidget {
                   Icons.home_rounded,
                   color: Theme.of(context).primaryColor,
                 ),
-                onTap: () {
-                  Navigator.of(context).pop();
-                },
+                onTap: () => Navigator.of(context).pop(),
               ),
             ),
             Expanded(child: Container()),
@@ -42,9 +36,7 @@ class WaitingPage extends StatelessWidget {
               decoration: BoxDecoration(
                 image: DecorationImage(
                   fit: BoxFit.contain,
-                  image: AssetImage(
-                    'assets/images/queuing.png',
-                  ),
+                  image: AssetImage('assets/images/queuing.png'),
                 ),
               ),
             ),
@@ -70,11 +62,7 @@ class WaitingPage extends StatelessWidget {
             Expanded(child: Container()),
             (chatProvider.chatRoomId != '')
                 ? InkWell(
-                    onTap: () {
-                      // ...
-                      Navigator.of(context)
-                          .pushReplacementNamed(ChatRoom.routeName);
-                    },
+                    onTap: () => Navigator.of(context).pushReplacementNamed(ChatRoom.routeName),
                     child: Container(
                       decoration: BoxDecoration(
                         color: Theme.of(context).primaryColor,
@@ -94,40 +82,35 @@ class WaitingPage extends StatelessWidget {
                     ),
                   )
                 : InkWell(
-                    onTap: () {
-                      // ...
-                      showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: Text('Are you sure to cancel queue?'),
-                              actions: [
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: Text(
-                                    'No',
-                                    style: TextStyle(
-                                        color: Theme.of(context).primaryColor),
-                                  ),
-                                ),
-                                 TextButton(
-                                  onPressed: () {
-                                    chatProvider.patientDeleteQueue();
-                                    Navigator.of(context).pop();
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: Text(
-                                    'Yes',
-                                    style: TextStyle(
-                                        color: Theme.of(context).primaryColor),
-                                  ),
-                                ),
-                              ],
-                            );
-                          });
-                    },
+                  onTap: () =>
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: Text('Are you sure to cancel queue?'),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.of(context).pop(),
+                              child: Text(
+                                'No',
+                                style: TextStyle(color: Theme.of(context).primaryColor),
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                chatProvider.patientDeleteQueue();
+                                Navigator.of(context).pop();
+                                Navigator.of(context).pop();
+                              },
+                              child: Text(
+                                'Yes',
+                                style: TextStyle(color: Theme.of(context).primaryColor),
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    ),
                     child: Container(
                       decoration: BoxDecoration(
                         color: Theme.of(context).primaryColor,
@@ -146,9 +129,7 @@ class WaitingPage extends StatelessWidget {
                       ),
                     ),
                   ),
-            SizedBox(
-              height: 30,
-            ),
+            SizedBox(height: 30),
           ],
         ),
       ),

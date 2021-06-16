@@ -3,10 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:dropdown_date_picker/dropdown_date_picker.dart' as ddp;
 
 import './registerPatientScreen_2.dart';
-import '../../Widget/registeredBody.dart';
 import '../../Widget/progressDot.dart';
-import '../../Widget/AdaptiveRaisedButton.dart';
-import '../../Widget/adaptiveBorderButton.dart';
 
 class RegisterPatient1Screen extends StatefulWidget {
   static const routeName = '/Register-patient-step1';
@@ -29,13 +26,12 @@ class _RegisterPatient1ScreenState extends State<RegisterPatient1Screen> {
   String fname;
   String sname;
   DateTime selectedDate;
-  bool selectedGender = true; // true as Male, false as Female
+  bool selectedGender = true;
 
   Map<String, dynamic> registerData = {};
 
   @override
   void dispose() {
-    // TODO: implement dispose
     emailTxtCtrl.dispose();
     passwordTxtCtrl.dispose();
     cfPasswordTxtCtrl.dispose();
@@ -221,9 +217,7 @@ class _RegisterPatient1ScreenState extends State<RegisterPatient1Screen> {
                                     if (value == null || value.isEmpty) {
                                       return 'This field must not empty';
                                     }
-                                    if (!RegExp(
-                                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                        .hasMatch(value)) {
+                                    if (!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(value)) {
                                       return 'Mail is not valid';
                                     }
                                     if (value.length > 50) {
@@ -234,9 +228,6 @@ class _RegisterPatient1ScreenState extends State<RegisterPatient1Screen> {
                                   onChanged: (_) {
                                     email = emailTxtCtrl.text;
                                   },
-                                  // onFieldSubmitted: (value) {
-                                  //   email = value;
-                                  // },
                                 ),
                               ),
                               SizedBox(
@@ -256,12 +247,6 @@ class _RegisterPatient1ScreenState extends State<RegisterPatient1Screen> {
                                   onChanged: (_) {
                                     password = passwordTxtCtrl.text;
                                   },
-                                  // onEditingComplete: () {
-                                  //   FocusScope.of(context).nextFocus();
-                                  // },
-                                  // onFieldSubmitted: (value) {
-                                  //   // password = value;
-                                  // },
                                 ),
                               ),
                               SizedBox(
@@ -274,8 +259,6 @@ class _RegisterPatient1ScreenState extends State<RegisterPatient1Screen> {
                                   obscureText: true,
                                   validator: (value) {
                                     if (value != password) {
-                                      print('value: $value');
-                                      print('password: $password');
                                       passwordTxtCtrl.clear();
                                       cfPasswordTxtCtrl.clear();
                                       return 'Password are not macthing';
@@ -285,11 +268,6 @@ class _RegisterPatient1ScreenState extends State<RegisterPatient1Screen> {
                                   onChanged: (_) {
                                     cfPassword = cfPasswordTxtCtrl.text;
                                   },
-                                  // onEditingComplete: () {
-                                  //   FocusScope.of(context).nextFocus(); 
-                                  // }
-                                  // onFieldSubmitted: (value) =>
-                                  //     cfPassword = value,
                                 ),
                               ),
                               SizedBox(
@@ -308,7 +286,6 @@ class _RegisterPatient1ScreenState extends State<RegisterPatient1Screen> {
                                   onChanged: (_) {
                                     fname = fnameTxtCtrl.text;
                                   },
-                                  // onFieldSubmitted: (value) => fname = value,
                                 ),
                               ),
                               SizedBox(
@@ -327,7 +304,6 @@ class _RegisterPatient1ScreenState extends State<RegisterPatient1Screen> {
                                   onChanged: (_) {
                                     sname = snameTxtCtrl.text;
                                   },
-                                  // onFieldSubmitted: (value) => sname = value,
                                 ),
                               ),
                               SizedBox(
@@ -367,9 +343,6 @@ class _RegisterPatient1ScreenState extends State<RegisterPatient1Screen> {
                                 ),
                               ),
                               Expanded(child: Container()),
-                              // SizedBox(
-                              //   height: 20,
-                              // ),
                               ProgressDot(
                                 length: 3,
                                 markedIndex: 1,
@@ -379,7 +352,6 @@ class _RegisterPatient1ScreenState extends State<RegisterPatient1Screen> {
                               ),
                               ElevatedButton(
                                 onPressed: () {
-                                  // print('password: $password');
                                   if (_formKey.currentState.validate()) {
                                     selectedDate = DateTime(
                                       dropdownDatePicker.year,
@@ -398,34 +370,7 @@ class _RegisterPatient1ScreenState extends State<RegisterPatient1Screen> {
                                     Navigator.of(context).pushNamed(
                                         RegisterPatient2Screen.routeName,
                                         arguments: registerData);
-                                    // print('emial:     $email');
-                                    // print('password:  $password');
-                                    // print('prefix:    $prefix');
-                                    // print('fname:     $fname');
-                                    // print('sname:     $sname');
-                                    // print(
-                                    //     'dob:       ${DateFormat.yMd().format(dob)}');
-                                    // print('gender:    $selectedGender');
-                                    // print('citizID:   $citizenID');
-                                    // print('medID:     $medID');
-                                    // print('certID:    $certID');
-                                    // ScaffoldMessenger.of(context)
-                                    //     .showSnackBar(SnackBar(
-                                    //         content:
-                                    //             Text('Processing Data')));
-                                    // ...
-                                    // send data to register in BE
-                                    //
-                                    // setState(() {
-                                    //   _isLogin = true;
-                                    // });
-                                    //
-                                    // ...
-                                    // Navigator.of(context).popUntil(
-                                    //     ModalRoute.withName(
-                                    //         LogInPage.routeName));
                                   }
-                                  // if (password != cfPassword)
                                 },
                                 style: ElevatedButton.styleFrom(
                                   primary: Theme.of(context).primaryColor,
@@ -435,18 +380,13 @@ class _RegisterPatient1ScreenState extends State<RegisterPatient1Screen> {
                                   elevation: 0,
                                 ),
                                 child: Container(
-                                  // padding: EdgeInsets.all(7),
                                   height: 30,
                                   width: 120,
                                   alignment: Alignment.center,
-                                  child: Text(
-                                    'Next',
-                                  ),
+                                  child: Text('Next'),
                                 ),
                               ),
-                              SizedBox(
-                                height: 30,
-                              ),
+                              SizedBox(height: 30),
                             ],
                           ),
                         ),

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-import '../Provider/user-info.dart';
 import '../Provider/patientInfo.dart';
 import './patientInfo/basicInfoTab.dart';
 import './patientInfo/disease_symptomTab.dart';
@@ -17,7 +15,6 @@ class PatientInfoPage extends StatefulWidget {
 }
 
 class _PatientInfoPageState extends State<PatientInfoPage> {
-  // GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
   var _loadedData = false;
   ScrollController _scrollController;
   bool sliverCollapsed = false;
@@ -28,67 +25,11 @@ class _PatientInfoPageState extends State<PatientInfoPage> {
   PatientInfo patientInfo;
   Map<String, dynamic> routeArg;
 
-  // get treatmentPlan id from  route argument
-  // get username, apDt with apStatus.lastest
-
-  Map<String, dynamic> _loadData(String tpId) {
-    // ...
-
-    // assign pName for sliver header
-    // pName + pSurname
-
-    return {
-      'userId': 'p0001',
-      'pName': 'pName',
-      'pSurname': 'pSurname',
-      'apDt': DateTime(2021, 12, 14),
-    };
-  }
-
-  // final lastAppointment =
-  //     dummy_appointment.firstWhere((apt) => apt.status == AptStatus.Lastest);
-
-  // @override
-  // void initState() {
-  //   _scrollController = ScrollController();
-
-  //   _scrollController.addListener(() {
-  //     if (_scrollController.offset > 80 &&
-  //         !_scrollController.position.outOfRange) {
-  //       if (!sliverCollapsed) {
-  //         // do what ever you want when silver is collapsing !
-
-  //         appBarTitle = '${data['pName']} ${data['pSurname']}';
-  //         sliverCollapsed = true;
-  //         setState(() {});
-  //       }
-  //     }
-  //     if (_scrollController.offset <= 40
-  //         // &&
-  //         //     !_scrollController.position.outOfRange
-  //         ) {
-  //       if (sliverCollapsed) {
-  //         // do what ever you want when silver is expanding !
-
-  //         appBarTitle = '';
-  //         sliverCollapsed = false;
-  //         setState(() {});
-  //       }
-  //     }
-  //   });
-  //   super.initState();
-  // }
-
   @override
   void didChangeDependencies() async {
     _scrollController = ScrollController();
 
     if (!_loadedData) {
-      // {
-      //   'tpid': 'tp0001',
-      //   'pid': 'pisut.s@mail.com',
-      //   'pName': 'Pisut Suntronkiti',
-      // }
       _loadedData = true;
       routeArg = ModalRoute.of(context).settings.arguments;
       pFullName = routeArg['pName'];
@@ -97,13 +38,7 @@ class _PatientInfoPageState extends State<PatientInfoPage> {
       patientInfo.symp_condLoad = false;
       patientInfo.vital_painLoad = false;
       patientInfo.prescrip_suggestLoad = false;
-      print('==> PtInfo Start Loading');
-      print('routeArg: $routeArg');
       await patientInfo.getPatInfo(routeArg['pid'], routeArg['tpid']);
-      print('==> TESTTT');
-      print(patientInfo.symp_cond[0]['apDt']);
-      // patientInfo.symp_cond.removeWhere((element) => (element['apDt'].difference(DateTime.now()).inDays >= 0));
-      // patientInfo.prescrip_suggest.removeWhere((element) => (element['apDt'].difference(DateTime.now()).inDays >= 0));
     }
 
     _scrollController.addListener(
@@ -111,20 +46,14 @@ class _PatientInfoPageState extends State<PatientInfoPage> {
         if (_scrollController.offset > 80 &&
             !_scrollController.position.outOfRange) {
           if (!sliverCollapsed) {
-            // do what ever you want when silver is collapsing !
-
             appBarTitle = pFullName;
             sliverCollapsed = true;
             setState(() {});
           }
         }
         if (_scrollController.offset <= 40
-            // &&
-            //     !_scrollController.position.outOfRange
             ) {
           if (sliverCollapsed) {
-            // do what ever you want when silver is expanding !
-
             appBarTitle = '';
             sliverCollapsed = false;
             setState(() {});
@@ -137,10 +66,6 @@ class _PatientInfoPageState extends State<PatientInfoPage> {
 
   @override
   Widget build(BuildContext context) {
-    // final String tpId = ModalRoute.of(context).settings.arguments;
-    final Map<String, dynamic> data = _loadData(
-      routeArg['tpid'],
-    );
     final appBar = SliverAppBar(
       title: Text(
         appBarTitle,
@@ -153,9 +78,7 @@ class _PatientInfoPageState extends State<PatientInfoPage> {
       floating: false,
       pinned: true,
       snap: false,
-      iconTheme: IconThemeData(
-        color: Colors.white,
-      ),
+      iconTheme: IconThemeData(color: Colors.white),
       actions: <Widget>[
         IconButton(
           icon: Icon(
@@ -175,16 +98,14 @@ class _PatientInfoPageState extends State<PatientInfoPage> {
             background: Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Theme.of(context).primaryColor,
-                      Theme.of(context).accentColor,
-                    ],
-                    stops: [
-                      0.4,
-                      1.0,
-                    ]),
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Theme.of(context).primaryColor,
+                    Theme.of(context).accentColor,
+                  ],
+                  stops: [0.4, 1.0],
+                ),
               ),
               alignment: Alignment.topCenter,
               child: Column(
@@ -205,9 +126,7 @@ class _PatientInfoPageState extends State<PatientInfoPage> {
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: 5,
-                  ),
+                  SizedBox(height: 5),
                   Container(
                     height: 25,
                     child: FittedBox(
@@ -220,20 +139,6 @@ class _PatientInfoPageState extends State<PatientInfoPage> {
                       ),
                     ),
                   ),
-                  // SizedBox(
-                  //   height: 5,
-                  // ),
-                  // Container(
-                  //   height: 15,
-                  //   child: FittedBox(
-                  //     child: Text(
-                  //       'Next Appointment : ${DateFormat.yMMMEd().format(data['apDt'])}',
-                  //       style: TextStyle(
-                  //         color: Colors.white,
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
                   SizedBox(height: 45),
                 ],
               ),
@@ -242,39 +147,28 @@ class _PatientInfoPageState extends State<PatientInfoPage> {
         },
       ),
       bottom: TabBar(
-        // indicatorSize: ,
         isScrollable: true,
         indicatorWeight: 4.0,
         indicatorColor: Theme.of(context).primaryColorLight,
         labelColor: Colors.white,
-        labelStyle: TextStyle(
-          fontWeight: FontWeight.bold,
-        ),
+        labelStyle: TextStyle(fontWeight: FontWeight.bold),
         unselectedLabelColor: Colors.white54,
         tabs: <Widget>[
           Container(
             height: 20,
-            child: Tab(
-              text: 'Basic info',
-            ),
+            child: Tab(text: 'Basic info'),
           ),
           Container(
             height: 20,
-            child: Tab(
-              text: 'Disease/Symptom',
-            ),
+            child: Tab(text: 'Disease/Symptom'),
           ),
           Container(
             height: 20,
-            child: Tab(
-              text: 'Vital sign',
-            ),
+            child: Tab(text: 'Vital sign'),
           ),
           Container(
             height: 20,
-            child: Tab(
-              text: 'Suggestion',
-            ),
+            child: Tab(text: 'Suggestion'),
           ),
         ],
       ),
@@ -298,10 +192,6 @@ class _PatientInfoPageState extends State<PatientInfoPage> {
                     DiseaseSymptomTab(),
                     VitalSignTab(),
                     SuggestionTab(),
-                    // BasicInfoTab(data['userId']),
-                    // DiseaseSymptomTab(routeArg['tpid']),
-                    // VitalSignTab(routeArg['tpid']),
-                    // SuggestionTab(routeArg['tpid']),
                   ],
                 ),
               ),
@@ -312,8 +202,7 @@ class _PatientInfoPageState extends State<PatientInfoPage> {
                 width: MediaQuery.of(context).size.width * 0.2,
                 child: CircularProgressIndicator(
                   strokeWidth: 5.0,
-                  valueColor: new AlwaysStoppedAnimation<Color>(
-                      Theme.of(context).primaryColor),
+                  valueColor: new AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),
                 ),
               ),
             ),

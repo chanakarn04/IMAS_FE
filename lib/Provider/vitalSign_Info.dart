@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../Script/socketioScript.dart';
-// import 'package:socket_io_client/socket_io_client.dart';
-
-// import '../Models/model.dart';
 
 class VitalSignProvider with ChangeNotifier {
   String tpId;
@@ -16,44 +13,34 @@ class VitalSignProvider with ChangeNotifier {
 
   List<dynamic> symptoms = [];
   Map<String, dynamic> painScore = {};
-  // 'pain_score': {
-  //   'head ache': 3,
-  //   'leg pain': 5,
-  // }
 
+  // get symptom data
   Future<void> querySymptom() async {
+    // emit data to get-condition-symptom
     await socketIO.emit('event', [
       {
         'transaction': 'get-condition-symptom',
         'payload': {'tpid': tpId},
       }
     ]);
+
+    // wait response of get-condition-symptom
     await for (dynamic event in socketIO.on('r-get-condition-symptom')) {
-      print('On r-get-condition-symptom: $event');
-      // final data = Map<String, dynamic>.from(event[0]['value']['payload']);
       final _apts = List<dynamic>.from(event[0]['value']['payload']);
       final _currentApt = _apts.firstWhere((element) => element['apid'] == apId, orElse: () => _apts[0]);
-      // final _currentApt = _apts[0];
       symptoms = _currentApt['pat_symptom'];
-      // payload: [{
-      //   apid: 60a2323cbe47e8001ff7f4bb, 
-      //   date: 2021-05-17T09:07:08.218Z, 
-      //   pat_symptom: [Back pain]
-      // }]
       break;
     }
   }
 
-  Future<void> saveVsPs(
-    // String lastTpid,
-    // String lastApid,
-  ) async {
-    print('$temp : $pulse : $pressurehigh|$pressurelow : $breath');
+  // save vital sign and pain score data
+  Future<void> saveVsPs() async {
+
+    // emit data to save-vital-pain
     await socketIO.emit('event', [
       {
         'transaction': 'save-vital-pain',
         'payload': {
-          // 'vsid': ,
           'tpid': tpId,
           'apid': apId,
           'pain_score': painScore,
@@ -72,14 +59,16 @@ class VitalSignProvider with ChangeNotifier {
         },
       }
     ]);
+
+    // wait response of save-vital-pain
     await for (dynamic data in socketIO.on('r-save-vital-pain')) {
-      print('On r-save-vital-pain: $data');
       if (data != null) {
         break;
       }
     }
   }
 
+  // clear every data in vital sign provider
   void clear() {
     tpId = null;
     temp = null;

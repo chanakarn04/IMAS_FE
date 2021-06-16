@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../Provider/vitalSign_Info.dart';
-// import '../Provider/user-info.dart';
 import './vitalSign/vs_BodyTempPage.dart';
 import '../Widget/adaptiveRaisedButton.dart';
 
@@ -15,12 +14,6 @@ class VitalSignStartPage extends StatefulWidget {
 class _VitalSignStartPageState extends State<VitalSignStartPage> {
   var _loadedData = false;
   VitalSignProvider vitalSign;
-  // Map<String, Object> vitalSign = {
-  //   'Temp': null,
-  //   'Pulse': null,
-  //   'Breath': null,
-  //   'Pressure': null,
-  // };
 
   @override
     void didChangeDependencies() {
@@ -34,17 +27,11 @@ class _VitalSignStartPageState extends State<VitalSignStartPage> {
 
   @override
   Widget build(BuildContext context) {
-    // final userInfo = Provider.of<UserInfo>(context, listen: false);
     final vitalSign = Provider.of<VitalSignProvider>(context);
     final appBar = AppBar(
       centerTitle: true,
-      iconTheme: IconThemeData(
-        color: Theme.of(context).primaryColor,
-      ),
+      iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
       backgroundColor: Colors.white,
-      // leading: IconButton(
-      //     icon: Icon(Icons.arrow_back_ios_rounded),
-      //     onPressed: () => Navigator.of(context).pop()),
       title: Container(
         alignment: Alignment.center,
         child: Text('IMAS'),
@@ -72,15 +59,12 @@ class _VitalSignStartPageState extends State<VitalSignStartPage> {
               right: 15,
               bottom: 40,
             ),
-            // alignment: Alignment.bottomCenter,
             child: Column(
-              // mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Container(
-                  constraints: BoxConstraints(
-                      maxWidth: MediaQuery.of(context).size.width * 0.7),
+                  constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.7),
                   child: Text('Vital Sign Measurement',
                       style: TextStyle(
                         fontSize: 38,
@@ -88,15 +72,11 @@ class _VitalSignStartPageState extends State<VitalSignStartPage> {
                       ),
                       overflow: TextOverflow.clip),
                 ),
-                SizedBox(
-                  height: 20,
-                ),
+                SizedBox(height: 20),
                 Align(
                   alignment: Alignment.centerRight,
-                  // color: Colors.deepPurple,
                   child: Container(
-                    constraints: BoxConstraints(
-                        maxWidth: MediaQuery.of(context).size.width * 0.7),
+                    constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.7),
                     child: Text(
                       'We want to gather some information from you. That can help in diaganosis',
                       style: TextStyle(
@@ -108,9 +88,7 @@ class _VitalSignStartPageState extends State<VitalSignStartPage> {
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: 240,
-                ),
+                SizedBox(height: 240),
                 Align(
                   alignment: Alignment.center,
                   child: AdaptiveRaisedButton(
@@ -122,10 +100,6 @@ class _VitalSignStartPageState extends State<VitalSignStartPage> {
                         VSBodyTempPage.routeName,
                         arguments: vitalSign,
                       );
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(builder: (context) => VSBodyTempPage()),
-                      // );
                     }),
                   ),
                 )
