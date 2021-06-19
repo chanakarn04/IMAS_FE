@@ -1,21 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 import './homePages.dart';
 import './chatRoom.dart';
+import '../Provider/user-info.dart';
+import '../Provider/chatRoom_info.dart';
 
-class AppointmentPatientPage extends StatelessWidget {
+class AppointmentPatientPage extends StatefulWidget {
   static const routeName = '/appointment-Patient';
 
-  // get apDt of last ap and dr Name
-  final Map data = {
-    'apDt': DateTime(2021, 9, 20, 14, 30),
-    // 'apDt': DateTime.now().subtract(
-    //   Duration(minutes: 5),
-    // ),
-    'drName': 'Samitanan Techabunyawatthanakul',
-    'namePrefix': 'Dr.',
-  };
+  @override
+  _AppointmentPatientPageState createState() => _AppointmentPatientPageState();
+}
+
+class _AppointmentPatientPageState extends State<AppointmentPatientPage> {
+  var _loadedData = false;
+  Map<String, dynamic> apt;
+
+  @override
+  void didChangeDependencies() {
+    if (!_loadedData) {
+      final userInfo = Provider.of<UserInfo>(context);
+      userInfo.updatePatientLastApt();
+      _loadedData = true;
+    }
+    super.didChangeDependencies();
+  }
 
   Widget _buildNoapt(BuildContext context) {
     return Column(
@@ -33,9 +44,7 @@ class AppointmentPatientPage extends StatelessWidget {
           ),
         ),
         InkWell(
-          onTap: () {
-            Navigator.of(context).pushReplacementNamed(HomePage.routeName);
-          },
+          onTap: () => Navigator.of(context).pushReplacementNamed(HomePage.routeName),
           child: Container(
             height: 50,
             width: 150,
@@ -53,20 +62,19 @@ class AppointmentPatientPage extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(
-          height: 15,
-        ),
+        SizedBox(height: 15),
       ],
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    final userInfo = Provider.of<UserInfo>(context);
+    final chatroom = Provider.of<ChatRoomProvider>(context);
+    apt = userInfo.lastApt;
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(
-          color: Theme.of(context).primaryColor,
-        ),
+        iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
         backgroundColor: Colors.white,
         leading: IconButton(
             icon: Icon(Icons.arrow_back_ios_rounded),
@@ -97,7 +105,7 @@ class AppointmentPatientPage extends StatelessWidget {
           ),
         ),
         child: Center(
-          child: (data.isNotEmpty)
+          child: (apt.isNotEmpty)
               ? Column(
                   children: [
                     Expanded(
@@ -120,7 +128,7 @@ class AppointmentPatientPage extends StatelessWidget {
                             Align(
                               alignment: Alignment.centerRight,
                               child: Text(
-                                '${DateFormat.yMMMMd().format(data['apDt'])}',
+                                '${DateFormat.yMMMMd().format(apt['aptDate'])}',
                                 style: TextStyle(
                                   fontSize: 36,
                                   fontWeight: FontWeight.bold,
@@ -128,9 +136,7 @@ class AppointmentPatientPage extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            SizedBox(
-                              height: 5,
-                            ),
+                            SizedBox(height: 5),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
@@ -143,7 +149,7 @@ class AppointmentPatientPage extends StatelessWidget {
                                   ),
                                 ),
                                 Text(
-                                  '${DateFormat.jm().format(data['apDt'])}',
+                                  '${DateFormat.jm().format(apt['aptDate'])}',
                                   textAlign: TextAlign.end,
                                   style: TextStyle(
                                     fontSize: 36,
@@ -153,64 +159,18 @@ class AppointmentPatientPage extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            SizedBox(
-                              height: 15,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Flexible(
-                                  child: Container(
-                                    child: Text(
-                                      '${data['namePrefix']} ${data['drName']}',
-                                      textAlign: TextAlign.end,
-                                      overflow: TextOverflow.fade,
-                                      maxLines: 1,
-                                      softWrap: false,
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Container(
-                                  height: 30,
-                                  width: 30,
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      fit: BoxFit.contain,
-                                      image: AssetImage(
-                                          'assets/images/default_photo.png'),
-                                    ),
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                      width: 1,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
+                            SizedBox(height: 15),
                           ],
                         ),
                       ),
                     ),
                     Container(
-                      child:
-                          ((DateTime.now().difference(data['apDt']).inMinutes >=
-                                      0) &&
-                                  (DateTime.now()
-                                          .difference(data['apDt'])
-                                          .inMinutes <=
-                                      30))
+                      child: ((DateTime.parse(apt['aptDate'].toString()).difference(DateTime.now()).inMinutes - 390 >= 0) &&
+                              (DateTime.parse(apt['aptDate'].toString()).difference(DateTime.now()).inMinutes - 390 <= 30))
+                          ? (chatroom.chatRoomRegis)
                               ? InkWell(
                                   onTap: () {
-                                    Navigator.of(context)
-                                        .popAndPushNamed(ChatRoom.routeName);
+                                    Navigator.of(context).popAndPushNamed(ChatRoom.routeName);
                                   },
                                   child: Container(
                                     height: 50,
@@ -230,15 +190,15 @@ class AppointmentPatientPage extends StatelessWidget {
                                   ),
                                 )
                               : Text(
-                                  'It not the appointment time yet.',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                  ),
-                                ),
+                                  'Doctor has not open chat yet.',
+                                  style: TextStyle(color: Colors.white),
+                                )
+                          : Text(
+                              'It not the appointment time yet.',
+                              style: TextStyle(color: Colors.white),
+                            ),
                     ),
-                    SizedBox(
-                      height: 15,
-                    ),
+                    SizedBox(height: 15),
                   ],
                 )
               : _buildNoapt(context),

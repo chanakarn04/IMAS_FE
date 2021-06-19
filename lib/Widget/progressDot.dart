@@ -25,9 +25,7 @@ class ProgressDot extends StatelessWidget {
               : Color.fromARGB(100, 75, 75, 75),
         ),
       ),
-      SizedBox(
-        width: 7,
-      ),
+      SizedBox(width: 7),
     ];
   }
 

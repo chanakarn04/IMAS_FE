@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../dummy_data.dart';
-import '../../Widget/AdaptiveRaisedButton.dart';
-import '../../Widget/adaptiveBorderButton.dart';
+import '../../Models/model.dart';
 import '../../Widget/progressDot.dart';
 import './registerPatientScreen_3.dart';
 
@@ -37,6 +35,16 @@ class _RegisterPatient2ScreenState extends State<RegisterPatient2Screen> {
     });
   }
 
+  int statusTranslate(Status status) {
+    if (status == Status.No) {
+      return 0;
+    } else if (status == Status.NotSure) {
+      return 1;
+    } else {
+      return 2;
+    }
+  }
+
   Widget buildSelectionDot(
     String text,
     Status labelStatus,
@@ -45,8 +53,8 @@ class _RegisterPatient2ScreenState extends State<RegisterPatient2Screen> {
   ) {
     if (selectedStatus == labelStatus) {
       return Container(
-        height: 75,
-        width: 75,
+        height: 65,
+        width: 65,
         padding: EdgeInsets.all(5),
         decoration: BoxDecoration(
           shape: BoxShape.circle,
@@ -59,7 +67,7 @@ class _RegisterPatient2ScreenState extends State<RegisterPatient2Screen> {
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
-            fontSize: 20,
+            fontSize: 16,
           ),
         ),
       );
@@ -72,10 +80,8 @@ class _RegisterPatient2ScreenState extends State<RegisterPatient2Screen> {
           padding: EdgeInsets.all(5),
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            // color: Colors.white,
             border: Border.all(
               width: 2,
-              // color: Theme.of(context).primaryColor,
               color: Colors.grey,
             ),
           ),
@@ -84,9 +90,7 @@ class _RegisterPatient2ScreenState extends State<RegisterPatient2Screen> {
             text,
             textAlign: TextAlign.center,
             style: TextStyle(
-              // color: Theme.of(context).primaryColor,
               color: Colors.grey,
-              // fontWeight: FontWeight.bold,
               fontSize: 16,
             ),
           ),
@@ -196,79 +200,118 @@ class _RegisterPatient2ScreenState extends State<RegisterPatient2Screen> {
 
   @override
   Widget build(BuildContext context) {
+    Map<String, dynamic> registerData =
+        ModalRoute.of(context).settings.arguments;
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          padding: EdgeInsets.only(
-            left: 20,
-            right: 20,
-            bottom: 30,
-            top: 50,
-          ),
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Register',
-                  style: TextStyle(
-                    color: Theme.of(context).primaryColor,
-                    fontSize: 36,
-                    fontWeight: FontWeight.bold,
-                  ),
+      body: Container(
+        padding: EdgeInsets.only(
+          top: MediaQuery.of(context).padding.top + 5,
+        ),
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        color: Theme.of(context).primaryColor,
+        child: Column(
+          children: [
+            Container(
+              padding: EdgeInsets.only(left: 15),
+              alignment: Alignment.centerLeft,
+              child: InkWell(
+                child: Icon(
+                  Icons.arrow_back_ios_rounded,
+                  color: Colors.white,
+                ),
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ),
+            SizedBox(height: 5),
+            Container(
+              padding: EdgeInsets.only(left: 25),
+              alignment: Alignment.centerLeft,
+              child: Text(
+                'Register',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 30,
                 ),
               ),
-              SizedBox(
-                height: 35,
+            ),
+            Container(
+              padding: EdgeInsets.only(left: 27),
+              alignment: Alignment.centerLeft,
+              child: Text(
+                'Personal Infomation',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
               ),
-              buildSelectionRow('Do you have high blood pressure?', 0),
-              SizedBox(
-                height: 35,
-              ),
-              buildSelectionRow('Do You have diabetes?', 1),
-              SizedBox(
-                height: 35,
-              ),
-              buildSelectionRow('Do you smoke?', 2),
-              Expanded(child: Container()),
-              ProgressDot(
-                length: 3,
-                markedIndex: 2,
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  AdaptiveBorderButton(
-                    buttonText: 'Back',
-                    handlerFn: () {
-                      Navigator.of(context).pop();
-                    },
-                    width: 130,
-                    height: 50,
+            ),
+            SizedBox(height: 10),
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(30),
+                    topRight: Radius.circular(30),
                   ),
-                  SizedBox(
-                    width: 30,
-                  ),
-                  AdaptiveRaisedButton(
-                    buttonText: 'Next',
-                    handlerFn: () {
-                      Navigator.of(context)
-                          .pushNamed(RegisterPatient3Screen.routeName);
-                    },
-                    width: 120,
-                    height: 40,
-                  ),
-                ],
+                  color: Colors.white,
+                ),
+                padding: EdgeInsets.only(
+                  left: 30,
+                  right: 30,
+                  top: 20,
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    SizedBox(height: 20),
+                    buildSelectionRow('Do you have high blood pressure?', 0),
+                    SizedBox(
+                      height: 35,
+                    ),
+                    buildSelectionRow('Do You have diabetes?', 1),
+                    SizedBox(
+                      height: 35,
+                    ),
+                    buildSelectionRow('Do you smoke?', 2),
+                    Expanded(child: Container()),
+                    ProgressDot(
+                      length: 3,
+                      markedIndex: 2,
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        registerData.addAll({
+                          'isSmoke': statusTranslate(isSmoke),
+                          'isDiabetes': statusTranslate(isDiabetes),
+                          'hasHighPress': statusTranslate(hasHighPress),
+                        });
+                        Navigator.of(context).pushNamed(RegisterPatient3Screen.routeName, arguments: registerData);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        primary: Theme.of(context).primaryColor,
+                        padding: EdgeInsets.all(5),
+                        shape: new RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                        elevation: 0,
+                      ),
+                      child: Container(
+                        height: 30,
+                        width: 120,
+                        alignment: Alignment.center,
+                        child: Text('Next'),
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                  ],
+                ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

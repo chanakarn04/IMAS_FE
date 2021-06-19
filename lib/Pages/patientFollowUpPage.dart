@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 
-// import '../dummy_data.dart';
-import './patientFollowUp/onConsultTab.dart';
-import './patientFollowUp/inCareTab.dart';
+import '../Provider/user-info.dart';
+import '../Widget/patientBox.dart';
 
 class PatientFollowUpPage extends StatefulWidget {
   static const routeName = '/patient-followUp';
@@ -12,199 +13,42 @@ class PatientFollowUpPage extends StatefulWidget {
 }
 
 class _PatientFollowUpPageState extends State<PatientFollowUpPage> {
-  // var _loadedInitData = false;
-  int selectedPageIndex = 0;
+  var _loadedData = false;
 
-  final String drId = 'd001';
-  List<Map<String, Object>> _pages;
-  // List<TreatmentPlan> thisDoctorTreatmentPlans;
-  // List<Appointment> thisDoctorAppointments = new List();
-  // List<Patient> patients;
-
-  // @override
-  // void didChangeDependencies() {
-  //   // if (!_loadedInitData) {
-  //   //   thisDoctorTreatmentPlans = dummy_treatmentPlans
-  //   //       .where((tp) =>
-  //   //           (tp.drId == drId) && (tp.status == TreatmentStatus.InProgress))
-  //   //       .toList();
-  //   //   for (TreatmentPlan tp in thisDoctorTreatmentPlans) {
-  //   //     print('tester: ${tp.tpId}');
-  //   //     thisDoctorAppointments.addAll(dummy_appointment
-  //   //         .where((apt) =>
-  //   //             (apt.tpId == tp.tpId) && (apt.status == AptStatus.Lastest))
-  //   //         .toList());
-  //   //     // patients
-  //   //     //     .addAll(dummy_Paitents.where((p) => (p.pId == tp.pId)).toList());
-  //   //   }
-  //   //   // for (Appointment apt in thisDoctorAppointments) {
-  //   //   //   // print('tester: ${tp.tpId}');
-  //   //   //   patients.addAll(dummy_Paitents.where((pt) =>
-  //   //   //       (pt.pId == apt.) && (apt.status == AptStatus.Lastest)));
-  //   //   // }
-
-  //     // _loadedInitData = true;
-  //   }
-  //   super.didChangeDependencies();
-  // }
-
-  // final String name = 'f-name';
-  // final String surname = 's-name';
-  // final String imageAsset = '';
-  // final DateTime aptDt;
+  List<Map<String, dynamic>> todayApt = [];
+  List<Map<String, dynamic>> otherApt = [];
 
   @override
-  void initState() {
-    _pages = [
-      {
-        'title': 'On Consult',
-        // 'tab': OnConsultTab(),
-        'tab': OnConsultTab(
-          [
-            {
-              'fname': 'pisit',
-              'sname': 'pasut',
-              'imageAsset': 'assets/images/default_photo.png',
-              'apDt': DateTime.now().subtract(
-                new Duration(minutes: 10),
-              ),
-              'tpId': 'tp001'
-            },
-            {
-              'fname': 'mango',
-              'sname': 'steen',
-              'imageAsset': '',
-              'apDt': DateTime.now().subtract(
-                new Duration(minutes: 15),
-              ),
-              'tpId': 'tp002'
-            },
-          ],
-        ),
-      },
-      {
-        'title': 'In Care',
-        'tab': InCareTab(
-          [
-            {
-              'fname': 'Pisit',
-              'sname': 'Pasut',
-              'imageAsset': 'assets/images/default_photo.png',
-              'aptDt': DateTime.now().add(
-                new Duration(minutes: 10),
-              ),
-              'tpId': 'tp001'
-            },
-            {
-              'fname': 'Mango',
-              'sname': 'Steen',
-              'imageAsset': '',
-              'aptDt': DateTime.now().add(
-                new Duration(days: 8),
-              ),
-              'tpId': 'tp002'
-            },
-            {
-              'fname': 'Jack',
-              'sname': 'Fruit',
-              'imageAsset': '',
-              'aptDt': DateTime.now().add(
-                new Duration(days: 17),
-              ),
-              'tpId': 'tp003'
-            },
-            {
-              'fname': 'Ichigo',
-              'sname': 'Strawberry',
-              'imageAsset': '',
-              'aptDt': DateTime.now().add(
-                new Duration(days: 24),
-              ),
-              'tpId': 'tp004'
-            },
-            {
-              'fname': 'Orange',
-              'sname': 'Joe',
-              'imageAsset': '',
-              'aptDt': DateTime.now().add(
-                new Duration(days: 34),
-              ),
-              'tpId': 'tp005'
-            },
-            {
-              'fname': 'Faceless',
-              'sname': 'Void',
-              'imageAsset': '',
-              'aptDt': DateTime.now().add(
-                new Duration(days: 36),
-              ),
-              'tpId': 'tp006'
-            },
-            {
-              'fname': 'Outworld',
-              'sname': 'Destroyer',
-              'imageAsset': '',
-              'aptDt': DateTime.now().add(
-                new Duration(days: 38),
-              ),
-              'tpId': 'tp007'
-            },
-            {
-              'fname': 'Shadow',
-              'sname': 'Shaman',
-              'imageAsset': '',
-              'aptDt': DateTime.now().add(
-                new Duration(days: 38),
-              ),
-              'tpId': 'tp008'
-            },
-          ],
-        )
-      },
-    ];
-    super.initState();
+  void didChangeDependencies() async {
+    if (!_loadedData) {
+      _loadedData = true;
+      final userInfo = Provider.of<UserInfo>(context);
+      userInfo.ptFollowUpLoading = true;
+      userInfo.calendarApt = [];
+      userInfo.ptFollowUp = [];
+      userInfo.treatmentPlan = [];
+      await userInfo.calendarAppointment();
+      await userInfo.patientFollowUpInfo();
+      final List<Map<String, dynamic>> data = userInfo.ptFollowUp;
+      DateTime now = DateTime.now();
+      todayApt = data.where((elm) =>
+              DateTime(elm['apDt'].year, elm['apDt'].month, elm['apDt'].day)
+                  .difference(DateTime(now.year, now.month, now.day))
+                  .inDays == 0).toList();
+      otherApt = data.where((elm) =>
+              DateTime(elm['apDt'].year, elm['apDt'].month, elm['apDt'].day)
+                  .difference(DateTime(now.year, now.month, now.day))
+                  .inDays != 0).toList();
+    }
+    super.didChangeDependencies();
   }
-
-  _selectPage(int index) {
-    setState(() {
-      selectedPageIndex = index;
-    });
-  }
-
-  // getInCareInfo() {
-  //   List<Patient> patients;
-  //   // String tpId;
-  //   for (TreatmentPlan tp in thisDoctorTreatmentPlans) {
-  //     dummy_Patients.firstWhere((pt) => )
-  //     patients.addAll(dummy_Patients.where((pt) => tp.pId == pt.pId));
-  //   }
-  //   for (Patient pt in patients) {
-  //     print(pt.pId);
-  //     print(pt.pName);
-  //     print(pt.pSurname);
-  //   }
-  //   // return
-  // }
-
-  // geOnConsultInfo() {
-  //   List<Patient> patients;
-  //   List<Appointment> appoitments = thisDoctorAppointments.where((apt) => apt.apDt);
-  //   for (TreatmentPlan tp in thisDoctorTreatmentPlans) {
-  //     patients.addAll(dummy_Patients.where((pt) => (tp.pId == pt.pId) && ()));
-  //   }
-  //   for (Patient pt in patients) {
-  //     print(pt.pId);
-  //   }
-  //   // return
-  // }
 
   @override
   Widget build(BuildContext context) {
+    final userInfo = Provider.of<UserInfo>(context);
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(
-          color: Theme.of(context).primaryColor,
-        ),
+        iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
         backgroundColor: Colors.white,
         leading: IconButton(
             icon: Icon(Icons.arrow_back_ios_rounded),
@@ -226,24 +70,108 @@ class _PatientFollowUpPageState extends State<PatientFollowUpPage> {
           )
         ],
       ),
-      body: _pages[selectedPageIndex]['tab'],
-      bottomNavigationBar: BottomNavigationBar(
-        // backgroundColor: Theme.of(context).primaryColor,
-        // selectedItemColor: Colors.white,
-        unselectedItemColor: Theme.of(context).primaryColor.withAlpha(150),
-        currentIndex: selectedPageIndex,
-        onTap: _selectPage,
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.chat_bubble_outline_rounded),
-            label: _pages[0]['title'],
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_box_rounded),
-            label: _pages[1]['title'],
-          ),
-        ],
-      ),
+      body: (userInfo.ptFollowUpLoading)
+          ? Center(
+              child: SizedBox(
+                height: MediaQuery.of(context).size.width * 0.2,
+                width: MediaQuery.of(context).size.width * 0.2,
+                child: CircularProgressIndicator(
+                  strokeWidth: 5.0,
+                  valueColor: new AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),
+                ),
+              ),
+            )
+          : SingleChildScrollView(
+              child: Container(
+                padding: EdgeInsets.only(
+                  top: 20,
+                  left: 15,
+                  right: 15,
+                ),
+                child: Column(
+                  children: [
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Today\'s Appointments',
+                        style: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                          fontSize: 32,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    (todayApt.length != 0)
+                        ? Container(
+                            height: (75.0 * todayApt.length) + 30,
+                            child: ListView.builder(
+                              padding: EdgeInsets.symmetric(vertical: 15),
+                              itemBuilder: (context, index) {
+                                return PatientBox(
+                                  pName: todayApt[index]['pName'],
+                                  pid: todayApt[index]['pid'],
+                                  imageAsset: todayApt[index]['imageAsset'],
+                                  aptDt: todayApt[index]['apDt'],
+                                  tpId: todayApt[index]['tpid'],
+                                );
+                              },
+                              itemCount: todayApt.length,
+                            ),
+                          )
+                        : Container(
+                            height: MediaQuery.of(context).size.height * 0.2,
+                            alignment: Alignment.center,
+                            child: Text(
+                              'No appointment today.',
+                              style: TextStyle(
+                                fontSize: 24,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Other patients',
+                        style: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                          fontSize: 32,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    (otherApt.length != 0)
+                        ? Container(
+                            height: (75.0 * otherApt.length) + 30,
+                            child: ListView.builder(
+                              padding: EdgeInsets.symmetric(vertical: 15),
+                              itemBuilder: (context, index) {
+                                return PatientBox(
+                                  pName: otherApt[index]['pName'],
+                                  pid: otherApt[index]['pid'],
+                                  imageAsset: otherApt[index]['imageAsset'],
+                                  aptDt: otherApt[index]['apDt'],
+                                  tpId: otherApt[index]['tpid'],
+                                );
+                              },
+                              itemCount: otherApt.length,
+                            ),
+                          )
+                        : Container(
+                            height: MediaQuery.of(context).size.height * 0.2,
+                            alignment: Alignment.center,
+                            child: Text(
+                              'No other patients.',
+                              style: TextStyle(
+                                fontSize: 24,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ),
+                  ],
+                ),
+              ),
+            ),
     );
   }
 }

@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import '../dummy_data.dart';
-import './answerQuestionPages.dart';
-import '../Models/symptom.dart';
 import '../Widget/symptomCard.dart';
-import '../Widget/sideDrawer.dart';
+import '../Provider/user-info.dart';
+import '../Provider/symptomAssessment.dart';
 
 class SearchResultPages extends StatefulWidget {
   static const routeName = '/SymptomSearch';
-  // final String _searchText;
-
-  // SearchResultPages(this._searchText);
 
   @override
   _SearchResultPagesState createState() => _SearchResultPagesState();
@@ -18,34 +14,27 @@ class SearchResultPages extends StatefulWidget {
 
 class _SearchResultPagesState extends State<SearchResultPages> {
   final _symptomController = TextEditingController();
-  String _searchText;
+  var _loadedData = false;
+  String phrase = 'test';
+  List<Map<String, dynamic>> symptomList = [];
 
-  final List<Symptom> symptomList = dummy_symptoms;
-
-  List<Symptom> searchedSymptom(String _searchText) {
-    return symptomList.where((element) {
-      String elm = element.name.toLowerCase();
-      return elm.contains(_searchText.toLowerCase());
-    }).toList();
+  @override
+  void didChangeDependencies() async {
+    if (!_loadedData) {
+      phrase = ModalRoute.of(context).settings.arguments as String;
+      final symptomAssessment = Provider.of<SymptomAssessmentProvider>(context, listen: false);
+      await symptomAssessment.searchSymptom(phrase);
+      _symptomController.text = phrase;
+      _loadedData = true;
+    }
+    super.didChangeDependencies();
   }
-
-  void setSearchState(_) {
-    setState(() {
-      _searchText = _symptomController.text;
-    });
-  }
-
-  GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
-    final routeArgument =
-        ModalRoute.of(context).settings.arguments as Map<String, String>;
-    _searchText = routeArgument['search'];
+    final symptomAssessment = Provider.of<SymptomAssessmentProvider>(context);
     final appBar = AppBar(
-      iconTheme: IconThemeData(
-        color: Theme.of(context).primaryColor,
-      ),
+      iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
       backgroundColor: Colors.white,
       leading: IconButton(
           icon: Icon(Icons.arrow_back_ios_rounded),
@@ -64,9 +53,8 @@ class _SearchResultPagesState extends State<SearchResultPages> {
         )
       ],
     );
+
     return Scaffold(
-      key: _scaffoldState,
-      endDrawer: SideDrawer(),
       appBar: appBar,
       body: SingleChildScrollView(
         child: Column(
@@ -74,32 +62,35 @@ class _SearchResultPagesState extends State<SearchResultPages> {
             Container(
               height: (MediaQuery.of(context).size.height -
                       appBar.preferredSize.height -
-                      MediaQuery.of(context).padding.top) *
-                  0.1,
+                      MediaQuery.of(context).padding.top) * 0.1,
               padding: EdgeInsets.all(10),
               child: TextField(
                 controller: _symptomController,
-                decoration: InputDecoration(
-                  hintText: _searchText,
-                ),
                 onSubmitted: (_) {
-                  setSearchState(_);
+                  setState(() {
+                    symptomAssessment.symptomSearchList = [];
+                    symptomAssessment.searchSymptom(phrase);
+                    phrase = _symptomController.text;
+                  });
                 },
               ),
             ),
-            // Text('this is search result'),
             Container(
               height: (MediaQuery.of(context).size.height -
                       appBar.preferredSize.height -
-                      MediaQuery.of(context).padding.top) *
-                  0.9,
-              child: SymptomCard(searchedSymptom(_searchText), () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => AnswerQuestionPages()),
-                );
-              }),
+                      MediaQuery.of(context).padding.top) * 0.9,
+              child: (symptomAssessment.symptomSearching)
+                  ? Center(
+                      child: SizedBox(
+                        height: 60,
+                        width: 60,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 6.0,
+                          valueColor: new AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),
+                        ),
+                      ),
+                    )
+                  : SymptomCard(symptomAssessment.symptomSearchList),
             )
           ],
         ),

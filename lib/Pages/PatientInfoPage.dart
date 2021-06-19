@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
-import '../dummy_data.dart';
-// import '../Widget/sideDrawer.dart';
+import '../Provider/patientInfo.dart';
 import './patientInfo/basicInfoTab.dart';
 import './patientInfo/disease_symptomTab.dart';
 import './patientInfo/vitalSignTab.dart';
@@ -10,53 +9,59 @@ import './patientInfo/suggestionTab.dart';
 
 class PatientInfoPage extends StatefulWidget {
   static const routeName = '/patient-info';
-  final pInfo = dummy_Patient;
 
   @override
   _PatientInfoPageState createState() => _PatientInfoPageState();
 }
 
 class _PatientInfoPageState extends State<PatientInfoPage> {
-  // GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
+  var _loadedData = false;
   ScrollController _scrollController;
   bool sliverCollapsed = false;
   String appBarTitle = '';
+  String pFullName = '';
+  Map<String, dynamic> data;
 
-  final lastAppointment =
-      dummy_appointment.firstWhere((apt) => apt.status == AptStatus.Lastest);
+  PatientInfo patientInfo;
+  Map<String, dynamic> routeArg;
 
   @override
-  void initState() {
+  void didChangeDependencies() async {
     _scrollController = ScrollController();
 
-    _scrollController.addListener(() {
-      if (_scrollController.offset > 80)
-      // &&
-      //     !_scrollController.position.outOfRange)
-      {
-        if (!sliverCollapsed) {
-          // do what ever you want when silver is collapsing !
+    if (!_loadedData) {
+      _loadedData = true;
+      routeArg = ModalRoute.of(context).settings.arguments;
+      pFullName = routeArg['pName'];
+      patientInfo = Provider.of<PatientInfo>(context);
+      patientInfo.pInfoLoad = false;
+      patientInfo.symp_condLoad = false;
+      patientInfo.vital_painLoad = false;
+      patientInfo.prescrip_suggestLoad = false;
+      await patientInfo.getPatInfo(routeArg['pid'], routeArg['tpid']);
+    }
 
-          appBarTitle =
-              '${this.widget.pInfo.pName} ${this.widget.pInfo.pSurname}';
-          sliverCollapsed = true;
-          setState(() {});
+    _scrollController.addListener(
+      () {
+        if (_scrollController.offset > 80 &&
+            !_scrollController.position.outOfRange) {
+          if (!sliverCollapsed) {
+            appBarTitle = pFullName;
+            sliverCollapsed = true;
+            setState(() {});
+          }
         }
-      }
-      if (_scrollController.offset <= 80
-          // &&
-          //     !_scrollController.position.outOfRange
-          ) {
-        if (sliverCollapsed) {
-          // do what ever you want when silver is expanding !
-
-          appBarTitle = '';
-          sliverCollapsed = false;
-          setState(() {});
+        if (_scrollController.offset <= 40
+            ) {
+          if (sliverCollapsed) {
+            appBarTitle = '';
+            sliverCollapsed = false;
+            setState(() {});
+          }
         }
-      }
-    });
-    super.initState();
+      },
+    );
+    super.didChangeDependencies();
   }
 
   @override
@@ -73,9 +78,7 @@ class _PatientInfoPageState extends State<PatientInfoPage> {
       floating: false,
       pinned: true,
       snap: false,
-      iconTheme: IconThemeData(
-        color: Colors.white,
-      ),
+      iconTheme: IconThemeData(color: Colors.white),
       actions: <Widget>[
         IconButton(
           icon: Icon(
@@ -95,16 +98,14 @@ class _PatientInfoPageState extends State<PatientInfoPage> {
             background: Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Theme.of(context).primaryColor,
-                      Theme.of(context).accentColor,
-                    ],
-                    stops: [
-                      0.4,
-                      1.0,
-                    ]),
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Theme.of(context).primaryColor,
+                    Theme.of(context).accentColor,
+                  ],
+                  stops: [0.4, 1.0],
+                ),
               ),
               alignment: Alignment.topCenter,
               child: Column(
@@ -116,7 +117,7 @@ class _PatientInfoPageState extends State<PatientInfoPage> {
                     decoration: BoxDecoration(
                       image: DecorationImage(
                         fit: BoxFit.contain,
-                        image: AssetImage('assets/images/patient.jpg'),
+                        image: AssetImage('assets/images/default_photo.png'),
                       ),
                       shape: BoxShape.circle,
                       border: Border.all(
@@ -125,30 +126,14 @@ class _PatientInfoPageState extends State<PatientInfoPage> {
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: 5,
-                  ),
+                  SizedBox(height: 5),
                   Container(
                     height: 25,
                     child: FittedBox(
                       child: Text(
-                        '${this.widget.pInfo.pName} ${this.widget.pInfo.pSurname}',
+                        '${routeArg['pName']}',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Container(
-                    height: 15,
-                    child: FittedBox(
-                      child: Text(
-                        'Next Appointment : ${DateFormat.yMMMEd().format(lastAppointment.apDt)}',
-                        style: TextStyle(
                           color: Colors.white,
                         ),
                       ),
@@ -162,62 +147,65 @@ class _PatientInfoPageState extends State<PatientInfoPage> {
         },
       ),
       bottom: TabBar(
-        // indicatorSize: ,
         isScrollable: true,
         indicatorWeight: 4.0,
         indicatorColor: Theme.of(context).primaryColorLight,
         labelColor: Colors.white,
-        labelStyle: TextStyle(
-          fontWeight: FontWeight.bold,
-        ),
+        labelStyle: TextStyle(fontWeight: FontWeight.bold),
         unselectedLabelColor: Colors.white54,
         tabs: <Widget>[
           Container(
             height: 20,
-            child: Tab(
-              text: 'Basic info',
-            ),
+            child: Tab(text: 'Basic info'),
           ),
           Container(
             height: 20,
-            child: Tab(
-              text: 'Disease/Symptom',
-            ),
+            child: Tab(text: 'Disease/Symptom'),
           ),
           Container(
             height: 20,
-            child: Tab(
-              text: 'Vital sign',
-            ),
+            child: Tab(text: 'Vital sign'),
           ),
           Container(
             height: 20,
-            child: Tab(
-              text: 'Suggestion',
-            ),
+            child: Tab(text: 'Suggestion'),
           ),
         ],
       ),
     );
     return Scaffold(
-      body: DefaultTabController(
-        length: 4,
-        child: NestedScrollView(
-          controller: _scrollController,
-          headerSliverBuilder: (context, value) {
-            return [appBar];
-          },
-          body: TabBarView(
-            physics: const NeverScrollableScrollPhysics(),
-            children: <Widget>[
-              BasicInfoTab(),
-              DiseaseSymptomTab(),
-              VitalSignTab(),
-              SuggestionTab(),
-            ],
-          ),
-        ),
-      ),
+      body: (patientInfo.pInfoLoad &&
+              patientInfo.symp_condLoad &&
+              patientInfo.vital_painLoad &&
+              patientInfo.prescrip_suggestLoad)
+          ? DefaultTabController(
+              length: 4,
+              child: NestedScrollView(
+                controller: _scrollController,
+                headerSliverBuilder: (context, value) {
+                  return [appBar];
+                },
+                body: TabBarView(
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: <Widget>[
+                    BasicInfoTab(),
+                    DiseaseSymptomTab(),
+                    VitalSignTab(),
+                    SuggestionTab(),
+                  ],
+                ),
+              ),
+            )
+          : Center(
+              child: SizedBox(
+                height: MediaQuery.of(context).size.width * 0.2,
+                width: MediaQuery.of(context).size.width * 0.2,
+                child: CircularProgressIndicator(
+                  strokeWidth: 5.0,
+                  valueColor: new AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),
+                ),
+              ),
+            ),
     );
   }
 }

@@ -1,29 +1,35 @@
 import 'package:flutter/material.dart';
-import 'package:homepage_proto/Widget/answerList.dart';
+import 'package:provider/provider.dart';
 
-// import '../Widget/adaptiveBorderButton.dart';
+import '../Widget/answerList.dart';
+import '../Provider/symptomAssessment.dart';
+import '../Pages/homePages.dart';
+import '../Pages/predictionResultPage.dart';
 
-class AnswerQuestionPages extends StatelessWidget {
+class AnswerQuestionPages extends StatefulWidget {
   static const routeName = '/QuestionSymptom';
-  final String symptom = 'Headache';
-  final String question = 'What is your pain charateristic?';
-  final List<String> answerList = [
-    'Stabbing',
-    'Squeezing',
-    'Throbbing',
-    'Mixed',
-  ];
 
-  // AnswerQuestionPages({
-  //   @required this.symptom,
-  //   @required this.question,
-  //   @required this.answerList,
-  // })
+  @override
+  _AnswerQuestionPagesState createState() => _AnswerQuestionPagesState();
+}
+
+class _AnswerQuestionPagesState extends State<AnswerQuestionPages> {
+  var _loadedData = false;
+
+  @override
+  void didChangeDependencies() {
+    final symptomAssessment = Provider.of<SymptomAssessmentProvider>(context);
+    if (!_loadedData) {
+      symptomAssessment.sendDiagnostic();
+      _loadedData = true;
+    }
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
-    // final routeArgument =
-    //     ModalRoute.of(context).settings.arguments as Map<String, Object>;
+    final symptomAssessment = Provider.of<SymptomAssessmentProvider>(context);
+
     final appBar = AppBar(
       centerTitle: true,
       iconTheme: IconThemeData(
@@ -43,78 +49,68 @@ class AnswerQuestionPages extends StatelessWidget {
             Icons.menu_rounded,
             color: Colors.transparent,
           ),
-          onPressed: null,
+          onPressed: () {
+            Navigator.of(context)
+                .popUntil(ModalRoute.withName(HomePage.routeName));
+            Navigator.of(context)
+                .pushNamed(PredictionResultPage.routeName, arguments: {
+              'isHistory': false,
+            });
+          },
         )
       ],
     );
     return Scaffold(
       appBar: appBar,
       body: Container(
-          // color: Colors.pink,
           padding: EdgeInsets.only(
             bottom: 30,
             top: 10,
             left: 15,
             right: 10,
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            // color: Colors.purple,
-            // alignment: Alignment.,
-            children: <Widget>[
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Column(
-                  // mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+          child: (symptomAssessment.diagnosticLoading)
+              ? Center(
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2.0,
+                    valueColor: new AlwaysStoppedAnimation<Color>(
+                        Theme.of(context).primaryColor),
+                  ),
+                )
+              : Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.06,
-                      child: FittedBox(
-                        child: Text(
-                          symptom,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Container(
+                            child: Text(
+                              symptomAssessment.diagnosticData['question']
+                                  ['text'],
+                              style: TextStyle(
+                                fontSize: 20,
+                              ),
+                            ),
                           ),
-                        ),
+                        ],
                       ),
                     ),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.1),
                     Container(
-                      height: MediaQuery.of(context).size.height * 0.035,
-                      child: FittedBox(
-                        child: Text(
-                          question,
+                      height: MediaQuery.of(context).size.height * 0.35,
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        child: AnswerList(
+                          symptomAssessment.diagnosticData['question']['items'][0],
+                          symptomAssessment.diagnosticData['should_stop'],
                         ),
                       ),
                     ),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.05),
                   ],
-                ),
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.1,
-              ),
-              Container(
-                height: MediaQuery.of(context).size.height * 0.35,
-                child: Align(
-                  alignment: Alignment.centerRight,
-                  child: AnswerList(answerList),
-                ),
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.05,
-              ),
-            ],
-          )
-          // AdaptiveBorderButton('Squeezing', 0.025, () {
-          //   print('Squeeze');
-          // }),
-          // AdaptiveBorderButton('Throbbing', 0.025, () {
-          //   print('Throb');
-          // }),
-          // AdaptiveBorderButton('Mixed', 0.025, () {
-          //   print('Mix');
-          // }),
-
+                )
           ),
     );
   }

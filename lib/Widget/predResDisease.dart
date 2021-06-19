@@ -1,64 +1,50 @@
 import 'package:flutter/material.dart';
 
-import '../Models/disease.dart';
-import '../Models/diseaseAPI.dart';
-import '../Widget/diseaseCard.dart';
-
 class PredResDisease extends StatelessWidget {
-  final List<Disease> detectedDisease;
-  final List<DiseaseAPI> detectedDiseaseAPI;
+  final List<dynamic> conditions;
 
-  PredResDisease(
-    this.detectedDisease,
-    this.detectedDiseaseAPI,
-  );
+  PredResDisease(this.conditions);
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Padding(
-          padding: EdgeInsets.all(15),
-          child: Row(
-            children: [
-              Text(
-                'Disease',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              Expanded(
-                child: Container(
-                  color: Colors.black,
-                  height: 2,
-                ),
-              ),
-            ],
+        Container(
+          alignment: Alignment.centerLeft,
+          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+          child: Text(
+            'Detected diseases',
+            style: TextStyle(
+              fontSize: 20,
+              color: Theme.of(context).primaryColor,
+            ),
           ),
         ),
-        // Text(
-        //   '\u2022 ${symptomList[0]}',
-        // ),
         Container(
-          // color: Colors.teal,
-          padding: EdgeInsets.symmetric(
-            horizontal: 10,
-          ),
-          // color: Colors.teal[100],
-          height: (detectedDisease.length * 200).toDouble(),
+          padding: EdgeInsets.symmetric(horizontal: 15),
+          height: (conditions.length * 25).toDouble(),
           child: ListView.builder(
             physics: const NeverScrollableScrollPhysics(),
+            padding: EdgeInsets.all(0),
             itemBuilder: (ctx, index) {
-              return DiseaseCard(
-                disease: detectedDisease[index],
-                servere: detectedDiseaseAPI[index].severity,
+              return Container(
+                padding: EdgeInsets.symmetric(vertical: 2),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                          '${conditions[index]['common_name']}',
+                          maxLines: 1,
+                          overflow: TextOverflow.fade,
+                          softWrap: false,
+                          style: const TextStyle(fontSize: 18),
+                        ),
+                    ),
+                  ],
+                ),
               );
             },
-            itemCount: detectedDisease.length,
+            itemCount: conditions.length,
           ),
         )
       ],

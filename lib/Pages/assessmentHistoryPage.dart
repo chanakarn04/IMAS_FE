@@ -1,52 +1,64 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
-import './predictionResultPage.dart';
-import './suggestionPage.dart';
+import './detailAssessHist.dart';
+import '../Provider/user-info.dart';
+import '../Provider/assessmentHistory.dart';
+import '../Models/model.dart';
 
 class AssessmentHistoryPage extends StatefulWidget {
   static const routeName = '/assessment history';
-  final String pId = 'p001';
 
   @override
   _AssessmentHistoryPageState createState() => _AssessmentHistoryPageState();
 }
 
 class _AssessmentHistoryPageState extends State<AssessmentHistoryPage> {
-  List<Map<String, Object>> items = [
-    {
-      'tpId': 'tp001',
-      'symptom': 'Headache',
-      'date': DateTime.now(),
-      'status': 'In progress',
-    },
-    {
-      'tpId': 'tp002',
-      'symptom': 'Forearm pain',
-      'date': DateTime(2020, 12, 10),
-      'status': 'Mild',
-    },
-    {
-      'tpId': 'tp003',
-      'symptom': 'Dizziness',
-      'date': DateTime(2020, 11, 28),
-      'status': 'Cured',
-    },
-    {
-      'tpId': 'tp004',
-      'symptom': 'Break',
-      'date': DateTime(2020, 11, 28),
-      'status': 'Hospital',
-    },
-    {
-      'tpId': 'tp005',
-      'symptom': 'Silence',
-      'date': DateTime(2020, 11, 28),
-      'status': 'Hospital',
-    },
-  ];
+  var _loadedData = false;
+  AssessmentHistoryProvider assessmentHistoryProvider;
+  UserInfo userInfo;
+
+  @override
+  void didChangeDependencies() async {
+    if (!_loadedData) {
+      userInfo = Provider.of<UserInfo>(context);
+      assessmentHistoryProvider =
+          Provider.of<AssessmentHistoryProvider>(context);
+      assessmentHistoryProvider.loading = true;
+      await assessmentHistoryProvider.updateAssessmentHistory(userInfo.role);
+      _loadedData = true;
+    }
+    super.didChangeDependencies();
+  }
+
+  List<Map<String, dynamic>> items = [];
+
+  String _statusInfo(
+    BuildContext context,
+    TreatmentStatus status,
+  ) {
+    switch (status) {
+      case TreatmentStatus.Api:
+        return 'Mild';
+        break;
+      case TreatmentStatus.Healed:
+        return 'Cured';
+        break;
+      case TreatmentStatus.InProgress:
+        return 'In progress';
+        break;
+      case TreatmentStatus.Hospital:
+        return 'Hospital';
+        break;
+      default:
+        return '';
+        break;
+    }
+  }
 
   Widget _buildStatusBox(
+    BuildContext context,
     String status,
   ) {
     BoxDecoration decoration;
@@ -95,6 +107,7 @@ class _AssessmentHistoryPageState extends State<AssessmentHistoryPage> {
 
   @override
   Widget build(BuildContext context) {
+    items = assessmentHistoryProvider.assessmentHistoryData;
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(
@@ -118,100 +131,92 @@ class _AssessmentHistoryPageState extends State<AssessmentHistoryPage> {
           )
         ],
       ),
-      body: Container(
-        padding: EdgeInsets.symmetric(horizontal: 10),
-        // color: Colors.teal[200],
-        alignment: Alignment.center,
-        child: ListView.builder(
-          itemBuilder: (context, index) {
-            return Container(
-              margin: (index == 0)
-                  ? EdgeInsets.only(
-                      top: 10,
-                      bottom: 3,
-                    )
-                  : (index == items.length - 1)
-                      ? EdgeInsets.only(
-                          top: 3,
-                          bottom: 10,
-                        )
-                      : EdgeInsets.symmetric(
-                          vertical: 3,
-                        ),
-              padding: EdgeInsets.all(15),
-              decoration: BoxDecoration(
-                border: Border.all(
-                  width: 2,
-                  color: Theme.of(context).primaryColor,
+      body: (assessmentHistoryProvider.loading)
+          ? Center(
+              child: SizedBox(
+                height: MediaQuery.of(context).size.width * 0.2,
+                width: MediaQuery.of(context).size.width * 0.2,
+                child: CircularProgressIndicator(
+                  strokeWidth: 5.0,
+                  valueColor: new AlwaysStoppedAnimation<Color>(
+                      Theme.of(context).primaryColor),
                 ),
-                borderRadius: BorderRadius.circular(15),
               ),
-              child: Row(
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        items[index]['symptom'],
-                        style: TextStyle(
-                          // fontWeight: FontWeight.bold,
-                          fontSize: 24,
+            )
+          : (items.isNotEmpty)
+              ? Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  alignment: Alignment.center,
+                  child: ListView.builder(
+                    itemBuilder: (context, index) {
+                      return Container(
+                        margin: (index == 0)
+                            ? EdgeInsets.only(top: 10, bottom: 3)
+                            : (index == items.length - 1)
+                                ? EdgeInsets.only(top: 3, bottom: 10)
+                                : EdgeInsets.symmetric(vertical: 3),
+                        padding: EdgeInsets.all(15),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            width: 2,
+                            color: Theme.of(context).primaryColor,
+                          ),
+                          borderRadius: BorderRadius.circular(15),
                         ),
-                      ),
-                      Text(
-                        '${DateFormat.yMMMd().format(items[index]['date'])}   ${DateFormat.jm().format(items[index]['date'])}',
-                        style: TextStyle(
-                          // fontWeight: FontWeight.bold,
-                          color: Colors.grey,
-                          fontSize: 14,
+                        child: Row(
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  (items[index]['symptom'] != null)
+                                      ? items[index]['symptom'].isNotEmpty
+                                          ? items[index]['symptom'][0]
+                                          : 'No symptom'
+                                      : 'No symptom',
+                                  style: TextStyle(fontSize: 24),
+                                ),
+                                Text(
+                                  '${DateFormat.yMMMd().format(items[index]['date'])}   ${DateFormat.jm().format(items[index]['date'])}',
+                                  style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                                SizedBox(height: 30),
+                                _buildStatusBox(
+                                    context,
+                                    _statusInfo(context, items[index]['tpStatus'])),
+                              ],
+                            ),
+                            Expanded(child: Container()),
+                            InkWell(
+                              onTap: () {
+                                Navigator.of(context).pushNamed(
+                                    DetailAssessmentHistory.routeName,
+                                    arguments: items[index]);
+                              },
+                              child: Icon(
+                                Icons.arrow_forward_ios_outlined,
+                                color: Theme.of(context).primaryColor,
+                                size: 42,
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                      SizedBox(
-                        height: 30,
-                      ),
-                      _buildStatusBox(items[index]['status']),
-                    ],
-                  ),
-                  Expanded(child: Container()),
-                  InkWell(
-                    onTap: () {
-                      if (items[index]['status'] == 'Mild') {
-                        Navigator.of(context).pushNamed(
-                            PredictionResultPage.routeName,
-                            arguments: {
-                              'isHistory': true,
-                              'isMeetDoctor': false
-                            });
-                      } else if ((items[index]['status'] == 'Hospital') &&
-                          (items[index]['tpId'] == 'tp005')) {
-                        // check is doctor id is null
-                        // if doctor id is null mean this case never talk to doctor then no suggstion to show
-                        // show api result instead of doctor suggestion
-                        Navigator.of(context).pushNamed(
-                            PredictionResultPage.routeName,
-                            arguments: {
-                              'isHistory': true,
-                              'isMeetDoctor': false
-                            });
-                      } else {
-                        Navigator.of(context).pushNamed(
-                          SuggestionPage.routeName,
-                        );
-                      }
+                      );
                     },
-                    child: Icon(
-                      Icons.arrow_forward_ios_outlined,
-                      color: Theme.of(context).primaryColor,
-                      size: 42,
-                    ),
+                    itemCount: items.length,
                   ),
-                ],
-              ),
-            );
-          },
-          itemCount: items.length,
-        ),
-      ),
+                )
+              : Center(
+                  child: Text(
+                  'No assessment history',
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 18,
+                  ),
+                )),
     );
   }
 }

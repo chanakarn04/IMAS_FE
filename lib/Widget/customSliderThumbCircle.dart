@@ -34,14 +34,14 @@ class CustomSliderThumbCircle extends SliderComponentShape {
     final Canvas canvas = context.canvas;
 
     final paint = Paint()
-      ..color = Colors.white //Thumb Background Color
+      ..color = Colors.white
       ..style = PaintingStyle.fill;
 
     TextSpan span = new TextSpan(
       style: new TextStyle(
         fontSize: thumbRadius * .8,
         fontWeight: FontWeight.w700,
-        color: sliderTheme.thumbColor, //Text Color of Value on Thumb
+        color: sliderTheme.thumbColor,
       ),
       text: getValue(value),
     );
@@ -51,9 +51,7 @@ class CustomSliderThumbCircle extends SliderComponentShape {
         textAlign: TextAlign.center,
         textDirection: TextDirection.ltr);
     tp.layout();
-    Offset textCenter =
-        Offset(center.dx - (tp.width / 2), center.dy - (tp.height / 2));
-
+    Offset textCenter = Offset(center.dx - (tp.width / 2), center.dy - (tp.height / 2));
     canvas.drawCircle(center, thumbRadius * .9, paint);
     tp.paint(canvas, textCenter);
   }

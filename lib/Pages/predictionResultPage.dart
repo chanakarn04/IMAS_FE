@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:homepage_proto/Widget/predResDisease.dart';
+import 'package:provider/provider.dart';
 
-import '../Models/disease.dart';
-import '../Models/diseaseAPI.dart';
-import '../Models/symptom.dart';
-import '../Widget/sideDrawer.dart';
+import './homePages.dart';
+import './vitalSignStartPages.dart';
+import '../Widget/predResDisease.dart';
 import '../Widget/predResSymptom.dart';
-import '../Widget/AdaptiveRaisedButton.dart';
-import '../Widget/adaptiveBorderButton.dart';
+import '../Widget/predResPatientInfo.dart';
+import '../Widget/adaptiveRaisedButton.dart';
+import '../Provider/chatRoom_info.dart';
+import '../Provider/symptomAssessment.dart';
+import '../Provider/user-info.dart';
+import '../Provider/vitalSign_Info.dart';
 
 class PredictionResultPage extends StatefulWidget {
   static const routeName = '/prediction-result';
@@ -17,157 +20,235 @@ class PredictionResultPage extends StatefulWidget {
 }
 
 class _PredictionResultPageState extends State<PredictionResultPage> {
-  GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
+  List<dynamic> symptoms = [];
+  List<dynamic> conditions = [];
 
-  bool isHistory = false;
-  bool isMeetDoctor = false;
+  var _loadedData = false;
+  SymptomAssessmentProvider symptomAssessment;
+  UserInfo userInfo;
 
-  final List<Symptom> detectedSymtomList = [
-    Symptom('s001', 'Head drop'),
-    Symptom('s002', 'Head tilt in order to avoid diplopia'),
-    Symptom('s003', 'Head tremors'),
-    Symptom('s004', 'Headache'),
-  ];
-
-  final List<Disease> detectedDisease = [
-    Disease(
-      id: 'D001',
-      name: 'Tension Headache',
-      description:
-          'Pain associated with muscle used and working. pain seem to be aggravated over the day and can relieved by rest.',
-      treatment: ['Medication', 'Rest'],
-      cause:
-          'Tension headaches are caused by muscle contractions in the head and neck regions. These types of contractions can be caused by a variety of foods, activities and stressors. Some people develop tension headaches after staring at a computer screen for a long time or after driving for long periods. Cold temperatures may also trigger a tension headache.',
-    ),
-    Disease(
-      id: 'D001',
-      name: 'Tension Headache',
-      description:
-          'Pain associated with muscle used and working. pain seem to be aggravated over the day and can relieved by rest.',
-      treatment: ['Medication', 'Rest'],
-      cause:
-          'Tension headaches are caused by muscle contractions in the head and neck regions. These types of contractions can be caused by a variety of foods, activities and stressors. Some people develop tension headaches after staring at a computer screen for a long time or after driving for long periods. Cold temperatures may also trigger a tension headache.',
-    )
-  ];
-  final List<DiseaseAPI> detectedDiseaseAPI = [
-    DiseaseAPI(
-        id: 'D001',
-        name: 'Some Science Tension Headache',
-        commonName: 'Tension Headache',
-        sexFilter: 'both',
-        categories: ['HeadoThology'],
-        prevalence: 'common',
-        acuteness: 'acute',
-        severity: 'mild',
-        extras: {}),
-    DiseaseAPI(
-        id: 'D001',
-        name: 'Some Science Tension Headache',
-        commonName: 'Tension Headache',
-        sexFilter: 'both',
-        categories: ['HeadoThology'],
-        prevalence: 'common',
-        acuteness: 'acute',
-        severity: 'mild',
-        extras: {}),
-  ];
+  @override
+  void didChangeDependencies() async {
+    if (!_loadedData) {
+      symptomAssessment = Provider.of<SymptomAssessmentProvider>(context);
+      userInfo = Provider.of<UserInfo>(context, listen: false);
+      _loadedData = true;
+      symptoms = symptomAssessment.selectedSymptom;
+      conditions = symptomAssessment.conditions;
+      await symptomAssessment.sendTriage();
+      await symptomAssessment.saveResult(userInfo.userData['userName']);
+    }
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final routeArgument =
-        ModalRoute.of(context).settings.arguments as Map<String, Object>;
-    isHistory = routeArgument['isHistory'];
-    isMeetDoctor = routeArgument['isMeetDoctor'];
+    final chatProvider = Provider.of<ChatRoomProvider>(context);
+    final vitalSignProvider =
+        Provider.of<VitalSignProvider>(context, listen: false);
     return Scaffold(
-      key: _scaffoldState,
-      endDrawer: SideDrawer(),
-      appBar: AppBar(
-        iconTheme: IconThemeData(
-          color: Theme.of(context).primaryColor,
-        ),
-        backgroundColor: Colors.white,
-        leading: IconButton(
-            icon: Icon(Icons.arrow_back_ios_rounded),
-            onPressed: () => Navigator.of(context).pop()),
-        title: Container(
-          alignment: Alignment.center,
-          child: Text('Prediction'),
-        ),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(
-              Icons.menu_rounded,
-              color: Colors.transparent,
-            ),
-            onPressed: null,
-          )
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: Container(
-          padding: EdgeInsets.all(8),
-          child: Column(
-            children: <Widget>[
-              PredResSymptom(detectedSymtomList),
-              PredResDisease(detectedDisease, detectedDiseaseAPI),
-              !isHistory
-                  ? isMeetDoctor
-                      ? Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            AdaptiveRaisedButton(
-                              buttonText: 'Meet Doctor',
-                              handlerFn: () {
-                                print('Go to wait doctor');
-                              },
-                              height: 35,
-                              width: 170,
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                AdaptiveBorderButton(
-                                  buttonText: 'Home',
-                                  handlerFn: () {
-                                    // print('Home');
-                                    Navigator.of(context)
-                                        .popUntil(ModalRoute.withName('/home'));
-                                  },
-                                  height: 45,
-                                  width: 180,
+      body: (!symptomAssessment.sendingTriage)
+          ? Center(
+              child: SizedBox(
+                height: MediaQuery.of(context).size.width * 0.2,
+                width: MediaQuery.of(context).size.width * 0.2,
+                child: CircularProgressIndicator(
+                  strokeWidth: 5.0,
+                  valueColor: new AlwaysStoppedAnimation<Color>(
+                      Theme.of(context).primaryColor),
+                ),
+              ),
+            )
+          : Container(
+              padding:
+                  EdgeInsets.only(top: MediaQuery.of(context).padding.top + 10),
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              color: Theme.of(context).primaryColor,
+              child: Column(
+                children: [
+                  Container(
+                    padding: EdgeInsets.only(left: 15),
+                    alignment: Alignment.centerLeft,
+                    child: InkWell(
+                      child: Icon(
+                        Icons.home_rounded,
+                        color: Colors.white,
+                      ),
+                      onTap: () {
+                        symptomAssessment.clear();
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ),
+                  SizedBox(height: 5),
+                  Container(
+                    padding: EdgeInsets.only(left: 25),
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Result',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 30,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(left: 27),
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Detected symptoms and diseases',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(30),
+                          topRight: Radius.circular(30),
+                        ),
+                        color: Colors.white,
+                      ),
+                      padding: EdgeInsets.only(
+                        left: 30,
+                        right: 30,
+                        top: 20,
+                      ),
+                      child: Stack(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.all(8),
+                            child: ListView(
+                              padding: EdgeInsets.symmetric(vertical: 10),
+                              children: <Widget>[
+                                PredResPatientInfo(
+                                  genderTextGenerater(
+                                      userInfo.userData['gender']),
+                                  ageCalculate(userInfo.userData['dob'])
+                                      .toInt(),
                                 ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 10,
+                                    horizontal: 15,
+                                  ),
+                                  child: Container(
+                                    height: 0.5,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                                PredResSymptom(symptoms),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 10,
+                                    horizontal: 15,
+                                  ),
+                                  child: Container(
+                                    height: 0.5,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                                PredResDisease(conditions),
                                 SizedBox(
-                                  width: 15,
+                                  height: 50,
                                 ),
-                                AdaptiveBorderButton(
-                                  buttonText: 'Nearby Hospital',
-                                  handlerFn: () {
-                                    print('Go to nearby Hospital');
-                                  },
-                                  height: 45,
-                                  width: 180,
-                                ),
+                                (symptomAssessment.triage_level == 'emergency' ||
+                                symptomAssessment.triage_level == 'emergency_ambulance')
+                                  ? Center(
+                                    child: AdaptiveRaisedButton(
+                                      buttonText: 'Emergency',
+                                      handlerFn: () =>
+                                        showDialog(
+                                          context: context,
+                                          builder: (_) =>
+                                            AlertDialog(
+                                              title: Text('Emergency Call 1669'),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                                              ),
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () =>Navigator.of(context).pop(),
+                                                  child: Text(
+                                                    'Call',
+                                                    style: TextStyle(color: Theme.of(context).primaryColor),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                        ),
+                                      height: 40,
+                                      width: 160,
+                                    ),
+                                  )
+                                  : (symptomAssessment.triage_level == 'consultation_24' ||
+                                    symptomAssessment.triage_level == 'consultation')
+                                      ? Center(
+                                          child: AdaptiveRaisedButton(
+                                            buttonText: 'Meet Doctor',
+                                            handlerFn: () {
+                                              if (chatProvider.isConsult) {
+                                                showDialog(
+                                                  context: context,
+                                                  builder: (context) =>
+                                                    AlertDialog(
+                                                      title: Text('You are now consulting'),
+                                                      content: Text('You cannot have another consult.'),
+                                                      actions: [
+                                                        TextButton(
+                                                          onPressed: () {
+                                                            symptomAssessment.clear();
+                                                            Navigator.of(context).popUntil(ModalRoute.withName(HomePage.routeName));
+                                                          },
+                                                          child: Text(
+                                                            'Home',
+                                                            style: TextStyle(color: Theme.of(context).primaryColor),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                );
+                                              } else {
+                                                vitalSignProvider.tpId = symptomAssessment.tpid;
+                                                vitalSignProvider.apId = symptomAssessment.apid;
+                                                chatProvider.patientReqChat(
+                                                  userInfo.userData['userName'],
+                                                  userInfo.role,
+                                                  symptomAssessment.tpid,
+                                                  symptomAssessment.apid,
+                                                );
+                                                Navigator.of(context).pushReplacementNamed(VitalSignStartPage.routeName);
+                                                symptomAssessment.clear();
+                                              }
+                                            },
+                                            height: 40,
+                                            width: 160,
+                                          ),
+                                        )
+                                      : Center(
+                                          child: AdaptiveRaisedButton(
+                                            buttonText: 'Home',
+                                            handlerFn: () {
+                                              symptomAssessment.clear();
+                                              Navigator.of(context).popUntil(ModalRoute.withName(HomePage.routeName));
+                                            },
+                                            height: 40,
+                                            width: 160,
+                                          ),
+                                        ),
+                                SizedBox(height: 15),
                               ],
                             ),
-                          ],
-                        )
-                      : AdaptiveRaisedButton(
-                          buttonText: 'Home',
-                          handlerFn: () {
-                            Navigator.of(context)
-                                .popUntil(ModalRoute.withName('/home'));
-                          },
-                          height: 35,
-                          width: 160,
-                        )
-                  : Container(),
-            ],
-          ),
-        ),
-      ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
     );
   }
 }

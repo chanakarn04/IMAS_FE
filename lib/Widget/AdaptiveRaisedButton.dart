@@ -1,36 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 
-class AdaptiveRaisedButton extends StatefulWidget {
+class AdaptiveRaisedButton extends StatelessWidget {
   final String buttonText;
   final Function handlerFn;
   final double height;
   final double width;
 
-  AdaptiveRaisedButton(
-      {this.buttonText, this.height, this.width, this.handlerFn});
+  AdaptiveRaisedButton({this.buttonText, this.height, this.width, this.handlerFn});
 
-  @override
-  _AdaptiveRaisedButtonState createState() => _AdaptiveRaisedButtonState();
-}
-
-class _AdaptiveRaisedButtonState extends State<AdaptiveRaisedButton> {
   @override
   Widget build(BuildContext context) {
-    return CupertinoButton(
-      onPressed: widget.handlerFn,
-      color: Theme.of(context).primaryColor,
+    return ElevatedButton(
+      onPressed: handlerFn,
+      style: ElevatedButton.styleFrom(
+        padding: EdgeInsets.all(0),
+        primary: Theme.of(context).primaryColor,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
+      ),
       child: Container(
         padding: EdgeInsets.all(7),
-        height: widget.height,
-        width: widget.width,
+        height: height,
+        width: width,
         alignment: Alignment.center,
-        child: Text(
-          widget.buttonText,
-          // style: TextStyle(fontSize: 20),
-        ),
+        child: Text(buttonText),
       ),
-      padding: EdgeInsets.all(5),
     );
   }
 }

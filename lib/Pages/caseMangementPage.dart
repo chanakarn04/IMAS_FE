@@ -1,27 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:homepage_proto/dummy_data.dart';
+import 'package:provider/provider.dart';
 
+import '../Provider/chatRoom_info.dart';
 import './caseMangementTab/cmDiseaseSymptom.dart';
 import './caseMangementTab/cmPrescription.dart';
 import './caseMangementTab/caseManagement.dart';
 
 class CaseManagementPage extends StatefulWidget {
   static const routeName = '/caseManagement';
-  final String tpId = 'tp001';
+
   @override
   _CaseManagementPageState createState() => _CaseManagementPageState();
 }
 
 class _CaseManagementPageState extends State<CaseManagementPage> {
   int selectedPageIndex = 0;
-  String ptFullName = '';
 
   List<Map<String, Object>> _pages;
 
   @override
   void initState() {
-    ptFullName =
-        '${dummy_Patients.firstWhere((pt) => dummy_treatmentPlans.firstWhere((tp) => tp.tpId == this.widget.tpId).pId == pt.pId).pName} ${dummy_Patients.firstWhere((pt) => dummy_treatmentPlans.firstWhere((tp) => tp.tpId == this.widget.tpId).pId == pt.pId).pSurname}';
     _pages = [
       {
         'title': 'Disease/Symptom',
@@ -48,56 +46,6 @@ class _CaseManagementPageState extends State<CaseManagementPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        iconTheme: IconThemeData(
-          color: Theme.of(context).primaryColor,
-        ),
-        backgroundColor: Colors.white,
-        leading: IconButton(
-            icon: Icon(Icons.arrow_back_ios_rounded),
-            onPressed: () => Navigator.of(context).pop()),
-        title: Row(
-          children: [
-            Container(
-              height: 40,
-              width: 40,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  fit: BoxFit.contain,
-                  image: AssetImage('assets/images/default_photo.png'),
-                ),
-                shape: BoxShape.circle,
-                border: Border.all(
-                  width: 1,
-                  color: Theme.of(context).primaryColor,
-                ),
-              ),
-            ),
-            SizedBox(
-              width: 10,
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Case management',
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                    color: Theme.of(context).primaryColor,
-                  ),
-                ),
-                Text(
-                  ptFullName,
-                  style: TextStyle(
-                    fontSize: 14,
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
       body: _pages[selectedPageIndex]['tab'],
       bottomNavigationBar: BottomNavigationBar(
         unselectedItemColor: Theme.of(context).primaryColor.withAlpha(150),

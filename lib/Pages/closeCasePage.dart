@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import './homePages.dart';
-import '../Widget/AdaptiveRaisedButton.dart';
+import '../Widget/adaptiveRaisedButton.dart';
 
 class CloseCasePage extends StatelessWidget {
   static const routneName = '/CloseCase';
+
   @override
   Widget build(BuildContext context) {
+    final routeArg = ModalRoute.of(context).settings.arguments as Map;
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
@@ -20,30 +23,33 @@ class CloseCasePage extends StatelessWidget {
                 color: Theme.of(context).primaryColor,
                 size: 120,
               ),
-              SizedBox(
-                height: 15,
-              ),
-              Text(
-                'Harold Pain case\nhave successful close',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 24,
-                  color: Theme.of(context).primaryColor,
+              SizedBox(height: 15),
+              if (routeArg['closeCase'])
+                Text(
+                  '${routeArg['name']} case\nhave successful close',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 24,
+                    color: Theme.of(context).primaryColor,
+                  ),
                 ),
-              ),
+              if (!routeArg['closeCase'])
+                Text(
+                  'Create Appointment\nwith ${routeArg['name']}\non ${DateFormat.yMd().add_jm().format(routeArg['date'])}',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 24,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                ),
               Expanded(child: Container()),
               AdaptiveRaisedButton(
                 buttonText: 'Home',
                 height: 30,
                 width: 140,
-                handlerFn: () {
-                  Navigator.of(context)
-                      .popUntil(ModalRoute.withName(HomePage.routeName));
-                },
+                handlerFn: () => Navigator.of(context).popUntil(ModalRoute.withName(HomePage.routeName)),
               ),
-              SizedBox(
-                height: 15,
-              ),
+              SizedBox(height: 15),
             ],
           ),
         ),

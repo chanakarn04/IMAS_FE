@@ -24,12 +24,10 @@ class Logo extends StatelessWidget {
           color: Color.fromARGB(1, 0, 0, 0),
         )
       ],
-      // fontWeight: FontWeight.bold
     );
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
-      // textDirection: TextDirection.ltr,
       children: [
         Text(
           'Intelligent',
@@ -52,7 +50,8 @@ class Logo extends StatelessWidget {
                   color: Color.fromARGB(1, 0, 0, 0),
                 )
               ],
-              fontWeight: FontWeight.bold),
+              fontWeight: FontWeight.bold,
+            ),
           textAlign: TextAlign.right,
         ),
         Text(
