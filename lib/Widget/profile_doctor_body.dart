@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 
-import '../Provider/user-info.dart';
 import '../Models/model.dart';
-
-// import '../dummy_data.dart';
 
 class ProfileDoctorBody extends StatelessWidget {
   final Function headerBox;
@@ -28,18 +23,13 @@ class ProfileDoctorBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final userInfo = Provider.of<UserInfo>(context);
-    
     return Container(
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
       child: Stack(
-        // mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            padding: EdgeInsets.only(
-              top: MediaQuery.of(context).padding.top + 10,
-            ),
+            padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 10),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
@@ -62,9 +52,7 @@ class ProfileDoctorBody extends StatelessWidget {
                       Icons.arrow_back_ios_rounded,
                       color: Colors.white,
                     ),
-                    onTap: () {
-                      Navigator.of(context).pop();
-                    },
+                    onTap: () => Navigator.of(context).pop(),
                   ),
                 ),
                 Padding(
@@ -81,17 +69,12 @@ class ProfileDoctorBody extends StatelessWidget {
                         decoration: BoxDecoration(
                           image: DecorationImage(
                             fit: BoxFit.contain,
-                            image: AssetImage(
-                              'assets/images/default_photo.png',
-                            ),
+                            image: AssetImage('assets/images/default_photo.png'),
                           ),
                           shape: BoxShape.circle,
-
                         ),
                       ),
-                      SizedBox(
-                        width: 15,
-                      ),
+                      SizedBox(width: 15),
                       Text(
                         '${dInfo['fname']} ${dInfo['surname']}',
                         style: TextStyle(
@@ -107,8 +90,7 @@ class ProfileDoctorBody extends StatelessWidget {
             ),
           ),
           Positioned(
-            height: MediaQuery.of(context).size.height -
-                (MediaQuery.of(context).padding.top + 154),
+            height: MediaQuery.of(context).size.height - (MediaQuery.of(context).padding.top + 154),
             width: MediaQuery.of(context).size.width - 40,
             bottom: 0,
             left: 20,
@@ -125,7 +107,7 @@ class ProfileDoctorBody extends StatelessWidget {
                     color: Colors.grey.withOpacity(0.3),
                     spreadRadius: 5,
                     blurRadius: 7,
-                    offset: Offset(0, 3), // changes position of shadow
+                    offset: Offset(0, 3),
                   ),
                 ],
               ),
@@ -148,9 +130,7 @@ class ProfileDoctorBody extends StatelessWidget {
                                     color: Color.fromARGB(255, 125, 125, 125),
                                   ),
                                 ),
-                                SizedBox(
-                                  height: 10,
-                                ),
+                                SizedBox(height: 10),
                                 Text(
                                   'Gender',
                                   style: TextStyle(
@@ -160,26 +140,18 @@ class ProfileDoctorBody extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            SizedBox(
-                              width: 20,
-                            ),
+                            SizedBox(width: 20),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
                                   '${dInfo['userName']}',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                  ),
+                                  style: TextStyle(fontSize: 18),
                                 ),
-                                SizedBox(
-                                  height: 10,
-                                ),
+                                SizedBox(height: 10),
                                 Text(
                                   genderText(dInfo['gender']),
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                  ),
+                                  style: TextStyle(fontSize: 18),
                                 )
                               ],
                             ),
@@ -210,9 +182,7 @@ class ProfileDoctorBody extends StatelessWidget {
                                     color: Color.fromARGB(255, 125, 125, 125),
                                   ),
                                 ),
-                                SizedBox(
-                                  height: 10,
-                                ),
+                                SizedBox(height: 10),
                                 Text(
                                   'Certificcate ID',
                                   style: TextStyle(
@@ -222,26 +192,18 @@ class ProfileDoctorBody extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            SizedBox(
-                              width: 20,
-                            ),
+                            SizedBox(width: 20),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
                                   '${dInfo['medID']}',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                  ),
+                                  style: TextStyle(fontSize: 18),
                                 ),
-                                SizedBox(
-                                  height: 10,
-                                ),
+                                SizedBox(height: 10),
                                 Text(
                                   '${dInfo['certID']}',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                  ),
+                                  style: TextStyle(fontSize: 18),
                                 ),
                               ],
                             ),
@@ -259,161 +221,6 @@ class ProfileDoctorBody extends StatelessWidget {
               ),
             ),
           ),
-          // Expanded(
-          //   child: Padding(
-          //     padding: const EdgeInsets.only(
-          //       top: 8.0,
-          //       left: 8.0,
-          //       right: 8.0,
-          //     ),
-          //     child: ListView(
-          //       children: [
-          //         headerBox(
-          //           context,
-          //           'Basic info',
-          //           Column(
-          //             crossAxisAlignment: CrossAxisAlignment.start,
-          //             children: [
-          //               Text(
-          //                 'Name',
-          //                 style: TextStyle(
-          //                   color: Colors.grey,
-          //                 ),
-          //               ),
-          //               Padding(
-          //                 padding: const EdgeInsets.only(
-          //                   left: 8.0,
-          //                   bottom: 8.0,
-          //                 ),
-          //                 child: Text(
-          //                   userInfo.userFname,
-          //                   style: TextStyle(
-          //                     color: Colors.black,
-          //                     fontSize: 20,
-          //                   ),
-          //                 ),
-          //               ),
-          //               Text(
-          //                 'Email',
-          //                 style: TextStyle(
-          //                   color: Colors.grey,
-          //                 ),
-          //               ),
-          //               Padding(
-          //                 padding: const EdgeInsets.only(
-          //                   left: 8.0,
-          //                   bottom: 8.0,
-          //                 ),
-          //                 child: Text(
-          //                   userInfo.userId,
-          //                   style: TextStyle(
-          //                     color: Colors.black,
-          //                     fontSize: 20,
-          //                   ),
-          //                 ),
-          //               ),
-          //               // Text(
-          //               //   'Date of birth',
-          //               //   style: TextStyle(
-          //               //     color: Colors.grey,
-          //               //   ),
-          //               // ),
-          //               // Padding(
-          //               //   padding: const EdgeInsets.only(
-          //               //     left: 8.0,
-          //               //     bottom: 8.0,
-          //               //   ),
-          //               //   child: Text(
-          //               //     DateFormat.yMMMMd().format(dInfo.),
-          //               //     style: TextStyle(
-          //               //       color: Colors.black,
-          //               //       fontSize: 20,
-          //               //     ),
-          //               //   ),
-          //               // ),
-          //               Text(
-          //                 'Gender',
-          //                 style: TextStyle(
-          //                   color: Colors.grey,
-          //                 ),
-          //               ),
-          //               Padding(
-          //                 padding: const EdgeInsets.only(
-          //                   left: 8.0,
-          //                   bottom: 8.0,
-          //                 ),
-          //                 child: Text(
-          //                   genderText,
-          //                   style: TextStyle(
-          //                     color: Colors.black,
-          //                     fontSize: 20,
-          //                   ),
-          //                 ),
-          //               ),
-          //               Text(
-          //                 'Citizen ID',
-          //                 style: TextStyle(
-          //                   color: Colors.grey,
-          //                 ),
-          //               ),
-          //               Padding(
-          //                 padding: const EdgeInsets.only(
-          //                   left: 8.0,
-          //                   bottom: 8.0,
-          //                 ),
-          //                 child: Text(
-          //                   dInfo.citizenID.toString(),
-          //                   style: TextStyle(
-          //                     color: Colors.black,
-          //                     fontSize: 20,
-          //                   ),
-          //                 ),
-          //               ),
-          //               Text(
-          //                 'Medical ID',
-          //                 style: TextStyle(
-          //                   color: Colors.grey,
-          //                 ),
-          //               ),
-          //               Padding(
-          //                 padding: const EdgeInsets.only(
-          //                   left: 8.0,
-          //                   bottom: 8.0,
-          //                 ),
-          //                 child: Text(
-          //                   dInfo.mdID,
-          //                   style: TextStyle(
-          //                     color: Colors.black,
-          //                     fontSize: 20,
-          //                   ),
-          //                 ),
-          //               ),
-          //               Text(
-          //                 'Certificate ID',
-          //                 style: TextStyle(
-          //                   color: Colors.grey,
-          //                 ),
-          //               ),
-          //               Padding(
-          //                 padding: const EdgeInsets.only(
-          //                   left: 8.0,
-          //                   bottom: 8.0,
-          //                 ),
-          //                 child: Text(
-          //                   dInfo.certID,
-          //                   style: TextStyle(
-          //                     color: Colors.black,
-          //                     fontSize: 20,
-          //                   ),
-          //                 ),
-          //               ),
-          //             ],
-          //           ),
-          //         ),
-          //       ],
-          //     ),
-          //   ),
-          // ),
         ],
       ),
     );

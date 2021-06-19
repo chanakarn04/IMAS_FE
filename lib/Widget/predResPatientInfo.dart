@@ -3,14 +3,10 @@ import 'package:flutter/material.dart';
 class PredResPatientInfo extends StatelessWidget {
   final String gender;
   final int age;
-  // final List<Disease> detectedDisease;
-  // final List<DiseaseAPI> detectedDiseaseAPI;
 
   PredResPatientInfo(
     this.gender,
     this.age,
-    // this.detectedDisease,
-    // this.detectedDiseaseAPI,
   );
 
   @override
@@ -24,17 +20,12 @@ class PredResPatientInfo extends StatelessWidget {
             'Patient Infomation',
             style: TextStyle(
               fontSize: 20,
-              // fontWeight: FontWeight.bold,
               color: Theme.of(context).primaryColor,
             ),
           ),
         ),
         Container(
-          // color: Colors.teal,
-          padding: EdgeInsets.symmetric(
-            horizontal: 15,
-          ),
-          // color: Colors.teal[100],
+          padding: EdgeInsets.symmetric(horizontal: 15),
           child: Row(
             children: [
               Column(
@@ -62,9 +53,7 @@ class PredResPatientInfo extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(
-                width: 20,
-              ),
+              SizedBox(width: 20),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -72,18 +61,14 @@ class PredResPatientInfo extends StatelessWidget {
                     padding: EdgeInsets.symmetric(vertical: 2),
                     child: Text(
                       '$age',
-                      style: const TextStyle(
-                        fontSize: 18,
-                      ),
+                      style: const TextStyle(fontSize: 18),
                     ),
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(vertical: 2),
                     child: Text(
                       gender,
-                      style: const TextStyle(
-                        fontSize: 18,
-                      ),
+                      style: const TextStyle(fontSize: 18),
                     ),
                   ),
                 ],

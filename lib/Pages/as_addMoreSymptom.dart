@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import './assessmentPages.dart';
 import './answerQuestionPages.dart';
 import '../Widget/adaptiveBorderButton.dart';
-import '../Widget/AdaptiveRaisedButton.dart';
+import '../Widget/adaptiveRaisedButton.dart';
 
 class AddMoreSymptom extends StatelessWidget {
   static const routeName = '/assessment-addMore';

@@ -9,7 +9,6 @@ Widget registerError({
 }) {
   return Center(
     child: Column(
-      // mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Expanded(child: Container()),
@@ -18,30 +17,21 @@ Widget registerError({
           size: 100,
           color: Theme.of(context).primaryColor,
         ),
-        SizedBox(
-          height: 20,
-        ),
+        SizedBox(height: 20),
         title,
-        SizedBox(
-          height: 15,
-        ),
+        SizedBox(height: 15),
         describe,
         Expanded(
           child: Container(
             alignment: Alignment.bottomCenter,
             child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                primary: Theme.of(context).primaryColor,
-              ),
-              onPressed: () => Navigator.of(context)
-                  .popUntil(ModalRoute.withName(RegisterPage.routeName)),
+              style: ElevatedButton.styleFrom(primary: Theme.of(context).primaryColor),
+              onPressed: () => Navigator.of(context).popUntil(ModalRoute.withName(RegisterPage.routeName)),
               child: Text('Register'),
             ),
           ),
         ),
-        SizedBox(
-          height: 15,
-        ),
+        SizedBox(height: 15),
       ],
     ),
   );

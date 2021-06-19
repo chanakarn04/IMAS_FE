@@ -4,11 +4,9 @@ import 'package:provider/provider.dart';
 import './adaptiveBorderButton.dart';
 import '../Provider/symptomAssessment.dart';
 import '../Pages/as_addMoreSymptom.dart';
-// import '../Models/symptom.dart';
 
 class SymptomCard extends StatelessWidget {
   final List<dynamic> symptomList;
-  // final Function selectSymptomHandler;
 
   SymptomCard(this.symptomList);
 
@@ -16,11 +14,7 @@ class SymptomCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final symptomAssessment = Provider.of<SymptomAssessmentProvider>(context, listen: false);
     return symptomList.isEmpty
-        ? Center(
-            child: FittedBox(
-              child: Text('No result'),
-            ),
-          )
+        ? Center(child: FittedBox(child: Text('No result')))
         : ListView.builder(
             itemBuilder: (ctx, index) {
               return Padding(
@@ -30,22 +24,21 @@ class SymptomCard extends StatelessWidget {
                 ),
                 child: Container(
                     decoration: BoxDecoration(
-                        border: Border.all(
-                          width: 1,
-                          color: Color.fromARGB(125, 75, 75, 75),
-                        ),
-                        borderRadius: BorderRadius.circular(15)),
+                      border: Border.all(
+                        width: 1,
+                        color: Color.fromARGB(125, 75, 75, 75),
+                      ),
+                      borderRadius: BorderRadius.circular(15),
+                    ),
                     child: Padding(
                       padding: EdgeInsets.all(10),
                       child: Column(
                         children: <Widget>[
                           Container(
-                            // padding: EdgeInsets.all(10),
                             alignment: Alignment.centerLeft,
                             child: SizedBox(
                               height: MediaQuery.of(context).size.height * 0.04,
                               child: FittedBox(
-                                // fit: BoxFit.fitHeight,
                                 alignment: Alignment.centerLeft,
                                 child: Text(
                                   symptomList[index]['label'],
@@ -57,9 +50,7 @@ class SymptomCard extends StatelessWidget {
                               ),
                             ),
                           ),
-                          SizedBox(
-                            height: 20,
-                          ),
+                          SizedBox(height: 20),
                           Align(
                             alignment: Alignment.centerRight,
                             child: AdaptiveBorderButton(

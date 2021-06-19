@@ -16,19 +16,12 @@ class PredResSymptom extends StatelessWidget {
             'Detected symptom',
             style: TextStyle(
               fontSize: 20,
-              // fontWeight: FontWeight.bold,
               color: Theme.of(context).primaryColor,
             ),
           ),
         ),
-        // Text(
-        //   '\u2022 ${symptomList[0]}',
-        // ),
         Container(
-          padding: EdgeInsets.only(
-            left: 15,
-          ),
-          // color: Colors.teal[100],
+          padding: EdgeInsets.only(left: 15),
           alignment: Alignment.center,
           height: (symptomList.length * 27).toDouble(),
           child: ListView.builder(
@@ -42,9 +35,7 @@ class PredResSymptom extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.fade,
                   softWrap: false,
-                  style: const TextStyle(
-                    fontSize: 18,
-                  ),
+                  style: const TextStyle(fontSize: 18),
                 ),
               );
             },

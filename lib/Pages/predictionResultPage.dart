@@ -6,7 +6,7 @@ import './vitalSignStartPages.dart';
 import '../Widget/predResDisease.dart';
 import '../Widget/predResSymptom.dart';
 import '../Widget/predResPatientInfo.dart';
-import '../Widget/AdaptiveRaisedButton.dart';
+import '../Widget/adaptiveRaisedButton.dart';
 import '../Provider/chatRoom_info.dart';
 import '../Provider/symptomAssessment.dart';
 import '../Provider/user-info.dart';

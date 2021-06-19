@@ -10,23 +10,16 @@ class CaseManagementListItemBox extends StatefulWidget {
   final String title;
   final String description;
   final List<String> items;
-  // final Function addFn;
-  // final Function editFn;
-  // final Function delFn;
 
   CaseManagementListItemBox({
     this.caseIndex,
     this.title,
     this.description,
     this.items,
-    // this.addFn,
-    // this.editFn,
-    // this.delFn,
   });
 
   @override
-  _CaseManagementListItemBoxState createState() =>
-      _CaseManagementListItemBoxState();
+  _CaseManagementListItemBoxState createState() => _CaseManagementListItemBoxState();
 }
 
 class _CaseManagementListItemBoxState extends State<CaseManagementListItemBox> {
@@ -42,9 +35,7 @@ class _CaseManagementListItemBoxState extends State<CaseManagementListItemBox> {
         temp = controller.text;
       });
       controller.clear();
-      // add data
       cmInfo.add(caseIndex, temp);
-      // print('Add as $temp');
       Navigator.of(context).pop();
       showDialog(
         context: context,
@@ -52,9 +43,7 @@ class _CaseManagementListItemBoxState extends State<CaseManagementListItemBox> {
           title: Text('$caseIndex added'),
           actions: [
             TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
+              onPressed: () => Navigator.of(context).pop(),
               child: Text('OK'),
             ),
           ],
@@ -68,7 +57,6 @@ class _CaseManagementListItemBoxState extends State<CaseManagementListItemBox> {
       });
       controller.clear();
       cmInfo.edit(caseIndex, index, temp);
-      // print('Edit as ${cmInfo.condition[index]}');
       Navigator.of(context).pop();
       showDialog(
         context: context,
@@ -76,9 +64,7 @@ class _CaseManagementListItemBoxState extends State<CaseManagementListItemBox> {
           title: Text('Data edited'),
           actions: [
             TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
+              onPressed: () => Navigator.of(context).pop(),
               child: Text('OK'),
             ),
           ],
@@ -98,7 +84,6 @@ class _CaseManagementListItemBoxState extends State<CaseManagementListItemBox> {
         'confirm',
         () {
           cmInfo.del(caseIndex, index);
-          print('Delete item');
           Navigator.of(context).pop();
         },
       );
@@ -115,20 +100,12 @@ class _CaseManagementListItemBoxState extends State<CaseManagementListItemBox> {
                 children: [
                   Text(
                     this.widget.title,
-                    style: TextStyle(
-                      fontSize: 28,
-                      // fontWeight: FontWeight.bold,
-                      // color: Theme.of(context).primaryColor,
-                    ),
+                    style: TextStyle(fontSize: 28),
                   ),
-                  SizedBox(
-                    height: 5,
-                  ),
+                  SizedBox(height: 5),
                   Text(
                     this.widget.description,
-                    style: TextStyle(
-                      color: Colors.grey
-                    ),
+                    style: TextStyle(color: Colors.grey),
                   ),
                 ],
               ),
@@ -143,42 +120,22 @@ class _CaseManagementListItemBoxState extends State<CaseManagementListItemBox> {
                     color: Theme.of(context).primaryColor,
                     size: 30,
                   ),
-                  // onPressed: this.widget.addFn,
-                  onPressed: () {
-                    // print('Edit as ${cmInfo.condition[index]}');
-                    caseManagementEditBottomSheet(
+                  onPressed: () => caseManagementEditBottomSheet(
                       context,
                       'Add ${this.widget.caseIndex}',
                       controller,
                       'Add',
-                      () {
-                        _add(this.widget.caseIndex);
-                      },
-                    );
-                  }
-                  // onPressed: () => print('add'),
+                      () => _add(this.widget.caseIndex),
+                    ),
                   ),
             ),
-            SizedBox(
-              width: 25,
-            ),
+            SizedBox(width: 25),
           ],
         ),
         SizedBox(height: 10),
         Expanded(
           child: Container(
             margin: EdgeInsets.only(left: 10, right: 30),
-            // width: double.infinity,
-            // color: Colors.pink[50],
-            // decoration: BoxDecoration(
-            //     border: Border.all(
-            //       width: 2,
-            //       color: Theme.of(context).primaryColor,
-            //     ),
-            //     borderRadius: BorderRadius.only(
-            //       bottomLeft: Radius.circular(15),
-            //       topLeft: Radius.circular(15),
-            //     )),
             child: (this.widget.items.length > 0) ? ListView.builder(
               padding: EdgeInsets.all(0),
               itemBuilder: (context, index) {
@@ -186,57 +143,48 @@ class _CaseManagementListItemBoxState extends State<CaseManagementListItemBox> {
                   children: [
                     Container(
                       height: 40,
-                      // alignment: Alignment.center,
-                      // color: Colors.pink[300],
                       child: ListTile(
                         title: Text(this.widget.items[index]),
                         trailing: Row(
-                          // crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             SizedBox(
                               height: 40,
                               width: 40,
                               child: InkWell(
-                                  child: Icon(
-                                    Icons.edit_outlined,
-                                    size: 24,
-                                    color: Colors.grey[700],
-                                  ),
-                                  onTap: () {
-                                    // print('Edit as ${cmInfo.condition[index]}');
-                                    print('index: $index');
-                                    switch (this.widget.caseIndex) {
-                                      case 'symptom':
-                                        controller.text =
-                                            '${cmInfo.symptoms[index]}';
-                                        break;
-                                      case 'disease':
-                                        controller.text =
-                                            '${cmInfo.conditions[index]}';
-                                        break;
-                                      case 'prescription':
-                                        controller.text =
-                                            '${cmInfo.prescriptions[index]}';
-                                        break;
-                                      default:
-                                        break;
-                                    }
-                                    // controller.text =
-                                    //     '${cmInfo.condition[index]}';
-                                    caseManagementEditBottomSheet(
-                                      context,
-                                      'Edit ${this.widget.caseIndex}',
-                                      controller,
-                                      'Edit',
-                                      () {
-                                        _edit(this.widget.caseIndex, index);
-                                      },
-                                    );
+                                child: Icon(
+                                  Icons.edit_outlined,
+                                  size: 24,
+                                  color: Colors.grey[700],
+                                ),
+                                onTap: () {
+                                  switch (this.widget.caseIndex) {
+                                    case 'symptom':
+                                      controller.text =
+                                          '${cmInfo.symptoms[index]}';
+                                      break;
+                                    case 'disease':
+                                      controller.text =
+                                          '${cmInfo.conditions[index]}';
+                                      break;
+                                    case 'prescription':
+                                      controller.text =
+                                          '${cmInfo.prescriptions[index]}';
+                                      break;
+                                    default:
+                                      break;
                                   }
-                                  // _edit(this.widget.caseIndex, index),
-                                  // print('edit'),
-                                  ),
+                                  caseManagementEditBottomSheet(
+                                    context,
+                                    'Edit ${this.widget.caseIndex}',
+                                    controller,
+                                    'Edit',
+                                    () {
+                                      _edit(this.widget.caseIndex, index);
+                                    },
+                                  );
+                                }
+                              ),
                             ),
                             SizedBox(
                               height: 40,
@@ -247,19 +195,14 @@ class _CaseManagementListItemBoxState extends State<CaseManagementListItemBox> {
                                   size: 24,
                                   color: Colors.grey[700],
                                 ),
-                                // onTap: this.widget.delFn,
-                                onTap: () {
-                                  _del(this.widget.caseIndex, index);
-                                },
+                                onTap: () => _del(this.widget.caseIndex, index),
                               ),
                             ),
                           ],
                         ),
                       ),
                     ),
-                    SizedBox(
-                      height: 10,
-                    ),
+                    SizedBox(height: 10),
                     Container(
                       height: 1,
                       color: Colors.grey[700],

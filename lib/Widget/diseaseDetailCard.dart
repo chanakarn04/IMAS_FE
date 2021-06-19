@@ -5,7 +5,6 @@ class DiseaseDetailCard extends StatelessWidget {
   final String description;
   final String cause;
   final String treatment;
-  // final Color headColor = Theme.of(context).primaryColor;
   final Color textColor = Color.fromARGB(255, 75, 75, 75);
 
   DiseaseDetailCard({
@@ -25,8 +24,6 @@ class DiseaseDetailCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(15.0),
         ),
         child: Container(
-          // color: Colors.purple[100],
-          // height: 500,
           alignment: Alignment.center,
           padding: EdgeInsets.symmetric(
             vertical: 35,
@@ -35,7 +32,6 @@ class DiseaseDetailCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              // Expanded(child: Container()),
               Align(
                 alignment: Alignment.center,
                 child: Text(
@@ -47,10 +43,7 @@ class DiseaseDetailCard extends StatelessWidget {
                   ),
                 ),
               ),
-              // Expanded(child: Container()),
-              SizedBox(
-                height: 25,
-              ),
+              SizedBox(height: 25),
               Text(
                 'Description',
                 style: TextStyle(
@@ -62,13 +55,11 @@ class DiseaseDetailCard extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.only(left: 15),
                 child: Text(
-                  '\t\t\t\t${description}',
+                  '\t\t\t\t$description',
                   style: TextStyle(fontSize: 18, color: textColor),
                 ),
               ),
-              SizedBox(
-                height: 20,
-              ),
+              SizedBox(height: 20),
               Text(
                 'Casue',
                 style: TextStyle(
@@ -80,13 +71,11 @@ class DiseaseDetailCard extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.only(left: 15),
                 child: Text(
-                  '\t\t\t\t${cause}',
+                  '\t\t\t\t$cause',
                   style: TextStyle(fontSize: 18, color: textColor),
                 ),
               ),
-              SizedBox(
-                height: 20,
-              ),
+              SizedBox(height: 20),
               Text(
                 'Treatment',
                 style: TextStyle(
@@ -96,30 +85,12 @@ class DiseaseDetailCard extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(
-                  left: 20,
-                ),
+                padding: EdgeInsets.only(left: 20),
                 child: Text(
                   '\u2022 $treatment',
                   style: TextStyle(fontSize: 18, color: textColor),
                 ),
-                // color: Colors.teal[100],
-                // height: (treatment.length * 22).toDouble(),
-                // child: ListView.builder(
-                //   physics: const NeverScrollableScrollPhysics(),
-                //   itemBuilder: (ctx, index) {
-                //     return Text(
-                //       '\u2022 ${treatment[index]}',
-                //       style: TextStyle(
-                //         fontSize: 18,
-                //         color: textColor,
-                //       ),
-                //     );
-                //   },
-                //   itemCount: treatment.length,
-                // ),
               ),
-              // Expanded(child: Container()),
             ],
           ),
         ),

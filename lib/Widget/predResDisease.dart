@@ -2,13 +2,8 @@ import 'package:flutter/material.dart';
 
 class PredResDisease extends StatelessWidget {
   final List<dynamic> conditions;
-  // final List<Disease> detectedDisease;
-  // final List<DiseaseAPI> detectedDiseaseAPI;
 
-  PredResDisease(this.conditions
-      // this.detectedDisease,
-      // this.detectedDiseaseAPI,
-      );
+  PredResDisease(this.conditions);
 
   @override
   Widget build(BuildContext context) {
@@ -21,23 +16,18 @@ class PredResDisease extends StatelessWidget {
             'Detected diseases',
             style: TextStyle(
               fontSize: 20,
-              // fontWeight: FontWeight.bold,
               color: Theme.of(context).primaryColor,
             ),
           ),
         ),
         Container(
-          padding: EdgeInsets.symmetric(
-            horizontal: 15,
-          ),
-          // color: Colors.teal[100],
+          padding: EdgeInsets.symmetric(horizontal: 15),
           height: (conditions.length * 25).toDouble(),
           child: ListView.builder(
             physics: const NeverScrollableScrollPhysics(),
             padding: EdgeInsets.all(0),
             itemBuilder: (ctx, index) {
               return Container(
-                // color: Colors.red[50],
                 padding: EdgeInsets.symmetric(vertical: 2),
                 child: Row(
                   children: [
@@ -47,17 +37,9 @@ class PredResDisease extends StatelessWidget {
                           maxLines: 1,
                           overflow: TextOverflow.fade,
                           softWrap: false,
-                          style: const TextStyle(
-                            fontSize: 18,
-                          ),
+                          style: const TextStyle(fontSize: 18),
                         ),
                     ),
-                    // Container(
-                    //   // color: Colors.pink[200],
-                    //   width: MediaQuery.of(context).size.width * 0.5,
-                    //   child: 
-                    // ),
-                    // Expanded(child: Container()),
                   ],
                 ),
               );

@@ -15,10 +15,8 @@ class AnswerList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final symptomAssessment =
-        Provider.of<SymptomAssessmentProvider>(context, listen: false);
-    final userInfo =
-        Provider.of<UserInfo>(context, listen: false);
+    final symptomAssessment = Provider.of<SymptomAssessmentProvider>(context, listen: false);
+    final userInfo = Provider.of<UserInfo>(context, listen: false);
     return ListView.builder(
       physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (ctx, index) {
@@ -39,25 +37,16 @@ class AnswerList extends StatelessWidget {
                 height: MediaQuery.of(context).size.height * 0.03,
                 child: FittedBox(
                   child: Text(
-                    // answerList[index],
                     choices_items['choices'][index]['label'],
-                    style: TextStyle(
-                      color: Theme.of(context).primaryColor,
-                    ),
+                    style: TextStyle(color: Theme.of(context).primaryColor),
                   ),
                 ),
               ),
               onPressed: () {
-                // print('Select ${answerList[index]}');
                 symptomAssessment.addEvidence({
                   'id': choices_items['id'],
                   'choice_id': choices_items['choices'][index]['id'],
-                  // 'source': ,
                 });
-                print('<<<<<<<<<< >>>>>>>>>>');
-                for (Map<String, dynamic> map in symptomAssessment.evidence) {
-                  print('${map['id']}: ${map['choice_id']}');
-                }
                 if (!last_word) {
                   Navigator.of(context)
                       .pushReplacementNamed(AnswerQuestionPages.routeName);

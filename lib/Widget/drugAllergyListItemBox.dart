@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-// import 'package:provider/provider.dart';
 
-// import '../Provider/caseManagement_Info.dart';
 import './caseManagementEditBottomSheet.dart';
 import './showMyDialog.dart';
 
@@ -33,7 +31,6 @@ class _DrugAllergyListItemBoxState extends State<DrugAllergyListItemBox> {
         temp = controller.text;
       });
       controller.clear();
-      // add data
       this.widget.add(temp);
       Navigator.of(context).pop();
       showDialog(
@@ -42,9 +39,7 @@ class _DrugAllergyListItemBoxState extends State<DrugAllergyListItemBox> {
           title: Text('added'),
           actions: [
             TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
+              onPressed: () => Navigator.of(context).pop(),
               child: Text('OK'),
             ),
           ],
@@ -65,9 +60,7 @@ class _DrugAllergyListItemBoxState extends State<DrugAllergyListItemBox> {
           title: Text('Data edited'),
           actions: [
             TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
+              onPressed: () => Navigator.of(context).pop(),
               child: Text('OK'),
             ),
           ],
@@ -121,17 +114,15 @@ class _DrugAllergyListItemBoxState extends State<DrugAllergyListItemBox> {
             ),
             Expanded(child: Container()),
             InkWell(
-              onTap: () {
-                caseManagementEditBottomSheet(
-                  context,
-                  'Add drug',
-                  controller,
-                  'Add',
-                  () {
-                    _add();
-                  },
-                );
-              },
+              onTap: () => caseManagementEditBottomSheet(
+                context,
+                'Add drug',
+                controller,
+                'Add',
+                () {
+                  _add();
+                },
+              ),
               child: Icon(
                 Icons.add_circle_outline_rounded,
                 color: Theme.of(context).primaryColor,
@@ -173,16 +164,13 @@ class _DrugAllergyListItemBoxState extends State<DrugAllergyListItemBox> {
                                         size: 24,
                                       ),
                                       onTap: () {
-                                        controller.text =
-                                            this.widget.drug[index];
+                                        controller.text = this.widget.drug[index];
                                         caseManagementEditBottomSheet(
                                           context,
                                           'Edit',
                                           controller,
                                           'Edit',
-                                          () {
-                                            _edit(index);
-                                          },
+                                          () => _edit(index),
                                         );
                                       },
                                     ),
@@ -195,20 +183,17 @@ class _DrugAllergyListItemBoxState extends State<DrugAllergyListItemBox> {
                                         Icons.delete_outline_outlined,
                                         size: 24,
                                       ),
-                                      onTap: () {
+                                      onTap: () =>
                                         setState(() {
                                           _del(index);
-                                        });
-                                      },
+                                        }),
                                     ),
                                   ),
                                 ],
                               ),
                             ),
                           ),
-                          SizedBox(
-                            height: 10,
-                          ),
+                          SizedBox(height: 10),
                           Container(
                             height: 0.5,
                             margin: EdgeInsets.symmetric(horizontal: 14),

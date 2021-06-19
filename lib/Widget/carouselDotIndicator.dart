@@ -16,7 +16,6 @@ class CarouselDotIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // color: Colors.amber[200],
       height: 16,
       width: length * 20.0,
       child: ListView.builder(

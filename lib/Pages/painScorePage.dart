@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../Provider/vitalSign_Info.dart';
 import '../Provider/chatRoom_info.dart';
-import '../Widget/AdaptiveRaisedButton.dart';
+import '../Widget/adaptiveRaisedButton.dart';
 import '../Widget/customSliderThumbCircle.dart';
 import './homePages.dart';
 import './WaitingDoctor.dart';

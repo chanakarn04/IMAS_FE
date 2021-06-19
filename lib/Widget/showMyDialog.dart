@@ -16,11 +16,8 @@ showMyDialog(
         title: Text(title),
         content: Text(description),
         actions: [
-          FlatButton(
-            onPressed: () {
-              print('Cancel');
-              Navigator.of(context).pop();
-            },
+          ElevatedButton(
+            onPressed: () => Navigator.of(context).pop(),
             child: Text(
               cancelButtonText,
               style: TextStyle(
@@ -28,7 +25,7 @@ showMyDialog(
               ),
             ),
           ),
-          FlatButton(
+          ElevatedButton(
             onPressed: handler,
             child: Text(
               confirmButtonText,

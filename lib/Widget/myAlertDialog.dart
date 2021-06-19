@@ -12,22 +12,13 @@ myAlertDialog({
     builder: (context) {
       return AlertDialog(
         title: Text('New request coming in'),
-        // content: Column(
-        //   children: [],
-        // ),
         actions: [
           TextButton(
-            onPressed: () {
-              print('Cancel');
-              Navigator.of(context).pop();
-            },
+            onPressed: () => Navigator.of(context).pop(),
             child: Text('Cancel'),
           ),
           TextButton(
-            onPressed: () {
-              print('Accept');
-              Navigator.of(context).pop();
-            },
+            onPressed: () => Navigator.of(context).pop(),
             child: Text('Accept'),
           ),
         ],

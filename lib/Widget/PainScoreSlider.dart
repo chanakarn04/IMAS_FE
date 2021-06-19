@@ -2,13 +2,11 @@ import 'package:flutter/material.dart';
 import './customSliderThumbCircle.dart';
 
 class PainScoreSlider extends StatefulWidget {
-  // double value;
   final int min;
   final int max;
   final double height;
 
   PainScoreSlider({
-    // this.value,
     this.min = 0,
     this.max = 10,
     this.height = 50,
@@ -19,10 +17,8 @@ class PainScoreSlider extends StatefulWidget {
 }
 
 class _PainScoreSliderState extends State<PainScoreSlider> {
-  // int min = this.widget.min;
-  // int max = 10;
   double sldValue = 0;
-  // double height = 50;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -55,9 +51,7 @@ class _PainScoreSliderState extends State<PainScoreSlider> {
               color: Colors.white,
             ),
           ),
-          SizedBox(
-            width: MediaQuery.of(context).size.width * 0.02,
-          ),
+          SizedBox(width: MediaQuery.of(context).size.width * 0.02),
           Expanded(
             child: SliderTheme(
               data: SliderTheme.of(context).copyWith(
@@ -71,9 +65,10 @@ class _PainScoreSliderState extends State<PainScoreSlider> {
                 trackShape: RoundedRectSliderTrackShape(),
                 trackHeight: this.widget.height / 6,
                 thumbShape: CustomSliderThumbCircle(
-                    thumbRadius: this.widget.height / 2.5,
-                    max: this.widget.max,
-                    min: this.widget.min),
+                  thumbRadius: this.widget.height / 2.5,
+                  max: this.widget.max,
+                  min: this.widget.min,
+                ),
               ),
               child: Slider(
                 min: this.widget.min.toDouble(),
@@ -89,9 +84,7 @@ class _PainScoreSliderState extends State<PainScoreSlider> {
               ),
             ),
           ),
-          SizedBox(
-            width: MediaQuery.of(context).size.width * 0.02,
-          ),
+          SizedBox(width: MediaQuery.of(context).size.width * 0.02),
           Text(
             this.widget.max.toString(),
             textAlign: TextAlign.center,

@@ -1,16 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
-import '../Provider/user-info.dart';
 import '../Models/model.dart';
-
-// import '../dummy_data.dart';
 
 class ProfilePatientBody extends StatelessWidget {
   final Function headerBox;
   final Map<String, dynamic> pInfo;
-  // final String userId;
 
   ProfilePatientBody(this.headerBox, this.pInfo);
 
@@ -81,12 +76,9 @@ class ProfilePatientBody extends StatelessWidget {
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
       child: Stack(
-        // mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            padding: EdgeInsets.only(
-              top: MediaQuery.of(context).padding.top + 10,
-            ),
+            padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 10),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
@@ -109,9 +101,7 @@ class ProfilePatientBody extends StatelessWidget {
                       Icons.arrow_back_ios_rounded,
                       color: Colors.white,
                     ),
-                    onTap: () {
-                      Navigator.of(context).pop();
-                    },
+                    onTap: () => Navigator.of(context).pop(),
                   ),
                 ),
                 Padding(
@@ -128,17 +118,12 @@ class ProfilePatientBody extends StatelessWidget {
                         decoration: BoxDecoration(
                           image: DecorationImage(
                             fit: BoxFit.contain,
-                            image: AssetImage(
-                              'assets/images/default_photo.png',
-                            ),
+                            image: AssetImage('assets/images/default_photo.png'),
                           ),
                           shape: BoxShape.circle,
-
                         ),
                       ),
-                      SizedBox(
-                        width: 15,
-                      ),
+                      SizedBox(width: 15),
                       Text(
                         '${pInfo['fname']} ${pInfo['surname']}',
                         style: TextStyle(
@@ -154,8 +139,7 @@ class ProfilePatientBody extends StatelessWidget {
             ),
           ),
           Positioned(
-            height: MediaQuery.of(context).size.height -
-                (MediaQuery.of(context).padding.top + 154),
+            height: MediaQuery.of(context).size.height - (MediaQuery.of(context).padding.top + 154),
             width: MediaQuery.of(context).size.width - 40,
             bottom: 0,
             left: 20,
@@ -195,9 +179,7 @@ class ProfilePatientBody extends StatelessWidget {
                                     color: Color.fromARGB(255, 125, 125, 125),
                                   ),
                                 ),
-                                SizedBox(
-                                  height: 10,
-                                ),
+                                SizedBox(height: 10),
                                 Text(
                                   'Date of birth',
                                   style: TextStyle(
@@ -205,9 +187,7 @@ class ProfilePatientBody extends StatelessWidget {
                                     color: Color.fromARGB(255, 125, 125, 125),
                                   ),
                                 ),
-                                SizedBox(
-                                  height: 10,
-                                ),
+                                SizedBox(height: 10),
                                 Text(
                                   'Gender',
                                   style: TextStyle(
@@ -217,35 +197,23 @@ class ProfilePatientBody extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            SizedBox(
-                              width: 20,
-                            ),
+                            SizedBox(width: 20),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
                                   pInfo['userName'],
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                  ),
+                                  style: TextStyle(fontSize: 16),
                                 ),
-                                SizedBox(
-                                  height: 10,
-                                ),
+                                SizedBox(height: 10),
                                 Text(
                                   DateFormat.yMMMMd().format(pInfo['dob']),
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                  ),
+                                  style: TextStyle(fontSize: 16),
                                 ),
-                                SizedBox(
-                                  height: 10,
-                                ),
+                                SizedBox(height: 10),
                                 Text(
                                   genderText(pInfo['gender']),
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                  ),
+                                  style: TextStyle(fontSize: 16),
                                 )
                               ],
                             ),
@@ -276,9 +244,7 @@ class ProfilePatientBody extends StatelessWidget {
                                     color: Color.fromARGB(255, 125, 125, 125),
                                   ),
                                 ),
-                                SizedBox(
-                                  height: 10,
-                                ),
+                                SizedBox(height: 10),
                                 Text(
                                   'Diabetes',
                                   style: TextStyle(
@@ -286,9 +252,7 @@ class ProfilePatientBody extends StatelessWidget {
                                     color: Color.fromARGB(255, 125, 125, 125),
                                   ),
                                 ),
-                                SizedBox(
-                                  height: 10,
-                                ),
+                                SizedBox(height: 10),
                                 Text(
                                   'Smokes',
                                   style: TextStyle(
@@ -298,35 +262,23 @@ class ProfilePatientBody extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            SizedBox(
-                              width: 20,
-                            ),
+                            SizedBox(width: 20),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
                                   highPressText(pInfo['hasHighPress']),
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                  ),
+                                  style: TextStyle(fontSize: 18),
                                 ),
-                                SizedBox(
-                                  height: 10,
-                                ),
+                                SizedBox(height: 10),
                                 Text(
                                   diabeteText(pInfo['isDiabetes']),
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                  ),
+                                  style: TextStyle(fontSize: 18),
                                 ),
-                                SizedBox(
-                                  height: 10,
-                                ),
+                                SizedBox(height: 10),
                                 Text(
                                   smokeText(pInfo['isSmoke']),
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                  ),
+                                  style: TextStyle(fontSize: 18),
                                 ),
                               ],
                             ),
@@ -343,7 +295,6 @@ class ProfilePatientBody extends StatelessWidget {
                   headerBox(
                     context,
                     'Drug allergy',
-                    // (pInfo['drugAllergy'].length > 0)
                     (pInfo['drugAllergy'] != null)
                         ? SizedBox(
                             height: pInfo['drugAllergy'].length * 30.0,

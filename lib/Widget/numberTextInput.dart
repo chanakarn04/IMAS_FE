@@ -1,6 +1,4 @@
-// import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter/services.dart';
 
 class NumberTextField extends StatefulWidget {
   final TextEditingController textController;
@@ -19,19 +17,13 @@ class NumberTextFieldState extends State<NumberTextField> {
       value = widget.textController.text;
     });
 
-    // print(_isNumeric(value));
-
     if (_isNumeric(value) == true) {
       setState(() {
         validate = true;
-        // print('Value is Number');
-        // output = 'Value is Number';
       });
     } else {
       setState(() {
         validate = false;
-        // output = 'Value is Not Number';
-        // print('Value is not number');
       });
     }
   }
@@ -47,14 +39,9 @@ class NumberTextFieldState extends State<NumberTextField> {
   Widget build(BuildContext context) {
     return TextField(
       controller: widget.textController,
-      onSubmitted: (_) {
-        checkTextInputData();
-      },
+      onSubmitted: (_) => checkTextInputData(),
       textAlign: TextAlign.end,
-      style: TextStyle(
-        fontSize: 20,
-      ),
-      // autofocus: true,
+      style: TextStyle(fontSize: 20),
       decoration: InputDecoration(
         hintText: 'Type here',
         errorText: widget.textController.text.isEmpty
@@ -63,7 +50,6 @@ class NumberTextFieldState extends State<NumberTextField> {
                 ? 'Must be numeric'
                 : null,
         errorStyle: TextStyle(),
-        // errorBorder: Input,
         contentPadding: EdgeInsets.only(right: 15),
       ),
       keyboardType: TextInputType.number,

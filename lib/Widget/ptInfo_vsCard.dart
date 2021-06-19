@@ -3,11 +3,9 @@ import 'package:intl/intl.dart';
 
 class VsCardWidget extends StatelessWidget {
   final Map vitalSign;
-  // final int index;
 
   VsCardWidget(
     this.vitalSign,
-    // this.index,
   );
 
   Widget buildListCard(
@@ -21,8 +19,9 @@ class VsCardWidget extends StatelessWidget {
         vertical: 10,
       ),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
-          border: Border.all(color: Colors.grey)),
+        borderRadius: BorderRadius.circular(15),
+        border: Border.all(color: Colors.grey),
+      ),
       child: Column(
         children: [
           Container(
@@ -46,11 +45,11 @@ class VsCardWidget extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 15),
             child: Text(
               title,
-              // textAlign: TextAlign.center,
               style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                  fontSize: 24),
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+                fontSize: 24,
+              ),
             ),
           ),
           Container(
@@ -67,8 +66,6 @@ class VsCardWidget extends StatelessWidget {
     String unit,
     var value,
   }) {
-    String valueText;
-    // (value == null) ? valueText = 'No data' : valueText = '$value $unit';
     return Container(
       padding: EdgeInsets.symmetric(
         horizontal: 15,
@@ -96,17 +93,11 @@ class VsCardWidget extends StatelessWidget {
                     Text(
                       '$value',
                       textAlign: TextAlign.end,
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
-                    Container(
-                      height: 10,
-                      width: 5,
-                      // color: Colors.amber,
-                    ),
+                    SizedBox(height: 10, width: 5),
                     Container(
                       width: 40,
-                      // color: Colors.amber,
                       child: Text(
                         '$unit',
                         textAlign: TextAlign.start,
@@ -128,7 +119,6 @@ class VsCardWidget extends StatelessWidget {
         horizontal: 20,
         vertical: 15,
       ),
-      // color: Theme.of(context).primaryColor,
       color: Colors.grey[100],
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       child: Container(
@@ -137,14 +127,11 @@ class VsCardWidget extends StatelessWidget {
           color: Colors.white,
         ),
         margin: EdgeInsets.all(3),
-        // height: 200,
         width: MediaQuery.of(context).size.width * 0.85,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(
-              height: 5,
-            ),
+            SizedBox(height: 5),
             Text(
               DateFormat.yMMMEd().format(DateTime.parse(vitalSign['vsdt'])),
               style: TextStyle(
@@ -154,47 +141,33 @@ class VsCardWidget extends StatelessWidget {
             ),
             Text(
               DateFormat.jm().format(DateTime.parse(vitalSign['vsdt'])),
-              style: TextStyle(
-                color: Colors.grey,
-                // fontSize: ,
-              ),
+              style: TextStyle(color: Colors.grey),
             ),
-            SizedBox(
-              height: 20,
-            ),
+            SizedBox(height: 20),
             buildInfoList(
               title: 'Body Temperature',
               unit: '°C',
               value: vitalSign['body_temp'],
             ),
-            Divider(
-              color: Colors.grey[700],
-            ),
+            Divider(color: Colors.grey[700]),
             buildInfoList(
               title: 'Heart Rate',
               unit: 'BPM',
               value: vitalSign['pulse'],
             ),
-            Divider(
-              color: Colors.grey[700],
-            ),
+            Divider(color: Colors.grey[700]),
             buildInfoList(
               title: 'Respiratory Rate',
               unit: 'BPM',
               value: vitalSign['respiratory_rate'],
             ),
-            Divider(
-              color: Colors.grey[700],
-            ),
+            Divider(color: Colors.grey[700]),
             buildInfoList(
               title: 'Bloodpressure',
               unit: 'mmHg',
-              value: (vitalSign['blood_pressure_bottom'] != null) ?
-                  '${vitalSign['blood_pressure_bottom']}/${vitalSign['blood_pressure_top']}' : null,
+              value: (vitalSign['blood_pressure_bottom'] != null) ? '${vitalSign['blood_pressure_bottom']}/${vitalSign['blood_pressure_top']}' : null,
             ),
-            SizedBox(
-              height: 20,
-            ),
+            SizedBox(height: 20),
           ],
         ),
       ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../Widget/AdaptiveRaisedButton.dart';
+import '../Widget/adaptiveRaisedButton.dart';
 import './painScorePage.dart';
 import '../Provider/vitalSign_Info.dart';
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'adaptiveBorderButton.dart';
-import 'AdaptiveRaisedButton.dart';
+import 'adaptiveRaisedButton.dart';
 
 caseManagementEditBottomSheet(
   BuildContext context,
@@ -43,14 +43,11 @@ caseManagementEditBottomSheet(
                 ),
               ),
             ),
-            TextField(
-              controller: controller,
-            ),
+            TextField(controller: controller),
             Expanded(child: Container()),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                // Expanded(child: Container()),
                 AdaptiveBorderButton(
                   buttonText: 'Cancel',
                   handlerFn: () {
@@ -60,16 +57,13 @@ caseManagementEditBottomSheet(
                   height: 40,
                   width: 150,
                 ),
-                SizedBox(
-                  width: 20,
-                ),
+                SizedBox(width: 20),
                 AdaptiveRaisedButton(
                   buttonText: buttonText,
                   handlerFn: () => buttonHandler(),
                   height: 30,
                   width: 140,
                 ),
-                // Expanded(child: Container()),
               ],
             ),
           ],

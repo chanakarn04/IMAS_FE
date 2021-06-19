@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../Provider/chatRoom_info.dart';
-import '../Widget/AdaptiveRaisedButton.dart';
+import 'adaptiveRaisedButton.dart';
 import '../Widget/adaptiveBorderButton.dart';
 
 class NoteBottomSheet extends StatefulWidget {
@@ -19,7 +19,6 @@ class _NoteBottomSheetState extends State<NoteBottomSheet> {
     _textController.text = chatRoomProvider.note;
     _textController.selection = TextSelection.fromPosition(TextPosition(offset: _textController.text.length));
     return Container(
-      // height: 250 + MediaQuery.of(context).viewInsets.bottom,
       height: 300,
       padding: EdgeInsets.only(
         left: 30,
@@ -46,13 +45,9 @@ class _NoteBottomSheetState extends State<NoteBottomSheet> {
               maxLines: 6,
               keyboardType: TextInputType.multiline,
               controller: _textController,
-              onSubmitted: (_) {
-                chatRoomProvider.updateNote(_textController.text);
-              },
+              onSubmitted: (_) => chatRoomProvider.updateNote(_textController.text),
             ),
-            SizedBox(
-              height: 20,
-            ),
+            SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -62,9 +57,7 @@ class _NoteBottomSheetState extends State<NoteBottomSheet> {
                   width: 90,
                   handlerFn: () => Navigator.of(context).pop(),
                 ),
-                SizedBox(
-                  width: 20,
-                ),
+                SizedBox(width: 20),
                 AdaptiveRaisedButton(
                   buttonText: 'Save',
                   height: 32,

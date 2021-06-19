@@ -6,8 +6,7 @@ class AdaptiveBorderButton extends StatelessWidget {
   final double height;
   final double width;
 
-  AdaptiveBorderButton(
-      {this.buttonText, this.height, this.width, this.handlerFn});
+  AdaptiveBorderButton({this.buttonText, this.height, this.width, this.handlerFn});
 
   @override
   Widget build(BuildContext context) {
@@ -16,9 +15,7 @@ class AdaptiveBorderButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         padding: EdgeInsets.all(0),
         primary: Colors.white,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15.0),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
       ),
       child: Container(
         decoration: BoxDecoration(

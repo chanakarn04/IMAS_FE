@@ -48,8 +48,7 @@ class TextBoxItem extends StatelessWidget {
         elevation: 2,
         child: Container(
           padding: EdgeInsets.all(10),
-          constraints:
-              BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.6),
+          constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.6),
           decoration: msgRole != userRole ? raisedDeco : borderDeco,
           child: Text(
             text,

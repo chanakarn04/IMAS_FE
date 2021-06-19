@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../../Provider/vitalSign_Info.dart';
 import '../../Widget/numberTextInput.dart';
 import '../../Widget/progressDot.dart';
-import '../../Widget/AdaptiveRaisedButton.dart';
+import '../../Widget/adaptiveRaisedButton.dart';
 import './vs_RespiratoryRatePage.dart';
 
 class VSHeartRatePage extends StatefulWidget {

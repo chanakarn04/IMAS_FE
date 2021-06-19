@@ -27,7 +27,7 @@ class PatientBox extends StatelessWidget {
       color: Colors.grey.withOpacity(0.3),
       spreadRadius: 3,
       blurRadius: 5,
-      offset: Offset(0, 3), // changes position of shadow
+      offset: Offset(0, 3),
     ),
   ];
 
@@ -50,7 +50,6 @@ class PatientBox extends StatelessWidget {
       subTextColor = Colors.grey;
       todayApt = false;
     }
-    // (element['apDt'].difference(DateTime.now()).inMinutes >= 0 && element['apDt'].difference(DateTime.now()).inMinutes <=30)
     return Container(
       decoration: BoxDecoration(
         boxShadow: boxShadows,
@@ -61,9 +60,7 @@ class PatientBox extends StatelessWidget {
         vertical: 12,
         horizontal: 17,
       ),
-      margin: EdgeInsets.symmetric(
-        vertical: 2.5,
-      ),
+      margin: EdgeInsets.symmetric(vertical: 2.5),
       child: Row(
         children: [
           Expanded(
@@ -80,9 +77,7 @@ class PatientBox extends StatelessWidget {
                     color: mainTextColor,
                   ),
                 ),
-                SizedBox(
-                  height: 3,
-                ),
+                SizedBox(height: 3),
                 Text(
                   (todayApt)
                       ? 'In chat'
@@ -95,9 +90,7 @@ class PatientBox extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(
-            width: 12,
-          ),
+          SizedBox(width: 12),
           InkWell(
             child: Icon(
               (todayApt)
@@ -114,8 +107,7 @@ class PatientBox extends StatelessWidget {
                     Navigator.of(context).pushNamed(ChatRoom.routeName);
                   }
                 : () {
-                    Navigator.of(context)
-                        .pushNamed(PatientInfoPage.routeName, arguments: {
+                    Navigator.of(context).pushNamed(PatientInfoPage.routeName, arguments: {
                       'tpid': tpId,
                       'pid': pid,
                       'pName': pName,

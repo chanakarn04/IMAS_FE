@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import './homePages.dart';
-import '../Widget/AdaptiveRaisedButton.dart';
+import '../Widget/adaptiveRaisedButton.dart';
 
 class CloseCasePage extends StatelessWidget {
   static const routneName = '/CloseCase';

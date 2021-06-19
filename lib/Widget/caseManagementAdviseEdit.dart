@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import './adaptiveBorderButton.dart';
-import './AdaptiveRaisedButton.dart';
+import 'adaptiveRaisedButton.dart';
 
 caseManagementAdviseEdit(
   BuildContext context,
@@ -28,7 +28,6 @@ caseManagementAdviseEdit(
           right: 30,
           top: 20,
           bottom: 20,
-          // bottom: 20 + MediaQuery.of(context).viewInsets.bottom,
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -54,7 +53,6 @@ caseManagementAdviseEdit(
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                // Expanded(child: Container()),
                 AdaptiveBorderButton(
                   buttonText: 'Cancel',
                   handlerFn: () {
@@ -64,16 +62,13 @@ caseManagementAdviseEdit(
                   height: 40,
                   width: 150,
                 ),
-                SizedBox(
-                  width: 20,
-                ),
+                SizedBox(width: 20),
                 AdaptiveRaisedButton(
                   buttonText: buttonText,
                   handlerFn: buttonHandler,
                   height: 30,
                   width: 140,
                 ),
-                // Expanded(child: Container()),
               ],
             ),
           ],
